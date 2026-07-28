@@ -232,7 +232,12 @@ communicates, or both.)
    HTML body + BOTH PDFs — build it with Python `email.message.EmailMessage`,
    `set_content` + `add_alternative(html)` + two `add_attachment(..., subtype='pdf')`,
    then base64url the bytes into `{"message":{"raw": …}}`):
-   - **To:** LEAVE BLANK — Klaus adds the client (or Richard / authorized contact) and sends.
+   - **To:** the **client's email — fill it by default.** Most cases have the client's
+     email on file; pull it from the case's client info (the retainer / client-contact
+     record in `1. Client & Retainer` — limited-civil cases have no intake sheet). Leave
+     it BLANK **only** when there is no client email on file OR the case routes
+     communications through an agent / authorized contact (e.g. Brian Wu → Richard) — in
+     that case say so and let Klaus add the right recipient.
    - **Cc:** `Hernán Simó <hernan.s@lingtulaw.com>`.
    - **Subject:** `<Case caption> — Complaint for Your Review / 起诉状请您审阅`.
    - **Body — bilingual, simple, English then 中文** (fixed text; do NOT itemize facts):
