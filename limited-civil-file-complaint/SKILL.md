@@ -209,6 +209,44 @@ court from the venue allegations and prepared the package — attached for his r
 signature. Include the **one open question** if any (e.g. the CIV-109 reason 2 vs 5 for
 action 0601). Warm sign-off ("Best, Klaus").
 
+## Step 9 — Draft the client-review email (client + cc Hernán; bilingual; both complaint PDFs)
+
+The step Klaus wants right after the package: draft (do NOT send) a Gmail email that
+sends the complaint to the **client** for review, **cc Hernán**, with the complaint in
+**both English and Chinese** attached. Klaus fills the client's address and sends.
+(This is the email channel; the Step 7 WeChat 文案 is the WeChat channel — both deliver
+the 中文译本 for the client to check BEFORE filing. Do whichever fits how the client
+communicates, or both.)
+
+1. **Make an English PDF of the complaint** (attachment only — do NOT touch the editable
+   `2 - Complaint.docx` in the package, do NOT add this PDF to the package):
+   ```bash
+   soffice --headless --convert-to pdf --outdir <scratch> "<pkg>/2 - Complaint.docx"
+   ```
+   Name it `<Client> - Complaint (English).pdf`; render page 1 (Ghostscript) to confirm
+   the pleading paper / caption survived. The Chinese PDF is the `中文译本` from Step 7.
+2. **Fetch the preset Gmail signature** (API drafts don't auto-insert it):
+   `gws gmail users settings sendAs list` → take the default `klaus@lingtulaw.com`
+   `signature` HTML; append it to the body.
+3. **Build the Gmail DRAFT** (`gws gmail users drafts create`; a multipart message with the
+   HTML body + BOTH PDFs — build it with Python `email.message.EmailMessage`,
+   `set_content` + `add_alternative(html)` + two `add_attachment(..., subtype='pdf')`,
+   then base64url the bytes into `{"message":{"raw": …}}`):
+   - **To:** LEAVE BLANK — Klaus adds the client (or Richard / authorized contact) and sends.
+   - **Cc:** `Hernán Simó <hernan.s@lingtulaw.com>`.
+   - **Subject:** `<Case caption> — Complaint for Your Review / 起诉状请您审阅`.
+   - **Body — bilingual, simple, English then 中文** (fixed text; do NOT itemize facts):
+     - EN: *"Hello, Attached please find the Complaint we have prepared for your case, in
+       both English and Chinese. Please review it carefully. If you have any questions, or
+       if anything needs to be corrected or added, simply reply to this email and let us
+       know. Thank you."*
+     - 中文: *"您好，附件是我们为您的案件准备的起诉状，中英文各一份。请您仔细查看。如有任何问题，
+       或发现有需要更正、补充的地方，直接回复此邮件告诉我们即可。谢谢！"*
+   - **Attachments:** `<Client> - Complaint (English).pdf` + `<Client> - Complaint (中文译本).pdf`.
+   - Verify the created draft has BOTH attachments + the Hernán Cc (fetch it back with
+     `messages get … format=full`).
+   **Generate-only.** Never send — Klaus reviews, adds the recipient, and sends.
+
 ## One Legal case-initiation (reference for the user's e-file step — Klaus files)
 
 - **Case Initiation** (new case) → **Order type**: `Filing` (file only; serve
