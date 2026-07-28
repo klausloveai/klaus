@@ -1,0 +1,15 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+node_modules/
+# 任何凭证类文件永不入库
+*.env
+.env
+*.pem
+*.key
+credentials*
+*secret*
+*token*.json

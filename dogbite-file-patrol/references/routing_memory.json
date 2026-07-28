@@ -1,0 +1,14 @@
+{
+  "_doc": "Learned routing rules for the dog-bite file patrol. Checked BEFORE vision. Each rule: name_contains (case-insensitive substring of the filename) OR content_hint (what the file is) -> target subfolder. When Klaus manually resolves a file the patrol was unsure about, APPEND a rule here so the same kind auto-sorts next time. Keep target names EXACTLY matching the template subfolders.",
+  "rules": [
+    {"name_contains": "CMC", "target": "4. Litigation", "why": "Case Management Conference notice = litigation", "example": "CMC Notice.pdf", "learned": "2026-07-02"},
+    {"name_contains": "case management", "target": "4. Litigation", "why": "CMC notice", "learned": "2026-07-02"},
+    {"name_contains": "summons", "target": "4. Litigation", "why": "pleading/service", "learned": "2026-07-02"},
+    {"name_contains": "complaint", "target": "4. Litigation", "why": "pleading", "learned": "2026-07-02"},
+    {"name_contains": "POE", "target": "2. Legal Documents", "why": "preservation-of-evidence letter", "learned": "2026-07-02"},
+    {"name_contains": "LOR", "target": "2. Legal Documents", "why": "letter of representation", "learned": "2026-07-02"},
+    {"name_contains": "retainer", "target": "2. Legal Documents", "why": "engagement agreement", "learned": "2026-07-02"},
+    {"name_contains": "invoice", "target": "5. Cost & Receipt", "why": "cost/receipt", "learned": "2026-07-02"},
+    {"name_contains": "receipt", "target": "5. Cost & Receipt", "why": "cost/receipt", "learned": "2026-07-02"}
+  ]
+}
