@@ -1,0 +1,41 @@
+{
+  "attorney": {
+    "name": "Hernán S. Simó",
+    "sbn": "354175",
+    "firm": "Law Office of Shenqi Cai APC",
+    "street": "13191 Crossroads Pkwy N, Suite 295",
+    "city": "City of Industry",
+    "state": "CA",
+    "zip": "91746",
+    "phone": "(626) 479-2207",
+    "fax": "(626) 479-2207",
+    "email": "hernan.s@lingtulaw.com"
+  },
+  "attorney_for": "Plaintiffs Mudong Huang, a minor, and Baiyun Jiang",
+  "court": {
+    "county": "LOS ANGELES",
+    "street": "300 East Walnut Street",
+    "mailing": "300 East Walnut Street",
+    "city_zip": "Pasadena, CA 91101",
+    "branch": "Pasadena Courthouse"
+  },
+  "caption": {
+    "plaintiff": "MUDONG HUANG, a minor, etc., et al.",
+    "defendant": "CHELSEA PINPIN, et al."
+  },
+  "minor": {
+    "name": "Mudong Huang",
+    "dob": "10/14/2022"
+  },
+  "applicant": {
+    "name": "Baiyun Jiang",
+    "relationship": "Mother",
+    "gal_info": "Baiyun Jiang, 706 Harding Ave., Monterey Park, CA 91754; Tel: (626) 763-1616; Email: jxiaobai.0814@gmail.com",
+    "rep_info": "Mudong Huang, a minor, 706 Harding Ave., Monterey Park, CA 91754; Tel: (626) 763-1616"
+  },
+  "ex_parte": true,
+  "summons_issued": false,
+  "civ010_name": "Mudong Huang - CIV-010 (GAL Application) for Hernan signature.pdf",
+  "civ011_name": "Mudong Huang - CIV-011 (Proposed Order Appointing GAL).pdf",
+  "out_dir": "/Users/klaus/Downloads/_gal_test"
+}

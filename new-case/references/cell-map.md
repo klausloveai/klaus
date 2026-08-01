@@ -58,7 +58,7 @@ C45=Pass1 Injuries（**永远黄**）— 所有乘客伤情格同 C22 规则。
 
 | 格 | 字段 | 规则 |
 |---|---|---|
-| F2 | Accident Location | 照抄客人填的 |
+| F2 | Accident Location | **纯照抄客人填的原文，不加任何括号说明**（客人填 `不清楚` 就写 `不清楚`，不写 `不清楚 (unclear per client)`）；黄色高亮已表示"待核实" |
 | F3 | Accd Diagram | **默认 `Pending`，不标黄**（跳过，不是客人字段） |
 | F4 | Fact of Loss（**永远黄**） | **固定模板**，见下 |
 | F5 | Point of Impact（**永远黄**） | **固定模板**，见下 |

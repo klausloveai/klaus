@@ -22,6 +22,12 @@ edit or delete existing rows; never cross cases; never send email.**
 Local `gws` CLI (klaus@) for all Drive/Gmail/Sheets/Calendar ops (filter out the
 `Using keyring` banner). Shared-drive ops need `supportsAllDrives`.
 
+## FIRST: get today's real date — never assume it
+Run `date "+%m/%d/%Y (%A)"` and use that as TODAY for everything: the digest header, the
+`newer_than` Gmail window, the SOL / answer-deadline / service-window math, and the
+"newer than the last logged date" watermark. Do NOT rely on your own sense of the date —
+in a scheduled run it can be wrong.
+
 ## The Case Log lives INSIDE each case's intake sheet (tab "Sheet 1"), NOT a separate file
 Below the intake form: **header at row 30, data from row 31 down**. Each row is split into
 **5 merged column-groups** across the 15-column width (A:O) so the intake form's column

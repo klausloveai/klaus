@@ -31,6 +31,19 @@ provider lien columns alphabetical from **U** onward (header = `=HYPERLINK(w9url
 
 ---
 
+## TRIGGER A0 — Incoming settlement check(s) received (scanned before deposit)
+Klaus scans every settlement check he receives and sends it here BEFORE mailing/depositing. For each check:
+1. **First check "存过吗?"** — search the journal (check#, client, amount) so nothing is deposited/recorded twice.
+2. **Record it as a pending DEPOSIT** in the Account Journal JULY/…-PENDING block (payor, check#, amount, client, claim#, "to deposit"/deposited date). Deposit-only, no cleared date until month-end bank.
+3. **EXCLUDE non-trust checks** — do NOT record (and warn Klaus): a check whose coverage is **Property Damage / Collision**, or where the **law firm is NOT a payee** (body-shop money, client-only PD). E.g. Kemper PD to a collision center; Mercury Collision payable to client only.
+4. **Build a Pending Disbursed Sheet tab for the case** (Sheet `1b_vPr…`) so lien-reduction can start later:
+   - If the client already has a tab, skip. Otherwise `duplicateSheet` from **Template** (sheetId 0), name = client (multi-client `/`-joined, driver first).
+   - Fill A1 client, B1 DOL, and the settlement amount(s): **B2 3P / B3 UM-UIM** (Total B4, Fee B6, Recovery B7 are formulas — auto). Green the received-settlement amount cell(s). Providers left blank — filled during lien reduction.
+   - Add a row to the Pending **🔍 Search** tab (sheetId 263451925), alphabetical by client: col A = `=HYPERLINK(".../edit#gid=<tab gid>","<client>")` (click-to-jump), B = DOL, C = tab name.
+5. This is the pre-work for the eventual disbursement (Trigger A) — the tab is where Amos computes the lien reductions.
+
+---
+
 ## TRIGGER A — Single settled case (screenshot + checks PDF)
 
 **Step 1 — Verify amounts AND funding**

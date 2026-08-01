@@ -19,6 +19,12 @@ description: >-
 
 # File Complaint — Prepare the LA County PI Filing Package
 
+> **Every complaint → translate for the client before filing.** Once the complaint is
+> finalized, run the **`complaint-client-translation`** skill: Chinese translation
+> (**PDF only — never docx**) + a bilingual client email (English first, then Chinese)
+> for the client to confirm the facts. **That client email ALWAYS Cc's Hernán
+> (hernan.s@lingtulaw.com).** Draft-only; Klaus sends. (Klaus's standing rule, 2026-07.)
+
 Given a case whose **Complaint is already drafted by the attorney**, this skill
 produces the court forms needed to file it, matching the firm's house format.
 

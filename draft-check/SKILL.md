@@ -83,8 +83,8 @@ This is the house style Klaus has re-corrected the most. A conforming firm lette
 8. **Signature block — correct signer & format:**
    - General firm PI correspondence / demands → **Shenqi Cai, Esq.**
    - Dog-bite / "Hernan Simo Cases" litigation (pleadings, LOR, POE, GAL) →
-     **Hernán S. Simó, Esq.**, SBN 354175, Direct (626) 479-2207, Fax
-     (626) 240-2046, hernan.s@lingtulaw.com. See [[hernan-litigation-conventions]].
+     **Hernán S. Simó, Esq.**, SBN 354175, Direct (626) 479-2207, **Fax (626) 479-2207
+     (SAME as phone — NOT 626-240-2046)**, hernan.s@lingtulaw.com. See [[hernan-litigation-conventions]].
    - Withdrawal of Representation → signature line is just **Lingtu Law Office**.
    - Signature block on pleadings lives in a TABLE (see §B).
 9. **Header/contact phone = the HANDLING CM's direct line**, NOT the 888 office line.
@@ -129,12 +129,30 @@ See [[hernan-litigation-conventions]] and [[file-complaint-skill]].
 
 - **Caption verbatim-matches the complaint** — parties exactly as the complaint
   reads (incl. `, an individual` after each defendant, full GAL wording).
-- **NEVER abbreviate defendants to "et al."** (they must be named for service);
-  "et al." is OK only on the plaintiff side.
-- Minor plaintiff → **CIV-010** required (clerk won't issue Summons without it);
-  fill print-name lines, leave signatures/dates and the judge's CIV-011 blank.
+- **SUM-100 (Summons): name every defendant in full** (`, an individual` each) — they must
+  be named for service; "et al." not allowed there. **On the small JC caption boxes
+  (CIV-010/CIV-011)** the full list overflows, so Hernán wants the **SHORT caption**
+  (`<MINOR>, a minor, etc., et al.` / `<DEFENDANT>, et al.`) — CRC 2.111 permits it on a
+  subsequent paper. So: full defendants on the Summons/Complaint, short "et al." on the GAL forms.
+- Minor plaintiff → file **BOTH CIV-010 (Application) AND CIV-011 (Order)** together
+  (clerk won't issue Summons without them). Effective 1/1/2024 the JC split the old combined
+  "Application AND Order" into two forms. CIV-010: fill print-name lines, leave signatures/dates
+  blank (Hernán = attorney item 7; parent = applicant + proposed GAL). On CIV-010 remember the
+  minor's **DOB** (item 4a), check **"has no guardian or conservator of the estate"** (item 6c),
+  specify the **relationship** e.g. "Mother" (item 8b), and check **item 1a AND 1d** (parent is
+  also a plaintiff = "a party to the suit") — Hernán flags these. CIV-011 = proposed Order:
+  pre-fill caption/appointment/findings incl. **item 3 "notices given"** and **item 7 "is NOT"
+  authorized to waive substantive rights** (protective option the bench expects for a minor);
+  leave the **judge's** date + signature blank. Use the `gal-appointment` skill — it bakes all
+  this in and flattens (qpdf) so it displays in Preview.
 - Leave case number, signature, and date blank (skill drafts, never e-files).
 - Verify filled Judicial-Council PDFs by **Ghostscript** render (not poppler).
+- **FLATTEN before delivery.** pypdf-filled JC forms store values in the AcroForm but
+  macOS **Preview won't render** those appearances → the recipient sees empty fields or
+  stray placeholder digits ("1"/"5") even though gs shows them. Bake the values into the
+  page with: `qpdf --generate-appearances --flatten-annotations=all in.pdf out.pdf`
+  (0 fields remain; checkboxes become real "X"). Deliver the flattened copy. Signatures on
+  JC forms are lines, not fields, so flattening never blocks signing.
 - Confirm the target city is in the courthouse's "Areas Served" before filling
   district — don't assume the nearest one.
 

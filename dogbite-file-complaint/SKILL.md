@@ -21,6 +21,12 @@ description: >-
 
 # Dog-Bite Complaint — Prepare the One Legal Filing Package
 
+> **Every complaint → translate for the client before filing.** Once the complaint is
+> finalized, run the **`complaint-client-translation`** skill: Chinese translation
+> (**PDF only — never docx**) + a bilingual client email (English first, then Chinese)
+> for the client to confirm the facts. **That client email ALWAYS Cc's Hernán
+> (hernan.s@lingtulaw.com).** Draft-only; Klaus sends. (Klaus's standing rule, 2026-07.)
+
 Given a dog-bite case whose **Complaint is already drafted by Hernán**, this skill
 produces the court forms needed to e-file it via One Legal, in the firm's house
 format, for **whatever California county the complaint is filed in**.
