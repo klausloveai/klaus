@@ -551,6 +551,15 @@ for the tracking-sheet `=HYPERLINK(...)` formula.
 After the Drive upload (Step 9), add the case to the **PI Master Sheet** tracking Google Sheet.
 Insert one row per client (driver first, then passengers) directly below the Example Row (row 2).
 
+> 🔒 **Row 1 (header) and Row 2 (Example Row) are PERMANENT, FIXED TEMPLATES — never move, overwrite,
+> or write into them.** Every new case ALWAYS goes to **row 3 and below**. The mechanic is fixed:
+> **insert N blank rows immediately below row 2 → copy row 2 down into them → fill the NEW rows starting
+> at row 3.** The driver goes to **row 3**, passengers to rows 4, 5, … So `insertDimension` uses
+> `startIndex: 2` (0-based index 2 = spreadsheet row 3, which keeps rows 1–2 above it untouched), and
+> the value-writes target **A3/B3/C3…**, NEVER A2/B2. If you ever find yourself writing to row 2, STOP —
+> that is the Example Row and you are corrupting the template (this has caused real breakage on
+> multi-client cases where the driver was written to row 2 and pushed the Example Row down).
+
 **Spreadsheet:** "PI Master Sheet" — ID `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`
 **CM tabs:** Jerry → `Piteam@` (sheetId `102974151`), Ryan → `Picase@` (sheetId `775230687`), Amos → `Claims(Amos)`.
 Always read the live header row (row 1) to map columns — never hardcode the order.
@@ -605,7 +614,9 @@ entry per case.
 
 1. Match CM to tab: Jerry → `Piteam@`, Ryan → `Picase@`, Amos → `Claims(Amos)`.
 2. **Read header row (row 1) and Example Row (row 2)** from the CM tab. Confirm client not already present (avoid duplicates).
-3. **Insert N rows** (one per client) at index 2 using `insertDimension` with `inheritFromBefore: true`:
+3. **Insert N blank rows immediately below the Example Row** using `insertDimension` with
+   `inheritFromBefore: true`. `startIndex: 2` is a 0-based index = spreadsheet **row 3**, so rows 1
+   (header) and 2 (Example Row) stay put and the N new rows appear at rows 3 … 2+N:
    ```json
    {"insertDimension": {
      "range": {"sheetId": <id>, "dimension": "ROWS", "startIndex": 2, "endIndex": 2+N},
@@ -621,12 +632,14 @@ entry per case.
      "pasteType": "PASTE_NORMAL"
    }}
    ```
-5. **Write case-specific values** (`valueInputOption: USER_ENTERED`):
-   - **Driver row:** DOL (col A), `=HYPERLINK(url,"Firstname Lastname")` (col B), Retainer label (col C —
-     `Standard 1/3` or `New 50%`). **Do NOT write the clinical columns N–T** — they stay at the
-     template `P`/`Pending` defaults for the CM to confirm later. (Note-Claims col F is set to
+5. **Write case-specific values** (`valueInputOption: USER_ENTERED`) — **the first new row is ROW 3.
+   Driver → row 3; passengers → rows 4, 5, … Never write to row 1 or row 2.** (For a single-client
+   case that means everything goes to row 3; for a 3-client case, rows 3, 4, 5.)
+   - **Driver row (row 3):** DOL (col A → `A3`), `=HYPERLINK(url,"Firstname Lastname")` (col B → `B3`),
+     Retainer label (col C → `C3` — `Standard 1/3` or `New 50%`). **Do NOT write the clinical columns N–T** —
+     they stay at the template `P`/`Pending` defaults for the CM to confirm later. (Note-Claims col F is set to
      `Retainer sent M/D` in step 7, after the retainer is confirmed sent.)
-   - **Passenger rows:** plain text `"Firstname Lastname"` (col B — no hyperlink); clear cols G–M (write 7 empty strings);
+   - **Passenger rows (row 4 onward):** plain text `"Firstname Lastname"` (col B — no hyperlink); clear cols G–M (write 7 empty strings);
      cols N–T keep template values (already from copyPaste — do not overwrite); col C (Retainer) and col F (Note) keep as-is from copyPaste.
    - **Cols U–X (Outstanding Balance → MRI):** leave exactly as copied from Example Row.
 
