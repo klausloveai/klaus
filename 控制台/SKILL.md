@@ -72,18 +72,22 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 - **Google Calendar**：klaus@ 今天 + 明天的 event，标出带 deadline / 客户电话 / 例会的。
   （个人重要紧急日程在 Apple Calendar，工作在 Google Calendar —— 见 [[calendar_routing]]。）
 - **Google Chat**：最近 24h 内 @klaus 的消息（案件群等），抓空间名 + 谁 @ + 一句诉求。
-- **诉讼案件进度**（Klaus 亲自负责的诉讼）：读 **Tracking Sheet**
-  `1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA`（"Hernan Simo Cases" 共享盘）：
-  - `Labor Cases` tab → **其他诉讼**（展开）；`Dog Bite Cases` tab → **狗咬案**（折叠）。
-  - **跳过** `PI Auto Cases`（CM 管的 pre-lit 书，非亲办诉讼）和 `Animal Control`
-    （是动物管制局联系目录、不是案子）。
-  - 每案的进度小结从这几列派生：`Case Status`（🗡️Defender/⚖️Plaintiff/Prep Complaint/
-    Def-Served/POS Filed…）+ 关键日期列（Labor: 1st POS / 1st Def Answer / CMC / TSC /
-    Discovery；Dog Bite: Complaint 立案日 / POE / Animal Control 索证）+ `Note`。
-  - 一次 `values batchGet` 读完，别逐案读。用 [[case_log_and_brief]] 已维护的数据，不另算。
-  - **注意缺口**：此 Sheet 只含 Dog Bite + Labor。若 Klaus 还有不在此表的诉讼
-    （如 Zhiping Liu 仲裁、Brian Wu v. Azucanela、limited civil/commercial —
-    见 [[limited_civil_commercial_cases]]），需先确认其数据源，别静默漏掉；缺则在小结里标注。
+- **诉讼案件进度**（Klaus 亲自负责的诉讼 —— **权威名单 = 这张 Tracking Sheet**
+  `1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA`，"Hernan Simo Cases" 共享盘。
+  Klaus 确认：**表上的案子都是他负责的；以后加新案 = 他在对应 tab 加一行**，本 skill 无需
+  另建花名册）：
+  - 读 **3 个案件 tab**（一次 `values batchGet` 读完，别逐案读）：
+    - `Dog Bite Cases` → **狗咬案**（dashboard **折叠**，一行一件）。
+    - `Labor Cases` → **其他诉讼**（**展开**卡片）。role 看 `Case Status`
+      🗡️Defender/⚖️Plaintiff。
+    - `PI Auto Cases` → **其他诉讼**（**展开**卡片）。这些是他亲办的 PI/仲裁案
+      （如 Jiayu Ma=💉EUO Claim、Zhiping Liu=🗡️UIM Claim/合办 LaShine）。
+  - **跳过** `Animal Control` 和 `Sheet5`——它们是 provider/联系方式目录，**不是案子**。
+  - 每案进度小结从这几列派生：`Case Status` + 关键日期列（Labor: 1st POS / 1st Def
+    Answer / CMC / TSC / Discovery；Dog Bite: Complaint 立案日 / POE / Animal Control
+    索证；PI Auto: Objection / Def Answer / CMC）+ `Note`。数据薄时补 [[case_log_and_brief]]
+    的 Case Log / 邮件里的最新一封。
+  - 空行 / "Example Row" 跳过。行数变化自动适应（新案自动出现）。
 
 ### 2. 分类 + 排序（两轴 → 六桶）
 - **紧迫度**：court/SOL deadline、今日日程、邮件停留天数。
