@@ -42,9 +42,17 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 - 日历：`gws calendar events list --params '{"calendarId":"primary","timeMin":"<今天0点-07:00>","timeMax":"<后天0点>","singleEvents":true,"orderBy":"startTime"}'`
 - Chat：`gws chat spaces list`（**Chat 授权正常，实测可用**）、`gws chat spaces messages list`
 
-**性能红线（实测）**：`gws` 每次调用要走 keyring/auth，约 8 秒/次，逐封拉 15 封会超时。
-所以**只对 `is:unread` 的邮件拉详情**，cap ~10 封；数量多时把逐封 get 放**后台**跑
-（`run_in_background`）。列表调用一次就够，不要为每封都 list。
+**性能红线（实测）**：`gws` 每次调用走 keyring/auth，约 **20 秒/次**，串行拉 6 封就超时。
+两条铁律：
+1. **只对 `is:unread` 的邮件拉详情**，cap ~10 封。列表调用一次就够，别为每封都 list。
+2. **并行抓取**——所有 `messages get` 用 `&` 同时发起、`wait` 收口，总耗时≈单封 20s：
+   ```bash
+   while read -r id; do [ -z "$id" ] && continue
+     gws gmail users messages get --params "{\"userId\":\"me\",\"id\":\"$id\",\"format\":\"metadata\",\"metadataHeaders\":[\"From\",\"Subject\",\"Date\"]}" 2>/dev/null | grep -v "Using keyring" > "$S/_p_$id.json" &
+   done < ids.txt; wait
+   ```
+   **不要用 `run_in_background`**（无 TTY 会卡 keyring 永不返回）；**不要 `for id in $ids`**
+   （word-split 会把多个 id 连成一个 → "Invalid id value"），用 `while read` 逐行。
 
 **只读扫描**——本 skill 不 label、不 move、不 send、不 post。所有会改变外部状态的动作
 （发送邮件、加/换星标、归档、发 Chat）都要 Klaus 明确说了才做，且大多分流到各自的 skill 去执行。
@@ -54,8 +62,13 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 ## 运行步骤
 
 ### 1. 扫三个源（只读，窗口 = 最近 3 天 + 未读优先）
-- **Gmail inbox**：`gws gmail` 取 inbox 里未读 / 最近 3 天的 thread。对每条抓
-  发件人、主题、日期、正文首段。排除已明显收尾的线程。
+- **Gmail inbox**：**只扫 klaus@ 这一个邮箱**（Klaus 的枢纽箱）；团队邮箱
+  claims@/piteam@/picase@ **不纳入每日扫描**——它们只在某封邮件被路由到发送类 skill 时、
+  由那个 skill 按案件归属去发（[[feedback_send_from_case_mailbox]]），控制台本身不碰。
+  取 inbox 里 `is:unread newer_than:3d`，并行抓 From/Subject/Date/snippet。
+  **自动归类**：`CATEGORY_PROMOTIONS`（推广）、PI Nerd 论坛帖（`nerdgroup.co`，
+  `CATEGORY_FORUMS`，见 [[pinerd_knowledge_base]]）、newsletter → 一律进「可批量处理/归档」，
+  **绝不进待回复**。真正需回的是客户 / 对方保险 / 诊所 / 团队 / Hernán / 法院的实质邮件。
 - **Google Calendar**：klaus@ 今天 + 明天的 event，标出带 deadline / 客户电话 / 例会的。
   （个人重要紧急日程在 Apple Calendar，工作在 Google Calendar —— 见 [[calendar_routing]]。）
 - **Google Chat**：最近 24h 内 @klaus 的消息（案件群等），抓空间名 + 谁 @ + 一句诉求。
