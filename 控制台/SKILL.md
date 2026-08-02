@@ -62,13 +62,15 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 ## 运行步骤
 
 ### 1. 扫三个源（只读，窗口 = 最近 3 天 + 未读优先）
-- **Gmail inbox**：**只扫 klaus@ 这一个邮箱**（Klaus 的枢纽箱）；团队邮箱
-  claims@/piteam@/picase@ **不纳入每日扫描**——它们只在某封邮件被路由到发送类 skill 时、
-  由那个 skill 按案件归属去发（[[feedback_send_from_case_mailbox]]），控制台本身不碰。
-  取 inbox 里 `is:unread newer_than:3d`，并行抓 From/Subject/Date/snippet。
-  **自动归类**：`CATEGORY_PROMOTIONS`（推广）、PI Nerd 论坛帖（`nerdgroup.co`，
-  `CATEGORY_FORUMS`，见 [[pinerd_knowledge_base]]）、newsletter → 一律进「可批量处理/归档」，
-  **绝不进待回复**。真正需回的是客户 / 对方保险 / 诊所 / 团队 / Hernán / 法院的实质邮件。
+- **Gmail inbox**：**只扫 klaus@ 这一个邮箱**（枢纽箱）；团队邮箱
+  claims@/piteam@/picase@ 不纳入（发送时各 skill 按案件归属处理，
+  [[feedback_send_from_case_mailbox]]）。取 `is:unread newer_than:3d`，并行抓。
+  **案件中心过滤（Klaus 明确要求，最关键）**：dashboard **只显示与花名册这些在办案子
+  【相关】的邮件**。匹配依据：客户/案名、案件 Gmail 标签（`DB-*` / `LB-*` /
+  `✅Case/<name>` / 以案名建的 label，见 [[feedback_case_label_one_per_case]]）、或已知
+  对方/诊所/合办所/法院（如 Hernán、LaShine Law、对方律师、Animal Control）。
+  **匹配不上任何在办案子的邮件一律不显示**——推广、PI Nerd 论坛帖、newsletter、通用通知、
+  以及与这些案子无关的邮件，全部不上 dashboard，也**不做批处理栏**。这是刻意的聚焦。
 - **Google Calendar**：klaus@ 今天 + 明天的 event，标出带 deadline / 客户电话 / 例会的。
   （个人重要紧急日程在 Apple Calendar，工作在 Google Calendar —— 见 [[calendar_routing]]。）
 - **Google Chat**：最近 24h 内 @klaus 的消息（案件群等），抓空间名 + 谁 @ + 一句诉求。
@@ -92,13 +94,14 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 ### 2. 分类 + 排序（两轴 → 六桶）
 - **紧迫度**：court/SOL deadline、今日日程、邮件停留天数。
 - **重要度**：诉讼(Hernán) > 客户/对方保险 > 涉钱(disbursement/claim/settlement) > 内部杂事。
-- 落桶：
-  - 🎯 **今日焦点**（最多 3 件，逼聚焦）——今天必须推进、最高价值的。
-  - 🔴 **待回复邮件**——红叹号，需要我回。
-  - 🔵 **等待中**——已回、等对方（蓝星）；停留超阈值（默认 4 天）顶红并备催函。
-  - 💬 **Chat @我**——摘要 + 备回复草稿。
-  - ⚪ **可批量处理**——归档、存收据、更新 bonus 等低价值杂事，攒一排。
-  - ✅ **今日已清**——今天已完成的，划掉存档。
+- 落桶（**全部限定在花名册案件范围内**）：
+  - 🎯 **今日焦点**（最多 3 件，逼聚焦）——今天最该推进的案件动作。
+  - ⚖️ **诉讼案件进度**——见上（Labor + PI Auto 展开、狗咬折叠）。这是核心。
+  - 🔴 **案件待办邮件**——需我回、且属于某在办案子的邮件（附草稿）。
+  - 🔵 **等待中**——已回、等对方（某在办案子）；超阈值（默认 4 天）顶红并备催函。
+  - 💬 **Chat @我**——案件群里 @我 的，摘要 + 备草稿。
+  - 📅 **案件 deadline**——这些案子今天/临近的截止与开庭。
+  - **不设「可批量处理」，非案件内容不显示**。
 
 ### 3. 对能映射到 skill 的邮件，预先起草（DRAFT-ONLY）
 按下方【常用 skill 路由表】判断每封待回邮件对应哪个 skill，**把回信/动作草稿先备好**

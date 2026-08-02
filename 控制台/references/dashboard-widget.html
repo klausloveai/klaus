@@ -9,10 +9,10 @@
 </div>
 
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;">
-  <div style="background:var(--bg-danger);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-danger);">{{N_REPLY}}</div><div style="font-size:11px;color:var(--text-danger);">待回复</div></div>
-  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:#185fa5;">{{N_WAIT}}</div><div style="font-size:11px;color:var(--text-secondary);">等待中</div></div>
-  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-primary);">{{N_CHAT}}</div><div style="font-size:11px;color:var(--text-secondary);">Chat @我</div></div>
-  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-success);">{{N_DONE}}</div><div style="font-size:11px;color:var(--text-secondary);">今日已清</div></div>
+  <div style="background:var(--bg-danger);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-danger);">{{N_REPLY}}</div><div style="font-size:11px;color:var(--text-danger);">案件待办邮件</div></div>
+  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:#185fa5;">{{N_DEADLINE}}</div><div style="font-size:11px;color:var(--text-secondary);">临近 deadline</div></div>
+  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-primary);">{{N_WAIT}}</div><div style="font-size:11px;color:var(--text-secondary);">等对方回复</div></div>
+  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-success);">{{N_CASES}}</div><div style="font-size:11px;color:var(--text-secondary);">我负责的案件</div></div>
 </div>
 
 <div style="background:var(--bg-danger);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;">
@@ -41,7 +41,7 @@
 </div>
 
 <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:1rem;">
-  <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:10px;"><i class="ti ti-mail-opened" aria-hidden="true"></i> 待回复邮件 · Claude 已代读 + 起草</div>
+  <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:10px;"><i class="ti ti-mail-opened" aria-hidden="true"></i> 案件待办邮件 · 仅我负责的案子相关 · Claude 已起草</div>
 
   <div style="border-left:3px solid var(--border-danger);padding:8px 0 8px 12px;margin-bottom:12px;">
     <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline;">
@@ -106,12 +106,4 @@
   </details>
 </div>
 
-<div style="background:var(--surface-1);border-radius:12px;padding:12px 14px;margin-bottom:0.5rem;">
-  <div style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;"><i class="ti ti-stack-2" aria-hidden="true"></i> 可批量处理 · 攒一起低耗清掉</div>
-  <div style="display:flex;flex-wrap:wrap;gap:6px;">
-    {{BATCH_CHIPS}}
-    <button style="font-size:12px;" onclick="sendPrompt('{{BATCH_PROMPT}}')">一键处理这批</button>
-  </div>
-</div>
-
-<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:4px 0;">已自动归档 {{N_ARCHIVED}} 封无关邮件 · {{SCHEDULE_LINE}}</div>
+<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:4px 0;">非案件邮件 / 推广 / 通知已自动过滤，不在此显示 · 只跟进我负责的 {{N_CASES}} 个案子</div>
