@@ -36,9 +36,18 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 
 ## 工具
 所有 Gmail / Calendar / Chat 读取走本地 `gws` CLI（默认身份 **klaus@**；过滤
-`Using keyring` 横幅）。**只读扫描**——本 skill 不 label、不 move、不 send、不 post。
-所有会改变外部状态的动作（发送邮件、加/换星标、归档、发 Chat）都要 Klaus 明确说了才做，
-且大多分流到各自的 skill 去执行。
+`Using keyring` 横幅）。语法是 Google API 资源路径：
+- Gmail 列表：`gws gmail users messages list --params '{"userId":"me","q":"in:inbox is:unread newer_than:3d","maxResults":10}'`
+- Gmail 详情：`gws gmail users messages get --params '{"userId":"me","id":"<id>","format":"metadata","metadataHeaders":["From","Subject","Date"]}'`（正文用 `format:"full"`）
+- 日历：`gws calendar events list --params '{"calendarId":"primary","timeMin":"<今天0点-07:00>","timeMax":"<后天0点>","singleEvents":true,"orderBy":"startTime"}'`
+- Chat：`gws chat spaces list`（**Chat 授权正常，实测可用**）、`gws chat spaces messages list`
+
+**性能红线（实测）**：`gws` 每次调用要走 keyring/auth，约 8 秒/次，逐封拉 15 封会超时。
+所以**只对 `is:unread` 的邮件拉详情**，cap ~10 封；数量多时把逐封 get 放**后台**跑
+（`run_in_background`）。列表调用一次就够，不要为每封都 list。
+
+**只读扫描**——本 skill 不 label、不 move、不 send、不 post。所有会改变外部状态的动作
+（发送邮件、加/换星标、归档、发 Chat）都要 Klaus 明确说了才做，且大多分流到各自的 skill 去执行。
 
 ---
 
@@ -96,9 +105,13 @@ widget 之后，用简体中文给一段短摘要：
                 ▼
           无星 + 移出 inbox (归档)
 ```
-**技术备注**：Gmail 彩色星标（superstars）能否用 gws/API 直接设，**第一次真跑时实测**。
-若 API 只能设「加星/不加星」，就用**同色系自定义 label**（`待回复`红 / `等对方`蓝 /
-`存档`黄）镜像，一眼可筛、也更好用规则批管。见 [[intake_sheet_highlight_convention]] 思路。
+**技术备注（实测结论）**：Gmail API 只能设「加星 / 不加星」(`STARRED`)，**无法通过 API
+指定彩色星标的颜色**（superstar 颜色是客户端按用户设置轮换渲染的，没有 API）。所以状态机
+用**同色系自定义 label 镜像**：`⟳待回复`(红) / `⟳等对方`(蓝) / `⟳存档`(黄) —— 一眼可筛、
+可用规则批管，思路同 [[intake_sheet_highlight_convention]]。Klaus 现有 113 个 label 里
+**没有**这三个状态标签，首次执行发送/归档动作时按需 `gws gmail users labels create` 建好
+（配色 red/blue/yellow），之后 `messages modify` 加减。案件归属仍用他既有的 `✅Case/<name>`
+标签（[[feedback_case_label_one_per_case]]），状态标签与案件标签叠加、不互斥。
 
 ---
 
