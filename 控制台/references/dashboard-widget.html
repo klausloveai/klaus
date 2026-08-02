@@ -1,0 +1,104 @@
+<h2 class="sr-only">Klaus 每日控制台：扫描控制、概览数字、今日焦点、待回复邮件、Chat @我、等待中、可批量处理</h2>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin:0.5rem 0 1rem;flex-wrap:wrap;gap:8px;">
+  <div>
+    <div style="font-size:18px;font-weight:500;color:var(--text-primary);">早安 Klaus · 今日控制台</div>
+    <div style="font-size:13px;color:var(--text-muted);">{{WEEKDAY_DATE}} · 上次扫描 {{SCAN_TIME}} · 下次 {{NEXT_TIME}}</div>
+  </div>
+  <button style="font-size:12px;" onclick="sendPrompt('/控制台 重新扫描')"><i class="ti ti-refresh" aria-hidden="true"></i> 立即扫描</button>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;">
+  <div style="background:var(--bg-danger);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-danger);">{{N_REPLY}}</div><div style="font-size:11px;color:var(--text-danger);">待回复</div></div>
+  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:#185fa5;">{{N_WAIT}}</div><div style="font-size:11px;color:var(--text-secondary);">等待中</div></div>
+  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-primary);">{{N_CHAT}}</div><div style="font-size:11px;color:var(--text-secondary);">Chat @我</div></div>
+  <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-success);">{{N_DONE}}</div><div style="font-size:11px;color:var(--text-secondary);">今日已清</div></div>
+</div>
+
+<div style="background:var(--bg-danger);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;">
+  <div style="font-size:13px;font-weight:500;color:var(--text-danger);margin-bottom:10px;"><i class="ti ti-target" aria-hidden="true"></i> 今日焦点 · 只做这 3 件</div>
+  <div style="display:flex;flex-direction:column;gap:8px;">
+
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:8px;padding:10px 12px;">
+      <span style="font-size:11px;font-weight:500;color:var(--text-danger);background:var(--bg-danger);padding:2px 8px;border-radius:20px;white-space:nowrap;">{{FOCUS1_TAG}}</span>
+      <span style="font-size:14px;color:var(--text-primary);flex:1;">{{FOCUS1_TEXT}}</span>
+      <button style="font-size:12px;white-space:nowrap;" onclick="sendPrompt('{{FOCUS1_PROMPT}}')"><i class="ti ti-arrow-right" aria-hidden="true"></i> 开始</button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:8px;padding:10px 12px;">
+      <span style="font-size:11px;font-weight:500;color:var(--text-warning);background:var(--bg-warning);padding:2px 8px;border-radius:20px;white-space:nowrap;">{{FOCUS2_TAG}}</span>
+      <span style="font-size:14px;color:var(--text-primary);flex:1;">{{FOCUS2_TEXT}}</span>
+      <button style="font-size:12px;white-space:nowrap;" onclick="sendPrompt('{{FOCUS2_PROMPT}}')"><i class="ti ti-arrow-right" aria-hidden="true"></i> 开始</button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:8px;padding:10px 12px;">
+      <span style="font-size:11px;font-weight:500;color:var(--text-warning);background:var(--bg-warning);padding:2px 8px;border-radius:20px;white-space:nowrap;">{{FOCUS3_TAG}}</span>
+      <span style="font-size:14px;color:var(--text-primary);flex:1;">{{FOCUS3_TEXT}}</span>
+      <button style="font-size:12px;white-space:nowrap;" onclick="sendPrompt('{{FOCUS3_PROMPT}}')"><i class="ti ti-arrow-right" aria-hidden="true"></i> 开始</button>
+    </div>
+
+  </div>
+</div>
+
+<div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:1rem;">
+  <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:10px;"><i class="ti ti-mail-opened" aria-hidden="true"></i> 待回复邮件 · Claude 已代读 + 起草</div>
+
+  <div style="border-left:3px solid var(--border-danger);padding:8px 0 8px 12px;margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline;">
+      <span style="font-size:14px;font-weight:500;color:var(--text-primary);">{{MAIL1_FROM}}</span>
+      <span style="font-size:12px;color:var(--text-muted);white-space:nowrap;">{{MAIL1_WHEN}}</span>
+    </div>
+    <div style="font-size:13px;color:var(--text-secondary);margin:6px 0;line-height:1.6;"><span style="font-weight:500;color:var(--text-primary);">摘要：</span>{{MAIL1_SUMMARY}}</div>
+    <div style="background:var(--surface-1);border-radius:6px;padding:8px 10px;font-size:12px;color:var(--text-secondary);margin-bottom:8px;line-height:1.5;"><i class="ti ti-pencil" aria-hidden="true"></i> 草稿预览：{{MAIL1_DRAFT}}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button style="font-size:12px;" onclick="sendPrompt('{{MAIL1_VIEWDRAFT_PROMPT}}')">看全文草稿</button>
+      <button style="font-size:12px;" onclick="sendPrompt('{{MAIL1_SEND_PROMPT}}')"><i class="ti ti-send" aria-hidden="true"></i> 发送→蓝星</button>
+      <button style="font-size:12px;" onclick="sendPrompt('{{MAIL1_ARCHIVE_PROMPT}}')"><i class="ti ti-star" style="color:#efa027;" aria-hidden="true"></i> 存档→黄星</button>
+    </div>
+  </div>
+
+  <div style="border-left:3px solid var(--border-danger);padding:8px 0 8px 12px;">
+    <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline;">
+      <span style="font-size:14px;font-weight:500;color:var(--text-primary);">{{MAIL2_FROM}}</span>
+      <span style="font-size:12px;color:var(--text-muted);white-space:nowrap;">{{MAIL2_WHEN}}</span>
+    </div>
+    <div style="font-size:13px;color:var(--text-secondary);margin:6px 0;line-height:1.6;"><span style="font-weight:500;color:var(--text-primary);">摘要：</span>{{MAIL2_SUMMARY}}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button style="font-size:12px;" onclick="sendPrompt('{{MAIL2_VIEWDRAFT_PROMPT}}')">看全文草稿</button>
+      <button style="font-size:12px;" onclick="sendPrompt('{{MAIL2_SEND_PROMPT}}')"><i class="ti ti-send" aria-hidden="true"></i> 发送→蓝星</button>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:1rem;">
+
+  <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:10px;"><i class="ti ti-message-2" aria-hidden="true"></i> Chat @我 · 已摘要</div>
+    <div style="border-left:3px solid var(--border-accent);padding:4px 0 4px 12px;">
+      <div style="font-size:13px;color:var(--text-primary);">{{CHAT1_WHO}}</div>
+      <div style="font-size:12px;color:var(--text-secondary);margin:4px 0 8px;line-height:1.5;">{{CHAT1_MSG}}</div>
+      <button style="font-size:12px;" onclick="sendPrompt('{{CHAT1_REPLY_PROMPT}}')">看回复草稿</button>
+    </div>
+  </div>
+
+  <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:10px;"><i class="ti ti-clock" aria-hidden="true"></i> 等待中 · 蓝星</div>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+      <div style="display:flex;gap:8px;align-items:flex-start;"><i class="ti ti-star" style="color:#378add;margin-top:2px;" aria-hidden="true"></i><span style="color:var(--text-primary);">{{WAIT1_TEXT}}<span style="color:var(--text-muted);"> · {{WAIT1_AGE}}</span></span></div>
+      <div style="border-top:0.5px solid var(--border);padding-top:8px;">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><i class="ti ti-star" style="color:#378add;margin-top:2px;" aria-hidden="true"></i><span style="color:var(--text-primary);">{{WAIT2_TEXT}}<span style="color:var(--text-danger);"> · {{WAIT2_AGE}}</span></span></div>
+        <button style="font-size:12px;margin-top:6px;" onclick="sendPrompt('{{WAIT2_FOLLOWUP_PROMPT}}')"><i class="ti ti-bell" aria-hidden="true"></i> 催函草稿已备</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--surface-1);border-radius:12px;padding:12px 14px;margin-bottom:0.5rem;">
+  <div style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;"><i class="ti ti-stack-2" aria-hidden="true"></i> 可批量处理 · 攒一起低耗清掉</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+    {{BATCH_CHIPS}}
+    <button style="font-size:12px;" onclick="sendPrompt('{{BATCH_PROMPT}}')">一键处理这批</button>
+  </div>
+</div>
+
+<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:4px 0;">已自动归档 {{N_ARCHIVED}} 封无关邮件 · {{SCHEDULE_LINE}}</div>
