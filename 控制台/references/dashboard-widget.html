@@ -93,6 +93,19 @@
   </div>
 </div>
 
+<div style="background:var(--surface-2);border:0.5px solid var(--border);border-left:3px solid var(--border-accent);border-radius:12px;padding:12px 14px;margin-bottom:1rem;">
+  <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:10px;"><i class="ti ti-gavel" aria-hidden="true"></i> 诉讼案件进度 · 我负责的</div>
+
+  {{LITIG_EXPANDED_CARDS}}
+
+  <details style="margin-top:12px;border-top:0.5px solid var(--border);padding-top:10px;">
+    <summary style="cursor:pointer;font-size:13px;font-weight:500;color:var(--text-primary);">狗咬案 · {{N_DOGBITE}} 件（点击展开）</summary>
+    <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;">
+      {{DOGBITE_ROWS}}
+    </div>
+  </details>
+</div>
+
 <div style="background:var(--surface-1);border-radius:12px;padding:12px 14px;margin-bottom:0.5rem;">
   <div style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;"><i class="ti ti-stack-2" aria-hidden="true"></i> 可批量处理 · 攒一起低耗清掉</div>
   <div style="display:flex;flex-wrap:wrap;gap:6px;">

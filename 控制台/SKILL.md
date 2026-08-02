@@ -72,6 +72,18 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 - **Google Calendar**：klaus@ 今天 + 明天的 event，标出带 deadline / 客户电话 / 例会的。
   （个人重要紧急日程在 Apple Calendar，工作在 Google Calendar —— 见 [[calendar_routing]]。）
 - **Google Chat**：最近 24h 内 @klaus 的消息（案件群等），抓空间名 + 谁 @ + 一句诉求。
+- **诉讼案件进度**（Klaus 亲自负责的诉讼）：读 **Tracking Sheet**
+  `1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA`（"Hernan Simo Cases" 共享盘）：
+  - `Labor Cases` tab → **其他诉讼**（展开）；`Dog Bite Cases` tab → **狗咬案**（折叠）。
+  - **跳过** `PI Auto Cases`（CM 管的 pre-lit 书，非亲办诉讼）和 `Animal Control`
+    （是动物管制局联系目录、不是案子）。
+  - 每案的进度小结从这几列派生：`Case Status`（🗡️Defender/⚖️Plaintiff/Prep Complaint/
+    Def-Served/POS Filed…）+ 关键日期列（Labor: 1st POS / 1st Def Answer / CMC / TSC /
+    Discovery；Dog Bite: Complaint 立案日 / POE / Animal Control 索证）+ `Note`。
+  - 一次 `values batchGet` 读完，别逐案读。用 [[case_log_and_brief]] 已维护的数据，不另算。
+  - **注意缺口**：此 Sheet 只含 Dog Bite + Labor。若 Klaus 还有不在此表的诉讼
+    （如 Zhiping Liu 仲裁、Brian Wu v. Azucanela、limited civil/commercial —
+    见 [[limited_civil_commercial_cases]]），需先确认其数据源，别静默漏掉；缺则在小结里标注。
 
 ### 2. 分类 + 排序（两轴 → 六桶）
 - **紧迫度**：court/SOL deadline、今日日程、邮件停留天数。
@@ -94,6 +106,27 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 `references/dashboard-widget.html`，把 `{{...}}` 占位换成本次真实扫描数据。
 标题 `klaus_control_tower_<MMDD>`。这是【已锁定的 UI】——布局不要改，只填数据；
 后续按 Klaus 的使用反馈再更新模板。
+
+**诉讼区块的行模板**（填 `{{LITIG_EXPANDED_CARDS}}` 和 `{{DOGBITE_ROWS}}`）：
+- 每个展开案卡（Labor 及其他亲办诉讼），role badge 用 `#efa027`(Defender) / `var(--text-accent)`(Plaintiff)：
+  ```html
+  <div style="padding:9px 0;border-top:0.5px solid var(--border);">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px;color:#8a5a10;background:var(--bg-warning);">Defender</span>
+      <span style="font-size:14px;font-weight:500;flex:1;">{{CASE_NAME}}</span>
+      <span style="font-size:12px;color:var(--text-danger);">{{NEXT_DEADLINE}}</span>
+    </div>
+    <div style="font-size:13px;color:var(--text-secondary);margin-top:5px;line-height:1.5;">{{PROGRESS_SUMMARY}}</div>
+  </div>
+  ```
+- 每个折叠狗咬案行（一行一件）：
+  ```html
+  <div style="display:flex;align-items:baseline;gap:10px;font-size:13px;">
+    <span style="font-weight:500;min-width:150px;">{{NAME}}</span>
+    <span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;color:#185fa5;background:var(--bg-accent);">{{STAGE}}</span>
+    <span style="color:var(--text-secondary);">{{NEXT_STEP}}</span>
+  </div>
+  ```
 
 ### 5. 给出文字调度摘要
 widget 之后，用简体中文给一段短摘要：
