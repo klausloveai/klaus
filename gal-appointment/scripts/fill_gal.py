@@ -24,6 +24,7 @@ Verify every output by RENDERING with Ghostscript (poppler mangles JC fonts):
 """
 import json, sys, os, subprocess, tempfile
 from pypdf import PdfReader, PdfWriter
+from pypdf.generic import NameObject, BooleanObject
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(HERE, '..', 'assets')
@@ -36,6 +37,31 @@ def tueq(t): return (lambda nm, tu, t=t: tu.strip() == t.strip())
 
 def _flatten(inp, out):
     subprocess.run(['qpdf', '--generate-appearances', '--flatten-annotations=all', inp, out], check=True)
+
+
+def _set_need_appearances(writer):
+    """For the EDITABLE (non-flattened) mode: tell viewers to (re)generate field
+    appearances from /V, so the typed values show while the fields stay editable.
+    NOTE: Adobe Acrobat / Chrome honor this; macOS Preview is unreliable with
+    AcroForm appearances, so open the editable copy in Acrobat, not Preview."""
+    acro = writer._root_object.get('/AcroForm')
+    if acro is not None:
+        acro.get_object()[NameObject('/NeedAppearances')] = BooleanObject(True)
+
+
+def _emit(writer, cfg, scratch, out):
+    """Flatten to `out` (default) OR, if cfg['flatten'] is False, write an editable
+    (fillable) PDF with NeedAppearances set."""
+    if cfg.get('flatten', True):
+        tmp = os.path.join(scratch, os.path.basename(out) + '.tmp.pdf')
+        with open(tmp, 'wb') as fh:
+            writer.write(fh)
+        _flatten(tmp, out)
+    else:
+        _set_need_appearances(writer)
+        with open(out, 'wb') as fh:
+            writer.write(fh)
+    return out
 
 
 def fill_civ010(cfg, scratch):
@@ -74,12 +100,8 @@ def fill_civ010(cfg, scratch):
                  else tueq('a defendant or respondent in this action. More than 10 days have passed since service of the summons, and no one has applied for the appointment of a guardian ad litem.'))
     for p in preds:
         set_button(w, p)
-    tmp = os.path.join(scratch, 'civ010_filled.pdf')
-    with open(tmp, 'wb') as fh:
-        w.write(fh)
     out = os.path.join(cfg['out_dir'], cfg.get('civ010_name', 'CIV-010 (GAL Application) for signature.pdf'))
-    _flatten(tmp, out)
-    return out
+    return _emit(w, cfg, scratch, out)
 
 
 def fill_civ011(cfg, scratch):
@@ -112,12 +134,8 @@ def fill_civ011(cfg, scratch):
         preds.insert(0, tueq('EX PARTE'))
     for p in preds:
         set_button(w, p)
-    tmp = os.path.join(scratch, 'civ011_filled.pdf')
-    with open(tmp, 'wb') as fh:
-        w.write(fh)
     out = os.path.join(cfg['out_dir'], cfg.get('civ011_name', 'CIV-011 (Proposed Order Appointing GAL).pdf'))
-    _flatten(tmp, out)
-    return out
+    return _emit(w, cfg, scratch, out)
 
 
 def main():

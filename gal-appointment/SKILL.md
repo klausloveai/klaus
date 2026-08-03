@@ -109,6 +109,22 @@ Also mirror the signature copies as
 Update the filing checklist: clerk needs **CIV-010 + CIV-011** to issue the Summons;
 file the proposed Order together with the Application.
 
+## Flattened vs. editable (config `flatten`)
+- **`"flatten": true` (default)** → values baked into the page; displays in EVERY viewer
+  incl. macOS Preview; **not editable** (this is why an attorney trying to edit a flattened
+  copy gets an "unknown error"). Use for the final signature/filing copy.
+- **`"flatten": false`** → keeps the AcroForm fields live (editable) and sets
+  NeedAppearances so the values display. Use when Hernán wants to be able to tweak the form.
+  **Edit/view the editable copy in Adobe Acrobat** (macOS Preview is unreliable with
+  fillable AcroForms). Same short caption fits the field, so no stamping either way.
+
+## Reusable firm template (fixed attorney block)
+`scripts/make_hernan_template.py <out_dir>` builds **civ010(Hernan).pdf** and
+**civ011(Hernan).pdf** — editable blanks with ONLY Hernán's attorney block pre-filled
+(name/SBN/firm/address/phone/fax/email), everything case-specific left blank. These live
+in the Drive **Litigation Forms** folder (`1XWPPpjckq…`) alongside sum100(Hernan)/cm010(Hernan)
+and in `assets/`, matching the firm template convention.
+
 ## Guardrails
 - **Prep only — never e-file.** Case number, signatures, dates stay blank.
 - **File BOTH forms together** (Application + Order). Missing the Order gets rejected.
