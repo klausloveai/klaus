@@ -137,11 +137,23 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 
 ### 5. 给出文字调度摘要
 widget 之后，用简体中文给一段短摘要：
-- 今日焦点 3 件，每件附一条**可直接复制的开场 prompt**（见路由表，形如
-  `/lor-send David Zhang 3P，assigned to Amos`），Klaus 复制到新 session 即开工。
+- 今日焦点 3 件，每件附一条**可直接复制的开场 prompt**（自然语言，见下方规则），
+  Klaus 复制到新 session 即开工。
 - 待回邮件哪些草稿已备好、等他核对发送。
 - 等待中有没有超时该催的。
 一句话收尾即可，不要罗列"要不要我帮你①②③④"。
+
+**⚠️ 开场 prompt 的写法（实测踩坑，务必遵守）**：
+- **用自然语言，不要用未注册的斜杠命令**。`sendPrompt`/复制出去后若以 `/xxx` 开头，
+  harness 会当斜杠命令解析；**只有等于 skill 目录全名的才有效**，别的一律
+  `Unknown command`。例如 **`/hernan` 不存在**（skill 叫 `hernan-email`）。
+- 正确形式 = 「案件 + 要做什么 + 用哪个/哪些 skill」的自然句，例如：
+  `处理 Mudong Huang 案（狗咬·未成年·Hernán）：确认 GAL(CIV-010+011) 还缺什么、客户签字声明是否已提供，起草给 Hernán 的回复。用 gal-appointment 和 hernan-email。`
+  模型收到会自己经 Skill 工具路由，无需斜杠。
+- 一件事可跨多个 skill（如上：GAL + 回信），在 prompt 里都点名。
+- 填进 widget `onclick="sendPrompt('...')"` 时，prompt 文本内**不要出现英文单引号**
+  （会截断字符串）；用中文引号或去掉。
+- `sendPrompt` 是发到**当前 session**；重活建议 Klaus 复制到**新 session** 跑，保持控制台轻量。
 
 ---
 
