@@ -119,11 +119,14 @@ file the proposed Order together with the Application.
   fillable AcroForms). Same short caption fits the field, so no stamping either way.
 
 ## Reusable firm template (fixed attorney block)
-`scripts/make_hernan_template.py <out_dir>` builds **civ010(Hernan).pdf** and
-**civ011(Hernan).pdf** — editable blanks with ONLY Hernán's attorney block pre-filled
-(name/SBN/firm/address/phone/fax/email), everything case-specific left blank. These live
-in the Drive **Litigation Forms** folder (`1XWPPpjckq…`) alongside sum100(Hernan)/cm010(Hernan)
-and in `assets/`, matching the firm template convention.
+`scripts/make_hernan_template.py <out_dir>` builds editable blanks with ONLY Hernán's
+attorney block pre-filled (name/SBN/firm/address/phone/fax/email), everything
+case-specific left blank. Canonical home = Hernán's Drive **"Legal Form"** folder
+(`1ytvCvg9Bx_OxDdN9fEDgnnhzSHHtTWUZ`), alongside `1.Summons(Hernan).pdf` /
+`1.Civil Cover Sheet(Hernan).pdf`, stored as **"CIV-010 Application for Guardian ad Litem
+(Hernan).pdf"** and **"CIV-011 Order Appointing Guardian ad Litem (Hernan).pdf"**; local
+backups in `assets/` (civ010(Hernan).pdf / civ011(Hernan).pdf). NOTE: gws `--upload` only
+accepts a file inside the shell's cwd — copy into cwd first, then upload.
 
 ## Guardrails
 - **Prep only — never e-file.** Case number, signatures, dates stay blank.
