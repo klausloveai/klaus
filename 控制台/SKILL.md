@@ -62,15 +62,17 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 ## 运行步骤
 
 ### 1. 扫三个源（只读，窗口 = 最近 3 天 + 未读优先）
-- **Gmail inbox**：**只扫 klaus@ 这一个邮箱**（枢纽箱）；团队邮箱
-  claims@/piteam@/picase@ 不纳入（发送时各 skill 按案件归属处理，
-  [[feedback_send_from_case_mailbox]]）。取 `is:unread newer_than:3d`，并行抓。
-  **案件中心过滤（Klaus 明确要求，最关键）**：dashboard **只显示与花名册这些在办案子
-  【相关】的邮件**。匹配依据：客户/案名、案件 Gmail 标签（`DB-*` / `LB-*` /
-  `✅Case/<name>` / 以案名建的 label，见 [[feedback_case_label_one_per_case]]）、或已知
-  对方/诊所/合办所/法院（如 Hernán、LaShine Law、对方律师、Animal Control）。
-  **匹配不上任何在办案子的邮件一律不显示**——推广、PI Nerd 论坛帖、newsletter、通用通知、
-  以及与这些案子无关的邮件，全部不上 dashboard，也**不做批处理栏**。这是刻意的聚焦。
+- **Gmail inbox（按标签扫，klaus@ 单箱）**：Klaus 已把所有 Hernán 案件邮件用嵌套标签
+  `⚖️Hernan Cases/<类别>/<案件>` 整理好（类别 = Dog Bite Cases / Labor Cases / PI Auto /
+  Civil Limited）。团队邮箱 claims@/piteam@/picase@ 不纳入。
+  **动态发现案件标签**：`labels list` → 取 name 以 `⚖️Hernan Cases/` 开头、且为最深层
+  （leaf，没有更深的子标签）的，就是那些案件标签；**新案子加了子标签会自动纳入，无需改 skill**。
+  **⚠️ 实测：母标签 `⚖️Hernan Cases`（id `Label_2462494372802428188`）本身挂 0 封邮件，
+  分类中间层也不挂——邮件只挂在 case leaf 上。** 所以只能按 leaf 的 id 扫：
+  逐个 `messages list labelIds:["<leaf id>"], q:"is:unread newer_than:3d"`（并行，别查母标签）。
+  只有挂在 case leaf 标签上的邮件才进 dashboard；其它（推广/论坛/newsletter/通用通知/无关邮件）
+  一律不显示，也不做批处理栏。leaf 邮件里 Claude 判断哪些"需我回"→ 案件待办邮件（附草稿）。
+  参见 `references/auto-label.md`（标签树、id、自动打标签设计与踩坑）。
 - **Google Calendar**：klaus@ 今天 + 明天的 event，标出带 deadline / 客户电话 / 例会的。
   （个人重要紧急日程在 Apple Calendar，工作在 Google Calendar —— 见 [[calendar_routing]]。）
 - **Google Chat**：最近 24h 内 @klaus 的消息（案件群等），抓空间名 + 谁 @ + 一句诉求。
