@@ -96,20 +96,33 @@ Litigation-status section labels; use the Timeline structure.
 - **Continue the SAME email thread each week** — reply into the prior week's "Case Update"
   thread for that case, don't start a new one. Closing line is literally:
   *"I will continue weekly update case recap in this email thread, and please let me know if anything looks off."*
-- **body (HTML, this exact skeleton):**
-  1. `Hi Hernán,`
-  2. `Full recap of <Client> from the date of loss through today.`
-  3. **_Timeline_** (bold-italic header) → one short paragraph per event, each led by the
-     bold date: `<MM/DD/YYYY> — <what happened>`, chronological from DOL to today.
-  4. **_Important Dates_** (bold-italic header) → bullet list: SOL; defendant's Response/
-     answer due (service +30d, CCP §412.20); CMC + CMC-Statement due; any hearing/eval dates.
-  5. **_Notes / Reminders_** (bold-italic header) → numbered list of open items / flags
-     (service status, insurance/limits, medical/bills, POE, jury fee, etc.).
-  6. Closing line (verbatim, above).
-- **signature:** `Klaus Liu | Paralegal` block (NOT "Director of Case Management") + firm
-  address + `O: 888-343-9794 | D: 626-479-2207 | F: 626-479-2207` + the CCR 10205.6(b)
-  service disclaimer + confidentiality notice. Reuse the exact block from a prior sent
-  Case Update (pull it from klaus@ Sent) so all cases stay identical.
+- **body — build it as REAL HTML. 🔴 NEVER use Markdown asterisks (`*text*`).** In an
+  email `*Timeline*` renders as the literal characters `*Timeline*`, NOT bold. The draft
+  MUST be an HTML alternative part with actual tags. This exact skeleton:
+  1. `<p>Hi Hernán,</p>`
+  2. `<p>Full recap of <Client> from the date of loss through today.</p>`
+  3. **Timeline** — header as `<p style="font-style:italic;font-weight:bold">Timeline</p>`,
+     then one `<p>` per event, each led by the **bold date** in `<b>` tags:
+     `<p><b>MM/DD/YYYY</b> — <what happened></p>`, chronological.
+  4. **Important Dates** — bold-italic header `<p>`, then a `<ul>` with one `<li>` per date,
+     the **label bolded**: `<li><b>Defendant's Response due:</b> 08/17/2026</li>`
+     (SOL; response/answer due; CMC + CMC-Statement due; hearing/eval dates).
+  5. **Notes / Reminders** — bold-italic header `<p>`, then an `<ol>` of open items.
+     *(Per the Brian Wu calibration above, OMIT this whole section for a pre-filing case
+     whose attorney already has the background.)*
+  6. Closing line as its **own** `<p>` — the verbatim line above. It must NOT end up as a
+     `<li>` inside the Notes/Important-Dates list; close the list first, then the `<p>`.
+- **signature:** append the mailbox's **preset HTML signature verbatim** — fetch it live:
+  `gws gmail users settings sendAs list` → the default `klaus@lingtulaw.com` entry's
+  `signature` HTML → paste that raw HTML at the end of the body `<div>`. Do NOT hand-type a
+  plain-text `Klaus Liu | Paralegal` block (API drafts don't auto-insert the signature, and
+  a re-typed one drifts from the real one). The preset already carries the paralegal title,
+  firm address, O/D/F line, CCR 10205.6(b) disclaimer, and confidentiality notice.
+- **Create the draft** by building a raw MIME message (`EmailMessage`: `set_content(<plain
+  fallback>)` + `add_alternative(<html>, subtype="html")`), base64url it into
+  `{"message":{"raw": …, "threadId": <thread>}}`, and `gws gmail users drafts create`
+  (or `drafts update` to fix an existing one). Preserve `In-Reply-To` + `References` from the
+  prior message in the thread so it stays threaded.
 
 ### (Optional) Klaus self-reminder — 中文, to `klaus@lingtulaw.com`
 Only if Klaus asks. `【每周提醒】<Client> <案件类型> <Case No.> — 本周待办` · 3–7 条待办带截止日/状态.
