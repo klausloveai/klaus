@@ -81,6 +81,26 @@ background** (here Hernán had authored the roadmap memo two days prior), keep i
   preset Gmail signature (fetched via `gws gmail users settings sendAs`, appended to the
   HTML body since API drafts don't auto-insert it).
 
+**CB Kitchen and Bathroom, Inc. v. Zelaya (labor, FILED, SECOND weekly = delta, 08/03/2026) — baseline→delta:**
+Week 1 was a full baseline recap (filing → present). Week 2 Klaus cut it hard to the delta —
+this is the definitive example that **once a case's baseline recap has gone out, every later
+weekly shows ONLY the past ~7 days, even a long-history filed case.**
+- **Timeline**: only the ONE new event from the past week (07/27 — Hernán vacated the 07/29
+  deadline; wait for the amended complaint). He re-listed NONE of the pre-existing history.
+- **Intro line kept verbatim** ("Full recap of … from the filing of the complaint through
+  today") — he does NOT rewrite the opener for a delta week, even though the Timeline is now
+  one line. Leave it.
+- **Important Dates**: kept the standing forward list (responsive-pleading due, CM-110 due,
+  CMC) but stripped ALL strategy prose → `label: date (one short clause)`. My verbose "HELD
+  pending the amended complaint; do not answer/demur/default per LaSalle…" was cut. Dates are
+  dates, not analysis.
+- **Notes / Reminders**: cut to the ONE genuinely-pending item ("Awaiting plaintiff's amended
+  complaint; response deadline recalendared once served"). CUT: the now-RESOLVED deadline-
+  conflict item, the internal payroll-records request, and the jury-fee reminder. Rule: drop
+  what got resolved this week, and keep internal tactical asks OUT (separate correspondence).
+- **Strategy in ONE sentence**, no case citation / rationale — the attorney authored it and
+  doesn't need it recited back.
+
 ## Output — create the Gmail DRAFT (do NOT send)
 
 **THE FORMAT below is authoritative — it is what Klaus actually sends** (verified against
