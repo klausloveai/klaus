@@ -688,7 +688,9 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
 
 **Members = BASE (always, every case) + CM-specific additions. Calling user (Klaus) added automatically as owner.**
 
-**BASE (all cases — 6 people):** `joe@lingtulaw.com`, `cassie@lingtulaw.com`, `amos.f@lingtulaw.com`, `claire.f@lingtulaw.com`, `may.z@lingtulaw.com`, `jessie.l@lingtulaw.com`
+**BASE (all cases — 5 people):** `cassie@lingtulaw.com`, `amos.f@lingtulaw.com`, `claire.f@lingtulaw.com`, `may.z@lingtulaw.com`, `jessie.l@lingtulaw.com`
+
+> `joe@lingtulaw.com` was removed from BASE on 8/7/2026 — no longer added to any new-case space.
 
 > `jessie.l@` is in BASE for **every** case (added 7/23/2026) — she is on all case spaces so she
 > ramps up faster. She is a plain **Member**, not a Manager.
@@ -734,7 +736,7 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
    # Capture: spaces/XXXX and spaceUri
 
    # Step 1b: add each member individually (run in parallel or sequentially)
-   for EMAIL in joe@lingtulaw.com cassie@lingtulaw.com amos.f@lingtulaw.com \
+   for EMAIL in cassie@lingtulaw.com amos.f@lingtulaw.com \
                 claire.f@lingtulaw.com may.z@lingtulaw.com jessie.l@lingtulaw.com; do   # + CM additions
      gws chat spaces members create \
        --params '{"parent":"spaces/XXXX"}' \
@@ -755,14 +757,14 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
        print(' -', m.get('member',{}).get('name','?'))
    "
    ```
-   **Expected totals (BASE 6 + CM additions + Klaus as owner):**
+   **Expected totals (BASE 5 + CM additions + Klaus as owner):**
 
    | Case | Members added | Total incl. Klaus |
    |---|---|---|
-   | **Ryan** | BASE 6 + ryan.w + tiana.d + angelina.m | **10** |
-   | **Jerry** | BASE 6 + jerry.p + tiana.d + angelina.m | **10** |
-   | **Amos** | BASE 6 (Amos already in BASE) | **7** |
-   | **Klaus** | BASE 6 | **7** |
+   | **Ryan** | BASE 5 + ryan.w + tiana.d + angelina.m | **9** |
+   | **Jerry** | BASE 5 + jerry.p + tiana.d + angelina.m | **9** |
+   | **Amos** | BASE 5 (Amos already in BASE) | **6** |
+   | **Klaus** | BASE 5 | **6** |
 
    If the count is short, add the missing members with another `members create` call.
 
