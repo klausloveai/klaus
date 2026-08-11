@@ -9,7 +9,11 @@
 **2. 黄色 = AI 抓取、待核实**（不再只表示"待补充"）。所有从材料抓取或客人自报的信息默认标黄；
 CM/CA 在 welcome call 与客户确认后**去黄**；仍待定的**保持黄色**作为跟进提醒。
 
-**3. 客人留空 ≠ 客人答"没有"。** 留空就留空（+黄），不要替客人写 `None` / `N/A - no passengers`。
+**3. 客人没填的字段 → 写 `Pending` + 黄**（不是留白）。空白黄格看起来像"漏填/系统 bug"，`Pending`
+才明确传达"待 welcome call 补"。**`None` / `N/A` 只在客人明确答"没有"或结构性占位时用**（e.g. 无乘客、
+Single 无配偶）—— 不要用 `None`/`N/A` 替客人回答一个他根本没答的问题。
+例外（不写 Pending）：F3 Accd Diagram、F4/F5 固定模板、F18–F22 当 Police Report=No 时（见下）、
+I2/I3/L2/L3 结构性 Pending（本来就写 Pending 但不黄）。
 
 **4. 不做法律定性、不做推断。** CVC code 一律不写（等警察报告，由律师加）；
 不从间接线索推断事实（不用"身体甩向左"或照片猜撞击部位）——留空问客户。
@@ -23,7 +27,7 @@ CM/CA 在 welcome call 与客户确认后**去黄**；仍待定的**保持黄色
 | 格 | 字段 | 规则 |
 |---|---|---|
 | C2 | DOL | MM/DD/YYYY（黄规则见 Step 3） |
-| C3 | Time | **照抄客人填的**，不判断 AM/PM、不转 24h（客人填 `5:42` 就写 `5:42`） |
+| C3 | Time | **规整成清楚的 `H:MM AM/PM`**：格式乱但语义明确的按实翻译（`Pm1.10`→`1:10 PM`；`下午三点`→`3:00 PM`；`14:30`→`2:30 PM`）。**只有真正无法判断 AM/PM 时才原样照抄**（客人填 `5:42` 无上下文 → `5:42`）。没填 → `Pending`+黄。 |
 | C4 | Driver Name | **驾照为准** |
 | C5 | DOB | **驾照为准**（客人常填错，以证件为准，不标黄） |
 | C6 | Phone | **纯照抄**（客人填 `9493168463` 就写 `9493168463`，不加连字符） |
@@ -32,16 +36,19 @@ CM/CA 在 welcome call 与客户确认后**去黄**；仍待定的**保持黄色
 | C9 | Gender | **驾照为准** |
 | C10 | Marital Status | **英文**：`Single` / `Married` / `Divorce` |
 | C11 | Spouse Name | 客人不填 → `N/A` |
-| C12 | Occupation | 极简：只填 Unsure → `Unsure`；Unsure+职位 → `[Job title], unsure loss of income` |
+| C12 | Occupation | 极简。**先看表单"Lost wages due to injury?"**：答 Yes 但没填职位 → `Lost wages: Yes; job title/employer pending`+黄；答 Yes+有职位 → `[Job title]/[Employer], lost wages: Yes`；只填 Unsure → `Unsure`；Unsure+职位 → `[Job title], unsure loss of income`。**绝不把客人答的 lost-wage=Yes 丢掉**（这是误工损失索赔的凭据）。 |
 | C13 | SSN | **纯照抄**（不加连字符） |
 | C14 | Medi-Cal | **`Pending` + 黄**（客人字段，表单更新前一律 Pending） |
 | C15 | Medicare | **`Pending` + 黄**（同上） |
 | C16 | Health Insurance | 有保险 → 直接写承保方，**无 "Yes – " 前缀**（e.g. `Kaiser Permanente (Southern California; MRN 32006874)`）；无保险 → `None` |
 | C17 | Prior Accd & Injured | **详细记录客人填写的内容，不做任何判断**（不加 apportionment / 建议） |
-| C18 | Ambulance | 客人否认 → `No`（不加解释） |
-| C19 | Emergency | 客人否认 → `No` |
-| C20 | Urgent Care | 客人否认 → `No`；我们安排的 → 诊所名 + 地址/时间 |
-| C21 | Primary Doctor | 客人否认 → `No`；客人有自己的 PCP → PCP 姓名、地址、电话 |
+| C18 | Ambulance | 客人**明确否认** → `No`；**客人没答（表单留空）→ `Pending`+黄**（不是留白） |
+| C19 | Emergency | 客人明确否认 → `No`；没答 → `Pending`+黄 |
+| C20 | Urgent Care | 客人明确否认 → `No`；没答 → `Pending`+黄；我们安排的 → 诊所名 + 地址/时间 |
+| C21 | Primary Doctor | 客人明确否认 → `No`；没答 → `Pending`+黄；客人有自己的 PCP → PCP 姓名、地址、电话 |
+
+> ⚠️ **"明确否认" vs "没答" 要分清**：表单有单独的 ambulance/ER/urgent/PCP 选项且客人选了"没有" → `No`；
+> 表单只有一个笼统的"Did you seek medical care?"且客人**留空** → C18–C21 全部 `Pending`+黄（不能替客人写 `No`）。
 | C22 | Injuries（**永远黄**） | **只记录客人填的伤 + 症状 + 疼痛等级**。不写事故力学（速度/气囊/撞击次数/力度/车身移动）、不写就诊情况（另有字段问）、不写既往伤分析 |
 
 **地址格式（C7）** — 主存客人在 intake form 填的 **Current 地址**；其它材料上的地址简单标注来源：
@@ -62,22 +69,32 @@ C45=Pass1 Injuries（**永远黄**）— 所有乘客伤情格同 C22 规则。
 | F3 | Accd Diagram | **默认 `Pending`，不标黄**（跳过，不是客人字段） |
 | F4 | Fact of Loss（**永远黄**） | **固定模板**，见下 |
 | F5 | Point of Impact（**永远黄**） | **固定模板**，见下 |
-| F6 | Vehicle Status | **完全照抄**客人所选，不改写（不加 but / per client）；没填 → 空 + 黄 |
-| F7 | Vehicle Location | 照抄；表单无此栏或客人没填 → **空 + 黄** |
+| F6 | Vehicle Status | **完全照抄**客人所选，不改写（不加 but / per client）；没填 → `Pending`+黄 |
+| F7 | Vehicle Location | 照抄；表单无此栏或客人没填 → `Pending`+黄 |
 | F8 | Vehicle Owner | 可带**基于 facts 的简单标注**，不过度分析（e.g. `Yujing Zhou (client's mother)`） |
 | F9 | Vehicle Mileage | **原封不动**（客人填 `150000` 就写 `150000`，不加 "Approx." / "miles"） |
 | F10 | Weather | 翻译原文即可（`晴天` → `Clear`） |
-| F11 | Purpose of Trip | **按客人原文，中文也照出**（`去上班`）；没填 → 空 |
+| F11 | Purpose of Trip | **按客人原文，中文也照出**（`去上班`）；没填 → `Pending`+黄 |
 | F12 | Child Seat | `Yes` / `No` |
 | F13 | Airbag Deploy | `Yes` / `No` |
 | F14 | Dashcam | `Yes` / `No` |
 | F15 | Independent Witness | `Yes` / `No`，客人没填 → 空 |
 | F16 | Passenger Info | 有乘客且填了姓名/电话 → **照抄**；没有乘客 → `No`；有乘客但没填信息 → `Yes` |
 | F17 | Police Report | `Yes` / `No`，或空；可加**简单**判断 |
-| F18 | Crash Date | **只填警察卡/报告上的**。客人答"没有警察报告" → `No` |
-| F19–F22 | Crash Time / NCIC# / Officer ID / Report# | 无警察报告 → **留空，不标黄** |
+| F18 | Crash Date | **只填警察卡/报告上的**（见下方 police 级联规则） |
+| F19–F22 | Crash Time / NCIC# / Officer ID / Report# | 见下方 police 级联规则 |
 
-> ⚠️ **F18–F22 只看警察卡或报告**，不用客人自报的日期时间 —— 两者可能不一致。
+> **没填 = `Pending`+黄（本区块通用）**：F6/F7/F9/F10/F11/F12/F13/F15 等客人留空的字段一律 `Pending`+黄，
+> 不留白。例外：F3（Pending 不黄）、F4/F5（固定模板）、F18–F22（走下面的 police 级联）。
+
+> ⚠️ **Police Report 级联（F17 → F18–F22）** —— 这是最容易错的地方：
+> | F17 Police Report | F18–F22 |
+> |---|---|
+> | **`No`**（客人明确说没有报告） | **留空，不标黄** |
+> | **`Yes` 但警察卡没上传** | **F18–F22 全部 `Pending`+黄** —— 报告存在、只是我们还没拿到，全是待补项 |
+> | 有警察卡在手 | 照卡逐格填（date/time/NCIC/officer/report#），标黄待核 |
+>
+> **F18–F22 只看警察卡/报告本身，绝不用客人自报的日期时间**（两者常不一致）。
 
 ### F4 Fact of Loss — 两行格式（客人原文 + 模板）
 
@@ -204,7 +221,7 @@ Fill C24:C45, F24:F45, C49:C70, F49:F70 all = `N/A`. NO yellow.
 |---|---|
 | I2 / I3 / L2 / L3 Coverage & Liability Status | 结构性 `Pending`，不是客人可确认的信息 |
 | **F3** Accd Diagram | 非客人字段 |
-| **F18–F22**（无警察报告时） | 没有警察卡/报告可核，留空即可 |
+| **F18–F22（仅当 Police Report=`No`）** | 明确没有报告，留空即可。**Police Report=`Yes` 时改为 `Pending`+黄**（见 F17 级联） |
 | C11 Spouse = `N/A`（Single/Divorced） | 无内容可核 |
 | I17 / I18 / I22 / L21 / L22 | 保险目录带入的联系方式（无匹配时才 `Pending`+黄） |
 | I19–I21、L23–L25 BI adjuster 组 | 留空 |
