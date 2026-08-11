@@ -34,8 +34,8 @@ the Docusign retainer as the final step.
 10. Add the case to the tracking sheet, insert one row per client below the Example Row
 11. Create the Google Chat case space, add the team, **promote Amos/Claire/May/CM to Manager**, ask user for case notes, post verbatim @Amos + CM
 12. Create the Gmail case label in the team mailbox (yellow)
-13. Send the Docusign retainer (recipients from intake; **retainer type = new / standard — mandatory gate, no default**)
-14. **Output the client-facing signing message** (WeChat 文案 for Klaus to forward) — **always last**
+13. Send the Docusign retainer — **ONLY if the prompt explicitly asks to send** (default = skip); when sending, `retainer type = new / standard` is a hard gate
+14. **Output the client-facing signing message** (WeChat 文案 for Klaus to forward) — **always last, but only if Step 13 actually sent**
 
 > The 14 headings below (Step 1 – Step 14) match this list exactly.
 
@@ -44,20 +44,31 @@ the Docusign retainer as the final step.
 **Run all 14 steps end-to-end by default — do NOT pause for per-step confirmation.**
 When the user has not said otherwise *in advance*, apply these defaults and keep going:
 - Drive destination = **1. Pending**
-- Retainer = **send immediately**, recipient emails taken from the intake
+- **Retainer = DO NOT send by default.** Steps 13 (Docusign retainer) and 14 (client signing
+  message) are **skipped unless the prompt EXPLICITLY asks to send** — e.g. `new retainer`,
+  `standard retainer`, or `send retainer`. If the prompt says nothing about the retainer, or says
+  `retainer skip` / `retainer sent`, **skip both Step 13 and Step 14** (just note it in the summary).
+  See the retainer gate below.
 - CM assignment = use the CM name given in the prompt. If **no CM name was given**,
   pause after Step 1 and ask: "这个案件 assign 给谁？（Jerry / Ryan / Amos）" — wait for
   the answer before proceeding. There is no auto-assignment.
 - Chat space "in charge" = the named CM (no default — must be either in the prompt or explicitly answered)
-- **Retainer type = NO DEFAULT — it is a mandatory gate. See below.**
 
 This Execution Mode overrides any "ask the user" / "Get user confirmation" wording in the
 individual steps below (except the gates noted above). The user will state any deviation —
 skip a step, hold the retainer as a draft, different retainer type/CM — up front.
 
-**Retainer FEE TYPE is a mandatory gate — ALWAYS confirm before Step 13.** There is NO default;
-never infer it from a template name or from a previous case. If the prompt didn't say,
-ask: "这个案子用 new 还是 standard retainer？"
+**Retainer is DO-NOT-SEND by default (changed 8/11/2026).** Steps 13 + 14 run **only when the
+prompt explicitly asks to send the retainer**. Decision tree:
+- Prompt says nothing about retainer, or says `retainer skip` / `retainer sent` / `retainer already signed`
+  → **skip Steps 13 + 14.** Do not ask about it. Just note "retainer skipped (not requested)" in the summary.
+- Prompt explicitly asks to send AND names the fee type (`new retainer` / `standard retainer`)
+  → run Steps 13 + 14 with that type.
+- Prompt says to send but does NOT name the type (`send retainer` with no new/standard)
+  → **this is the only case where you ask**: "这个案子用 new 还是 standard retainer？" — wait, then send.
+
+**When sending, the FEE TYPE is still a hard gate** — never infer it from a template name or a
+previous case; use exactly what the prompt says (or the answer to the question above).
 
 | 类型 | 费用结构 | 典型适用 |
 |---|---|---|
@@ -920,7 +931,11 @@ gws gmail users labels update \
 
 ## Step 13 — Docusign Retainer
 
-The final step — send the retainer only after the tracking sheet, Chat space, and Gmail label
+> ⛔ **CONDITIONAL STEP — default is to SKIP.** Only run this step if the prompt explicitly asked to
+> send the retainer (see the retainer gate in Execution Mode). If the prompt didn't ask, or said
+> `retainer skip` / `retainer sent`, **do not run Step 13 or Step 14** — note "retainer skipped" and stop.
+
+Send the retainer only after the tracking sheet, Chat space, and Gmail label
 are all done. After confirming sent, update the tracking sheet Note cells to `"Retainer sent M/D"`.
 
 ### Template Selection — a 2×2 matrix (fee type × client count)
@@ -1016,7 +1031,10 @@ Examples:
 
 ## Step 14 — Output the Client Signing Message (文案)
 
-**Always the last thing you output.** After the retainer is confirmed SENT, produce the
+> ⛔ **CONDITIONAL — only if Step 13 actually sent a retainer.** If the retainer was skipped
+> (the default), skip this step too — there is no signing message to produce.
+
+**The last thing you output when a retainer was sent.** After the retainer is confirmed SENT, produce the
 WeChat message Klaus forwards to the client asking them to sign. Klaus sends it himself —
 this step GENERATES text only, it never sends anything.
 
