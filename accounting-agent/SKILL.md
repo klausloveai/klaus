@@ -8,7 +8,10 @@ description: >
   "update account journal to the bank"). Per settled case: verify math + funding →
   update Disbursement Sheet (color-coded, today's disburse date) → record Account Journal
   (content only) → archive PDF to case sub-folder 6 + move folder to "8. Settled" →
-  green-flag & move the case Pending→Completed disbursed sheet, delete from Pending.
+  green-flag & move the case Pending→Completed disbursed sheet, delete from Pending →
+  draft the "Case settled" team email (owning team read off the PI Master Sheet tab, Klaus's
+  signature, disbursements PDF attached, case label) for Klaus to approve before sending.
+  Also triggers on "发结案邮件 / 通知 team 案子结了 / case settled email".
   At month-end: mirror Journal to bank → build Client Ledgers → three-way Monthly Reconciliation.
 ---
 
@@ -33,7 +36,7 @@ provider lien columns alphabetical from **U** onward (header = `=HYPERLINK(w9url
 
 ## TRIGGER A0 — Incoming settlement check(s) received (scanned before deposit)
 Klaus scans every settlement check he receives and sends it here BEFORE mailing/depositing. For each check:
-1. **First check "存过吗?"** — search the journal (check#, client, amount) so nothing is deposited/recorded twice.
+1. **First check "存过吗?"** — dedup by **CHECK NUMBER**, not client name (one client can have several separate deposits — Stephen Li had a Tesla $1k MedPay AND a Kemper $30k BI; a name-only match falsely flagged the new one as a dup and nearly skipped recording it).
 2. **Record it as a pending DEPOSIT** in the Account Journal JULY/…-PENDING block (payor, check#, amount, client, claim#, "to deposit"/deposited date). Deposit-only, no cleared date until month-end bank.
 3. **EXCLUDE non-trust checks** — do NOT record (and warn Klaus): a check whose coverage is **Property Damage / Collision**, or where the **law firm is NOT a payee** (body-shop money, client-only PD). E.g. Kemper PD to a collision center; Mercury Collision payable to client only.
 4. **Build a Pending Disbursed Sheet tab for the case** (Sheet `1b_vPr…`) so lien-reduction can start later:
@@ -89,6 +92,19 @@ Two Google sheets: **Pending Disbursed** `1b_vPr9WD7P9arR6DTTJRxeWs0apk8DTiTgc2i
 5. **Delete from Pending** = the case is done. (Whole-case tab: delete it. Partial: delete the moved blocks only, per step 3.)
 Green helper: `repeatCell` with `userEnteredFormat.backgroundColor {red:0,green:1,blue:0}`. Row indexes are 0-based; re-read the tab first (blocks shift when clients are deleted).
 
+**Step 4c — "Case settled" team notification email** (do this LAST, after 4b — the email links the Completed tab, so 4b must be finished or there is no gid to link)
+1. **Determine the owning team from the PI Master Sheet** `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM` — it has one tab per team: **`Claims@` / `Piteam@` / `Picase@`**. Find the client in col B of each tab; the tab it lives in IS the team → send from that team's mailbox. (Also confirms DOL + settlement amount — cross-check them.)
+2. **Switch gws identity to that mailbox** with `GOOGLE_WORKSPACE_CLI_CONFIG_DIR` (NOT `GWS_CONFIG_DIR`, which is silently ignored): `~/.config/gws-claims` = claims@, `~/.config/gws-piteam` = piteam@, `~/.config/gws-picase` = picase@, default `~/.config/gws` = klaus@. Verify with `gmail users getProfile` before composing.
+3. **Compose** — To: **cassie@lingtulaw.com, joe@lingtulaw.com, elena.j@lingtulaw.com** (Elena is `elena.j@`, NOT `elena@`). Subject: **`<Client>-<DOL M/D/YYYY>-Disbursements`**. Body (flowing HTML paragraphs, no hard wrap):
+   `<p>Hi Team,</p><p>Case settled.</p><p><a href="<link>"><link></a></p>` where `<link>` = `https://docs.google.com/spreadsheets/d/1EvsbLjAuRdTTfH3uyEmV3qFjmAtKCdfBPByVCMAF1kA/edit?gid=<gid>#gid=<gid>` (the Completed tab's gid from 4b step 4).
+4. **Signature = KLAUS's**, not the team mailbox's preset. ⚠️ claims@'s default signature is **Amos Feng's** — using the mailbox preset would sign the wrong person. Pull Klaus's: default-config `gws gmail users settings sendAs list` → the `isDefault` entry's `signature`, and append that HTML verbatim.
+5. **Attach the disbursements PDF** (`<Client>-Disbursements.pdf` from `PI Team Folder/3. Disbursements/Case Disbursements/<Client>/`).
+6. **Create as a DRAFT and show Klaus — never auto-send.** ⚠️ The raw MIME is ~1–2.5 MB, which blows the shell arg limit (`argument list too long`) if passed via `--json`. Write the message to a `.eml` and upload:
+   `gws gmail users drafts create --params '{"userId":"me","uploadType":"multipart"}' --upload <file>.eml --upload-content-type "message/rfc822"`
+   (`uploadType":"media"` FAILS with "Media type 'multipart/related' is not supported" — must be `multipart`.)
+7. **Label the draft** with that case's Gmail label in that mailbox (`labels list`, match the client name; case labels are ONE combined label per case, e.g. `Lirong Huang/Chun Yin Chiu/Jialin He`). If the label does NOT exist in the team mailbox, that usually means the case was actually run out of **klaus@** — check klaus@'s labels and ASK Klaus which mailbox to send from rather than creating a new label there.
+8. **After Klaus approves, send** with `drafts send`. ⚠️ **Sending DROPS the case label** (the sent message comes back with `['SENT']` only) — immediately re-apply it with `messages modify --json '{"addLabelIds":["<labelId>"]}'` and verify.
+
 > Client Ledgers are NOT built per-case. They are built once at month-end (Trigger B) so each ledger carries the real bank-clearing dates and isn't reworked.
 
 ---
@@ -114,6 +130,14 @@ Green helper: `repeatCell` with `userEnteredFormat.backgroundColor {red:0,green:
 3. Preparer **Klaus Liu** (date = month-end); Attorney **Shenqi Cai, Bar# 348794** (date = month-end).
 
 ---
+
+## Provider alias map (clinic brand ≠ W9/check-payee entity — do NOT flag as an error)
+Name the provider column after the **W9/check-payee entity**, add the clinic brand in parens, record per the CHECK payee:
+- **AZ PI Center** (Arizona Personal Injury Centers) → payee/W9 **Recalibrate Chiropractic LLC**
+- **Prime MRI** → payee **Prime Rad Inc** · **One Health Medical** → payee **AVEVA Medical Aesthetics, Inc**
+- **Exer Urgent Care** → payee **Exer Medical Corporation** · **San Gabriel ASC** → payee **MMB Solutions Group**
+- **USC Arcadia / Methodist Hospital (L.A. Care / Medi-Cal subrogation)** → payee **Katch** (subrogation collector)
+- A signed lien-reduction letter isn't always in the packet — provider email confirmation is acceptable (per Klaus).
 
 ## Invariants
 - One consistent spelling per client — a name variant splits the ledger and creates phantom negatives; a similar-name confusion mis-attributes money (real case: Wei **Lin** vs Wei **Feng** — a $30k deposit sat under the wrong client until the funding check exposed it). Merge minor-guardian variants to one canonical form ("X (minor)").
