@@ -94,6 +94,15 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
   两层去重：同一 message id 只算一次；标签层与 raw 层取并集。
 - **Google Calendar**：klaus@ 今天 + 明天的 event，标出带 deadline / 客户电话 / 例会的。
   （个人重要紧急日程在 Apple Calendar，工作在 Google Calendar —— 见 [[calendar_routing]]。）
+  **⚠️ 必须读 `attendees[].responseStatus`，别只看 summary**（实测 2026-08-13 踩坑：把
+  「DEADLINE: Aligcus records production due §226(c)」当成今日硬期限顶到最上面，但 Klaus
+  **和 Hernán 都已 declined** —— 那条线早就不走了）。规则：
+  - **Klaus 自己 `declined` → 不上 dashboard**，他已经明示这条不算数。
+  - **Klaus `accepted`/`needsAction` 但 Hernán `declined` → 降级**，标「Hernán 已 decline，
+    确认是否还要做」，别当硬期限催。
+  - 两人都 `accepted` → 正常顶上来。
+  - 无与会者的（Office/Home 这类）→ 忽略。
+  拉取时 `events list` 默认就带 attendees，不用额外调用。
 - **Google Chat**：最近 24h 内 @klaus 的消息（案件群等），抓空间名 + 谁 @ + 一句诉求。
 - **诉讼案件进度**（Klaus 亲自负责的诉讼 —— **权威名单 = 这张 Tracking Sheet**
   `1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA`，"Hernan Simo Cases" 共享盘。
