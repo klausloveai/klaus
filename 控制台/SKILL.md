@@ -152,8 +152,18 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
    `Gmail-Draft`；`Ref / ID` **务必抓全**：One Legal order #、court transaction #、案号、
    USPS 挂号号、claim #、报案号、DocuSign envelope——这是三个月后全局搜索的唯一抓手。
 4. **不产生邮件的动作**（电话、portal 提交、支票、Drive 归档、起草）由做那件事的 session
-   顺手 append，Msg Key 用 `manual:<slug>`。漏了只是 log 变薄，不影响主干。
-5. **只 append，永不改写既有行**。写错了就再 append 一行更正。
+   顺手 append，Msg Key 用 `manual:<slug>` —— 规则写在 `~/.claude/CLAUDE.md` 的
+   「收工留痕」一节，那是**唯一保证每个 session 都加载**的地方，所以案子专属 session
+   不需要知道本 skill 存在。漏了只是 log 变薄，不影响主干。
+5. **`~/Downloads` 增量扫描（本地产出的兜底）**：本地起草不产生邮件，纯 Gmail 反推会
+   完全看不见（实测 2026-08-12：那天六封信 + CIV 105 + 传票全在本地，Gmail 里零痕迹）。
+   所以每次运行跑一次
+   `find ~/Downloads -maxdepth 2 -newermt "<上次运行日期>" -not -name ".*"`，
+   把比上次运行新的文件列出来；能对上花名册案子的（文件名含客户名）→ 若 Activity Log
+   里没有对应行，append 一条 `Source=Local` 的起草事件；对不上的只在 dashboard 底部
+   列一行「本地新产出」提示，不入 log。**只读，绝不移动或删除 ~/Downloads 里的东西**
+   （[[feedback_drafts_to_downloads]]：Klaus 自己归档）。
+6. **只 append，永不改写既有行**。写错了就再 append 一行更正。
 
 **与 Task 板的分工**：Task 板 = **当前状态**（会被覆盖，回答"现在该做什么"）；
 Activity Log = **事件流**（append-only，回答"这个案子到底发生过什么"）。
