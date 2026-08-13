@@ -5,7 +5,7 @@
     <div style="font-size:18px;font-weight:500;color:var(--text-primary);">早安 Klaus · 今日控制台</div>
     <div style="font-size:13px;color:var(--text-muted);">{{WEEKDAY_DATE}} · 上次扫描 {{SCAN_TIME}} · 下次 {{NEXT_TIME}}</div>
   </div>
-  <button style="font-size:12px;" onclick="sendPrompt('/控制台 重新扫描')"><i class="ti ti-refresh" aria-hidden="true"></i> 立即扫描</button>
+  <button style="font-size:12px;" onclick="sendPrompt('重新扫描今日控制台')"><i class="ti ti-refresh" aria-hidden="true"></i> 立即扫描</button>
 </div>
 
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;">
@@ -15,29 +15,18 @@
   <div style="background:var(--surface-1);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:20px;font-weight:500;color:var(--text-success);">{{N_CASES}}</div><div style="font-size:11px;color:var(--text-secondary);">我负责的案件</div></div>
 </div>
 
-<div style="background:var(--bg-danger);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;">
-  <div style="font-size:13px;font-weight:500;color:var(--text-danger);margin-bottom:10px;"><i class="ti ti-target" aria-hidden="true"></i> 今日焦点 · 只做这 3 件</div>
-  <div style="display:flex;flex-direction:column;gap:8px;">
-
-    <div style="display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:8px;padding:10px 12px;">
-      <span style="font-size:11px;font-weight:500;color:var(--text-danger);background:var(--bg-danger);padding:2px 8px;border-radius:20px;white-space:nowrap;">{{FOCUS1_TAG}}</span>
-      <span style="font-size:14px;color:var(--text-primary);flex:1;">{{FOCUS1_TEXT}}</span>
-      <button style="font-size:12px;white-space:nowrap;" onclick="sendPrompt('{{FOCUS1_PROMPT}}')"><i class="ti ti-arrow-right" aria-hidden="true"></i> 开始</button>
-    </div>
-
-    <div style="display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:8px;padding:10px 12px;">
-      <span style="font-size:11px;font-weight:500;color:var(--text-warning);background:var(--bg-warning);padding:2px 8px;border-radius:20px;white-space:nowrap;">{{FOCUS2_TAG}}</span>
-      <span style="font-size:14px;color:var(--text-primary);flex:1;">{{FOCUS2_TEXT}}</span>
-      <button style="font-size:12px;white-space:nowrap;" onclick="sendPrompt('{{FOCUS2_PROMPT}}')"><i class="ti ti-arrow-right" aria-hidden="true"></i> 开始</button>
-    </div>
-
-    <div style="display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:8px;padding:10px 12px;">
-      <span style="font-size:11px;font-weight:500;color:var(--text-warning);background:var(--bg-warning);padding:2px 8px;border-radius:20px;white-space:nowrap;">{{FOCUS3_TAG}}</span>
-      <span style="font-size:14px;color:var(--text-primary);flex:1;">{{FOCUS3_TEXT}}</span>
-      <button style="font-size:12px;white-space:nowrap;" onclick="sendPrompt('{{FOCUS3_PROMPT}}')"><i class="ti ti-arrow-right" aria-hidden="true"></i> 开始</button>
-    </div>
-
+<div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:1rem;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text-primary);"><i class="ti ti-checklist" aria-hidden="true"></i> Task 板 · 现在真能动的（待办 + 进行中）</div>
+    <div style="font-size:11px;color:var(--text-muted);">等回复 → 「等待中」· 已延后 → 折叠底部</div>
   </div>
+  <div style="display:flex;flex-direction:column;gap:2px;">
+    {{TASK_ROWS}}
+  </div>
+  <details style="margin-top:8px;border-top:0.5px solid var(--border);padding-top:8px;">
+    <summary style="cursor:pointer;font-size:12px;color:var(--text-muted);">已延后 · {{N_DEFERRED}} 件</summary>
+    <div style="margin-top:6px;display:flex;flex-direction:column;gap:6px;">{{DEFERRED_ROWS}}</div>
+  </details>
 </div>
 
 <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:1rem;">
@@ -90,6 +79,13 @@
         <button style="font-size:12px;margin-top:6px;" onclick="sendPrompt('{{WAIT2_FOLLOWUP_PROMPT}}')"><i class="ti ti-bell" aria-hidden="true"></i> 催函草稿已备</button>
       </div>
     </div>
+  </div>
+</div>
+
+<div style="background:var(--surface-2);border:0.5px solid var(--border);border-left:3px solid #efa027;border-radius:12px;padding:12px 14px;margin-bottom:1rem;">
+  <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:10px;"><i class="ti ti-inbox" aria-hidden="true"></i> 未归档待判 · raw inbox 补扫（新回复/无标签）</div>
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    {{UNFILED_ROWS}}
   </div>
 </div>
 

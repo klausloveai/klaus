@@ -72,10 +72,26 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
   ——邮件只在 case leaf 上。** 只能按 leaf id 扫，逐个并行
   `messages list labelIds:["<leaf id>"], q:"newer_than:10d"`。
   **⚠️ 不要限 `is:unread`**——Klaus 常读完才打标签，unread 会漏掉他手动标的邮件。
+  **⚠️ 判待办/等待/"该催"前，必读最新那封的正文，别只看主题行**（实测 2026-08-06 踩坑：Yi Cong
+  jury fee 主题一直是「…for Signature」，据此误判成"待 Hernán 签 9 天该催"，但线程最新正文其实是
+  「filed via One Legal」= 早已完成）。主题常保留旧措辞（for Signature / URGENT / Request…），
+  **只有最新一封正文才有 filed / signed / done / 已交 的真状态**——顶到 dashboard 前读正文核实。
   **待办 vs 等待 = 看线程最后一封的方向**（不靠已读/星标）：某案 thread 最后一封是**别人发来的**
   （非 klaus@/lingtu 内部）→【案件待办邮件】需我回（起草）；最后一封是**我方发出的**
   →【等待中】等对方（停留久→顶红备催函）。只显示 case leaf 的邮件，其它一律不上 dashboard。
   标签 id/树见 `references/case-labels.md`。
+- **⚠️ 第二层：raw inbox 补扫（必做，别只靠标签）**——**Gmail 里已标签线程收到的新回复不会
+  自动继承标签**，纯标签扫描会漏掉今早刚到的一串（实测 2026-08-06 漏了十来封，含 eFiling 驳回、
+  Summons 需更正等当日要务）。所以在标签扫描之外，**再拉一次原始收件箱**：
+  `messages list q:"in:inbox newer_than:2d", maxResults:30`，并行拉 metadata（From/Subject/Date）。
+  对每封按**主题/发件人**回填到花名册案子（如 "LINA LU"→Lina Lu、"Jiayu Ma"→Jiayu Ma、
+  发件人是 Hernán→按主题归案；One Legal / 法院 noreply / carrier→按案名或 claim# 归案）：
+  - 命中某在办案子 → 并入该案的【待办/等待】判断（方向仍看线程最后一封；法院/One Legal 驳回
+    或"correction needed"一律进【待办】并顶红）。
+  - **未命中任何花名册案子**但明显是案件/涉钱/新客咨询（carrier 出款、新 intake、UM/DV 等）
+    → 单列一个 **🆕 未归档待判**小节（摘要 + 建议归到哪个案 / 哪个 skill），不要静默丢弃。
+  - 纯推广 / 系统通知（Notta、"access now available"等）→ 过滤，不上 dashboard。
+  两层去重：同一 message id 只算一次；标签层与 raw 层取并集。
 - **Google Calendar**：klaus@ 今天 + 明天的 event，标出带 deadline / 客户电话 / 例会的。
   （个人重要紧急日程在 Apple Calendar，工作在 Google Calendar —— 见 [[calendar_routing]]。）
 - **Google Chat**：最近 24h 内 @klaus 的消息（案件群等），抓空间名 + 谁 @ + 一句诉求。
@@ -95,18 +111,77 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
     索证；PI Auto: Objection / Def Answer / CMC）+ `Note`。数据薄时补 [[case_log_and_brief]]
     的 Case Log / 邮件里的最新一封。
   - 空行 / "Example Row" 跳过。行数变化自动适应（新案自动出现）。
+- **控制台 Task 板**（同一 Tracking Sheet 的 `控制台 Tasks` tab，sheetId `776490726`，列 =
+  ID / Case / Task / **Due** / Status / Defer Until / Source / Updated / Notes）：**跨天、
+  跨 session 记住 to-do 与延后**。每次运行：
+  - `values get 控制台 Tasks!A1:I` 读全部 task。
+  - **`Due` ≠ `Defer Until`，永远别混**。`Due` = **外部约束**（法院期限、律师给的日期、
+    对方承诺的交件日）——错过有后果。`Defer Until` = **我自己的方便**（"今天不想看见它"）。
+    只有 `Defer Until` 会把 task 藏起来；`Due` 只影响排序和顶红。
+  - **⚠️ 铁律：一个 item 一行，且必须有 Due。** Hernán 一封邮件常带 5–12 项交办、各项日期
+    不同、有些还归别人做。**绝不允许一行写"某某邮件的 N 项跟进"**——那等于把 N-1 项藏进
+    一行的 Notes 里，回了其中两项、整行转"等回复"，剩下的就集体消失（实测 2026-08-12 踩坑：
+    t08「Weicong Lin 8 项跟进」一行装 8 件事，做掉 2 件后另外 6 件在看板上完全不可见）。
+    正确做法：**拆成 t16…t21 每项一行**，各带自己的 Due 和 Source（`Hernán 8/12 #3` 这样
+    标明来自哪封邮件第几项）。当天做不完的 item，**当场给 Due，没有 Due 的 item 不允许存在**。
+  - **状态自动化**：`等回复` / `进行中` 每次由**实时扫描覆盖**（某案 thread 最后一封变我方发出
+    → 该 task 自动 `等回复`；对方回来 → 自动回 `待办`）。**只有 `已延后` 和 `完成` 是人为、
+    以表里为准**，扫描不覆盖。
+  - **已延后**：`Defer Until` > TODAY 的 task **不进今日焦点/待办**（灰置底部"已延后"折叠区）；
+    到期（`Defer Until` ≤ TODAY）自动复活成 `待办`。
+  - **对账**：扫描产生的新 candidate task（新驳回 / 新 deadline / 新待回邮件）若表里没有 →
+    追加一行（下一个 ID）；已有的按 case+task 匹配、只更新自动状态列，**不动人为的延后/完成**。
+
+### 1.5 Activity Log 对账（append-only 事件流 —— 每次运行必做）
+
+同一 Tracking Sheet 的 **`Activity Log`** tab（sheetId `832130627`），列 =
+`Date | Time | Case | Category | Event | Actor | Ref / ID | Source | Msg Key (dedup) | Next Step`。
+
+**为什么是拉取式而不是上报式**：Klaus 常同时开 2–3 个案子专属 session 干活，那些 session
+不知道这张表存在、也不该被要求记得写。**靠自觉上报必然漏，而有洞的 log 比没有 log 更糟**
+（你会以为它是全的）。所以主干是：**从 Gmail 反推事件，用 message id 去重**——分身 session
+什么都不用管，它干完活自然留下一封邮件，下次扫描就捞进去了。
+
+每次运行：
+1. `values get Activity Log!I2:I` 读出**已有的 Msg Key 集合**。
+2. 本次扫到的每封案件邮件（标签层 + raw 层并集，双向都要）判断是否够格成为事件：
+   - **够格**：立案/送达/驳回/受理（One Legal、法院 noreply）、记录申请发出与回复、保全函、
+     转介发出、carrier 出款或实质回复、律师交办、供应商往来、客户确认。
+   - **不够格**：纯自动回复的寒暄、日历邀请、listserv、推广、系统通知。
+3. Msg Key 不在集合里的 → append 一行。`Source` 填 `Gmail-Sent` / `Gmail-In` /
+   `Gmail-Draft`；`Ref / ID` **务必抓全**：One Legal order #、court transaction #、案号、
+   USPS 挂号号、claim #、报案号、DocuSign envelope——这是三个月后全局搜索的唯一抓手。
+4. **不产生邮件的动作**（电话、portal 提交、支票、Drive 归档、起草）由做那件事的 session
+   顺手 append，Msg Key 用 `manual:<slug>`。漏了只是 log 变薄，不影响主干。
+5. **只 append，永不改写既有行**。写错了就再 append 一行更正。
+
+**与 Task 板的分工**：Task 板 = **当前状态**（会被覆盖，回答"现在该做什么"）；
+Activity Log = **事件流**（append-only，回答"这个案子到底发生过什么"）。
+两者都不替代各狗咬案 intake sheet 第 30 行起的 per-case Case Log（由
+[[daily-caselog-sync]] 维护）——那个是**每案一份**，跨案的事（同一供应商牵两个案、
+同一天多案并行）只有 Activity Log 装得下。
 
 ### 2. 分类 + 排序（两轴 → 六桶）
 - **紧迫度**：court/SOL deadline、今日日程、邮件停留天数。
 - **重要度**：诉讼(Hernán) > 客户/对方保险 > 涉钱(disbursement/claim/settlement) > 内部杂事。
 - 落桶（**全部限定在花名册案件范围内**）：
-  - 🎯 **今日焦点**（最多 3 件，逼聚焦）——今天最该推进的案件动作。
+  - 🎯 **今日焦点 = Task 板**（不再假设"全是新待办"）——渲染成带**状态 chip** 的 task 清单，
+    状态取自 `控制台 Tasks` tab + 实时扫描：`待办`(红) / `进行中`(绿) / `等回复`(蓝，自动) /
+    `已延后`(灰，折叠)。**只把 `待办` + `进行中` 顶上来**（`等回复` 落到「等待中」桶、`已延后`
+    落到底部折叠区）。每条给两个按钮：**开始**（sendPrompt 开工）和 **延后**（见下方 defer 流程）。
+    这样即使今天所有事都 partial/等回复，焦点区也如实反映"现在真能动的"，不逼你做已在等的事。
+    **按 `Due` 排序，不按 ID**：`Due < TODAY`（逾期）置顶并在 Due 前加 ⚠️ 顶红 →
+    `Due = TODAY` → `Due ≤ TODAY+3` → 无 Due 或更远的排最后。每行右侧显示 Due 日期，
+    逾期显示「逾期 N 天」。**`等回复` 的 task 如果 `Due` 已过也要顶上来**——等对方不等于
+    不用管，过期就该催（这类在标题后缀「· 该催」）。
   - ⚖️ **诉讼案件进度**——见上（Labor + PI Auto 展开、狗咬折叠）。这是核心。
   - 🔴 **案件待办邮件**——需我回、且属于某在办案子的邮件（附草稿）。
   - 🔵 **等待中**——已回、等对方（某在办案子）；超阈值（默认 4 天）顶红并备催函。
   - 💬 **Chat @我**——案件群里 @我 的，摘要 + 备草稿。
   - 📅 **案件 deadline**——这些案子今天/临近的截止与开庭。
-  - **不设「可批量处理」，非案件内容不显示**。
+  - 🆕 **未归档待判**——raw inbox 补扫里**没命中花名册**但明显是案件/涉钱/新客咨询的（carrier 出款、
+    新 intake、UM/DV 等）；摘要 + 建议归到哪个案 / 哪个 skill。纯推广 / 系统通知过滤掉。
+  - **非案件、非上述内容一律不显示**。
 
 ### 3. 对能映射到 skill 的邮件，预先起草（DRAFT-ONLY）
 按下方【常用 skill 路由表】判断每封待回邮件对应哪个 skill，**把回信/动作草稿先备好**
@@ -118,6 +193,18 @@ Klaus 是所有信息的枢纽：客户、对方保险、诊所、团队、Hern�
 `references/dashboard-widget.html`，把 `{{...}}` 占位换成本次真实扫描数据。
 标题 `klaus_control_tower_<MMDD>`。这是【已锁定的 UI】——布局不要改，只填数据；
 后续按 Klaus 的使用反馈再更新模板。
+
+**Task 行模板**（填 `{{TASK_ROWS}}`，一条 task 一行；status chip 配色：待办=danger、进行中=success
+`#3b6d11`/`--bg-success`、等回复=accent `#185fa5`/`--bg-accent`。等回复的 task 不放这里、放「等待中」桶）：
+```html
+<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-top:0.5px solid var(--border);">
+  <span style="font-size:11px;font-weight:500;color:var(--text-danger);background:var(--bg-danger);padding:2px 8px;border-radius:6px;white-space:nowrap;min-width:52px;text-align:center;">{{STATUS}}</span>
+  <div style="flex:1;"><span style="font-size:14px;font-weight:500;">{{CASE}}</span> <span style="font-size:13px;color:var(--text-secondary);">— {{TASK}}</span></div>
+  <button style="font-size:12px;white-space:nowrap;" onclick="sendPrompt('{{START_PROMPT}}')">开始</button>
+  <button style="font-size:12px;white-space:nowrap;color:var(--text-muted);" onclick="sendPrompt('延后 {{CASE}} {{TASK简称}}：默认到明天')">延后</button>
+</div>
+```
+`{{DEFERRED_ROWS}}` = 已延后 task（Defer Until > TODAY），每条一行灰色小字 `<CASE> — <TASK> · 延后到 <日期>`。
 
 **诉讼区块的行模板**（填 `{{LITIG_EXPANDED_CARDS}}` 和 `{{DOGBITE_ROWS}}`）：
 - 每个展开案卡（Labor 及其他亲办诉讼），role badge 用 `#efa027`(Defender) / `var(--text-accent)`(Plaintiff)：
@@ -214,8 +301,19 @@ template/skill**」（服务 Klaus 的系统化目标 [[north_star_goals]]）。
 
 ---
 
+## 延后（defer）写流程 —— Task 板是唯一允许的写
+- 「延后」按钮 = `sendPrompt('延后 <task/case>: 到 <MM/DD/YYYY>')`（无日期默认明天）。
+- 收到后：在 `控制台 Tasks` tab 找到该 task 行，`Status`→`已延后`、`Defer Until`→目标日期、
+  `Updated`→今天；**这一步写是 Klaus 每次点击的显式 go**，符合红线（非静默）。
+- 「完成」同理：`sendPrompt('完成 <task>')` → `Status`→`完成`。但**优先靠状态自动化**——能从
+  Gmail/Drive/表格状态看出来的完成，不必手点（见 [[feedback...]] 工作流：留痕让扫描发现）。
+- 其余仍是**只读**：这个 tab 的自动状态列由扫描覆盖，人为列（延后/完成）只在 Klaus 显式指令时写。
+
 ## 边界（红线）
-- **只读扫描**；发送 / 星标 / 归档 / 发 Chat 一律 Klaus 明确 go 之后再做。
+- **对外只读**：发送 / 星标 / 归档 / 发 Chat / 提交 portal 一律 Klaus 明确 go 之后再做。
+- **允许的两处写，都在 Tracking Sheet 内部、都不对外**：① `控制台 Tasks` 的对账与
+  延后/完成；② `Activity Log` 的 append（只增不改）。这两处是控制台的记忆，不写就等于
+  每天从零开始。
 - **绝不捏造**邮件内容或案情；草稿基于真实 thread + 案卷。
 - 客户/案件名一律**英文**，不翻中文（[[feedback_client_names_english]]）。
 - 外发邮件走 house 格式（[[feedback_email_list_formatting]]）+ 从案件所属邮箱发
