@@ -1,0 +1,25 @@
+---
+name: weekly-hernan-case-update
+description: 每周日 8am 为 Hernán 的诉讼案生成周更新（每案独立 Gmail 草稿，中英各一），draft-only
+---
+
+Invoke the `weekly-case-update` skill to produce this week's litigation update for attorney Hernán Simó's cases at 凌图律所 / Law Office of Shenqi Cai APC. DRAFT ONLY — never send, never post to Chat, never file. Klaus reviews and sends every outbound himself.
+
+SCOPE — enumerate every ACTIVE case by walking the "Hernan Simo Cases" shared drive under `1. Cases/` (subfolders: `Dog Bite Cases`, `Labor Law Cases`, `Limited Civil   Commercial Cases`, `PI Auto Cases`). Include any case with a filed complaint or an open litigation stage. Cross-check the roster against the "0. Tracking Sheet" (id 1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA) — NOTE this sheet is the case ROSTER, not a case log. Skip settled/closed folders and all Template / Litigation Forms folders. (As of 08/2026 active cases include: CB Kitchen and Bathroom, Inc. v. Zelaya — labor, 26CHCV01306; Hansen Li v. Aligcus, Inc. — labor, CM-1046135; Brian Wu v. Azucanela LLC — limited civil; plus active dog-bite cases such as Yi Cong v. Rhea Edpao, CIVSB2619725. Re-enumerate live each run; do not rely on this static list.)
+
+PER-CASE SOURCES — for each case read:
+- The case folder (intake sheet, filed Complaint, Summons SUM-100, CM-010, Certificate of Assignment / CIV-109, POS-010 / affidavit of service, One Legal receipt, POE / preservation letters, USPS tracking).
+- The case's OWN Case Log for newest activity and deadlines:
+  • Labor / Limited-Civil / commercial cases → the standalone "<Case Name> — Case Log.gsheet" INSIDE that case's folder (each case has its own; do NOT use the Tracking Sheet for activity).
+  • Dog-bite cases → the Case Log embedded in the intake sheet (the 5-column table at ~row 30/31).
+- klaus@ Gmail: search the client name, defendant name, and case number for new correspondence. Court / One Legal notices often route to hernan.s@ / cassie@, so absence in klaus@ does NOT mean no activity — say so.
+
+DEADLINES — take them from that case's Case Log and the court-returned documents (Notice of Case Assignment / hearing notice); do NOT mechanically recompute. Substituted service adds 10 days before the 30-day response clock (CCP §415.20). If a deadline has been vacated, extended, or held by agreement, reflect the CURRENT operative status and never assert a superseded date (e.g., a canceled answer deadline where the parties agreed to await an Amended Complaint). If jury was demanded, list the advance jury fee (CCP §631, $150/side, due on or before the initial CMC) as a pending reminder. Echo CMC, CM-110-due, and TSC/OSC dates from the file.
+
+WEEKLY CADENCE (important) — a case's FIRST weekly update is a full recap from the start of the matter (baseline). Every SUBSEQUENT weekly update for that case covers ONLY the activity from the past ~7 days (a weekly delta) — do NOT re-list the entire case history. Identify what is "new" from the case's Case Log entries dated within the past week plus recent klaus@ email; then still show the current Important Dates and Notes / Reminders. If nothing new happened in the past week, say so in one line and just restate the open deadlines. NOTE: CB Kitchen and Bathroom, Inc. v. Zelaya has already had its baseline full recap sent — its future weeklies must be past-week deltas only, not the full history. (Same rule applies to any other case once its baseline recap has gone out, e.g., Yi Cong.)
+
+OUTPUT — create SEPARATE Gmail DRAFTS per case (never one combined email), matching Klaus's calibrated format:
+- Draft A — to hernan.s@lingtulaw.com, Cc cassie@lingtulaw.com AND joe@lingtulaw.com — English, professional. Subject: `<Client> v. <Defendant> - Case Update | Case No. <#>` (our client / case-folder side first). Build it as an HTML draft (htmlBody) with BOLD dates and BOLD section headers: one intro line, then Timeline (dated lines, oldest first, the leading date bolded — full history for a baseline update, past-week only for a delta), Important Dates (label bolded + key dates bolded), Notes / Reminders (2–4 genuinely-pending attorney items, numbered — keep lean, not a full to-do dump). End at the last content line — NO hand-typed signature (the Gmail preset signature finishes it). Close with: "I will continue the weekly case-update recap in this email thread; please let me know if anything looks off."
+- Draft B — to klaus@lingtulaw.com — 简体中文 self-reminder for that case. Subject: `【每周提醒】<Client> <案件类型> <Case No.> — 本周待办`. 3–7 本周待办, each with a bolded deadline / date, 全角标点. End with a note flagging any same-name unrelated matter to avoid confusion.
+
+Never fabricate a date, case number, or fact — if a field is blank, say "unknown / not yet on file". After creating the drafts, report a one-line summary per case: case name + its two draft IDs.
