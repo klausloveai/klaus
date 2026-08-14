@@ -49,9 +49,16 @@ gws sheets spreadsheets values get --params '{"spreadsheetId":"1XmV816UBTWcEyo65
 ## Step 1 — 拉新邮件
 
 ```
-gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:2d has:nouserlabels","maxResults":40}' --format json
+gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:2d has:nouserlabels -category:forums","maxResults":40}' --format json
 ```
 （`has:nouserlabels` = 没有任何用户 label，正好等于"未处理"。时间窗 2d 让 app 关过一阵也能补上。）
+
+**⚠️ `-category:forums` 不能去掉。** Gmail 的 Forums 分类几乎全是 nerdgroup.co 那类同行 listserv
+（"Liability Q"、"Open MRI Facilities"、"STAY AWAY From This Provider"…）——**同行之间的咨询，
+永远不是我们的案件工作**。实测 2026-08-14：它们被打了 82 个 `AI-待归档` 中的 52 个，把这个
+label 变成了噪音堆，Klaus 一看就是一整列灰标签。**规律是 Gmail 的分类本身**，不用去猜发件人。
+排除掉它们就不会被捞进来、也就不会被打标签。
+（`category:promotions` 也是同样性质，目前没排除；要排就在同一条 `q` 里加 `-category:promotions`。）
 
 ## Step 2 — 分流
 
