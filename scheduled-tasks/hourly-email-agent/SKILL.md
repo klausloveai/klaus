@@ -109,7 +109,12 @@ gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:
 
 ### 回信内容
 - **简洁优先** —— Klaus 明确要求"回复尽量简洁"。能一段说完就别两段，别铺垫、别客套堆砌。
-- 给 Hernán 的：用 hernan-email 的 4-beat，但**压到最短** —— ① 具体的一句谢（点名那件事）② 按他的顺序 1:1 回答，CAPS 小标签，每条一两句 ③ **一个想法或一个问题**（分享经验后 "That said… I'll follow your lead"，或问 "the reason behind"）—— 这条别省，是学习点 ④ 认领下一步 + 请他纠正。开头 `Hi Hernán,`，结尾 `Best,`。
+- **给 Hernán 的一律走「引用—作答」结构**（Klaus 2026-08-14 定的标准格式，细节见
+  `~/.claude/skills/hernan-email/SKILL.md` Step 4）：每一项三层 —— **标题 = 他那一项的原句
+  一字不改** → **灰色斜体缩进引他那一项里最硬的一句**（`#666666` + italic +
+  `margin-left:28px`，只引一句）→ 回复接在下面。**顺序严格照他的，不合并不跳项**，
+  某项只能答 still open 也要出现。4-beat 仍适用但压到最短，只放在开头一句和结尾一句。
+  开头 `Hi Hernán,`，结尾 `Best,`。**Reply All 且回在线程最新那封上。**
 - **正文 = 流动的 HTML 段落，不硬换行**、不 plain-text 式断行；1–2 项的短清单揉进句子，只有真正多项 checklist 才一项一行。
 - **写到最后一项即止，不手打签名** —— 签名用邮箱预设的 Gmail signature（`gws gmail users settings sendAs get`）。
 - 发件身份：Hernán / 诉讼线从 **klaus@** 回；本属团队邮箱的 PI 案件，草稿仍留 klaus@ 但在简报里注明"应从 Claims@/Piteam@/Picase@ 发"。
