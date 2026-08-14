@@ -49,22 +49,49 @@ gws sheets spreadsheets values get --params '{"spreadsheetId":"1XmV816UBTWcEyo65
 ## Step 1 — 拉新邮件
 
 ```
-gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:2d has:nouserlabels -category:forums","maxResults":40}' --format json
+gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:2d has:nouserlabels -category:forums -category:promotions -from:chat-noreply@google.com -from:docusign.net -from:ringcentral.com -from:nextrequest.com -from:justfoia.com","maxResults":40}' --format json
 ```
 （`has:nouserlabels` = 没有任何用户 label，正好等于"未处理"。时间窗 2d 让 app 关过一阵也能补上。）
 
-**⚠️ `-category:forums` 不能去掉。** Gmail 的 Forums 分类几乎全是 nerdgroup.co 那类同行 listserv
-（"Liability Q"、"Open MRI Facilities"、"STAY AWAY From This Provider"…）——**同行之间的咨询，
-永远不是我们的案件工作**。实测 2026-08-14：它们被打了 82 个 `AI-待归档` 中的 52 个，把这个
-label 变成了噪音堆，Klaus 一看就是一整列灰标签。**规律是 Gmail 的分类本身**，不用去猜发件人。
-排除掉它们就不会被捞进来、也就不会被打标签。
-（`category:promotions` 也是同样性质，目前没排除；要排就在同一条 `q` 里加 `-category:promotions`。）
+### ⚠️ 排除清单不能删 —— 每一条都是实测出来的（2026-08-14 Klaus 定）
+
+被排除的**根本不会被捞进来**，所以既不会被处理、也不会被打标签，邮件原样留在收件箱。
+这比"捞进来再打个 `AI-待归档` 跳过"干净得多 —— 那样做的结果是 82 个标签里 52 个是噪音，
+`AI-待归档` 本来是「请指认归属」的信号，被稀释成一整列灰标签就没人看了。
+
+| 排除项 | 为什么 |
+|---|---|
+| `-category:forums` | nerdgroup.co 那类同行 listserv（"Liability Q"、"Open MRI Facilities"、"STAY AWAY From This Provider"）——**同行互相咨询，永远不是我们的案件工作** |
+| `-category:promotions` | webinar 邀请、CAALA、LexisNexis 推销、奥运票 |
+| `-from:chat-noreply@google.com` | Amos 等人在 Chat 里 @Klaus 的通知 —— **他在 Chat 里直接回，不走邮件草稿** |
+| `-from:docusign.net` | 全部 Docusign 通知（签署完成、待签）—— 自动回执，无需起草 |
+| `-from:ringcentral.com` | 全部传真发送结果与语音留言通知 —— Klaus 在 RingCentral 里自己看 |
+| `-from:nextrequest.com` · `-from:justfoia.com` | 政府 portal 的自动回执（"已提交"、"有新消息"）—— 编号已在 task 里，回执本身不用动 |
+
+**Step 2 还要再跳过一类（查询里表达不了，因为发件人是各家诊所）：治疗/转介/lien 相关**
+—— eazyliens、healthierminds、各 PM/Ortho/Neuro 诊所、预约与 lien 往来。这些走
+`🏥 治疗跟进` 那条线，不需要起草回信。**跳过时不打任何 label**，让它原样留着。
+
+**这份清单会长。** 判断标准只有一条：**这封邮件需要我起草一封回信吗？** 不需要 → 排除或跳过，
+不要打标签「留个记号」。
 
 ## Step 2 — 分流
 
 **要处理的（in scope）：** ① **Hernán Simó**（hernan.s@lingtulaw.com，最高优先，主要 task 来源）② 法院 / One Legal / 送达公司的通知·回执·驳回 ③ 对方保险 adjuster、对方律所 ④ 客户本人来信（催问、发材料、问进度）。
 
-**不处理：** 营销、订阅、系统通知、纯 FYI 内部抄送、已由团队邮箱（Claims@/Piteam@/Picase@）负责且不需要 Klaus 本人动作的 → 直接打 `AI-待归档` 跳过。
+**不处理：** 营销、订阅、系统通知、纯 FYI 内部抄送、已由团队邮箱（Claims@/Piteam@/Picase@）负责且不需要 Klaus 本人动作的。
+
+**★ 治疗 / 转介 / lien 往来一律跳过且不打标签** —— eazyliens、healthierminds、各 PM /
+Ortho / Neuro / 心理诊所、预约确认、lien 谈判、转介回执。这条线由 `🏥 治疗跟进` 的
+Google Tasks 清单管，不需要邮件草稿。
+
+**跳过时的处理**：Step 1 的查询已经排掉的那几类根本不会出现在这里；出现在这里但属于上述
+「不处理」的，**直接跳过、不打任何 label**。只有**真的匹配不到案件、但确实需要 Klaus 指认归属**
+的才打 `AI-待归档` —— 这个 label 是「请告诉我这属于哪个案子」，不是「我读过了」。滥用它等于
+把它变成噪音（实测 2026-08-14：82 个里 52 个是 listserv）。
+
+代价是被跳过的邮件下轮还会被列出来一次（因为没 label）。这是**故意的取舍**：列一下几乎不花钱，
+往 Klaus 的邮箱里堆没用的标签才贵。
 
 **本次上限 5 封**需动作的邮件（按紧急度排序：有 deadline 的 > Hernán > 法院 > 其它）。超出的**不要打任何 label**，留给下一小时，简报里说明还剩几封。
 
