@@ -1021,11 +1021,23 @@ behalf. Set the minor's Docusign recipient as follows:
 Fill every tab with the DOL in MM/DD/YYYY format.
 
 ### Email Subject Format (max 100 chars)
-`PI Retainer: [Driver Full Name] et al-M/D/YYYY`
+
+**`PI Auto Retainer: [Driver Full Name] et al-M/D/YYYY(<Fee Type>)`** — updated 8/17/2026.
+
+The trailing `(New)` / `(Standard)` is the **fee type actually sent** (the Step 13 gate), so the
+subject alone tells you which version the client signed. It must match the template used:
+
+| Fee type | Template | Subject suffix |
+|---|---|---|
+| **new** | PI Auto Retainer (New) / +Joint Conflict (New) | `(New)` |
+| **standard** | PI Auto Retainer (Standard) / +Joint Conflict (Standard) | `(Standard)` |
 
 Examples:
-- Single client: `PI Retainer: Guanghua Li et al-5/30/2026`
-- Multi-client: `PI Retainer: Hsuan-Yun Chang et al-5/24/2026`
+- Single client, new: `PI Auto Retainer: Jiajun He et al-8/15/2026(New)`
+- Single client, standard: `PI Auto Retainer: Guanghua Li et al-5/30/2026(Standard)`
+- Multi-client, new: `PI Auto Retainer: Hsuan-Yun Chang et al-5/24/2026(New)`
+
+> Keep `et al` even for a single client — it is the firm's fixed subject shape, not a plural marker.
 
 ---
 
