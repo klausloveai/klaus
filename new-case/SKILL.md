@@ -699,19 +699,25 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
 
 **Members = BASE (always, every case) + CM-specific additions. Calling user (Klaus) added automatically as owner.**
 
-**BASE (all cases — 5 people):** `cassie@lingtulaw.com`, `amos.f@lingtulaw.com`, `claire.f@lingtulaw.com`, `may.z@lingtulaw.com`, `jessie.l@lingtulaw.com`
+**BASE (all cases — 4 people):** `cassie@lingtulaw.com`, `amos.f@lingtulaw.com`, `claire.f@lingtulaw.com`, `may.z@lingtulaw.com`
 
 > `joe@lingtulaw.com` was removed from BASE on 8/7/2026 — no longer added to any new-case space.
 
-> `jessie.l@` is in BASE for **every** case (added 7/23/2026) — she is on all case spaces so she
-> ramps up faster. She is a plain **Member**, not a Manager.
+> ⚠️ **`jessie.l@lingtulaw.com` was removed on 8/18/2026 — she no longer works at the firm.
+> Never add her to any space.** (She had been in BASE since 7/23/2026.)
 
-**CM-specific additions:**
-- **Ryan cases (Picase@):** + `ryan.w@lingtulaw.com`, `tiana.d@lingtulaw.com`, `angelina.m@lingtulaw.com`
-- **Jerry cases (Piteam@):** + `jerry.p@lingtulaw.com`, `tiana.d@lingtulaw.com`, `angelina.m@lingtulaw.com`
-  (i.e. SAME full member set as a Ryan case — just swap `jerry.p@` in for `ryan.w@`; everyone else identical)
-- **Amos cases (Claims@):** no additions (Amos already in BASE)
-- **Klaus cases (Claims@):** no additions
+**CM-specific additions — add ONLY that CM and that CM's own CA. Never add the other team's CM or CA.**
+
+| Case | Add | CA |
+|---|---|---|
+| **Ryan cases (Picase@)** | `ryan.w@lingtulaw.com` + `tiana.d@lingtulaw.com` | Tiana is Ryan's CA |
+| **Jerry cases (Piteam@)** | `jerry.p@lingtulaw.com` + `angelina.m@lingtulaw.com` | Angelina is Jerry's CA |
+| **Amos cases (Claims@)** | *(none — Amos already in BASE)* | — |
+| **Klaus cases (Claims@)** | *(none)* | — |
+
+> ⚠️ **Changed 8/18/2026.** Previously every Ryan AND Jerry case got both `tiana.d@` and
+> `angelina.m@`. That is now wrong — each case gets **its own CM + that CM's paired CA only**,
+> so the other team's people are not pulled into a case they don't work on.
 
 **CM suffix in space name:** Jerry → `(J)`, Ryan → `(R)`, Klaus → `(K)`, Amos → `(A)`.
 
@@ -748,7 +754,7 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
 
    # Step 1b: add each member individually (run in parallel or sequentially)
    for EMAIL in cassie@lingtulaw.com amos.f@lingtulaw.com \
-                claire.f@lingtulaw.com may.z@lingtulaw.com jessie.l@lingtulaw.com; do   # + CM additions
+                claire.f@lingtulaw.com may.z@lingtulaw.com; do   # BASE 4 + CM additions (CM + that CM's CA)
      gws chat spaces members create \
        --params '{"parent":"spaces/XXXX"}' \
        --json "{\"member\":{\"name\":\"users/$EMAIL\",\"type\":\"HUMAN\"}}"
@@ -768,14 +774,14 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
        print(' -', m.get('member',{}).get('name','?'))
    "
    ```
-   **Expected totals (BASE 5 + CM additions + Klaus as owner):**
+   **Expected totals (BASE 4 + CM additions + Klaus as owner) — updated 8/18/2026:**
 
    | Case | Members added | Total incl. Klaus |
    |---|---|---|
-   | **Ryan** | BASE 5 + ryan.w + tiana.d + angelina.m | **9** |
-   | **Jerry** | BASE 5 + jerry.p + tiana.d + angelina.m | **9** |
-   | **Amos** | BASE 5 (Amos already in BASE) | **6** |
-   | **Klaus** | BASE 5 | **6** |
+   | **Ryan** | BASE 4 + ryan.w + tiana.d | **7** |
+   | **Jerry** | BASE 4 + jerry.p + angelina.m | **7** |
+   | **Amos** | BASE 4 (Amos already in BASE) | **5** |
+   | **Klaus** | BASE 4 | **5** |
 
    If the count is short, add the missing members with another `members create` call.
 
