@@ -56,43 +56,67 @@ For every task, check whether Klaus already has a tool:
 
 ## Step 4 — Draft the reply
 
-### 结构：引用—作答（Klaus 2026-08-14 定为**所有**回 Hernán 邮件的标准格式）
+### 结构：引用—作答（Klaus 2026-08-17 亲手改定，取代 08-14 版）
 
 他的信常有 8–12 项编号交办，每项一大段。Klaus 要的是**他扫一眼就知道每段在答哪一句**，
-不用回头翻自己的信。所以每一项写成三层：
+不用回头翻自己的信。所以每一项写成**两层**：
 
 ```html
-<p><b>1. Confirm the preservation letter to Benjamin Velazquez Lopez was actually mailed. This is the most urgent item.</b></p>
-<p style="margin:4px 0 8px 28px;color:#666666;font-style:italic;">“Please confirm with Claire today, tell me the exact date it was mailed and the address used…”</p>
-<p>Mailed. <span style="color:#CC0000">[Klaus: fill in the exact date, address and certified mail number from Claire.]</span></p>
+<!-- 1) 他那一项的原文，一字不改，黑字整段加粗 -->
+<p><b>First, please pull the tracking record for the duplicate letter we sent the same day,
+July 20, 2026, to GOFO's registered agent, Corporate Creations Network Inc., at 7801 Folsom
+Blvd, Sacramento, California 95826, and confirm whether that copy was delivered and signed
+for.</b></p>
+
+<!-- 2) 答案紧接在下面，红字 = 要发出去的答案 -->
+<p><span style="color:#ff0000">The registered-agent copy went out under certified mail number
+<b>9589 0710 5270 2931 6710 42</b>, postmarked Bassett, CA 91746 on July 21, 2026. The Chino
+copy that came back is <b>9589 0710 5270 2931 6710 35</b>, postmarked the same day.</span></p>
 ```
 
-1. **标题 = 他那一项的原句**，一字不改（`1. Confirm the preservation letter…`）。他没编号的
-   段落（`Item 1:` / `Calendaring.` / `Appointments.`）就用他自己的那个词做标题。
-2. **灰色斜体缩进引他那一项里最硬的一句**（`#666666` + italic + `margin-left:28px`）——
-   **只引一句**，挑要求最具体、将来会拿来对账的那句。引多了信就臃肿。
-3. **回复接在下面**，一两段，直给。
+1. **黑字 = 他那一项的原文，整段照抄一字不改。** 他用编号或散文段落（`First, …` /
+   `Second, …`）就整段 `<b>` 加粗；他用带标签的小节（`Amazon Logistics:` /
+   `Public Records Act requests:`）就只把标签 `<u>` 下划线、正文不加粗。
+   黑字用 Times New Roman 12pt。
+2. **红字 = 答案**，紧接在黑字下面，Arial small。**答案要短** —— 能一句就一句：
+   `Done.` / `Yes, attached for your review.` / 只给硬事实与编号（certified #、order #、
+   日期，编号在红字里再 `<b>` 一次）。见 [[feedback_drafts_keep_simple]]。
+3. **某项还没有答案 → 只留黑字原文，下面空着。** 让它显眼地悬着，不要写废话填充，
+   也不要为了"每项都有回复"而编。
 
-**顺序严格照他的**，不合并、不重排、不跳项——哪怕某项只能答「still open」也要出现，
-漏掉一项他会以为我们没看见。
+**顺序严格照他的**，不合并、不重排、不跳项 —— 漏掉一项他会以为我们没看见。
 
-### 🔴 红字 = 写给 Klaus 自己的，不是写给 Hernán 的
-凡是**我查不到、或需要 Klaus 拍板**的，就地插一段
-`<span style="color:#CC0000">[Klaus: …]</span>`，写清**他要填什么或要决定什么**。
-规则同 [[hourly-email-agent]]：**红字必须可整段删除，删完黑字仍通顺**。
-Klaus 删光红字 = 一封干净可发的信。别把红字塞进黑字句子中间。
+**不再使用**旧版的「灰色斜体缩进引最硬的一句」—— 改成整段照抄原文。
+
+### 🔴 红字语义已反转（务必看清）
+
+**回 Hernán 时，红字 = 要发给他的答案**，不是给 Klaus 的备注。这与
+[[hourly-email-agent]] 的通用红字规则相反，Hernán 这条线以本节为准。
+
+Claude 自己的备注（查不到的、要 Klaus 拍板的）改用**蓝字**，并以标记开头：
+
+```html
+<p><span style="color:#1155CC">【Claude 备注 — 发送前删除】原信写 5:19 p.m.，但 17:19:37
+是送达签收时间，与起诉状 ¶12 的 1:14:57 p.m. 不符 —— 要不要提，你定。</span></p>
+```
+
+规则不变：**蓝字必须可整段删除，删完黑字＋红字仍通顺**，不要塞进句子中间。
+Klaus 删光蓝字 = 一封干净可发的信。
 
 ### 语气（在上述结构之内）
-[[hernan-email-tone]] 的 4-beat 仍然适用，但**压到最短**：具体的一句谢 → 逐项作答 →
-**一个想法或一个问题**（分享经验后 *"That said… I'll follow your lead"*，或问
-*"the reason behind"*）——这条别省，是学习点 → 认领下一步。
-放在开头一句和结尾一句即可，不要每一项都来一遍。
+[[hernan-email-tone]] 的 4-beat **压到只剩第 1 拍**：开头一句**具体的**致谢，点出那件事本身
+（"reading the envelope as confirmation of an active location rather than a bad address is the
+part I had backwards"），不要写 "Taking your four items in order." 这种套话。
+
+⚠️ **第 3 拍「一个想法或一个问题」不写进邮件正文。** Klaus 2026-08-17 把我主动指出旧信两处
+事实错误的那整段删掉了 —— 分析、建议、风险提示一律**放在 chat 里对 Klaus 说**，由他决定要不要
+跟 Hernán 提。见 [[feedback_drafts_keep_simple]]。
 
 Never dry (`"I will work on it."`); never pure apology → extract the lesson instead.
-Open `Hi Hernán,`, close `Best,` + Klaus's preset signature (fetch via
+Open `Hi Hernán,`; `Best,` 可有可无（两份范本一份有一份没有），之后接 Klaus's preset signature (fetch via
 `gws gmail users settings sendAs get`, per [[feedback-email-signature-sender]]).
-**Reply All**，收件人照他原信的分发（通常 Cc cassie / cindy.z / claire.f / joe），
-并回在**线程里最新那封**上，不要回到更早的一封。
+**只回 Hernán 本人，不要 Cc**（Klaus 2026-08-17 删掉了我加的 cassie / claire）——
+除非他在原信里明确要求抄送谁。回在**线程里最新那封**上，不要回到更早的一封。
 
 ## Step 5 — Deliver
 

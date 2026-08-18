@@ -130,6 +130,13 @@ Google Tasks 清单管，不需要邮件草稿。
 
 **存成 Gmail 草稿，回在原 thread 里**（`gws gmail users drafts create`，带 `threadId` + `In-Reply-To` / `References` header），附件挂好，**Content-Type: text/html**。
 
+### ⚠️ 例外：回 Hernán 不适用下面的红字规则
+
+**回 Hernán Simó 的邮件走 [[hernan-email]] Step 4 的「引用—作答」格式，那里红字 = 要发给他的
+答案**（Klaus 2026-08-17 亲手改定）。那条线上 Claude 自己的备注用**蓝字** `#1155CC` 并以
+【Claude 备注 — 发送前删除】开头。**别把红字当备注写进 Hernán 的草稿** —— 会把我的备注当答案发给律师。
+下面这套红=备注的规则只管**其它所有**收件人（客户 / adjuster / 对方律所 / 法院 / 供应商）。
+
 ### 🔴 红字规则（Klaus 的检查机制 —— 必须遵守）
 
 草稿分两层：
@@ -143,12 +150,13 @@ Google Tasks 清单管，不需要邮件草稿。
 
 ### 回信内容
 - **简洁优先** —— Klaus 明确要求"回复尽量简洁"。能一段说完就别两段，别铺垫、别客套堆砌。
-- **给 Hernán 的一律走「引用—作答」结构**（Klaus 2026-08-14 定的标准格式，细节见
-  `~/.claude/skills/hernan-email/SKILL.md` Step 4）：每一项三层 —— **标题 = 他那一项的原句
-  一字不改** → **灰色斜体缩进引他那一项里最硬的一句**（`#666666` + italic +
-  `margin-left:28px`，只引一句）→ 回复接在下面。**顺序严格照他的，不合并不跳项**，
-  某项只能答 still open 也要出现。4-beat 仍适用但压到最短，只放在开头一句和结尾一句。
-  开头 `Hi Hernán,`，结尾 `Best,`。**Reply All 且回在线程最新那封上。**
+- **给 Hernán 的一律走「引用—作答」结构**（Klaus 2026-08-17 亲手改定，细节见
+  `~/.claude/skills/hernan-email/SKILL.md` Step 4）：每一项**两层** —— **黑字 = 他那一项的
+  原文整段照抄一字不改**（散文段落整段加粗；带标签的小节只给标签下划线）→ **红字 = 答案**，
+  紧接在下面，**能一句就一句**（`Done.` / `Yes, attached for your review.` / 只给硬事实与编号）。
+  **顺序严格照他的，不合并不跳项**；某项还没答案就只留黑字、下面空着，不写废话填充。
+  开头 `Hi Hernán,` + 一句具体致谢；`Best,` 可有可无。**不要 Cc，只回他本人**，
+  回在线程最新那封上。不写分析/建议 —— 那些在简报里对 Klaus 说。
 - **正文 = 流动的 HTML 段落，不硬换行**、不 plain-text 式断行；1–2 项的短清单揉进句子，只有真正多项 checklist 才一项一行。
 - **写到最后一项即止，不手打签名** —— 签名用邮箱预设的 Gmail signature（`gws gmail users settings sendAs get`）。
 - 发件身份：Hernán / 诉讼线从 **klaus@** 回；本属团队邮箱的 PI 案件，草稿仍留 klaus@ 但在简报里注明"应从 Claims@/Piteam@/Picase@ 发"。
