@@ -12,6 +12,8 @@ description: >
   draft the "Case settled" team email (owning team read off the PI Master Sheet tab, Klaus's
   signature, disbursements PDF attached, case label) for Klaus to approve before sending.
   Also triggers on "发结案邮件 / 通知 team 案子结了 / case settled email".
+  Then (PI auto only) hand off to `settled-case-marketing-pkg` to extract marketing material and
+  file the case folder into its DOL-year folder.
   At month-end: mirror Journal to bank → build Client Ledgers → three-way Monthly Reconciliation.
 ---
 
@@ -104,6 +106,15 @@ Green helper: `repeatCell` with `userEnteredFormat.backgroundColor {red:0,green:
    (`uploadType":"media"` FAILS with "Media type 'multipart/related' is not supported" — must be `multipart`.)
 7. **Label the draft** with that case's Gmail label in that mailbox (`labels list`, match the client name; case labels are ONE combined label per case, e.g. `Lirong Huang/Chun Yin Chiu/Jialin He`). If the label does NOT exist in the team mailbox, that usually means the case was actually run out of **klaus@** — check klaus@'s labels and ASK Klaus which mailbox to send from rather than creating a new label there.
 8. **After Klaus approves, send** with `drafts send`. ⚠️ **Sending DROPS the case label** (the sent message comes back with `['SENT']` only) — immediately re-apply it with `messages modify --json '{"addLabelIds":["<labelId>"]}'` and verify.
+
+**Step 4d — Marketing material extraction + file the case by DOL year** (PI AUTO only; skip dog-bite / Hernán litigation)
+Step 4 dropped the case folder into `8. Settled`, whose lobby is exactly the queue for this. Hand off to the
+**`settled-case-marketing-pkg`** skill: it pulls the carrier's settlement check out of the Folder 6 disbursement PDF
++ the PD photos/videos out of Folder 2, packages them into `0. Marketing/人伤/<Clients>-<M-D-YY>/`, then moves the
+case folder out of the lobby into its **DOL-year** folder (`2024`/`2025`/`2026`).
+⚠️ Do NOT hand marketing the disbursement PDF itself — it contains the client's home address (client-recovery check),
+the fee/lien breakdown, and the provider lien amounts. Only the incoming settlement check page(s) go out.
+Every settled PI-auto case gets one (no amount threshold); client consent for marketing use is covered per Klaus 2026-08-18.
 
 > Client Ledgers are NOT built per-case. They are built once at month-end (Trigger B) so each ledger carries the real bank-clearing dates and isn't reworked.
 
