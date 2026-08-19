@@ -5,7 +5,7 @@ description: >
   account #3618). Use whenever the user uploads a settlement breakdown screenshot +
   disbursement-checks PDF ("record this disbursement", "update the disbursement sheet",
   a settled case — including a bare `<Client>-Disbursements.pdf` dropped with no instruction;
-  for that end-to-end case, `结案` is the entry point that sequences this skill),
+  for that end-to-end case, `case-settles` is the entry point that sequences this skill),
   or a month-end bank record/CSV ("reconcile", "monthly reconcile",
   "update account journal to the bank"). Per settled case: verify math + funding →
   update Disbursement Sheet (color-coded, today's disburse date) → record Account Journal

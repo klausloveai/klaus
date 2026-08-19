@@ -1,11 +1,11 @@
 ---
-name: 结案
+name: case-settles
 description: >
   THE entry point for "a PI-auto case settled, here is the paperwork" at 凌图律所 / Law Office of
   Shenqi Cai APC. **Trigger it whenever Klaus drops a disbursement PDF with little or no text** —
   a file named like `<Client>-Disbursements.pdf`, `<Client>-Disbursement_Letter.pdf`, or a scanned
   settlement/checks packet — and on: "案子结了", "和解完了走一下流程", "这个案子入账", "跑完整流程",
-  "settled case", "record this disbursement". **Explicit invocation is `/结案`** — that always
+  "settled case", "record this disbursement". **Explicit invocation is `/case-settles`** — that always
   fires this pipeline, no inference needed. A bare attachment with zero words also counts: when a
   disbursement PDF arrives with no instruction, default to running this pipeline. It orchestrates end-to-end in one pass —
   verify math + funding → Disbursement Sheet → Account Journal → archive + move to "8. Settled" →
@@ -16,7 +16,7 @@ description: >
   Hernán Simó litigation.
 ---
 
-# 结案 — settled-case end-to-end pipeline (PI auto)
+# case-settles — settled-case end-to-end pipeline (PI auto)
 
 One dropped disbursement PDF should come out the other end as: books updated, case archived,
 marketing material extracted, case filed by DOL year, one Activity Log line, and a team email
