@@ -594,8 +594,12 @@ gate), so map it directly:
 | **standard** (先扣 1/3 律师费) | `Standard 1/3` |
 | **new** (先付医疗费 → 剩余 50/50) | `New 50%` |
 
-Driver row only (it's the case's primary record row). Leave passenger rows blank — one retainer
-entry per case.
+**Write the SAME value on EVERY client row — driver AND every passenger** (updated 8/19/2026).
+All clients on one case sign the same retainer, so the column must read identically down the
+whole case block; a blank passenger cell makes it look like that client never signed.
+
+> ⚠️ **Changed 8/19/2026.** Previously this said "driver row only, leave passenger rows blank."
+> That was wrong — Klaus corrected it. Passenger rows now carry the identical retainer label.
 
 ### Per-client row format
 
@@ -603,7 +607,7 @@ entry per case.
 |---|---|---|
 | DOL (A) | Date of Loss (M/D/YYYY) | leave blank |
 | Client Name (B) | `=HYPERLINK("<intake sheet webViewLink>","Firstname Lastname")` — name only, no CM tag | plain text `"Firstname Lastname"` — **no hyperlink, no CM tag, no "(minor)" tag** |
-| Retainer (C) | `Standard 1/3` or `New 50%` (per table above) | leave blank |
+| Retainer (C) | `Standard 1/3` or `New 50%` (per table above) | **same value as the driver — never blank** |
 | Referrer (D) | leave blank (Klaus fills manually) | leave blank |
 | Case Status (E) | `✒️Signing` (from template) | `✒️Signing` (from template) |
 | Note-Claims (F) | `Retainer sent M/D` | same text + same blue formatting (keep from template copy; see background rule below) |
@@ -650,8 +654,11 @@ entry per case.
      Retainer label (col C → `C3` — `Standard 1/3` or `New 50%`). **Do NOT write the clinical columns N–T** —
      they stay at the template `P`/`Pending` defaults for the CM to confirm later. (Note-Claims col F is set to
      `Retainer sent M/D` in step 7, after the retainer is confirmed sent.)
-   - **Passenger rows (row 4 onward):** plain text `"Firstname Lastname"` (col B — no hyperlink); clear cols G–M (write 7 empty strings);
-     cols N–T keep template values (already from copyPaste — do not overwrite); col C (Retainer) and col F (Note) keep as-is from copyPaste.
+   - **Passenger rows (row 4 onward):** plain text `"Firstname Lastname"` (col B — no hyperlink);
+     **col C (Retainer) = the SAME label as the driver row** (`Standard 1/3` / `New 50%` — write it
+     explicitly, do not leave blank); clear cols G–M (write 7 empty strings);
+     cols N–T keep template values (already from copyPaste — do not overwrite); col F (Note) gets the
+     same `Retainer sent M/D` text as the driver row (see step 7).
    - **Cols U–X (Outstanding Balance → MRI):** leave exactly as copied from Example Row.
 
    > ⚠️ **Case Status (col E) must NOT be written as empty string.** When building the values array
@@ -660,7 +667,7 @@ entry per case.
    > N–X — never include them in the values write even as placeholders.
    >
    > Safest pattern: write only the columns you're actually changing (A, B, C for driver;
-   > B, G–M for passenger). Do not write a full A–X row with empty strings for the untouched columns.
+   > **B, C, G–M for passenger**). Do not write a full A–X row with empty strings for the untouched columns.
 6. **Background rules for passenger rows — three zones:**
    - **A–E (indices 0–5): clear to white** — removes any inherited driver-row highlight (DOL, Client, Retainer, Referrer, Case Status)
    - **F (index 5): do NOT touch** — Note-Claims column blue must be preserved from template copy
