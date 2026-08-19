@@ -211,7 +211,11 @@ def fill_sum100(cfg, tmpl, out):
         (lambda nm, tu: nm.endswith('FillText3[0]')): cfg['courthouse_name'],
         (lambda nm, tu: nm.endswith('FillText2[0]')): line2,
     })
-    # FillText30 (attorney) is left as-is from the template (pre-filled, accented).
+    # FillText30 (attorney) is left as-is from the template (pre-filled, accented)
+    # unless the config overrides it — use `attorney_line` when the template's
+    # pre-filled block needs correcting for a given filing.
+    if cfg.get('attorney_line'):
+        set_text(w, {(lambda nm, tu: nm.endswith('FillText30[0]')): cfg['attorney_line']})
     with open(out, 'wb') as fh: w.write(fh)
     print('wrote', out)
 
@@ -242,7 +246,13 @@ def fill_cm010(cfg, tmpl, out):
     set_button(w, lambda nm, tu: tu.strip() == ct_tu)
     # Item 2 complex? No | Item 3 monetary | Item 5 class action? No
     set_button(w, lambda nm, tu: nm.endswith('is1[1]'))   # complex = No
-    set_button(w, lambda nm, tu: nm.endswith('Ch1[0]'))   # monetary
+    # Item 3 remedies — "check all that apply". Default monetary; add 'punitive'
+    # whenever the complaint's prayer seeks exemplary damages (Civ. Code § 3294),
+    # and 'nonmonetary' for declaratory/injunctive relief.
+    REMEDY_FIELD = {'monetary': 'Ch1[0]', 'nonmonetary': 'Ch2[0]', 'punitive': 'Ch3[0]'}
+    for remedy in cfg.get('remedies', ['monetary']):
+        fld = REMEDY_FIELD[remedy]
+        set_button(w, lambda nm, tu, f=fld: nm.endswith(f))
     set_button(w, lambda nm, tu: nm.endswith('is[1]'))    # class action = No
     with open(out, 'wb') as fh: w.write(fh)
     print('wrote', out)

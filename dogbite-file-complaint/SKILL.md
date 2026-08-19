@@ -23,7 +23,7 @@ description: >-
 
 > **Every complaint → translate for the client before filing.** Once the complaint is
 > finalized, run the **`complaint-client-translation`** skill: Chinese translation
-> (**PDF only — never docx**) + a bilingual client email (English first, then Chinese)
+> (**PDF only — never docx**) + a bilingual client email (Chinese first, then English)
 > for the client to confirm the facts. **That client email ALWAYS Cc's Hernán
 > (hernan.s@lingtulaw.com).** Draft-only; Klaus sends. (Klaus's standing rule, 2026-07.)
 
@@ -34,17 +34,24 @@ format, for **whatever California county the complaint is filed in**.
 Sibling of `file-complaint` (LA-only PI). This one is dog-bite + Hernán + **multi-county**,
 and saves into the dog-bite case's `4. Litigation` folder.
 
-**It prepares (never files):**
+**It prepares (never files) — the package holds ONLY ready-to-file documents:**
 - `1 - Summons.pdf` (SUM-100)
-- `2 - Complaint.docx` — copy of Hernán's drafted complaint, kept as the **editable .docx,
-  NOT a PDF** (Klaus, 2026-07-21): the client's feedback still comes back on it and Hernán
-  edits it directly. Never convert it, and never delete the source .docx.
+- `2 - Complaint.pdf` — **PDF, ready to file** (Klaus, 2026-08-19, superseding the
+  2026-07-21 "keep it .docx" rule). The editable `.docx` stays OUTSIDE the package (in
+  `~/Downloads` and the case folder) so client feedback and Hernán's edits still land on
+  it — never delete the source .docx, but never put it in the package: the package is what
+  gets lodged, and a .docx in it invites filing the wrong file.
 - `3 - Civil Case Cover Sheet.pdf` (CM-010)
 - `4 - <county addendum>.pdf` — **only if the county requires one for this case type**
   (LA PI → CIV 109; Ventura PI → none — its VN278 addendum doesn't cover PI; other
   counties verified per case)
-- `0 - READ ME - Filing Checklist.txt` — what's filled, what's blank, the county's
-  One Legal filing steps + fee
+
+**NOT in the package** (Klaus's rule, 2026-08-19): no `0 - READ ME` checklist, no
+`Complaint Drafts/` subfolder, no superseded versions, no .docx. The checklist lives one
+level UP (next to the package folder) or is reported in chat. Everything inside the
+package folder must be a document that can go straight to the clerk.
+
+**Every form is FLATTENED before packaging** — see Step 5b.
 
 Leave the **case number, attorney signature, and date blank** — added at filing.
 Never submit, e-file, drive One Legal, or pay. (Scope was set with Klaus: prep-only.)
@@ -142,22 +149,67 @@ Look at each filled page: parties, court/branch, checked case-type box, complex=
 monetary, causes count, jury demand, and the addendum's action/reason/incident/branch.
 If a checkbox didn't land, fix the coord map in `fill_forms.py` and re-run.
 
-## Step 6 — Package into the case's `4. Litigation`
+### The SUM-100 caption must FIT INSIDE its box — check this every time
 
-Assemble in the case's **`4. Litigation`** folder (dog-bite template structure:
-`0. Intake Sheet / 1. Incident & Liability / 2. Legal Documents / 3. Medical Record & Bill /
-4. Litigation / 5. Cost & Receipt / 6. Settlement & Disbursement`). For legacy-structure
-cases (Bo Tao etc.), use the case's existing "Legal Documents" or create a "Litigation"
-subfolder — confirm with the user.
+The NOTICE-TO-DEFENDANT and SUED-BY-PLAINTIFF boxes are short, fixed rectangles. The
+engine wraps the text (`wrap_text`), but wrapping is not enough: if the wrapped block is
+taller than the box, the overflow is **clipped, not shown**, and you lose the tail of the
+defendant list — on a Summons that is a defect, since every defendant must appear. Adobe
+and Preview hide it by re-drawing the field from its value; the render and the print do not.
+(Caught on Brian Wu: the Summons showed only "…ROBERT KENNEDY LEIVA, an" and dropped
+"individual; and DOES 1 through 10, inclusive".)
 
-1. `1 - Summons.pdf`, `3 - Civil Case Cover Sheet.pdf`, `4 - <county addendum>.pdf`
-2. Copy the complaint in as **`2 - Complaint.docx`** — keep it editable; do NOT convert to
-   PDF, and never delete the source .docx from `~/Downloads`
-3. `0 - READ ME - Filing Checklist.txt` — filled vs blank (case #, signature, date),
-   the county's One Legal steps, first-paper fee, and service note (serve conformed
-   Summons + Complaint + addendum on each named defendant).
+Dog-bite captions hit this constantly — multiple dog owners, entity descriptors, a minor
+by GAL, plus the DOE range. So:
+
+1. Render page 1 and read the box **literally** — count the defendants you can see and
+   confirm the block ends with the DOE range, not mid-phrase.
+2. If it does not fit: drop the font a point or two and/or tighten wrapping until the whole
+   block sits inside the rectangle, then re-render.
+3. Only if it still cannot fit, leave the caption **blank** and tell Klaus, who adds it in
+   Adobe Edit with his own line breaks. **Never ship a caption that is silently cut off, and
+   never shorten a party name or use "et al." to make it fit** — each defendant must be
+   named for service.
+
+## Step 5b — FLATTEN every form before packaging (do not skip)
+
+Filled forms come out of the engine as live AcroForms (Adobe shows the "Print this form /
+Save this form / Clear this form" buttons, and the values live in the form layer, not the
+page). Don't ship that: a multiline caption can clip on print, and a live form can be
+altered or lost in the e-filing pipeline. LASC's stated e-filing rule is **text-searchable
+PDF**; flattening is not written as a separate mandate, but it is already the firm's
+practice (`gal-appointment` flattens with qpdf) and it makes the printed page match what
+you verified.
+
+```bash
+qpdf --flatten-annotations=all "<in>.pdf" "<out>.pdf"      # or Adobe: Print to PDF
+```
+
+Flattening keeps the text layer searchable. **Verify AFTER flattening** — what you render
+post-flatten is exactly what the clerk sees.
+
+## Step 6 — Package into `<Client> - Filing Package (<Case Type>)`
+
+Folder name = **`<Client> - Filing Package (<Case Type>)`** — e.g.
+`Lina Lu - Filing Package (Dog Bite)`. No date in the folder name (it goes stale the moment
+Hernán revises a document; the date belongs in the case log). Build it in `~/Downloads` per
+Klaus's drafts-to-Downloads rule; Klaus files it into the case's **`4. Litigation`** folder
+himself (dog-bite template structure: `0. Intake Sheet / 1. Incident & Liability /
+2. Legal Documents / 3. Medical Record & Bill / 4. Litigation / 5. Cost & Receipt /
+6. Settlement & Disbursement`). For legacy-structure cases (Bo Tao etc.), the case's
+existing "Legal Documents" or a new "Litigation" subfolder — confirm with the user.
+
+Contents — **only these, all flattened PDFs, nothing else**:
+
+1. `1 - Summons.pdf`
+2. `2 - Complaint.pdf`
+3. `3 - Civil Case Cover Sheet.pdf`
+4. `4 - <county addendum>.pdf` (only if the county requires one)
 
 Naming = plain document type in filing order (no form codes, no "(filled)" suffix).
+The filing checklist (filled vs blank, the county's One Legal steps, first-paper fee, and
+the service note — serve conformed Summons + Complaint + addendum on each named defendant)
+goes **outside** the package folder or into the chat report, never inside.
 Deliver the folder to the user. **Do not e-file.**
 
 ## Step 7 — Client Chinese translation + WeChat review message (always)
@@ -172,8 +224,9 @@ complaint to the client for verification BEFORE filing:
    numbered allegation paragraphs, causes-of-action headings, prayer, signature block).
    Keep proper nouns in English (party names, firm name, street addresses, statute cites
    like §3342, "Amazon Flex", hospital names, dates). **Chinese font = SimSun (宋体)** —
-   set `w:ascii/hAnsi/eastAsia/cs` = `SimSun` on every run. Save docx + PDF into the
-   package folder as `<Client> - Complaint (中文译本).<ext>`.
+   set `w:ascii/hAnsi/eastAsia/cs` = `SimSun` on every run. Save docx + PDF **next to the
+   package folder, NOT inside it** (the package is ready-to-file only — the translation is a
+   client-review document, never lodged) as `<Client> - Complaint (中文译本).<ext>`.
    - Technique (python-docx): copy the docx; for each non-empty paragraph replace runs
      with SimSun run(s) carrying the translation (rebuild line breaks with `add_break`);
      also strip stray `<w:hyperlink>` elements (e.g. the email) so text isn't duplicated;
@@ -226,13 +279,15 @@ sends the complaint to the **client** for review, **cc Hernán**, with the compl
 the 中文译本 for the client to check BEFORE filing. Do whichever fits how the client
 communicates, or both.)
 
-1. **Make an English PDF of the complaint** (attachment only — do NOT touch the editable
-   `2 - Complaint.docx` in the package, do NOT add this PDF to the package):
+1. **English PDF of the complaint** — the package already has it: `<pkg>/2 - Complaint.pdf`
+   (Step 6). Copy it out to the scratch dir as `<Client> - Complaint (English).pdf` for the
+   attachment; don't re-convert and don't rename it inside the package. If you need to make
+   one from a .docx (e.g. the client is reviewing a version that isn't packaged yet):
    ```bash
-   soffice --headless --convert-to pdf --outdir <scratch> "<pkg>/2 - Complaint.docx"
+   soffice --headless --convert-to pdf --outdir <scratch> "<the>.docx"
    ```
-   Name it `<Client> - Complaint (English).pdf`; render page 1 (Ghostscript) to confirm
-   the pleading paper / caption survived. The Chinese PDF is the `中文译本` from Step 7.
+   Render page 1 (Ghostscript) to confirm the pleading paper / caption survived. The Chinese
+   PDF is the `中文译本` from Step 7 — it lives outside the package too.
 2. **Fetch the preset Gmail signature** (API drafts don't auto-insert it):
    `gws gmail users settings sendAs list` → take the default `klaus@lingtulaw.com`
    `signature` HTML; append it to the body.

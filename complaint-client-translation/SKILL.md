@@ -37,7 +37,7 @@ case folder the way the other Lingtu skills do and confirm with Klaus.
    - **Deliver the PDF only — do NOT keep/give the `.docx`** (Klaus's standing preference).
    - Save to `~/Downloads/<Client>/` (and the case folder if it is materialized).
 
-3. **Draft the bilingual client email — ENGLISH FIRST, then Chinese** (Klaus's format,
+3. **Draft the bilingual client email — CHINESE FIRST, then English** (Klaus's format,
    2026-07). To the client; **always Cc Hernán (hernan.s@lingtulaw.com)** — mandatory on
    every client complaint-review email. From klaus@.
    - Attach the **English complaint + the Chinese translation** (gs-compress the PDFs if the
