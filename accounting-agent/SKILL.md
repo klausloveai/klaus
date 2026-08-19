@@ -4,7 +4,9 @@ description: >
   IOLTA trust-accounting workflow for 凌图律所 / Law Office of Shenqi Cai APC (active
   account #3618). Use whenever the user uploads a settlement breakdown screenshot +
   disbursement-checks PDF ("record this disbursement", "update the disbursement sheet",
-  a settled case), or a month-end bank record/CSV ("reconcile", "monthly reconcile",
+  a settled case — including a bare `<Client>-Disbursements.pdf` dropped with no instruction;
+  for that end-to-end case, `settled-case` is the entry point that sequences this skill),
+  or a month-end bank record/CSV ("reconcile", "monthly reconcile",
   "update account journal to the bank"). Per settled case: verify math + funding →
   update Disbursement Sheet (color-coded, today's disburse date) → record Account Journal
   (content only) → archive PDF to case sub-folder 6 + move folder to "8. Settled" →
