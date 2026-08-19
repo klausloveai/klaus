@@ -56,8 +56,9 @@ newly-disbursed case there.
 From the case folder name get the client(s) and the **date of loss**. Two names, two formats:
 
 ```
-人伤 subfolder :  <Clients>-<M-D-YY>       e.g.  Chih-Ming Huang-12-2-25
-merged PDF     :  <Clients>-<M:D:YYYY>.pdf e.g.  Chih-Ming Huang-12:2:2025.pdf
+人伤 subfolder :  <Clients>-<M-D-YY>       e.g.  Yan Li-9-3-25
+check PDF      :  <Clients>-<M:D:YYYY>.pdf e.g.  Yan Li-9:3:2025.pdf
+media files    :  original names, copied unchanged
 ```
 **Multi-client:** join the names with `-`, driver first — `Jiwen Zhang-Changming Dong-6-23-2026`.
 (Drive allows `:` and `/` in names; don't "sanitize" them.)
@@ -83,17 +84,18 @@ Take: vehicle-damage photos (often bundled as a `pd.pdf`) and **every video**.
 Skip: `1P DL` / `2P DL` (driver licenses), `police card`, `policy dec`, insurance cards,
 3P license-plate docs, message screenshots.
 
-### 4. Build the merged PDF
-`settlement check page(s)` first, then every PD photo page, in order.
+### 4. Extract the settlement check to its own PDF — do NOT merge the media
+Klaus's rule (2026-08-18): **only the check gets extracted**; every photo/video is copied over
+**as-is**, in whatever form it already exists. Do not combine photos into a PDF.
 ```python
 from pypdf import PdfReader, PdfWriter
-w = PdfWriter()
-w.add_page(PdfReader("disb.pdf").pages[0])        # the carrier's settlement check
-for p in PdfReader("pd.pdf").pages: w.add_page(p) # PD photos
+w = PdfWriter(); w.add_page(PdfReader("disb.pdf").pages[0])   # carrier settlement check
 w.write("<Clients>-<M:D:YYYY>.pdf")
 ```
-Reference for the expected result: `人伤/Cheng Peng-2-5-26/Cheng Peng-2:5:2026.pdf` (3 pages:
-check + 2 damage photos).
+Result = the check PDF **plus** the original media files side by side, e.g.
+`Yan Li-9-3-25/` → `Yan Li-9:3:2025.pdf` · `PD Photos.pdf` · `Tesla Dashcam.mp4` · `WechatIMG12/13/15.jpg`.
+(Historical sample `Cheng Peng-2-5-26` and `Chih-Ming Huang-12-2-25` are single merged PDFs — the
+older style. Leave them; new packages use as-is copies.)
 
 ### 5. Create the 人伤 subfolder and upload
 Dedup first — list the 人伤 target and confirm no folder of that name exists; if it does, ask Klaus
@@ -112,10 +114,15 @@ gws drive files update --params '{"fileId":"<id>","addParents":"<subfolder>","re
   --json '{"name":"<Clients>-<M:D:YYYY>.pdf"}'
 ```
 
-### 6. Copy every video in
-**Any** video from Folder 2 goes into the same 人伤 subfolder, as separate files alongside the PDF
-(video cannot be merged into the PDF). They are already in Drive — use `files copy`
-(`--json '{"name":…,"parents":[…]}'`), not a re-upload.
+### 6. Copy the media in, as-is
+Every PD photo **and every video** from Folder 2 goes into the same 人伤 subfolder as its own file,
+original name kept. They are already in Drive — use `files copy`
+(`--json '{"name":…,"parents":[…]}'`), never a re-upload.
+Judgement calls seen in the wild — copy the vehicle/damage/scene-with-vehicle shots; leave out and
+TELL Klaus: hand-drawn accident diagrams, and streetscape photos with no vehicle that show a
+third party's house number. Driver licenses / insurance cards / police card / policy dec are never
+copied. A photo may exist twice (once loose as .jpg, once inside a `PD Photos.pdf`) — copy both
+unless Klaus says dedupe.
 
 ### 7. File the case folder into its DOL year
 Material extraction done → move the case folder out of the lobby into the year matching its **date
