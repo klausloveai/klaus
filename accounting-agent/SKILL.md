@@ -33,8 +33,28 @@ description: >
 A Date of Disbursed · B Client · C DOL · D 3P · E UM · F UIM · G MP (received) ·
 H MP post-subrogation · I Total · J Client Recovery · K Attorney Fee · L Case Cost ·
 M Medical Liens · N Amount Check `=I-J-K-L-M` **must = $0** · O Firm `=K*0.65` ·
-P Dept `=K*0.35` · Q Referrer / R Referral Fee = **USER fills, never touch** ·
-provider lien columns alphabetical from **U** onward (header = `=HYPERLINK(w9url,"Name")`).
+P Dept `=K*0.35` · Q Referrer / R Referral Fee = **USER fills, never touch**.
+
+### Columns U onward — two DIFFERENT kinds of column, do not mix them up
+- **U–Z (and any future ones like them) = insurers / subrogation collectors, NOT medical liens.**
+  Currently `U` Wilber & Associates PC · **`V` 21st Century Casualty Company** · `W` Tesla Insurance ·
+  `X` Norcal AAA · `Y` Progressive Subrogation · `Z` Farmers Insurance Exchange.
+  A **MedPay reimbursement back to the carrier** goes in that carrier's column here (yellow-highlight it),
+  and **never** in M. The settlement math absorbs it as `G` (MP received) → `H` (MP post-subrogation):
+  Jianjun Li took MP $500, returned $333.33, so **V=333.33 (yellow)** and **H=166.67**, giving
+  `I = D+E+F+H = 14,000+166.67 = 14,166.67` — which is why the letter's total was $333.33 under the $14,500 received.
+- **AA onward = the medical-provider lien columns**, alphabetical (header = `=HYPERLINK(w9url,"Name")`).
+
+### M is position-independent — never hardcode a range (Klaus, 2026-08-20)
+Both edges float: subrogation columns get added on the left, providers on the right. So M is:
+```
+=SUMPRODUCT(IFERROR($U{r}:{r}*1,0), --ISNA(MATCH($U$1:$1, _NonLien!$A$2:$A$100, 0)))
+```
+Everything from U to the end of the row counts as a lien **unless its header is listed in the hidden
+`_NonLien` tab**. Adding a provider column needs NO formula change; adding a MedPay/subrogation column
+means adding one row to `_NonLien`. Legacy rows still carry `=SUM(Y{r}:DR{r})` — wrong on both ends
+(it counts Y/Z as liens and drops anything past DR); replace with the formula above when you touch a row.
+⚠️ Keep this formula in **M** (left of U). Parking it in a column inside `$U:{r}` self-references → `#REF!` circular.
 
 ---
 
@@ -62,7 +82,7 @@ Klaus scans every settlement check he receives and sends it here BEFORE mailing/
 6. **Any mismatch → raise it immediately. Never guess.** DOL on the sheet vs the letter/checks differing, or coverage type differing (sheet UM vs screenshot "3P") → ask the user which is right before writing.
 
 **Step 2 — Update Disbursement Sheet**
-1. Locate the client's row by fresh name search (the user re-sorts the sheet — NEVER reuse a cached row number). No row → append after the last used client row with the full formula set (`I=SUM(D:F,H)`, `M=SUM(Y{r}:DX{r})`, `N=I-J-K-M-L`, `O=K*0.65`, `P=K*0.35`).
+1. Locate the client's row by fresh name search (the user re-sorts the sheet — NEVER reuse a cached row number). ⚠️ Some names appear TWICE (real case: `Wei Li` on two rows, both disbursed) — match the DOL too, and when auditing, key results by ROW not by name (keying by name once produced a false "M changed" alarm). No row → append after the last used client row with the full formula set (`I=SUM(D:F,H)`, the position-independent M above, `N=I-J-K-M-L`, `O=K*0.65`, `P=K*0.35`).
 2. Write D–M; N is the `=I-J-K-L-M` formula (confirm it shows $0); O/P firm/dept formulas.
 3. Leave Q/R alone.
 4. Each provider lien column = reduced amount; **yellow-highlight that cell** (bg RGB 1,1,0). User manually flips it green when that provider cashes.
@@ -74,7 +94,10 @@ Klaus scans every settlement check he receives and sends it here BEFORE mailing/
    - **M Medical Liens**: GREEN when it matches both the disbursement letter and the computed Σ.
    - **N Amount Check**: GREEN if $0, YELLOW otherwise.
    - **O Firm**: GREEN (default). **P Dept**: YELLOW (default — user flips manually).
-5. New provider → insert a column in alphabetical position; header = HYPERLINK to its W9 (search the W9 folder; if no W9 found, plain name + tell user to add W9). Gotchas: (a) if the new column exceeds the grid, `appendDimension` COLUMNS first (400-error "exceeds grid limits"); (b) older rows' **M formula only sums `Y:DK`** — if a provider lands past DK, widen THAT row's M to `=SUM(Y{r}:DX{r})` or the new cell won't count and N ≠ 0; (c) column letters shift after every insert — re-read header positions before writing values.
+4c. **MedPay with a subrogation payback**: put the amount returned in the carrier's U–Z column (yellow),
+    set `G` = MP received and `H` = MP net of the payback, and record the payback check in the journal as
+    "MedPay REIMBURSEMENT to carrier". It is NOT a lien and must not appear in M.
+5. New provider → insert a column in alphabetical position (AA onward, never in the U–Z block); header = HYPERLINK to its W9 (search the W9 folder; if no W9 found, plain name + tell user to add W9). Gotchas: (a) if the new column exceeds the grid, `appendDimension` COLUMNS first (400-error "exceeds grid limits"); (b) if the row still carries a legacy `=SUM(Y{r}:DR{r})`, replace it with the position-independent M formula above — a hardcoded range silently drops providers past its right edge and counts U–Z as liens; (c) column letters shift after every insert — re-read header positions before writing values.
 6. Read back and confirm N = $0.
 
 **Step 3 — Record in Account Journal (CONTENT ONLY, NO DATES)**
