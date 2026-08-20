@@ -54,8 +54,8 @@ sitting in drafts waiting on Klaus.
 8. New provider → new column, header = `=HYPERLINK(<W9 url>,"<payee entity>")`, and **widen that
    row's M range to include it** or N won't zero.
 9. **Re-search the row again**, then color: A no fill · received coverage green · I/M/N/O green ·
-   J/K yellow · L green if $0 else yellow · P yellow · Q–T yellow · provider cells yellow.
-10. Read back and confirm **N = $0**.
+   J/K yellow · L green if zero else yellow · P yellow · Q–T yellow · provider cells yellow.
+10. Read back and confirm **N = zero**.
 
 ## Phase 2 — Account Journal
 11. Back up `Account-Journal.xlsx` to `Backups/` first.
@@ -110,7 +110,7 @@ sitting in drafts waiting on Klaus.
     (`2024` / `2025` / `2026`).
 
 ## Phase 7 — Close out
-33. Verify the whole chain: N = $0 · journal rows present and row 2 of the xlsx still empty ·
+33. Verify the whole chain: N = zero · journal rows present and row 2 of the xlsx still empty ·
     PDF in subfolder 6 · case folder in the year folder · marketing folder populated ·
     **no stray "Untitled" in the shared-drive root** · email draft labeled.
 34. Append **one** Activity Log row (Category `会计` or `起草`, Source `Drive`, Ref = check #s +
