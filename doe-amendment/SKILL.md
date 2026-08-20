@@ -35,6 +35,33 @@ box, not the **incorrect-name** box: incorrect-name = the same party was misname
 (replace); fictitious = a previously-unknown DOE is now identified (add). Existing named
 defendants stay in the case. See [[litigation_service_of_process]].
 
+## Court variant — which form (READ FIRST)
+The Amendment form is **county-specific**; pick by the case-number prefix:
+- **`CIVSB…` → San Bernardino Superior Court → local form SB-16778** ("Amendment to
+  Complaint"), top **FICTITIOUS NAME (No order required)** section. Use
+  `scripts/make_sb_amendment.py` (below). This is the default for Hernán dog-bite cases.
+- **LA (`…NWCV…`, etc.) → CIV 105** (LA local form) via `make_doe_amendment.py`.
+- Other counties: find that county's Doe/fictitious-name amendment form and add a variant.
+
+### San Bernardino SB-16778 (`make_sb_amendment.py`)
+- **Template source (Klaus's standing rule, 2026-08-20):** the SB-16778 blank is pulled
+  **fresh at run time from Klaus's Drive file** so template edits flow through automatically —
+  `Amendent to Complaint.pdf`, id **`184p3wdnweubmMwkuU4sB8EJQ5cUgMDgj`**. Falls back to the
+  bundled cache `assets/SB-16778_blank.pdf` if Drive is unreachable. (gws forbids `--output`
+  outside cwd → the script fetches with a relative name inside a tempdir.)
+- **One run can add several Does** — config takes a `defendants` LIST; each yields its own
+  SB-16778 **and** its own First Amended Summons endorsed with that Doe number (item 2). It
+  reuses `make_doe_amendment.make_fa_summons` for the summons.
+- **Doe block is per-complaint, not fixed.** Read the filed complaint's Doe allocation. Yi Cong
+  v. Edpao: **Does 1–10 = dog owner (strict liability, Civ. Code §3342)**, **Does 11–20 =
+  premises/landlord**. A landlord goes in 11–20, never 1–10. Confirm the number with Hernán.
+- **Confirm each entity's exact legal name + agent for service via CA Secretary of State
+  (bizfileonline.sos.ca.gov) before finalizing** — the exact legal name goes on the form; the
+  agent is needed for service. Never fabricate the agent. Run: `python3
+  scripts/make_sb_amendment.py <config.json>` (schema in the script header).
+- Post-filing: service + POS due **within 30 days of filing** (calendar it); the summons/POS
+  must carry the fictitious-name notice or no default can be taken.
+
 ## Draft-only (hard rule)
 Prep only. Output flattened PDFs to **~/Downloads**. Leave CIV 105 **DATE + SIGNATURE**
 blank (the attorney — usually Hernán — signs). Leave summons **DATE / Clerk / Deputy**
