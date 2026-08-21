@@ -62,6 +62,21 @@ The Amendment form is **county-specific**; pick by the case-number prefix:
 - Post-filing: service + POS due **within 30 days of filing** (calendar it); the summons/POS
   must carry the fictitious-name notice or no default can be taken.
 
+## Summons court block — repeat the issued summons verbatim (Klaus, 2026-08-20)
+The SUM-100 "name and address of the court" block has only **two usable line slots**,
+and **both must stop before the CASE NUMBER box** (its left edge is **x=362.8**). A long
+one-line court name prints straight through the case number.
+- **If the case already has an issued/accepted summons, copy its court block verbatim** —
+  pass `issued_summons_pdf` in the config and the script scrapes it (it also lifts the
+  attorney line, so the amended summons matches what the court accepted). It prints
+  `court block (issued summons): …` so you can eyeball what it took.
+- **If there is no issued summons**, follow that format, keep it inside the box, and wrap
+  onto the second line — never let a value run past x≈358.
+- Yi Cong's accepted split, as the worked example: line 1 = `Superior Court of California`,
+  line 2 = `County of San Bernardino, 247 West 3rd Street, San Bernardino, CA 92415-0210`.
+  Note it is **not** "Superior Court of California, County of San Bernardino" on one line.
+- `_draw_fitted()` shrinks the font as a backstop, but a correct split beats shrinking.
+
 ## Draft-only (hard rule)
 Prep only. Output flattened PDFs to **~/Downloads**. Leave CIV 105 **DATE + SIGNATURE**
 blank (the attorney — usually Hernán — signs). Leave summons **DATE / Clerk / Deputy**

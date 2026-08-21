@@ -102,6 +102,106 @@ def make_civ105(cfg, out_path):
 
 
 # ------------------------------------------------- First Amended Summons ----
+# The SUM-100 "name and address of the court" block has only TWO usable line
+# slots, and BOTH must stop before the CASE NUMBER box (its left edge is x=362.8
+# on the template). Overflowing prints the court name straight through the case
+# number — mapped from the issued Yi Cong summons, 2026-08-20.
+COURT_SLOTS = [
+    # (x, baseline_y, max_right)  — slot 1 sits beside the Spanish label
+    (190.8, 292.0, 358.0),
+    (36.1, 276.0, 358.0),
+]
+ATTY_SLOT = (36.5, 236.0, 570.0)   # attorney line may run the full box width
+
+
+def extract_summons_court_block(pdf_path):
+    """Read the court block + attorney line VERBATIM off an already-issued
+    summons, so an amended summons repeats exactly what the court accepted.
+    Returns {"court_lines": [...], "attorney_line": str or None}, or None if the
+    file can't be parsed. Requires pdfplumber; degrades gracefully without it."""
+    try:
+        import pdfplumber
+    except ImportError:
+        return None
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            page = pdf.pages[0]
+            words = page.extract_words()
+    except Exception:
+        return None
+
+    # Group words into visual lines by their baseline.
+    rows = {}
+    for w in words:
+        rows.setdefault(round(w["bottom"]), []).append(w)
+
+    court_lines, attorney_line = [], None
+    for bottom in sorted(rows):
+        ws = sorted(rows[bottom], key=lambda w: w["x0"])
+        text = " ".join(w["text"] for w in ws)
+        # Court slot 1: same row as the Spanish label, value starts after it.
+        if "corte es)" in text:
+            tail = [w["text"] for w in ws if w["x0"] > 188]
+            if tail:
+                court_lines.append(" ".join(tail))
+        # Court slot 2: the row just below, left margin, left of the case-number box.
+        elif 500 < bottom < 522 and ws[0]["x0"] < 60 and ws[-1]["x1"] < 362.8:
+            court_lines.append(text)
+        # Attorney line: the row below the plaintiff's-attorney label.
+        elif 550 < bottom < 562 and ws[0]["x0"] < 60:
+            attorney_line = text
+
+    if not court_lines:
+        return None
+    return {"court_lines": court_lines[:2], "attorney_line": attorney_line}
+
+
+def _draw_fitted(c, x, y, text, max_right, size=9, font="Body", min_size=6.5):
+    """Draw text at (x, y), shrinking the font until it ends before max_right.
+    Returns the size actually used. Never lets a value run into the next box."""
+    avail = max_right - x
+    s = size
+    while s > min_size and pdfmetrics.stringWidth(text, font, s) > avail:
+        s -= 0.25
+    c.setFont(font, s)
+    c.drawString(x, y, text)
+    return s
+
+
+def _layout_court_lines(cfg):
+    """Decide the court block's lines, in priority order:
+    1. cfg['court_lines'] — explicit verbatim override
+    2. cfg['issued_summons_pdf'] — scraped verbatim off the issued summons
+    3. cfg['court_name'] / cfg['court_address'] — composed, then width-wrapped
+    Klaus's rule (2026-08-20): if the case already has an issued summons, repeat
+    its court block verbatim; otherwise keep it inside the box and wrap."""
+    if cfg.get("court_lines"):
+        return list(cfg["court_lines"])[:2], "config"
+
+    issued = cfg.get("issued_summons_pdf")
+    if issued and os.path.exists(os.path.expanduser(issued)):
+        got = extract_summons_court_block(os.path.expanduser(issued))
+        if got and got["court_lines"]:
+            return got["court_lines"], "issued summons"
+
+    # Fallback: fill slot 1 then slot 2, wrapping on word boundaries.
+    full = f"{cfg['court_name']}, {cfg['court_address']}"
+    words, lines, cur = full.split(), [], ""
+    slot = 0
+    for wd in words:
+        trial = (cur + " " + wd).strip()
+        x, _, right = COURT_SLOTS[min(slot, len(COURT_SLOTS) - 1)]
+        if pdfmetrics.stringWidth(trial, "Body", 9) <= (right - x) or not cur:
+            cur = trial
+        else:
+            lines.append(cur); cur = wd; slot += 1
+            if slot >= len(COURT_SLOTS):
+                break
+    if cur:
+        lines.append(cur)
+    return lines[:2], "composed"
+
+
 def _strip_fa_template(src, dst):
     """Remove widget annotations + AcroForm so the firm template's pre-filled
     values (court/attorney from a prior case) drop away, keeping the static
@@ -121,9 +221,19 @@ def _strip_fa_template(src, dst):
 def make_fa_summons(cfg, out_path):
     at = cfg["attorney"]
     tmpl = os.path.join(ASSETS, "FA-Summons-template.pdf")
-    attorney_line = cfg.get("summons_attorney_line") or (
-        f"{at['name']} (SBN {at['sbn']}), {at['firm']}, {at['addr1']}, {at['addr2']}, {at['tel']}"
-    )
+    court_lines, court_src = _layout_court_lines(cfg)
+    # Attorney line: verbatim off the issued summons when we have one, so the
+    # amended summons matches what the court already accepted.
+    attorney_line = cfg.get("summons_attorney_line")
+    if not attorney_line and cfg.get("issued_summons_pdf"):
+        got = extract_summons_court_block(os.path.expanduser(cfg["issued_summons_pdf"]))
+        if got and got.get("attorney_line"):
+            attorney_line = got["attorney_line"]
+    if not attorney_line:
+        attorney_line = (
+            f"{at['name']} (SBN {at['sbn']}), {at['firm']}, {at['addr1']}, {at['addr2']}, {at['tel']}"
+        )
+    print(f"  court block ({court_src}): " + " | ".join(court_lines))
     with tempfile.TemporaryDirectory() as td:
         stripped = os.path.join(td, "fa_stripped.pdf")
         flat = os.path.join(td, "fa_flat.pdf")
@@ -145,10 +255,13 @@ def make_fa_summons(cfg, out_path):
             for l in deflines[:2]:
                 line(41, y, l, 9); y -= 11
         line(41, 604, cfg["plaintiff"], 10)                  # FillText180 plaintiff
-        line(193, 293, cfg["court_name"], 9)                 # FillText3 court name
-        line(41, 277, cfg["court_address"], 9)               # FillText2 court address
+        # Court block — each line width-guarded so it can never bleed into the
+        # CASE NUMBER box at x=362.8.
+        for text, (cx, cy, cright) in zip(court_lines, COURT_SLOTS):
+            _draw_fitted(c, cx, cy, text, cright, size=9)
         line(369, 288, cfg["case_number"], 10)               # CaseNumber
-        line(41, 238, attorney_line, 8)                      # FillText30 attorney
+        ax, ay, aright = ATTY_SLOT
+        _draw_fitted(c, ax, ay, attorney_line, aright, size=8)   # FillText30 attorney
         c.setFont("BodyB", 11); c.drawString(190.2, 150.0, "X")  # item 2 checkbox
         line(212, 140.0, cfg["doe_number"], 10)              # item 2 specify (fictitious name)
         # DATE / Clerk / Deputy left blank -> court issues.
