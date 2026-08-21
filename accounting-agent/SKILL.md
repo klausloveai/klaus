@@ -45,16 +45,32 @@ P Dept `=K*0.35` · Q Referrer / R Referral Fee = **USER fills, never touch**.
   `I = D+E+F+H = 14,000+166.67 = 14,166.67` — which is why the letter's total was $333.33 under the $14,500 received.
 - **AA onward = the medical-provider lien columns**, alphabetical (header = `=HYPERLINK(w9url,"Name")`).
 
-### M is position-independent — never hardcode a range (Klaus, 2026-08-20)
-Both edges float: subrogation columns get added on the left, providers on the right. So M is:
+### M (Medical Liens) — position-independent, and MedPay nets itself out
+Both edges float, so **never hardcode a range**. The formula (Klaus, 2026-08-20):
 ```
-=SUMPRODUCT(IFERROR($U{r}:{r}*1,0), --ISNA(MATCH($U$1:$1, _NonLien!$A$2:$A$100, 0)))
+M{r} = =SUM($U{r}:{r})-G{r}+H{r}
 ```
-Everything from U to the end of the row counts as a lien **unless its header is listed in the hidden
-`_NonLien` tab**. Adding a provider column needs NO formula change; adding a MedPay/subrogation column
-means adding one row to `_NonLien`. Legacy rows still carry `=SUM(Y{r}:DR{r})` — wrong on both ends
-(it counts Y/Z as liens and drops anything past DR); replace with the formula above when you touch a row.
-⚠️ Keep this formula in **M** (left of U). Parking it in a column inside `$U:{r}` self-references → `#REF!` circular.
+Read it as: *everything from U to the end of the row is a lien, minus whatever came back out of MedPay.*
+`G-H` IS the MedPay payback, so subtracting it cancels the payback entry sitting in the carrier's column.
+
+Why this beats an exclusion list: a **health-plan / carrier subrogation paid out of the 3P settlement**
+(e.g. `Wilber & Associates, PC`) genuinely belongs in the letter's "MEDICAL LIENS AND CASE COSTS" total, so it
+SHOULD count in M. Only the MedPay-funded portion must be excluded — and `-G+H` does exactly that, automatically.
+
+**Two invariants this depends on — check them every time:**
+1. **Every MedPay payback must be entered in that carrier's column** (anywhere from U rightward — position no
+   longer matters). If the payback exists only as a `G`/`H` gap with no column entry, M silently drops by `G-H`
+   and N breaks. Real case: Yining Li's $4,668.82 payback to Allstate (journal check 80119, "MP / Subrogation")
+   had no column at all → an **`Allstate Subrogation`** column was appended and the amount entered (yellow).
+2. **No payback ⇒ `H` must equal `G`**, so `-G+H = 0`. `G` filled with `H` blank silently subtracts the whole
+   MedPay from M.
+
+⚠️ Keep the formula in **M** (left of U). Putting it in any column inside `$U{r}:{r}` self-references → #REF! circular.
+⚠️ Rolled out to 90 of the 91 disbursed rows (0 M values changed, 0 rows with N≠0). Rows with **no** Date of
+Disbursed were deliberately left alone — Klaus: their data may be wrong / still in flight.
+⚠️ **Yu Ren is the one row still on the old formula**: G=3,001.83 with H=0 and no liens, because that MedPay sits
+in **Lashine IOLTA-5429**, not #3618. Setting H=G would raise I by 3,001.83 and break N. Unresolved — ask Klaus.
+The now-obsolete hidden `_NonLien` tab is only referenced by that row; delete it once Yu Ren is settled.
 
 ---
 
@@ -97,7 +113,7 @@ Klaus scans every settlement check he receives and sends it here BEFORE mailing/
 4c. **MedPay with a subrogation payback**: put the amount returned in the carrier's U–Z column (yellow),
     set `G` = MP received and `H` = MP net of the payback, and record the payback check in the journal as
     "MedPay REIMBURSEMENT to carrier". It is NOT a lien and must not appear in M.
-5. New provider → insert a column in alphabetical position (AA onward, never in the U–Z block); header = HYPERLINK to its W9 (search the W9 folder; if no W9 found, plain name + tell user to add W9). Gotchas: (a) if the new column exceeds the grid, `appendDimension` COLUMNS first (400-error "exceeds grid limits"); (b) if the row still carries a legacy `=SUM(Y{r}:DR{r})`, replace it with the position-independent M formula above — a hardcoded range silently drops providers past its right edge and counts U–Z as liens; (c) column letters shift after every insert — re-read header positions before writing values.
+5. New provider → insert a column in alphabetical position (AA onward, never in the U–Z block); header = HYPERLINK to its W9 (search the W9 folder; if no W9 found, plain name + tell user to add W9). Gotchas: (a) if the new column exceeds the grid, `appendDimension` COLUMNS first (400-error "exceeds grid limits"); (b) if the row still carries a legacy `=SUM(Y{r}:DR{r})`, replace it with `=SUM($U{r}:{r})-G{r}+H{r}` — a hardcoded range silently drops providers past its right edge; with the new formula a new provider column needs no formula change at all, wherever you put it; (c) column letters shift after every insert — re-read header positions before writing values.
 6. Read back and confirm N = $0.
 
 **Step 3 — Record in Account Journal (CONTENT ONLY, NO DATES)**
