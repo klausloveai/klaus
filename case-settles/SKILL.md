@@ -9,7 +9,7 @@ description: >
   fires this pipeline, no inference needed. A bare attachment with zero words also counts: when a
   disbursement PDF arrives with no instruction, default to running this pipeline. It orchestrates end-to-end in one pass —
   verify math + funding → Disbursement Sheet → Account Journal → archive + move to "8. Settled" →
-  Pending→Completed sheet → draft the team "Case settled" email (STOPS for Klaus's approval) →
+  Pending→Completed sheet → send the team "Case settled" email (default: send, no approval gate) →
   extract marketing material → file the case into its DOL-year folder → Activity Log + _STATE.md.
   Detail lives in `accounting-agent` (money) and `settled-case-marketing-pkg` (marketing); this
   skill owns the ORDER, the STOP gates, and the final verification. PI auto only — never dog-bite /
@@ -30,7 +30,9 @@ sitting in drafts waiting on Klaus.
 1. **Underfunded** — the settlement money is not confirmed in #3618 (→ #4854 → Lashine 5429). Stop.
 2. **Math doesn't tie** — `Total ≠ Recovery + Fee + Case Cost + Σ reduced liens`, or a figure Klaus
    gave conflicts with the letter/checks. Raise it, never guess a number into a trust ledger.
-3. **Sending the team email** — draft only; send on Klaus's explicit go.
+3. ~~Sending the team email~~ — **NO LONGER A GATE.** Klaus 2026-08-21: "之后都默认发就行" — build it and
+   **send it**, then re-apply the case label (sending drops it). Still stop and ask if something about the case
+   itself is unresolved (funding, math, a DOL conflict you had to pick a side on).
 4. **Not PI auto** — dog-bite / Hernán litigation: do the money steps only, no marketing package.
 5. **Confidentiality** — a settlement agreement with a confidentiality clause: skip marketing, tell Klaus.
 
@@ -92,8 +94,9 @@ sitting in drafts waiting on Klaus.
     `uploadType=multipart` — `--json` blows the shell arg limit, `uploadType=media` is rejected.
 26. Label the draft with the case's Gmail label in that mailbox. Label missing there but present in
     klaus@ → that case was run out of klaus@; **ask Klaus which mailbox**, don't create a new label.
-27. **Show Klaus and stop.** After his go: `drafts send`, then **re-apply the label** — sending
-    drops it, the sent message comes back `['SENT']` only. Verify.
+27. **Send it** — `drafts send` (no approval needed as of 2026-08-21), then **re-apply the case label**:
+    sending DROPS it and the sent message comes back `['SENT']` only. Verify To/Subject/labels after sending.
+    Report what went out. If the case had an unresolved discrepancy, raise that in chat — but still send.
 
 ## Phase 6 — Marketing material  (PI auto only)
 28. Resolve the `人伤` **shortcut** (`1YjOq97wy58uhV_5QMaoOIQ0te5oHShrj`) to its target
