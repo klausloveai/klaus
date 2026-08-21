@@ -91,7 +91,14 @@ Read the case's **filed/conformed complaint** (source of truth) + intake sheet:
 - **Plaintiff** name.
 - **Complaint's DEFENDANT caption** verbatim (e.g. `JORGE VELAZQUEZ; and DOES 1 through 50, inclusive`) — this is the pre-amendment caption; it goes on the CIV 105 unchanged.
 - **The new defendant's true name** (from the Animal Control report / deed / etc.).
-- **Which DOE number** → decide by the person's ROLE, matching how the complaint blocks its Does. In the house dog-bite complaint: **DOES 1–20 = dog owner/keeper/harborer**; **DOES 21–50 = property owner/landlord/manager**. Take the next unused DOE in the block that fits the person's role (a dog owner → DOE 1, DOE 2, …; a landlord → DOE 21, …). Confirm the number with Klaus/Hernán.
+- **Which DOE number** → **read the FILED complaint's own Doe allocation. Never assume a
+  house default — it varies case to case.** Open the complaint, find how it blocks its
+  Does by theory of liability, and take the next unused Doe in the block matching this
+  person's ROLE. Worked examples:
+  - *Yi Cong* (CIVSB2619725): Does **1–10** = dog owner (strict liability, Civ. Code
+    §3342); Does **11–20** = premises/landlord. Camden entities → Does 11 and 12.
+  - *Guolin Zhao* (26NWCV02260): pleads Does 1–50; the dog owner went in at Doe 1.
+  These differ — that is the point. Confirm the number with Hernán before generating.
 
 Then confirm the DOE number and true name before generating.
 
