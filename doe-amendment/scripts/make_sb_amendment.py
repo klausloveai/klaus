@@ -96,17 +96,15 @@ def make_sb16778(cfg, doe_number, true_name, blank, out_path):
         def L(x, y, t, s=8.5, f="Body"):
             c.setFont(f, s); c.drawString(x, y, t)
 
-        def C(x, y, t, s=11, f="Body"):
-            c.setFont(f, s); c.drawCentredString(x, y, t)
-
         # Attorney box (top-left caption)
         L(42, 746, f"{at['name']} (SBN {at['sbn']})")
         L(42, 736, at["firm"])
         L(42, 726, f"{at['addr1']}, {at['addr2']}", 7.5)
         L(100, 708, at["tel"])                                   # Telephone No.
         L(305, 708, at.get("fax", ""))                           # Fax No.
-        L(132, 694, f"Plaintiff, {cfg['plaintiff']}")            # Attorney For (Name)
-        L(288, 694, at["sbn"])                                   # Bar No.
+        # "Plaintiff <NAME>" with no comma — matches Hernán's approved CIV 105.
+        L(132, 695, f"Plaintiff {cfg['plaintiff']}")             # Attorney For (Name)
+        L(288, 695, at["sbn"])                                   # Bar No.
         # Court block (SB pre-printed "COUNTY OF SAN BERNARDINO")
         street = cfg["court_address"].split(",")[0].strip()
         cityzip = ",".join(cfg["court_address"].split(",")[1:]).strip()
@@ -117,10 +115,13 @@ def make_sb16778(cfg, doe_number, true_name, blank, out_path):
         # Parties
         L(185, 597, cfg["plaintiff"])                            # plaintiff
         L(195, 571, cfg["complaint_defendant_caption"])          # defendant (pre-amendment)
-        L(463, 524, cfg["case_number"], 9)                       # case number
-        # FICTITIOUS NAME (No order required)
-        C(298, 459, doe_number, 11)                              # fictitious name of: DOE N
-        C(298, 425, true_name, 11)                               # true name to be: entity
+        # Case number cell is x454.5-594.7, y532.6-554.8 (label occupies the top
+        # ~7pt). Draw INSIDE the cell — y=524 fell below the bottom rule.
+        L(461, 537, cfg["case_number"], 9)                       # case number
+        # FICTITIOUS NAME (No order required) — values sit ON the ruled lines,
+        # LEFT-ALIGNED to match Hernán's approved CIV 105 house style.
+        L(42, 458, doe_number, 10)                               # fictitious name of: DOE N
+        L(42, 424, true_name, 10)                                # true name to be: entity
         # Date + Declarant's Signature intentionally BLANK (attorney signs)
         # INCORRECT NAME + ORDER sections intentionally BLANK
         c.showPage(); c.save(); buf.seek(0)
