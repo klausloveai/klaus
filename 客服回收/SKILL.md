@@ -10,10 +10,12 @@ description: >
   Form responses, classifies each non-participant as 结构性 / 服务不满 / 待观察 / 未问, and hands
   Klaus a verdict to rule on. Trigger on: "/客服回收", 客服回收, 满意度, 客户满意度, 评论回收,
   好评回收, 好评返现, 三连, "登记一下 X 的好评", "X 不愿意评论", "跑月度满意度结算", "上月满意度",
-  "Google 评论对账", or right after a case is disbursed (chained from `case-settles` Step 36).
-  Three modes: ①登记 ②回填 ③月度结算. It WRITES to the satisfaction ledger (append/update only)
-  and DRAFTS the monthly report — it never sends email, never posts to Chat, never pays anyone,
-  and never rules on 达标 itself (Klaus rules).
+  "Google 评论对账", or right after a case is disbursed. **Single source of truth = 市场部的
+  好评返现 Google Form + its Responses sheet** (Klaus 2026-08-31: 市场部做的表足够了) — this skill
+  keeps NO parallel ledger; it derives the 未做名单 by subtracting the Form's completions from the
+  month's disbursed clients, collects the missing 「为什么」, and reports. It DRAFTS the monthly
+  report only — never sends email, never posts to Chat, never pays anyone, never edits the
+  marketing Form/SOP, and never rules on 达标 itself (Klaus rules).
 ---
 
 # 客服回收 · 客户满意度回收系统
@@ -70,8 +72,7 @@ description: >
 ## 固定 ID
 | 什么 | ID / URL |
 |---|---|
-| **满意度回收系统 Sheet** | `1-i0Dw-cccJOFIxNM-6tsBd2SefNCN5KezuoVCwLLguE`(klaus@ My Drive) |
-| ↳ tabs | `回收台账`(251393844) `月度结算`(348568453) `原因码`(1772388048) `Google评论对账`(599287952) `话术`(902706954) |
+| **⚠️ 旧「满意度回收系统」Sheet — 已停用** | `1-i0Dw-cccJOFIxNM-6tsBd2SefNCN5KezuoVCwLLguE`(只留 2026-08 的 26 位基线数据 + `话术`/`原因码` 两个 tab 还有用;是否删由 Klaus 定。**不要再往里写数据**) |
 | Completed Disbursed Sheet(结案客户名单来源) | `1EvsbLjAuRdTTfH3uyEmV3qFjmAtKCdfBPByVCMAF1kA` → `🔍 Search`: Date of Disburse \| Client \| DOL \| Tab |
 | PI Master Sheet(查团队 / CM) | `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`(tab = 所属邮箱) |
 | Drive「客户好评返现活动」 | folder `10Jwhvfyr0GAKiCcI9Vl-KBVrzLOp0SA5`(shared drive `0ADGjWMsKp6m6Uk9PVA`) |
@@ -106,51 +107,49 @@ description: >
 
 ---
 
-## Mode ① 登记 — 支票交付当天
-触发:`case-settles` 跑完 / Klaus 说「X 的支票给了 / 寄了」。
+## 记录在哪(2026-08-31 定)
+- **完成记录 = 市场部的内部好评返现 Form**(Paralegal 填)→ Responses sheet `Form Responses 2`。**不另建表。**
+- **未做名单 = 差集算出来的**:当月 Completed Disbursed 的客户 − Form 里有完成记录的客户。
+- **「为什么」不进表** —— 月度结算时向该案好评负责人问一遍,原话写进**月度报告** + Activity Log 一行。
+  这条是这套系统的命门:Form 只记做了的人,没人替我们记没做的人。**报告里每个未做的客人必须带一句客人原话**,
+  写不出来的就是 U0(没问),点名负责人。
+- 原因分类沿用旧表 `原因码` tab(S1–S6 结构性 / W1 待观察 / D0–D6 服务不满 / U0 未问),只当分类词典用。
 
-1. 从 Completed Disbursed / disbursement PDF 拿 **Client(英文原名,永不翻中文)、DOL、disburse 日期**。
-2. 多客户案(司机+乘客)→ **一人一行**。未成年不建行,家长那行备注「代 <Minor> 领」。
-3. PI Master Sheet 查所属 tab = 团队邮箱 → 经办 CM;`G` 好评负责人 = 该案 Paralegal(不确定就留空并问)。
-4. 写 `B:M`:B–H 基础信息,I 邀请日期,J/K/L 三个渠道先给 `⏳邀请中` 或 `❓未问`。
-   - 当面交付且当场邀请过 → I=当天,J=`⏳邀请中`(先请 GR),K/L 按有没有讲返现给 `⏳邀请中` / `❓未问`
-   - **邮寄** → H=邮寄,**当天必须微信补邀请**(话术 5)+ 发「诉讼人伤好评返现指导图片」;没补 → J/K/L=`❓未问`,U=`S4`
-5. 把 `话术` tab 对应场景原文贴给 Paralegal / 贴回 session,让他照读。
+## Mode ① 交付当天(不写表,只发东西)
+1. 支票交付(当面或寄出)当天,该案好评负责人在客户群:
+   - 先请 **GR** —— 发一键好评工具链接(自动生成文案,客人看一遍发出去)。
+   - 再发**诉讼人伤好评返现指导图片**(`1JsOqrr3bm4duOQPPSEWjSGYPhea_s-m_`,PI 用这张,别用移民那张)
+     + 朋友圈文案 / 海报,讲清 XHS $50 / PYQ $50。
+2. 邮寄件**当天必须微信补邀请**(话术 5)—— 这是最常见的漏口。
+3. 把 `话术` tab 对应场景原文贴给负责人。多客户案(司机+乘客)每位都要单独邀请。
 
-## Mode ② 回填 — 客人做了 / 没做
-**按 Client 名字现搜行号,不要用缓存行号**(表会被排序)。
-
-- **做了**:对应渠道列填 `✅已发`,M=完成日期。N 自动变 `✅达标`。
-  - XHS / PYQ 有 ✅ → P 自动算出应返现 → 走返现闭环:Paralegal 收截图 + Zelle → 填 Form(Q 记提交日)
-    → 内部群 @Teresa @Joe(T=是)→ Joe 付款(S=是,R=已发)。P>0 而 R≠已发 的格子会自动标黄。
-- **一个都没做**:U 选原因码,V **必填客人原话**。
-  - 「客人不愿意」这类空话不接受 → 退回问。V 空着时该格自动标红。
-  - 客人明确不愿意 → 先用**话术 4(探因)**问一句,原话写进 V。
-- **口头答应没发**:第 3 天(话术 6)、第 7 天(话术 7)各跟一次 → 仍没发 → U=`W1`(待观察);
-  第 3 次还没发 → 改 U=`D0`(服务不满),由好评负责人电话探因。
-- **🚫不宜**(失联 / 回国 / 未成年独立 / 律所自己人)→ 三个渠道填 `🚫不宜`,U=`S5`,V 写清情况。
+## Mode ② 跟进 / 收材料(负责人自己跑,Claude 只提供话术)
+- 客人做了 → 收截图 + Zelle(**一次性收齐**)→ 填 Form → 群里 @Teresa @Joe → Joe 付款。
+- 口头答应没发 → 第 3 天(话术 6)、第 7 天(话术 7)各跟一次;第 3 次还没发 → 电话探因,记原话。
+- 客人明确不愿意 → 先用**话术 4(探因)**问一句,原话记下来 —— 这句话比那条评论值钱。
+- 提交前自查:截图清晰可辨平台 · XHS 内容含案件类型 + 对团队正面评价 · GR 是给 Lingtu Law APC 的五星 ·
+  **PYQ 必须「所有人可见」** · Zelle 无输入错误 · 金额 = 每项 $50。
 
 ## Mode ③ 月度结算 — 每月 1 号跑上个月
 1. **`date` 读真实日期**,算出目标月 `YYYY-MM`(默认上一个自然月)。
-2. **结案客户名单**:读 Completed Disbursed `🔍 Search`,筛 Date of Disburse 落在目标月 →
-   展开成客户级名单(tab 名里 `/` 分隔 = 同案多客户,**每位都算一位**;剥掉 `✅` 前缀)。
-   **去重坑**:中间名(`Yuran Zhou` vs `Yuran N Zhou`)会打断精确匹配 → 模糊比对。
-3. **对账台账**:名单里在 `回收台账` 找不到行的客户 → **漏登记**,算 U0(未问),点名负责人。
+2. **结案客户名单**:读 Completed Disbursed `🔍 Search`,筛 Date of Disburse 落在目标月 → 展开成客户级名单
+   (tab 名里 `/` 分隔 = 同案多客户,每位算一位;剥掉 `✅` 前缀)。**去重坑**:中间名(`Yuran Zhou` vs
+   `Yuran N Zhou`)打断精确匹配 → 模糊比对。
+3. **读 Form Responses**(`Form Responses 2`),筛目标月 Timestamp → 拿到「完成了什么平台 / 应付金额 /
+   Joe已付款」。⚠️ Form 的「客户姓名-案件类别」字段填得脏(见过整格只写 `PI Auto`)→ 对不上的进「待确认」,
+   交负责人补,**不要硬猜**。
 4. **对账 GR**(公开页,不用登录;浏览器打开 Google 页面 → 按最新排序 → 读评论人 / 星级 / 日期 / 正文):
-   - 数出目标月新增评论数、累计数、平均星级 → 写一行进 `Google评论对账`。
-   - Google 上有、台账没记 → 回填 `✅已发`(客人自己发的照样算)。台账记了 ✅、Google 上找不到 →
-     让负责人拿截图,否则改回 `⏳邀请中`。
-   - ⚠️ Google 显示名常和案件英文名不一样(昵称 / 拼音 / 中文名),对不上的进「待确认」,别硬猜。
-5. **对账 XHS / PYQ + 返现**:读 Form Responses sheet(`Form Responses 2`),筛目标月 Timestamp →
-   按客户名匹配台账:完成的平台 → 回填 K/L `✅已发`;Q=Timestamp 日期;`Joe已付款`=TRUE → S=是,R=已发。
-   Form 里有、台账没有的客户 → 补登记。**台账应返现总额 与 Form 应付金额合不上就报出来**
-   (最常见原因就是上面那条 GR 是否返现的口径冲突)。
-6. **算数**(`月度结算` 目标月行 B–O 是公式;缺行就补一行,A 列 RAW 写月份)。
-7. **产出中文报告**(见下),Klaus 看完在 P 列写裁定。
-8. **复盘条目**:每个 D 类 + 每个 U0 各生成一条(客人 / 负责人 / 原话 / 卡在哪个环节 / 建议动作),
+   数出本月新增评论数、累计数、平均星级。Google 上有、Form 里没有 → 客人自己发的,**照样算达标**,
+   在报告里补上。Google 显示名常和案件英文名不一样(昵称 / 拼音 / 中文名),对不上的进「待确认」。
+5. **差集 → 未做名单**,逐个向负责人要原因 + 客人原话,按 `原因码` 归类。
+6. **算数**:结案客户 N · 达标 X(至少一项)· 未达标 Y · GR/XHS/PYQ 各几位 · 🏆三连几位 ·
+   应返现 $ / 已付 $ · 未做里结构性 / 服务不满 / 待观察 / 未问 各几位。
+7. **四色初判**:未问>0 → 🟥流程失败;有 D 类 → 🟧需复盘;未达标 ≤1 → 🟩达标;否则 🟨待裁定。
+   **裁定永远是 Klaus 的** —— 报告末尾把裁定选项摆出来,不要自己判。
+8. **复盘条目**:每个 D 类 + 每个 U0 各一条(客人 / 负责人 / 原话 / 卡在哪个环节 / 建议动作),
    D3(沟通不到位)按红线级处理。可直接喂 `团队复盘` 当周一材料。
 9. 收工:Activity Log append 一行 —— Category `客户`,Source `Manual`,`manual:客服回收`,
-   Ref = `<YYYY-MM> 满意度结算`。
+   Ref = `<YYYY-MM> 满意度结算`,备注里带上未达标名单和原因(这就是「为什么」的留痕)。
 
 ### 月度报告格式
 ```
@@ -158,12 +157,12 @@ description: >
 
 结案客户 N 位 · 达标 X 位(做了至少一项)· 未达标 Y 位   [指标 ≤1]
 渠道:GR a · XHS b · PYQ c · 🏆三连 d 位
-返现:应付 $e(Form 已提交 f 笔 / Joe 已付 g 笔)
+返现:应付 $e · Joe 已付 $f · 待付 <名单>
 Google 页面:本月新增 h 条 · 累计 T 条 · 平均 R★
 系统初判:<🟩/🟨/🟧/🟥 + 一句话>
 
-未达标名单(一个渠道都没做)
-1. <Client> · <负责人> · <原因码 说明>
+未达标名单(三个渠道一个都没做)
+1. <Client> · <好评负责人> · <原因码 说明>
    客人原话:「……」
 2. …
 
@@ -174,7 +173,7 @@ Google 页面:本月新增 h 条 · 累计 T 条 · 平均 R★
 · <Client> $<金额> — 卡在 <Form 未填 / 未 @Teresa @Joe / Joe 未付>
 
 📋 等 Klaus 裁定
-· <这个月判 达标 / 达标(有观察项) / 不达标>,写进 月度结算!P<行>
+· 这个月判 达标 / 达标(有观察项) / 不达标
 ```
 
 ---
@@ -194,13 +193,12 @@ Google 页面:本月新增 h 条 · 累计 T 条 · 平均 R★
 - 客户名一律英文原名。
 
 ## 当前状态(2026-08-31)
-- `2026-08` 已回填 **26 位** disburse 客户(来自 Completed Disbursed `🔍 Search`),三个渠道全 `❓未问`
-  → 初判 🟥。**8 月是上线基线月,不作为考核月**(写在 `月度结算!Q2`)。
-- 其中 **8/20 之后交付的 12 位仍可追补邀请**(台账 Y 列标了 `🔔 可追补`)。
-- `Dacheng Xu`(8/20) 在 Master 的 Claims@ 和 Piteam@ **都有**,团队 = `待确认`,等 Klaus 定。
-- `G` 好评负责人全列空白 —— 需要 Klaus / 市场部给出每个案子的 Paralegal 对应关系。
-- **GR 是否返现的口径冲突未解决**(见上)。
-- **2026-09 起正式跑**。表还没共享给团队 —— 共享范围由 Klaus 定。
+- **规则文字已定稿**(见上「规则」段),团队版纯文本在 `~/.claude/skills/客服回收/规则文字.txt`。
+- **不建平行台账** —— 记录走市场部 Form。旧 Sheet `1-i0Dw…` 停用,只留 8 月基线 + `话术`/`原因码`,
+  是否删由 Klaus 定。
+- **GR 是否返现的口径冲突未解决**:市场部 Form / SOP / 海报写着 GR 也返 $50(7/31 有实付记录),
+  Klaus 口径是 GR 白嫖。规则文字按 Klaus 口径写 —— **发给团队前必须先改 Form,否则两边对不上**。
+- **2026-09 起正式跑**;2026-08 是上线前,不考核。
 
 ## 相关
 `case-settles`(Step 36 建行)· `团队复盘`(D 类进周一材料)· `bonus_records_system`(结案月同一数据源)
