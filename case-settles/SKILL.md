@@ -119,5 +119,11 @@ sitting in drafts waiting on Klaus.
 34. Append **one** Activity Log row (Category `会计` or `起草`, Source `Drive`, Ref = check #s +
     the marketing folder id).
 35. Update `_STATE.md` in the IOLTA#3618 Drive folder — last case processed, anything left pending.
-36. Report: what got done, what is waiting on Klaus, and **every discrepancy found** (DOL conflicts,
+36. **满意度回收建行** — for each adult client on this case, append a row to the 客户满意度回收系统
+    ledger (`1-i0Dw-cccJOFIxNM-6tsBd2SefNCN5KezuoVCwLLguE` → `回收台账!B:P`, write **B:P only** —
+    A and Q are ARRAYFORMULA columns). One row per adult client (a minor's row goes to the parent,
+    noted `代 <Minor> 领`). Fill B disburse date · C client · D DOL · E owning mailbox · F CM ·
+    G delivery (当面/邮寄) · K `❓未问`. Then hand Klaus/the CM the matching 请评论话术 line.
+    Detail + the rest of the loop: `~/.claude/skills/客服回收/SKILL.md`.
+37. Report: what got done, what is waiting on Klaus, and **every discrepancy found** (DOL conflicts,
     retainer-type mismatches, cent-level gaps). Never bury these.
