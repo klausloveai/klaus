@@ -12,15 +12,15 @@ description: |
   the "Dog Bite Case Template" into "1. Dog Bite Cases" as
   "<Client>-<MMDDYY DOL>", auto-transcribes the intake into the copied "0. Intake Sheet"
   (unknown fields left empty + yellow-highlighted), files the zip's documents — renamed —
-  into the correct numbered subfolders, creates the Gmail case label and the case Google Chat
-space, adds the case to the Dog Bite Cases tracker,
+  into the correct numbered subfolders, creates the nested Gmail case label and the case
+  Google Chat space, adds the case to the "Dog Bite Cases" tracker tab,
   drafts the Dog Owner POE (spoliation letter, variables highlighted, saved to ~/Downloads),
   and drafts the Hernán notification email (Cc Cassie + Joe, POE attached). Everything that
   goes outward is left as a DRAFT — nothing auto-sends; the DOL confirmation is the only stop.
   It does NOT file claims or prepare litigation forms (separate skills). Uses only THIS
-  case's collected info — never copies data from another case. Handles JOINT cases with two
-or more injured clients. Always trigger for any
-  "set up / build a new dog bite case" request, even a partial one.
+  case's collected info — never copies data from another case. Handles JOINT cases with
+  two or more injured clients (shared folder, second intake-sheet tab). Always trigger for
+  any "set up / build a new dog bite case" request, even a partial one.
 ---
 
 # New Dog Bite Case — build the case folder (Hernan Simo Cases)
