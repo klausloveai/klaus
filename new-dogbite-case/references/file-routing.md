@@ -39,3 +39,26 @@ macOS junk (`.DS_Store`, `._*`, the `__MACOSX/` tree) is skipped automatically.
 - Keep original names when they are already descriptive (scene photo/video, address).
 - Rename to lead with `<Client> - ` for the "identity" docs (ID, retainer, records) so
   they read clearly out of context; leave self-descriptive media as-is.
+
+## Multi-client cases (added 2026-09-01)
+- Shared documents (retainer + joint conflict waiver, client IDs, scene, delivery label,
+  animal-control screenshots) are filed ONCE and named with **both** clients:
+  `<Client A> & <Client B> - <doc>.pdf`.
+- Per-client medical evidence stays **per client**, named with that client alone:
+  `Peiyun Zhou - ER Records (Sharp Memorial) 8-17-26 to 8-22-26.pdf`,
+  `Jian Wang - Sharp Memorial Billing Statement ($6,207.84 balance).pdf`. This is what
+  makes the demand packages separable later.
+- Number multi-file series so they sort: `Peiyun Zhou - Injury Video 01.mov` … `07.mov`.
+- The intake specialist's file index (if the zip carries one) is worth keeping at the root
+  as `0. Intake File Index (from <name>).txt` — it records what she believed she sent, and
+  it has already been wrong once (indexed 4 videos, the zip held 7).
+
+## A file whose name asserts a fact it cannot support
+Rename it so the caveat travels with the file. A "dog reference" image that is only a
+lookalike must be filed as
+`Dog Reference (comparison image only - NOT the actual dog).pdf` — otherwise it turns up
+in a demand package two months later looking like a photograph of the dog.
+
+## ⚠️ sort_files.py runs exactly once
+It uploads unconditionally and has no dedupe. Re-running it duplicates every file. Verify
+by listing the destination folders, never by re-running. See SKILL.md Step 6.
