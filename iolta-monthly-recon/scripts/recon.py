@@ -112,7 +112,22 @@ def match(rows, txns, month):
     claimed |= prior
     res["already"] = len(prior)
     credits, numbered, unnum, other = split_txns(txns)
-    res["other"] = other
+    # non-check debits (transfers, sweeps, fees) must ALSO have a journal row.
+    # Match on amount, and on the BoA confirmation number if it is in column D.
+    res["other"], res["other_ok"] = [], []
+    for t in other:
+        conf = re.search(r"Confirmation#?\s*(\d+)", t["desc"])
+        cands = [x for x in rows if x["dis"] and abs(x["dis"] - abs(t["amt"])) < 0.005
+                 and (x["row"] in prior or x["row"] not in claimed)]
+        if conf:
+            byconf = [x for x in cands if conf.group(1) in str(x["ck"])]
+            if byconf: cands = byconf
+        if len(cands) == 1:
+            res["other_ok"].append((t, cands[0]))
+            if cands[0]["row"] not in prior:
+                claimed.add(cands[0]["row"]); res["assign"][cands[0]["row"]] = (t["date"], month)
+        else:
+            res["other"].append((t, cands))
     res["totals"] = dict(credits=c2(sum(t["amt"] for t in credits)),
                          numbered=c2(sum(t["amt"] for t, _ in numbered)),
                          unnumbered=c2(sum(t["amt"] for t in unnum)),
@@ -224,8 +239,12 @@ def report(res, rows, bank_end=None):
         else:
             P(f"  *** UNNUMBERED {t_['date']} {abs(t_['amt']):,.2f}: {len(cs)} candidates "
               f"{[(c['row'], c['ck'], fmt(c['payee'])) for c in cs]}")
-    for o in res["other"]:
-        P(f"  *** NON-CHECK DEBIT — needs its own journal row: {o['date']} {o['desc']} {o['amt']:,.2f}")
+    for t_, x in res.get("other_ok", []):
+        P(f"  non-check debit {t_['date']} {abs(t_['amt']):,.2f} -> r{x['row']} "
+          f"({fmt(x['purpose'])}) tied")
+    for o, cands in res["other"]:
+        P(f"  *** NON-CHECK DEBIT with NO journal row: {o['date']} {o['desc']} {o['amt']:,.2f}"
+          + (f"  [{len(cands)} same-amount candidates: {[c['row'] for c in cands]}]" if cands else ""))
     P("")
     P("## Deposits")
     for d, bs, n, jr in res["dep_tie"]:
