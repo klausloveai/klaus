@@ -43,13 +43,34 @@ def put(rng,vals):
     r,raw=gws(["sheets","spreadsheets","values","update"],
               {"spreadsheetId":SID,"range":rng,"valueInputOption":"USER_ENTERED"},{"values":vals})
     ok="updatedCells" in r
-    if not ok: print("  !! write failed",rng,raw[-300:])
+    if not ok:
+        print("  !! WRITE FAILED",rng,raw[-300:])
+        raise SystemExit(f"ABORTING: write to {rng} failed — rows may be missing; fix and re-run (Sheet1 writes are idempotent).")
     return ok
 
 def esc(s): return str(s).replace('"','""')
 def tid_of(r): 
     m=re.search(r'/(\d+)\s*$',str(r[8]) if len(r)>8 else '')
     return m.group(1) if m else ''
+
+def ensure_rows(sheet_title, needed):
+    """Grow the tab's grid if it cannot hold `needed` data rows (+1 header).
+    Without this a chunked write silently fails past the grid limit and DROPS rows."""
+    r,_=gws(["sheets","spreadsheets","get"],
+            {"spreadsheetId":SID,"fields":"sheets(properties(sheetId,title,gridProperties(rowCount)))"})
+    for sh in r.get("sheets",[]):
+        pr=sh.get("properties",{})
+        if pr.get("title")==sheet_title:
+            have=pr.get("gridProperties",{}).get("rowCount",0)
+            if have >= needed+1: return have
+            want=needed+201
+            gws(["sheets","spreadsheets","batchUpdate"],{"spreadsheetId":SID},
+                {"requests":[{"updateSheetProperties":{
+                    "properties":{"sheetId":pr["sheetId"],"gridProperties":{"rowCount":want}},
+                    "fields":"gridProperties.rowCount"}}]})
+            print(f"  grid: {sheet_title} rowCount {have} -> {want}")
+            return want
+    return None
 
 def main(path):
     P=json.load(open(path))
@@ -82,6 +103,7 @@ def main(path):
         return (ci,((m.group(1) if m else str(r[2])).replace('""','"')).lower())
     rows.sort(key=key)
     for i,r in enumerate(rows,1): r[0]=i
+    ensure_rows("Sheet1",len(rows))
     for st in range(0,len(rows),200):
         ch=rows[st:st+200]
         put(f"Sheet1!A{st+2}:I{st+1+len(ch)}",ch)
@@ -90,6 +112,7 @@ def main(path):
     log=P.get("log",[])
     if log:
         start=len(get("'Updates Log'!A1:A5000"))+1
+        ensure_rows("Updates Log",start+len(log))
         put(f"'Updates Log'!A{start}:H{start+len(log)-1}",
             [[synced,x["type"],x["dates"],x.get("cat",""),
               f'=HYPERLINK("{x["url"]}","{esc(x["title"])}")' if x.get("url") else x["title"],
@@ -110,10 +133,12 @@ def main(path):
     if pn:
         rows2=[[a,b,c,d,e,f,f'=HYPERLINK("https://nerdgroup.co/g/Nerds/topic/{g}","source")'] for (a,b,c,d,e,f,g) in pn]
         st=len(get("'Provider Database'!A1:A500"))+1
+        ensure_rows("Provider Database",st+len(rows2))
         put(f"'Provider Database'!A{st}:G{st+len(rows2)-1}",rows2); print("Provider DB appended:",len(rows2))
         cau=[r for r in rows2 if r[4] in ("Caution","Blacklist","Note")]
         if cau:
             st2=len(get("'Blacklist & Cautions'!A1:A500"))+1
+            ensure_rows("Blacklist & Cautions",st2+len(cau))
             put(f"'Blacklist & Cautions'!A{st2}:G{st2+len(cau)-1}",cau); print("Blacklist appended:",len(cau))
     print("DONE")
 

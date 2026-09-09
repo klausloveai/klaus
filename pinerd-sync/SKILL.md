@@ -18,7 +18,7 @@ Carpenter & Zuckerman 深度参与）的付费会员。内容按 Terms §6a 属 
 | Master TOC (Doc) | `1VN8uuIsONzhO-D7_v7Hex6hLLBS698j0meeeidefJt4` |
 | START HERE (Doc) | `1OJd8P5_T4UQUeEVvLbHMYzzukw0Zmpwe9zv5OELe6OY` |
 | RAW backup JSON（首轮 1,125 帖全文） | `1EIEggu_iRb0THMRV8W-DUQPukGqirfgk` |
-| Box「02. Webinars」（录像库，需登录 nerdgroup.co → Files） | `https://app.box.com/s/2t4828l1ztr0sh9ewqxjsafc6a0s4hbs` |
+| Box「02. Webinars」（录像库） | ⚠ **share key 会轮换，别写死** —— 每次都从 `nerdgroup.co/g/Nerds/files` 的 Webinars 链接现取。2026-09-02 轮换过一次（旧 `2t4828l1…` 已失效 → 新 `88mtojf9gwpiqonvq8jf8ctlqwo4zjgy`）。子夹 id 和文件 id **不变**，只有 `/s/<key>` 变。 |
 
 Master Index 的 tab：
 - **Sheet1** — 主表，一帖一行：`# / Category / Topic(HYPERLINK) / Summary / Providers mentioned / Phone(s) / ⚠ / Msgs / Source URL`，按 Category 分组、组内按主题名字母排序。
@@ -79,8 +79,16 @@ python3 ~/.claude/skills/pinerd-sync/scripts/pinerd_write.py payload.json
 脚本负责：追加新行 → 应用 `[UPD]` 追加 → Sheet1 重排序重编号 → append Updates Log →
 append/更新 Provider DB 与 Blacklist。**幂等**：同一 topic id 不会重复入表，同一段 `[UPD]` 不会重复追加。
 
-### 5. Webinar Library（**只在被要求刷新、或有新录像公告时才做**）
-digest 里出现 `Replay Now Available` / `Webinar Notes` / `Event: ... Webinar` 时：
+### 5. Webinar Library（**每月至少查一次，别只等公告**）
+触发条件：digest 里出现 `Replay Now Available` / `Webinar Notes` / `Event: ... Webinar`，**或**距上次核对
+超过一个月，**或** Klaus 问某场录像。两个已经踩过的坑：
+- **Lydia 不一定发 replay 公告** —— 2026-08-12 那场 depo 录像 8/25 才悄悄上传，全程没有任何公告帖。
+  所以「digest 里没有 replay 公告」≠「没有新录像」。
+- **Box 的 `/s/<key>` 会轮换**（2026-09-02 发生过一次），一轮换，表里所有录像直链**全部失效**且
+  Box 只报 "This shared file or folder link has been removed"。**每次刷新都先从
+  `nerdgroup.co/g/Nerds/files` 现取当前 key，再整列替换**（子夹 id / 文件 id 不变，只换 key 就行）。
+
+具体做法：
 开浏览器（Claude-in-Chrome，已登录）→ `nerdgroup.co/g/Nerds/files` → Webinars（跳 Box）→
 逐个子夹（Medical / Structure / Liens & Health Insurance / Pre-Litigation / Litigation）
 读 `a[href*="/file/"]` 拿到文件名 + 直链，把新录像补进 **Webinar Library** tab
