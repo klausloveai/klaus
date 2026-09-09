@@ -9,7 +9,8 @@ description: |
   files, 加 POS, 做 proof of service, 出 POS, e-serve, "/add-pos" for a set of documents.
   Typical invocation: the user uploads the attorney-signed PDFs to e-serve (a case/client
   name + opposing counsel's DESIGNATED e-service email). The skill pulls the firm's Drive
-  POS template ("POS Template.docx" — pleading format, double side-rules, line numbers,
+  POS template ("Proof of Service - TEMPLATE (fillable, highlighted).docx" — pleading
+  format, double side-rules, line numbers,
   auto-date, {{tokens}}), appends a matching POS to EACH document, drops the results into
   a client-name folder in Downloads, drafts the e-serve email as a Gmail draft on klaus@
   with the PDFs attached, and WAITS for the user to review and say "send". Only after the
@@ -22,7 +23,8 @@ description: |
 
 Attach a California electronic-service Proof of Service to a set of attorney-signed
 documents, then run them through the firm's e-serve workflow. The firm POS template lives
-in **Google Drive** (`POS Template.docx`, file id `19BhkRUm99mGnajKmAP-vaQCoFzfZnWCU`) — a
+in **Google Drive** at `2. Template / Legal Form / `**`Proof of Service - TEMPLATE (fillable,
+highlighted).docx`** (file id `1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok`) — a
 pleading-format POS with the firm's double side-rules, line numbers 1–28, a Word DATE
 auto-field, and `{{tokens}}`. **Always pull it from Drive; never hand-rebuild it**
 (reconstructing locally is how the format drifts — this was the lesson that created this skill).
@@ -89,10 +91,13 @@ and the calendar is only created after the send actually happens.
    ```bash
    mkdir -p ~/Downloads/"<Client Name>" && cd ~/Downloads/"<Client Name>" && \
    gws drive files get \
-     --params '{"fileId":"19BhkRUm99mGnajKmAP-vaQCoFzfZnWCU","alt":"media"}' \
-     --output "POS Template.docx"
+     --params '{"fileId":"1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok","alt":"media","supportsAllDrives":true}' \
+     -o "POS Template.docx"
    ```
-   (If the id ever fails, search Drive: `name='POS Template.docx'`.)
+   (Local filename stays `POS Template.docx` — that is what `config.template` points at.
+   If the id ever fails, list the firm template folder `2. Template / Legal Form`
+   — Drive id `1ytvCvg9Bx_OxDdN9fEDgnnhzSHHtTWUZ` — and take the Proof of Service template
+   from there. **That folder is the source of truth**; never rebuild the POS locally.)
 
 2. **Confirm the designated service address** against opposing counsel's opening letter.
    If two emails are given (service vs. correspondence), use ONLY the service one in the POS.
@@ -155,8 +160,11 @@ and the calendar is only created after the send actually happens.
 
 ## Notes / gotchas learned
 
-- The template also exists as a **human-fill version** with `{{tokens}}` highlighted yellow;
-  the builder strips highlight after filling, so either works — prefer plain `POS Template.docx`.
+- The Drive template is the **human-fill version** with `{{tokens}}` highlighted yellow; the
+  builder strips the highlight after filling, so the served output is clean.
+- **2026-09-09:** the old id `19BhkRUm99mGnajKmAP-vaQCoFzfZnWCU` / `POS Template.docx` is dead
+  (Drive returns "File not found"). Canonical template is now the one in `2. Template /
+  Legal Form` named above.
 - Downloads may get tidied between steps; the client folder is the stable home for outputs.
 - Deposition scheduling reminder: opposing counsel commonly requires the depo date to be
   **≥10 days after** the claimant's discovery responses are served.

@@ -7,7 +7,8 @@ being served, and generate a copy-paste service email, for 凌图律所 / Lingtu
 Usage:
     python3 build_pos.py config.json
 
-The firm POS template ("POS Template.docx", Drive id 19BhkRUm99mGnajKmAP-vaQCoFzfZnWCU)
+The firm POS template ("Proof of Service - TEMPLATE (fillable, highlighted).docx",
+Drive id 1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok, in "2. Template / Legal Form")
 is a pleading-format Proof of Service with double side-rules, line numbers, a Word DATE
 auto-field (fills the serve day), a footer PAGE field + title, and {{tokens}}. This script:
   1. loads the template,
@@ -169,6 +170,14 @@ def build_one(cfg, doc, served):
         strip_highlight(p)
     for p in d.paragraphs:
         p.paragraph_format.right_indent = RIGHT_GAP
+    # Service-list cells: left-align so a wrapped counsel/e-service line is not
+    # stretched by justification into ugly inter-word gaps.
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    for t in d.tables:
+        for row in t.rows:
+            for cell in row.cells:
+                for cp in cell.paragraphs:
+                    cp.alignment = WD_ALIGN_PARAGRAPH.LEFT
     n = len(pypdf.PdfReader(doc["src"]).pages)
     start = n + 1
     for sec in d.sections:
@@ -321,10 +330,18 @@ def main():
 
     email = make_email(cfg)
     with open(os.path.join(cfg["outdir"], "service_email.txt"), "w") as fh:
-        fh.write(email)
+        fh.write(email["display"])
     print("\n================= COPY-PASTE SERVICE EMAIL =================\n")
-    print(email)
+    print(email["display"])
     print("===========================================================")
+
+    if cfg.get("create_draft"):
+        atts = [os.path.join(cfg["outdir"], d.get("out") or out_name(d["src"]))
+                for d in cfg["documents"]]
+        atts = [a for a in atts if os.path.exists(a)]
+        did = create_gmail_draft(cfg, email, atts)
+        print(f"\nGmail DRAFT created on klaus@ (NOT sent). draft id: {did}")
+        print(f"Attachments ({len(atts)}): " + ", ".join(os.path.basename(a) for a in atts))
 
 
 if __name__ == "__main__":
