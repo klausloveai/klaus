@@ -8,12 +8,14 @@ description: |
   discovery/pleadings with a proof of service, "POS for these documents", e-serve these
   files, 加 POS, 做 proof of service, 出 POS, e-serve, "/add-pos" for a set of documents.
   Typical invocation: the user uploads the attorney-signed PDFs to e-serve (a case/client
-  name + opposing counsel's DESIGNATED e-service email). The skill pulls the firm's Drive
-  POS template ("Proof of Service - TEMPLATE (fillable, highlighted).docx" — pleading
-  format, double side-rules, line numbers,
-  auto-date, {{tokens}}), appends a matching POS to EACH document, drops the results into
-  a client-name folder in Downloads, drafts the e-serve email as a Gmail draft on klaus@
-  with the PDFs attached, and WAITS for the user to review and say "send". Only after the
+  name + opposing counsel's DESIGNATED e-service email). It first checks whether each PDF
+  ALREADY contains an attorney-drafted POS with blanks: if so it fills that POS in place
+  (dates + declarant + Klaus's signature) rather than appending a second one; otherwise it
+  pulls the firm's Drive POS template ("Proof of Service - TEMPLATE (fillable,
+  highlighted).docx" — pleading format, double side-rules, line numbers, auto-date,
+  {{tokens}}, and Klaus's signature) and appends a matching POS to EACH document. Either
+  way it drops the results into a client-name folder in Downloads, drafts the e-serve email
+  as a Gmail draft on klaus@ with the PDFs attached, and WAITS for the user to say "send". Only after the
   user says send does it send, then set the response-deadline calendar event and invite
   Hernán + Cassie. It never sends or serves without the user's explicit "send". Always
   trigger for any "add a POS / prepare proof of service / e-serve these" request.
@@ -44,6 +46,63 @@ files, run this end to end:
 
 Steps 3 and 4 are hard gates: the email is only ever a draft until the explicit "send",
 and the calendar is only created after the send actually happens.
+
+## FIRST: does the document already contain a POS?
+
+Before anything else, check each uploaded PDF for an embedded Proof of Service:
+
+```bash
+for f in *.pdf; do echo "$(pdftotext -layout "$f" - | grep -ci 'proof of service')  $f"; done
+```
+
+Attorneys often draft the POS **into** the pleading and leave the blanks open:
+
+```
+On ______________________, 2026, I served the foregoing document described as ...
+Executed on ______________________, 2026, at City of Industry, California.
+______________________________          <- declarant signature rule
+Name: ______________________
+```
+
+**If a POS is already embedded, DO NOT append the template POS.** Two reasons:
+1. The document would end up with **two** proofs of service.
+2. The attorney's own POS often carries a case-specific recital the generic template does
+   not have — e.g. *"pursuant to the Consent to Electronic Service and Notice of Electronic
+   Service Address served by Defendant Rhea Edpao on August 31, 2026"* (CRC 2.251(b)(1)(B)).
+   Replacing it is a downgrade.
+
+Fill it **in place** instead:
+
+```bash
+python3 ~/.claude/skills/add-pos/scripts/fill_inplace_pos.py \
+  ~/Downloads/"<Client Name>" <signed pdf> [<signed pdf> ...]
+```
+
+That fills both date blanks with today, fills `Name:` with the declarant, and stamps
+Klaus's signature onto the rule above it. Then jump straight to the e-serve email
+(step 3 of the workflow) — skip the template/config/builder steps entirely.
+
+Use the template + `build_pos.py` path **only** when the documents have no POS of their own.
+
+### Judicial Council forms (DISC-001, DISC-002, CM-110, ...)
+
+A Judicial Council form is a fixed government PDF — you cannot append a POS page to it and
+you must not stamp anything onto it. Its POS lives in the **companion attachment document**
+the attorney drafts alongside it (e.g. *"DISC-001 Attachment and Proof of Service"*), and
+that POS must name the form by its full title in the documents-served recital:
+
+> I served the foregoing document described as **PLAINTIFF YI CONG’S FORM
+> INTERROGATORIES—GENERAL TO DEFENDANT RHEA EDPAO, SET ONE**
+
+Verify that recital names the form. If it does, the form is covered and needs nothing —
+the scan above will show `0` for the form itself, which is correct, not a gap.
+
+### Klaus's signature
+
+The signature lives **inside the Drive POS template** as `word/media/image1.png`
+(added 2026-09-09). `fill_inplace_pos.py` extracts it from the template at run time, so
+there is one source of truth and it stays in step with the template. Never reconstruct a
+signature from a cursive font or by cropping it out of another filed document.
 
 ## Golden rules (read first)
 
@@ -165,6 +224,9 @@ and the calendar is only created after the send actually happens.
 - **2026-09-09:** the old id `19BhkRUm99mGnajKmAP-vaQCoFzfZnWCU` / `POS Template.docx` is dead
   (Drive returns "File not found"). Canonical template is now the one in `2. Template /
   Legal Form` named above.
+- **2026-09-09:** Klaus's signature PNG was added to the Drive POS template
+  (`word/media/image1.png`, 476×116 transparent). Both paths can now produce a fully
+  executed POS — nothing has to be hand-signed afterwards.
 - Downloads may get tidied between steps; the client folder is the stable home for outputs.
 - Deposition scheduling reminder: opposing counsel commonly requires the depo date to be
   **≥10 days after** the claimant's discovery responses are served.
