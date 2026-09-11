@@ -1028,6 +1028,19 @@ pages of waiver text irrelevant to them). **2+ clients → always use one.**
   (Klaus, pre-filled). Map **Client1 = driver**, Client2 = first passenger, Client3… = rest.
 - **Always remove unused Client slots** via `updateEnvelopeRecipients` → `recipientsToRemove`
   before sending (single client → remove Client2–5; two → remove Client3–5).
+
+> 🛑 **The client role is `Client1`. There is NO role named `Client`.**
+> Passing `roleName: "Client"` does **not** match the template — Docusign silently appends a
+> BRAND-NEW recipient with **zero tabs**, and the real client role `Client1` (which owns every
+> signHere / fullName / dateSigned tab) is left empty. If you then remove `Client1` as an
+> "unused slot", the client receives a contract **with no signature fields at all**. They can
+> open it, click through, and Docusign marks it `completed` with nothing signed.
+>
+> **NEVER remove `Client1`.** Single client → `roleName: "Client1"`, remove Client2–5 only.
+>
+> Happened 2026-09-08 (Zhe Ji) and 2026-09-10 (Sai Choi Lau) — both went out unsignable and
+> Klaus caught it, not us. Cause: running Step 13 from memory of "remove unused Client slots"
+> instead of reading this section.
 - **Prefill date tab count/pages differ per template — never assume.** Always call
   `listEnvelopeDocuments` with `include_tabs=true` on the actual envelope and fill every
   returned prefill tab with the DOL. (Known: the 12-page Joint/New one has 4 tabs on pages
@@ -1061,6 +1074,7 @@ behalf. Set the minor's Docusign recipient as follows:
    - Do NOT populate Attorney / Case Manager — template defaults apply.
 3. **Remove unused Client slots:** call `listRecipients` first to get the live recipientIds,
    then `updateEnvelopeRecipients` with `recipientsToRemove` containing ONLY the empty ones.
+   **`Client1` (recipientId 1) is never empty and is never removed** — it holds every client tab.
    On this template the ids come back as: Client1=1, Client2=2, Client3=3, Client4=4,
    Client5=5, Attorney=6, Case Manager(CC)=7 — but ALWAYS confirm from `listRecipients`.
    ```
@@ -1074,6 +1088,17 @@ behalf. Set the minor's Docusign recipient as follows:
    - If `updateEnvelopeTabs` is unavailable (it has intermittently dropped off the MCP
      server): leave the envelope as a DRAFT and tell the user the client email, the DOL,
      and which pages need the date — do NOT try to send with empty required tabs.
+5b. 🛑 **GATE — verify the client actually has signature fields BEFORE sending.**
+   Call `listRecipients` with `include_tabs=true` and check the client signer:
+   - `roleName` MUST be `Client1` (and `Client2`… for passengers) — never `Client`
+   - `totalTabCount` MUST be **> 0** (a correct single-client envelope shows signHere +
+     fullName + dateSigned on the client, and 3 tabs on the Attorney)
+   - `recipientSuppliesTabs: "true"` together with `totalTabCount: "0"` is the exact
+     signature of the broken envelope — **STOP, do not send.**
+
+   If it is broken: delete the envelope and rebuild it with `roleName: "Client1"`. Do NOT send
+   and fix later — once it goes out the client gets an unsignable contract.
+
 6. **Send:** `updateEnvelope` with `status="sent"`
 7. **After confirmed sent:** write `"Retainer sent M/D"` into the **Note-Claims column (col F)** for
    **all** client rows in the tracking sheet. Also confirm the **Retainer column (col C)** on the
