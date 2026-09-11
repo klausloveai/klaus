@@ -67,6 +67,12 @@ def main():
               params={"spreadsheetId": SPREADSHEET, "range": f"{a.tab}!1:1"}).get("values", [[]])[0]
     col = {h.strip(): i for i, h in enumerate(hdr) if h and h.strip()}
 
+    # Claims@ leaves column A's header blank even though A holds the DOL.
+    # Only accept that specific shape, and say so out loud — never guess any other column.
+    if "DOL" not in col and hdr and not str(hdr[0]).strip():
+        col["DOL"] = 0
+        print(f"note: {a.tab} has no 'DOL' header; column A is blank -> treating A as DOL")
+
     def need(name):
         if name not in col:
             sys.exit(f"column {name!r} not found in {a.tab} header: {hdr}")
