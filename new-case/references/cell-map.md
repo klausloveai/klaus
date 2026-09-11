@@ -59,6 +59,29 @@ I2/I3/L2/L3 结构性 Pending（本来就写 Pending 但不黄）。
 
 C45=Pass1 Injuries（**永远黄**）— 所有乘客伤情格同 C22 规则。
 
+### C22 Injuries — 固定拼接顺序（四段，用 `; ` 分隔）
+
+```
+<痛点部位>; <症状清单>; pain level N/10; <客人自述原文，中文一字不改>
+```
+
+1. **痛点部位** —— 表单「Pain Locations After the Accident」勾选项，译成英文，按表单勾选顺序
+2. **症状清单** —— 表单「Have You Experienced Any of the Following」勾选项，译成英文
+3. **pain level N/10** —— 表单「Current Pain Level」；客人只填数字没填 /10 时也写成 `pain level 2`
+4. **客人自述原文** —— 表单「Describe Your Current Symptoms」**照抄中文，绝不翻译**；
+   与前三段重复也照留（可加 `client notes: ` 前缀）
+
+缺哪段就跳过哪段，顺序不变。实例：
+```
+Left shoulder, head, left knee, left arm/wrist; headache, dizziness, nausea, vomiting, insomnia, fear of driving/riding, difficulty concentrating, mood changes/anxiety; pain level 8/10
+Neck, head, upper back; mood changes/anxiety; pain level 2; 头经常发沉
+Head, right shoulder, right knee, right leg; fear of driving/riding, mood changes/anxiety, nausea, dizziness; pain level 6/10; client notes: 脖子僵硬，肩颈受损，右腿抽筋
+```
+
+> ⚠️ **最常见的两个错**（Xianyong Hou 2026-09-10 两个都犯了）：
+> ① 把第 4 段的中文自述**翻成英文**塞进去 —— 必须照抄原文；
+> ② 顺序打乱，把 pain level 放中间、症状放最后 —— 四段顺序是固定的。
+
 ---
 
 ## Accident Information (col F = value column)
@@ -119,6 +142,16 @@ when the other vehicle [what happened], colliding with Qianxu's vehicle.
 - 对方司机姓名确认后可把 `the other vehicle` 替换成姓名
 - **街名一律留空** —— accident location 只说明事故大概在哪，不代表客人当时走的是那条街
 - 客人原文只作参考，**不据此推断街名、动作或撞击部位**；不引 CVC code，不写责任判断
+
+> ⚠️ **F4/F5 是给 CM 打 welcome call 用的空白模板，不是让我们替客人写好的叙事。**
+> 常见错误（Xianyong Hou 2026-09-10）：把客人自述"停红灯被追尾"直接改写成一句完整英文
+> （`Xianyong was stopped at a red light on S Azusa Ave when the vehicle behind him rear-ended
+> his vehicle.`），顺手从 accident location 填了街名、从照片推了撞击部位（F5 写成
+> `rear` / `front`）。三处全错：
+> - 第一行客人原文被删掉了 —— 必须一字不改照抄在第一行
+> - `[street name]` 必须留空 —— accident location ≠ 客人当时走的街
+> - `[what happened]` / `[point of impact]` 必须留空 —— 照片能看出来也不填，那是 welcome call
+>   逐项跟客人确认的内容，且 F5 用词要出自上面那张板件名词汇表（`rear bumper` 而不是 `rear`）
 
 ### F5 Point of Impact — 固定模板
 ```
