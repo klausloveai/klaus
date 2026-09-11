@@ -187,6 +187,15 @@ See [[client-bulletin-house-style]].
 - **Ethics (must pass):** treatment is symptom-/doctor-driven, never "so insurance
   pays more"; never guarantee outcome; encourage honest mitigation; settlement
   accept-vs-fight is the client's decision (present net both ways, don't steer).
+- **Provider recommendations to clients (ALL categories — chiro / MRI / PM / etc.),
+  Klaus-set 2026-09-11:** always offer **at least 3 options** (each with 名称/地址/
+  车程/语言/电话); **at least one must be near the client AND Chinese-speaking**, and
+  that one gets explicitly标注 ("其中第　家离您较近、可以说中文") — the others may be
+  farther. Close with the fixed line suggesting the client check **Google / Yelp
+  reviews** before deciding, and that they can ask us for our recommendation anytime
+  (if they ask, recommend normally — but the 3-option + review line comes first).
+  This keeps the choice on record as the client's own (pairs with §D no-attorney-driven).
+  See [[feedback-provider-recommendation-three-options]].
 
 ---
 
