@@ -51,7 +51,7 @@ gws sheets spreadsheets values get --params '{"spreadsheetId":"1XmV816UBTWcEyo65
 ## Step 1 — 拉新邮件
 
 ```
-gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:2d has:nouserlabels -category:forums -category:promotions -from:chat-noreply@google.com -from:docusign.net -from:ringcentral.com -from:nextrequest.com -from:justfoia.com","maxResults":40}' --format json
+gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:2d has:nouserlabels -category:forums -category:promotions -from:chat-noreply@google.com -from:docusign.net -from:ringcentral.com","maxResults":40}' --format json
 ```
 （`has:nouserlabels` = 没有任何用户 label，正好等于"未处理"。时间窗 2d 让 app 关过一阵也能补上。）
 
@@ -68,7 +68,7 @@ gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:
 | `-from:chat-noreply@google.com` | Amos 等人在 Chat 里 @Klaus 的通知 —— **他在 Chat 里直接回，不走邮件** |
 | `-from:docusign.net` | 全部 Docusign 通知（签署完成、待签）—— 自动回执 |
 | `-from:ringcentral.com` | 全部传真发送结果与语音留言通知 —— Klaus 在 RingCentral 里自己看 |
-| `-from:nextrequest.com` · `-from:justfoia.com` | 政府 portal 的自动回执（"已提交"、"有新消息"）—— 编号已在 task 里，回执本身不用动 |
+| ~~`-from:nextrequest.com` · `-from:justfoia.com`~~ | ⚠️ **2026-08-31 取消这条排除。** 血的教训：Monterey Park 通过 NextRequest 在 08/20 明确**拒绝**交出 Mudong Huang 案的 body-worn camera 录像（Gov Code §7923.600）并当场结案 —— 那封被这条规则过滤掉，11 天无人看见，期间 BWC 的 60 天保存期（08/28）走完。**政府 portal 发来的不只是回执，"已释出文件 / 已拒绝 / 已结案"都是实质内容。** 现在一律捞进来；纯"已提交"回执在 Step 2 判定后跳过即可 |
 
 **Step 2 还要再跳过一类（查询里表达不了，因为发件人是各家诊所）：治疗/转介/lien 相关**
 —— eazyliens、healthierminds、各 PM/Ortho/Neuro 诊所、预约与 lien 往来。这些走

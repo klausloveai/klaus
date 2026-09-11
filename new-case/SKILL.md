@@ -49,9 +49,17 @@ When the user has not said otherwise *in advance*, apply these defaults and keep
   `standard retainer`, or `send retainer`. If the prompt says nothing about the retainer, or says
   `retainer skip` / `retainer sent`, **skip both Step 13 and Step 14** (just note it in the summary).
   See the retainer gate below.
-- CM assignment = use the CM name given in the prompt. If **no CM name was given**,
-  pause after Step 1 and ask: "这个案件 assign 给谁？（Jerry / Ryan / Amos）" — wait for
-  the answer before proceeding. There is no auto-assignment.
+- CM assignment = **均摊轮转（round-robin），目前只在 Jerry 和 Amos 之间轮**（Ryan 已不在轮转内，
+  2026-09-10 起）。**每一个新案都必须停下来跟 Klaus 确认 assign 给谁 —— 即使 prompt 里已经写了
+  CM 名字也要确认。** 确认时必须同时给出这三样：
+  1. **上一次 assign 给了谁** —— 案件名 + CM + 建档日期（从 Piteam@ / Claims@ 两个 tab 的最新行读，
+     不要凭记忆）
+  2. **上一案的人数构成** —— 几个成年人、几个 minor
+  3. **本案的人数构成** —— 几个成年人、几个 minor
+  然后问："上一次是 [CM]（[案名]，[N] 成年 / [M] minor）。这个案子（[N] 成年 / [M] minor）
+  assign 给谁？" —— 等 Klaus 回答再往下走。绝不自动分配、绝不自己按轮转推断。
+  （理由：minor 案的工作量和流程都不一样——要家长代签、要 GAL、和解要过法院——所以纯按案件数
+  轮转会失衡，Klaus 要看到人数构成才能拍板。）
 - Chat space "in charge" = the named CM (no default — must be either in the prompt or explicitly answered)
 
 This Execution Mode overrides any "ask the user" / "Get user confirmation" wording in the
