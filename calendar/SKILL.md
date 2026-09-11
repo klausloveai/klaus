@@ -1,5 +1,5 @@
 ---
-name: case-deadline
+name: calendar
 description: |
   Create a litigation deadline on Klaus's Google Calendar for 凌图律所 / Lingtu Law, in the
   firm's standard shape: Tomato-colored all-day event, a title that names the case and what
@@ -7,14 +7,14 @@ description: |
   Use whenever any of these come up: calendar the deadline, 设置日历, 加个期限, 记一下 due date,
   "calendar the deadline to respond", "diary this to me", response due, answer due, discovery
   responses due, CM-110 due, jury fees due, CPRA determination due, statute of limitations,
-  "/case-deadline". Hernán ends most task emails with an instruction to calendar something —
+  "/calendar". Hernán ends most task emails with an instruction to calendar something —
   that is this skill. It ALSO carries the California date-computation rules (service-method
   extensions, court days vs calendar days, judicial holidays) so the date on the calendar is
   the real deadline and not a guess. It only writes to the calendar; it never serves, files,
   or emails anything.
 ---
 
-# Case deadline → calendar
+# Calendar — litigation deadlines
 
 Klaus's calendar is the firm's deadline system. A deadline that is on it in the wrong shape
 is nearly as bad as one that is missing, because nobody can tell from the title what is due
@@ -97,7 +97,7 @@ date on the calendar, and the description says so.
 ## Run it
 
 ```bash
-python3 ~/.claude/skills/case-deadline/scripts/add_deadline.py config.json
+python3 ~/.claude/skills/calendar/scripts/add_deadline.py config.json
 ```
 
 `config.json`:
