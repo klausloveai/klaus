@@ -36,7 +36,8 @@ Two rules define the whole skill, so internalize them before anything else:
 This skill does **not** send LORs, file claims, or update the Master tracking sheet. Those are
 separate, outbound, or human-gated actions — keep this skill read-mostly and safe so it can run
 often and unattended. Its one hand-off is a short **note to the case's internal Chat space** on
-completion (Step 7), so the team sees what was filed and where.
+completion (Step 7), so the team sees what was filed and where — **a filing receipt only, no
+analysis or flags; see the lock in Step 7**.
 
 ## Reused references (single source of truth — do not duplicate)
 
@@ -296,12 +297,23 @@ for line in sys.stdin:
 gws chat +send --space "$SPACE" --text '【Claude】补充材料已归档 — <client>
 • 内容：<what was filed, e.g. ER 病历 / 保险卡 / 身份证>
 • 存放：<subfolder>/<filename>
-• 说明：<intake 更新的关键字段 or「无待填黄格，未改动」>; <any ⚠️ flag>'
+• Intake 更新：<cell → value 的简单清单 or「无待填黄格，未改动」>'
 ```
 
-Keep it concise but informative — what was filed, where it's stored (subfolder + filename), the key
-intake fields updated (or "no yellow cells answered"), and surface any **critical flag** (e.g.
-"⚠️ minor passenger — guardian authorization needed"; "⚠️ Medi-Cal lien"). Start with `【Claude】`.
+Start with `【Claude】`. **Three lines, that's the whole message.**
+
+> 🔒 **The Chat note is a filing receipt, not a case memo.** Only: what was filed, where it went,
+> which intake cells changed. Everything else goes to Klaus in the Step 8 report instead.
+>
+> FORBIDDEN in the Chat note (Klaus deleted one for this, 2026-09-11):
+> - ⚠️/CRITICAL flags of any kind
+> - 「仍待补 / 待确认 / 需核实」lists
+> - Observations about what a document means (named insured ≠ driver, lien exposure,
+>   liability implications, coverage theories)
+> - Anything hedged — "内容未核实", "建议跟客人核一下", "可能是…"
+>
+> This mirrors the `new-case` Step 11 rule (`@Amos @CM` + Klaus's notes verbatim, nothing else).
+> Same principle both places: **Chat carries facts the team files against; judgment goes to Klaus.**
 Notes:
 - `gws chat +send` is the working helper — the older `gws chat spaces messages create` / `--params
   filter` syntax does **not** exist in this CLI.
