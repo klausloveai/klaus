@@ -861,10 +861,34 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
    Verify the response `annotations` contain `USER_MENTION` entries for each @mentioned person.
    **Do NOT add, edit, translate, or reformat the user's text in any way.**
 
+   > 🔒 **The message body is a CLOSED SET: `@Amos @CM` + one case-name line + Klaus's notes verbatim.
+   > Nothing else may appear in it. Ever.** The following are all FORBIDDEN in the Chat message,
+   > no matter how useful they look:
+   > - **Drive folder link / intake-sheet link / any URL** (the team opens the case from Drive and
+   >   the tracking sheet; a link here is noise and Klaus has said so explicitly, 2026-09-11)
+   > - Facts extracted from the documents (insurer, policy#, VIN, plate, DL, adjuster, claim#)
+   > - Injury / damage / treatment descriptions
+   > - Liability analysis, coverage theories, respondeat superior, policy-limit estimates,
+   >   case-value opinions, "这案子底子很硬"-type characterizations
+   > - ⚠️/CRITICAL flags, to-do lists, next steps, "需要核实" items
+   > - DOL / retainer type / CM restated as a header line beyond the plain case name
+   >
+   > **Everything in that forbidden list belongs in the Step 8 output summary to Klaus
+   > (`references/summary-format.md`), NOT in Chat.** If you have found something urgent, it goes
+   > in the summary under §6 Critical Flags and Klaus decides whether the team hears it.
+   >
+   > Violated twice (Ben Li 2026-08-03; Zhe Ji + Xianyong Hou 2026-09-10). Both times the cause was
+   > running Step 11 from memory of earlier cases instead of re-reading this step. **Re-read this
+   > block before composing the message, every case.**
+
 7. **Set the ⚠️ `:warning:` space emoji avatar — MANUAL.** The Chat API Space resource has no
    avatar/emoji field, so this can't be set via API. Give the user the `spaceUri` and tell them
    to set it once in the UI (Space details → emoji → `:warning:`).
 8. **Confirm:** report the space name, link (`spaceUri`), members added (verified count), and the posted mention.
+9. **Self-check before moving on.** Re-read the message you just posted and confirm it contains
+   ONLY: the @mentions, the case-name line, and Klaus's notes. If it contains a URL, a document
+   fact, or any analysis, `gws chat spaces messages patch` it back down immediately —
+   `--params '{"name":"<message name>","updateMask":"text"}'`.
 
 ### Auth note (Chat scopes)
 All Chat calls use the **default `gws` (Klaus@ account)** — never picase@/piteam@ config dir.
