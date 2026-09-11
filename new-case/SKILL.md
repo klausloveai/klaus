@@ -36,6 +36,7 @@ the Docusign retainer as the final step.
 12. Create the Gmail case label in the team mailbox (yellow)
 13. Send the Docusign retainer — **ONLY if the prompt explicitly asks to send** (default = skip); when sending, `retainer type = new / standard` is a hard gate
 14. **Output the client-facing signing message** (WeChat 文案 for Klaus to forward) — **always last, but only if Step 13 actually sent**
+15. **Final reply = `references/summary-format.md` only** — no analysis, no case-value opinions, no unsolicited to-dos
 
 > The 14 headings below (Step 1 – Step 14) match this list exactly.
 
@@ -81,7 +82,7 @@ previous case; use exactly what the prompt says (or the answer to the question a
 | 类型 | 费用结构 | 典型适用 |
 |---|---|---|
 | **new** | **先付医疗费；扣除医疗费后剩余的金额，客户与律所各得一半（50%／50%）** | **小案子**：碰撞轻微、预计赔偿额低、治疗少或不治疗、走 early settlement。这类案子医疗费会吃掉赔偿的大部分，1/3 抽成对律所不划算。 |
-| **standard** | **先扣律师费三分之一（1/3）**，剩余用于支付医疗费，之后余额归客户 | **常规案子**：正常伤情、要走完整治疗流程的。 |
+| **standard** | **先扣律师费，再付医疗费，余额归客户。律师费分两档：诉讼前和解 = 赔偿总额的 1/3；进入诉讼 = 40%** | **常规案子**：正常伤情、要走完整治疗流程的。 |
 
 **How to use the 典型适用 column:** reference ONLY — never an auto-rule. **Klaus judges the fee
 type case by case and will state it in the prompt.** Take what he says. If he didn't say, ask
@@ -578,6 +579,29 @@ Insert one row per client (driver first, then passengers) directly below the Exa
 > the value-writes target **A3/B3/C3…**, NEVER A2/B2. If you ever find yourself writing to row 2, STOP —
 > that is the Example Row and you are corrupting the template (this has caused real breakage on
 > multi-client cases where the driver was written to row 2 and pushed the Example Row down).
+
+### 🔧 Gate 3 — use the script, do NOT hand-roll the API calls
+
+```bash
+python3 ~/.claude/skills/new-case/scripts/add_tracking_row.py \
+  --tab Piteam@ --dol 9/10/2026 --client "Xianyong Hou" \
+  --sheet-id <intake sheet Drive file id> \
+  --retainer "Standard 1/3" --retainer-sent 9/10 \
+  [--referrer "..."] [--passenger "Name"]...
+```
+
+It reads the LIVE header, inserts N rows below row 2, **copies the Example Row into them**, then
+writes only the case fields (DOL / hyperlinked client name / retainer / referrer / status /
+`Retainer sent M/D`), clearing the 1LOR–Property Damage block on passenger rows. `--dry-run`
+prints the payload without touching the sheet.
+
+> ⚠️ **Every hand-rolled attempt so far has produced a broken row.** Writing
+> `insertDimension` + `values update` from memory skips the row-2 copy, so the row loses
+> Property Damage `Ask Klaus` and the clinical defaults, and the Client Name lands as plain text
+> with no link to the intake sheet — plus Note-Claims never gets the retainer date.
+> (Zhe Ji 9/8, Xianyong Hou 9/10 — both had to be repaired by hand.) **Run the script.**
+> The prose below documents what the script does and the column semantics; it is reference, not
+> a set of steps to execute manually.
 
 **Spreadsheet:** "PI Master Sheet" — ID `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`
 **CM tabs:** Jerry → `Piteam@` (sheetId `102974151`), Ryan → `Picase@` (sheetId `775230687`), Amos → `Claims(Amos)`.
@@ -1143,15 +1167,18 @@ Every version has the same four blocks, in this order:
 四、以上为简要说明，具体条款以合同为准。
 ```
 
-**`standard` 版（先扣 1/3 律师费）：**
+**`standard` 版（先扣律师费，诉前 1/3 / 诉后 40%）：**
 
 ```
 费用说明：
 一、我们采用风险代理方式，签约时不需要您支付任何前期费用。
-二、案子拿到赔偿后，先按赔偿总额的三分之一（1/3）支付律师费。
-三、剩余的金额用于支付您的医疗费用，之后的余额归您。
+二、案子拿到赔偿后，先扣除律师费。如果案子在提起诉讼之前和解，律师费为赔偿金的三分之一；如果案子需要提起诉讼，律师费为赔偿金的百分之四十。
+三、扣除律师费之后的金额，用来支付您的医疗费用，付完之后剩余的部分全部归您。
 四、以上为简要说明，具体条款以合同为准。
 ```
+
+> ⚠️ **两档费率是 2026-09-10 Klaus 校准的**：standard 不是单一的 1/3 —— 诉讼前和解 1/3，
+> 进入诉讼 40%，**两档必须都写出来**。只写 1/3 是错的。
 
 Multi-client: swap 您 → 两位／三位 to match the client count.
 
@@ -1253,6 +1280,27 @@ to the 签署操作说明 block:
 
 ---
 
+## Step 15 — Final Reply to Klaus (HARD STOP)
+
+**The last thing you say after the 14 steps is the output summary from
+`references/summary-format.md` — its 7 sections, in order, and NOTHING else.**
+
+Forbidden in the final reply (all of these were written 2026-09-10 and Klaus called them out):
+- Liability analysis, respondeat superior / corporate-defendant theories, policy-limit estimates,
+  case-value or case-strength characterizations ("底子很硬", "不是一个量级")
+- Treatment advice, urgency coaching, "gap 越久越伤案子"-type commentary
+- Unsolicited next-step / to-do lists beyond §6 Critical Flags
+- Re-explaining what the documents said beyond §2
+
+§6 Critical Flags is the ONLY place judgment belongs, and each item is **one line**, prefixed
+`⚠️ CRITICAL:`. If something genuinely needs a decision from Klaus, state it in one sentence and
+stop — do not build the argument for him.
+
+> The pipeline ends at "here is what I built and what is still open." Klaus asks for analysis
+> when he wants analysis.
+
+---
+
 ## Reference Files
 
 - `references/cell-map.md` — 填写总原则 + complete value cell map and yellow rules (**read first**)
@@ -1261,3 +1309,6 @@ to the 签署操作说明 block:
 - `references/summary-format.md` — Output summary format
 - `scripts/verify_intake.py` — **Gate 2**: post-write type self-check (catches values written
   into the wrong field). Mandatory after filling the intake sheet, before Drive upload.
+- `scripts/add_tracking_row.py` — **Gate 3**: builds the Step 10 tracking row by copying the
+  Example Row (row 2) and then setting only the case fields. Mandatory — never hand-roll
+  `insertDimension` + `values update` for the tracking sheet.
