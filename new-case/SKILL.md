@@ -1029,6 +1029,26 @@ pages of waiver text irrelevant to them). **2+ clients → always use one.**
 - **Always remove unused Client slots** via `updateEnvelopeRecipients` → `recipientsToRemove`
   before sending (single client → remove Client2–5; two → remove Client3–5).
 
+> 🛑 **Recipient roster is FIXED — 3 slots, nothing else (Klaus, 2026-09-11).**
+>
+> | Slot | Who | Type |
+> |---|---|---|
+> | Signer 1 | the client(s) — `Client1`, `Client2`… | signer |
+> | Signer 2 | `Attorney` (Shenqi Cai) | signer |
+> | CC | **exactly ONE** mailbox: the assigned CM's | carbon copy |
+>
+> **CC mailbox by CM:** Ryan → `picase@lingtulaw.com` · Jerry → `piteam@lingtulaw.com` ·
+> Amos → `claims@lingtulaw.com`. **CM not decided → `klaus@lingtulaw.com` only.**
+>
+> **Delete every other recipient the template carries** — the other two team mailboxes, Klaus
+> when a CM's mailbox is being kept, and any extra *signer* role the template picks up.
+>
+> ⚠️ The template gains and loses roles over time. On 2026-09-11 it briefly carried a
+> **`Piteam@` SIGNER with 0 tabs at routing order 3** — a signer with no tabs blocks the
+> envelope from ever reaching `completed`, even after the client signs. The pre-send gate
+> (step 5b) catches this: **only `Client1…` and `Attorney` may be signers; everything else
+> must be a carbon copy or be removed.**
+
 > 🛑 **The client role is `Client1`. There is NO role named `Client`.**
 > Passing `roleName: "Client"` does **not** match the template — Docusign silently appends a
 > BRAND-NEW recipient with **zero tabs**, and the real client role `Client1` (which owns every
@@ -1095,6 +1115,11 @@ behalf. Set the minor's Docusign recipient as follows:
      fullName + dateSigned on the client, and 3 tabs on the Attorney)
    - `recipientSuppliesTabs: "true"` together with `totalTabCount: "0"` is the exact
      signature of the broken envelope — **STOP, do not send.**
+   - **The ONLY signers may be `Client1…` and `Attorney`.** Any other `recipientType: signer`
+     (e.g. a `Piteam@` / `Picase@` / `Claims@` role) → remove it before sending; a 0-tab signer
+     stalls the envelope forever.
+   - **Exactly one carbonCopy may remain** — the assigned CM's mailbox (or klaus@ if no CM).
+     Remove the rest.
 
    If it is broken: delete the envelope and rebuild it with `roleName: "Client1"`. Do NOT send
    and fix later — once it goes out the client gets an unsignable contract.
