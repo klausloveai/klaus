@@ -9,7 +9,7 @@ description: |
   case manager (for the signature), reads the intake sheet, and renders the LOR PDF(s)
   from the latest Drive template for review. Defaults to drafting BOTH 1P and 3P unless
   the user specifies one. This skill ONLY drafts — it does not email, file, or update the
-  tracking sheet (use the `lor-send` skill to send). Always trigger for any "draft LOR"
+  tracking sheet (use the `send-lor` skill to send). Always trigger for any "draft LOR"
   request, even a partial one.
 ---
 
@@ -17,7 +17,7 @@ description: |
 
 Produce the LOR PDF(s) for review from the firm's Drive template, populated from the case's
 intake sheet, with the signature auto-derived from the client's case manager. **Drafts only
-— no email, no filing, no tracking-sheet update.** To send, use the `lor-send` skill.
+— no email, no filing, no tracking-sheet update.** To send, use the `send-lor` skill.
 
 Fully dependency-free and self-contained. Bundled helpers:
 - `scripts/read_intake.py` — read LOR fields from the intake `.xlsx`
@@ -29,7 +29,7 @@ Fully dependency-free and self-contained. Bundled helpers:
 - **Client** — the client/driver name (required; used to find the case + tracking row).
 - **Type** — `1P`, `3P`, or **both** (DEFAULT = both 1P and 3P).
 
-## Constants (same as lor-send)
+## Constants (same as send-lor)
 
 - **LOR template folder:** `1QHz07DYO94ew2luwTbKF_AffmeNzPxHQ` → `3P LOR.docx`, `1P LOR.docx`.
   Always re-fetch the latest.
@@ -84,7 +84,7 @@ gws drive files get --params '{"fileId":"<INTAKE_XLSX_ID>","alt":"media","suppor
 python3 ~/.claude/skills/draft-lor/scripts/read_intake.py $HOME/lor_work/intake.xlsx
 ```
 
-Field → token mapping (same as lor-send):
+Field → token mapping (same as send-lor):
 
 | Token | 1P | 3P |
 |---|---|---|
@@ -145,7 +145,7 @@ Report:
 - Any fields rendered as `Pending` (claim#/policy#/insured) that need filling before sending.
 - The delivered paths: `~/Downloads/LOR - <Client> <DOL-dash> (<type>).pdf`.
 
-**Do NOT send, file to Drive, or update the tracking sheet** — that's the `lor-send` skill.
+**Do NOT send, file to Drive, or update the tracking sheet** — that's the `send-lor` skill.
 After delivering to Downloads, clear the scratch dir: `rm -rf ~/lor_work`.
 
 ## Notes

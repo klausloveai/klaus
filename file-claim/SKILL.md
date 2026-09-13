@@ -76,9 +76,9 @@ Ask only for whatever is missing or ambiguous.
   `Driver Name-M-D-YYYY`, containing `1#Legal Documents` and `<case> Intake Sheet.xlsx`.
 - **Tracking sheet "PI Master Sheet":** `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`.
   Tabs `Claims(Amos)`, `Piteam(Jerry)`, `Picase` — **read the live header row** before writing.
-- **Firm contact for the form:** `~/.claude/skills/lor-send/references/firm-directory.md`
+- **Firm contact for the form:** `~/.claude/skills/send-lor/references/firm-directory.md`
   (CM → direct line / team email). Firm ZIP `91746`.
-- **Intake reader:** `scripts/read_intake_claim.py` (superset of lor-send's — adds vehicle /
+- **Intake reader:** `scripts/read_intake_claim.py` (superset of send-lor's — adds vehicle /
   location / time / FOL fields).
 - **Browser:** Claude-in-Chrome MCP (`navigate`, `read_page`/`get_page_text`, `find`,
   `computer`, `form_input`, `tabs_*`). Requires a connected, logged-in-as-needed browser.
@@ -196,9 +196,9 @@ post-submit prompts.
    don't post it). Practical options: post the **text automatically** (always works), and for
    the image either (a) the user drags the confirmation screenshot into the space, or (b) drop
    it in `~/Downloads` and upload via the recipe above.
-3. **Auto-draft + fax the LOR.** Immediately invoke the **`lor-send`** skill for the same
+3. **Auto-draft + fax the LOR.** Immediately invoke the **`send-lor`** skill for the same
    party (it drafts from the template with claim # + DOL + client and **sends fax-first** —
-   GEICO has an LOR fax in the insurance-list directory). lor-send keeps its own pre-send
+   GEICO has an LOR fax in the insurance-list directory). send-lor keeps its own pre-send
    approval gate.
 
 ## Step 9 — Confirm, prompt next actions, clean up

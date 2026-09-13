@@ -48,7 +48,7 @@ Output, in this order:
 
 For every task, check whether Klaus already has a tool:
 - 立案/filing package → `dogbite-file-complaint` · 送达 POS → `add-pos` · POE → the dog-bite
-  POE workflow · LOR → `lor-send` / `draft-lor` · fax → `send-fax` · demand → `draft-demand`
+  POE workflow · LOR → `send-lor` / `draft-lor` · fax → `send-fax` · demand → `draft-demand`
 - Discovery (FROG/SROG/POS/apportionment) → [[litigation-discovery-support]]
 - **New / first-time task → flag it: `🆕 首次任务 — 建议跑完做成模版/skill`.** This is Klaus's
   standing rule ("做过一次反复出现的都做成模版和 Automation") and the engine of goal ②

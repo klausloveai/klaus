@@ -234,6 +234,6 @@ and the filed PDF link. (No tracking-sheet update for LOP.) Clean up: `rm -rf ~/
   when the user explicitly says so.
 - The intake sheet is an `.xlsx` (not a Google Sheet); read it with `read_intake.py`.
 - LOP needs only client + DOL + provider + signature — no insurer/policy/claim#.
-- LOP does **not** touch the PI Master Sheet (unlike `lor-send`).
+- LOP does **not** touch the PI Master Sheet (unlike `send-lor`).
 - If `fill_lop.py` reports leftover placeholders, a token name was wrong — fix the JSON;
   never hand-edit the docx.

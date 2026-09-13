@@ -300,8 +300,8 @@ widget 之后，用简体中文给一段短摘要：
 | 狗咬新案（Hernán） | `new-dogbite-case` | 复制模板案卷 `<Client>-<MMDDYY DOL>`，vision 读证件自动填 intake |
 | 客户补发照片/证件 | `supplement-intake` | 归档新图 + 只补 intake 表里还黄的待填格 |
 | 要网上报案 / claim | `file-claim` | 走碰运营商门户报案，提交前 gate，回写 claim# 到 intake+tracking |
-| 发/寄 LOR 给保险 | `lor-send` | 从模板起草 LOR → PDF → email+fax 双通道发carrier → 归档 + tracking 记录 |
-| 新案要 claim + LOR 一条龙 | `file-claim-lor` | file-claim → 取email/un-highlight → lor-send → Master log，两处 gate |
+| 发/寄 LOR 给保险 | `send-lor` | 从模板起草 LOR → PDF → email+fax 双通道发carrier → 归档 + tracking 记录 |
+| 新案要 claim + LOR 一条龙 | `file-claim-lor` | file-claim → 取email/un-highlight → send-lor → Master log，两处 gate |
 | 转介诊所治疗 | `chiro-referral` / `referral` | 填转介模板+附PD照片 → 直接发诊所 → 蓝星+归档+Chat通知 |
 | Exer lien 转介/签署 | `exer-lien` | DocuSign 签 Exer lien（签名前 gate）+ 通知 Exer + 标签 + Chat |
 | MRI / PM 专科转介 | `mri-referral` / `pm-referral` / `pm-recommendation` | 生成对应专科转介/建议 |

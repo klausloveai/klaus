@@ -15,10 +15,10 @@ gws sheets +read \
 
 ## Matcher
 
-Reuse the fuzzy carrier matcher from the lor-send skill — **do not duplicate it**.
+Reuse the fuzzy carrier matcher from the send-lor skill — **do not duplicate it**.
 
 ```bash
-python3 ~/.claude/skills/lor-send/scripts/match_carrier.py \
+python3 ~/.claude/skills/send-lor/scripts/match_carrier.py \
   "<insurer name from AIC>" /tmp/insurance_list.json
 ```
 

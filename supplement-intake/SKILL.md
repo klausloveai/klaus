@@ -11,7 +11,7 @@ description: |
   folder + intake sheet, reads the new images, archives them into the right subfolders, and updates
   ONLY the yellow (pending) intake-sheet cells the images actually support — leaving every
   un-highlighted cell untouched, then posts a short summary to the case's Chat space. It does NOT
-  send an LOR, file a claim, or touch the tracking sheet (use new-case / lor-send / file-claim for
+  send an LOR, file a claim, or touch the tracking sheet (use new-case / send-lor / file-claim for
   those). Always trigger for any "client sent more docs, update the case" request, even a partial one.
 ---
 
@@ -48,7 +48,7 @@ stay in one place. Read them as needed:
 - File naming & folder placement: `~/.claude/skills/new-case/references/document-placement.md`
 - Intake sheet value-cell map + yellow rules: `~/.claude/skills/new-case/references/cell-map.md`
 - Insurance directory lookup: `~/.claude/skills/new-case/references/insurance-directory.md`
-- Carrier matcher script: `~/.claude/skills/lor-send/scripts/match_carrier.py`
+- Carrier matcher script: `~/.claude/skills/send-lor/scripts/match_carrier.py`
 
 Bundled here:
 - `scripts/update_yellow.py` — the safe intake-sheet editor (guarded-write → un-highlight policy →
@@ -197,7 +197,7 @@ email / fax (and the Mercury email-template special case) per `insurance-directo
 ```bash
 gws sheets +read --spreadsheet "1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM" \
   --range "insurance list!A1:D200" --format json > /tmp/insurance_list.json
-python3 ~/.claude/skills/lor-send/scripts/match_carrier.py "<insurer>" /tmp/insurance_list.json
+python3 ~/.claude/skills/send-lor/scripts/match_carrier.py "<insurer>" /tmp/insurance_list.json
 ```
 
 Then apply edits with a JSON edit list:
@@ -331,7 +331,7 @@ Tell the user, concisely:
 - **Still-pending yellow cells** that this batch couldn't answer (so the user knows what's outstanding).
 - **Flags / inferred / conflicts** — anything that needs human confirmation, plus any critical flag.
 
-Offer obvious follow-ups (e.g. "send the 3P LOR now that we have the carrier" → `lor-send`) but do not
+Offer obvious follow-ups (e.g. "send the 3P LOR now that we have the carrier" → `send-lor`) but do not
 perform them in this skill.
 
 ---

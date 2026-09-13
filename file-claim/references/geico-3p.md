@@ -130,9 +130,9 @@ record; a verbatim paste (or a harmless filler) carries no such risk. Same rule 
    screenshot. Recipe + the screenshot-bridge caveat are in SKILL Step 8.2 (text always works;
    image upload via `gws chat media` needs a Bash-visible file — the browser screenshot file
    isn't reachable from Bash in this sandbox).
-4. **Auto-draft + fax the LOR:** immediately run `lor-send` for the same party — it drafts the
+4. **Auto-draft + fax the LOR:** immediately run `send-lor` for the same party — it drafts the
    LOR from the template (claim #, DOL, client) and **sends via fax** (GEICO has an LOR fax in
-   the insurance-list directory; fax is the firm's primary channel). lor-send keeps its own
+   the insurance-list directory; fax is the firm's primary channel). send-lor keeps its own
    pre-send approval gate.
 - Then: contact the GEICO adjuster to confirm coverage + BI limits (in writing); remind the
   client not to speak with GEICO directly.

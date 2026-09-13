@@ -74,6 +74,6 @@ quickest way to prove the pipeline end to end.
   as `Re: <subject>` followed by a blank line and the `<note>`. There is no separate fax
   "subject" field in the API.
 - **E.164 only.** RingCentral rejects un-prefixed numbers; always add `+1` for US/Canada.
-- This skill is also called by **lor-send** as its fax fallback (email primary → fax when no
+- This skill is also called by **send-lor** as its fax fallback (email primary → fax when no
   adjuster email).
 - Setup details / how the credentials were provisioned: see memory `ringcentral_fax.md`.

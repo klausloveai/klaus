@@ -369,7 +369,7 @@ gws sheets +read \
   --format json > /tmp/insurance_list.json
 
 # 2. Match each insurer
-python3 ~/.claude/skills/lor-send/scripts/match_carrier.py \
+python3 ~/.claude/skills/send-lor/scripts/match_carrier.py \
   "<1P insurer name>" /tmp/insurance_list.json
 # → {"matched": "...", "fax": "+1XXXXXXXXXX", "email": "..."}
 ```

@@ -42,7 +42,7 @@ the web flow when it demonstrably produces a claim number for a non-policyholder
    against policy `<p3_policy>`, insured driver `<p3_driver>`, DOL `<dol>`.
 3. Capture the **claim number** on the call, plus adjuster name / direct line if given.
 4. Skill Step 8: write claim # to intake `L19`, post to the case Chat space, then run
-   `lor-send` for the 3P.
+   `send-lor` for the 3P.
 
 ## Mercury-specific gotchas
 

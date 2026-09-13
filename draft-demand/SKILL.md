@@ -60,7 +60,7 @@ and the **handler + team** (for the closing contact). If the handler/team isn't 
 and write it." In that case, list the case folders in **`4. Drafting`** (id `1710DYUCyGB8iur-jF6fw96HuUmw9hZPz`),
 check each one's `5#Folder-Demand Package`, and pick a case whose 5# folder has **no demand letter yet**
 (empty, or only raw records). Confirm which one with Klaus before drafting.
-Otherwise, search the PI Team shared drive for the named client's case folder (same locations as new-case / lor-send).
+Otherwise, search the PI Team shared drive for the named client's case folder (same locations as new-case / send-lor).
 Identify: the **intake sheet** (the embedded gsheet), `4#Folder-Bodily Injury…` (records & bills),
 `2#Folder-All Photos…` (police report, Dec page, photos/videos), `3#Folder-Property Damage…`,
 and the `5#Folder-Demand Package` (where the finished package is saved — see Step 7).

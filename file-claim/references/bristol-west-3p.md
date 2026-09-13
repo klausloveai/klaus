@@ -87,7 +87,7 @@ assigned claim representative — screenshot it AT ONCE (`save_to_disk`).
 - Write the claim # to intake **`L19`** (3P); un-highlight if the cell is yellow `s=9`→`s=8`
   (on Chenlu's sheet L19 was already `s=8`). Bristol West adjuster email is a real address
   (`docs@bristolwest.com`), not derivable from the claim #.
-- **Next step after filing = send the 3P LOR** (lor-send skill) to Bristol West with the new
+- **Next step after filing = send the 3P LOR** (send-lor skill) to Bristol West with the new
   claim #, then post the team Chat notice + log the tracking `3LOR` column. (This is the
   file-claim-lor chain.)
 

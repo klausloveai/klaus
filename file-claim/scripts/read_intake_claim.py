@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Read claim-filing fields from a downloaded intake-sheet .xlsx (no dependencies).
 
-Superset of lor-send's read_intake.py — adds the vehicle / accident / FOL cells
+Superset of send-lor's read_intake.py — adds the vehicle / accident / FOL cells
 the carrier online-claim forms need. Cell refs follow new-case cell-map.md.
 
   Clients (col C):   C2=DOL  C3=Time  C4=Driver/Client Name  C7=Client Home Address

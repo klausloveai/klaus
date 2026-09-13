@@ -10,7 +10,7 @@ description: |
   order — first **file-claim** (drive the carrier portal, get the Claim #, write it to the
   intake sheet), then the connective bookkeeping (resolve the carrier adjuster email from
   the claim #, un-highlight confirmed intake fields, post to the case Chat space), then
-  **lor-send** (draft + fax/email the Letter of Representation with the new claim #), then
+  **send-lor** (draft + fax/email the Letter of Representation with the new claim #), then
   log the LOR send date on the Master tracking sheet. Both irreversible/outbound actions
   keep their own mandatory approval gates. Always trigger for any combined "file claim +
   LOR" request, even a partial one.
@@ -19,7 +19,7 @@ description: |
 # File Claim + Send LOR (orchestrator)
 
 A thin orchestrator over two durable skills — **`file-claim`** (online portal filing) and
-**`lor-send`** (Letter of Representation) — plus the connective bookkeeping that ties them
+**`send-lor`** (Letter of Representation) — plus the connective bookkeeping that ties them
 together. It does NOT re-implement either; it runs them in order and fills the gaps between.
 
 > This skill is **v1 / living** — Klaus keeps optimizing it. When you learn something during
@@ -27,7 +27,7 @@ together. It does NOT re-implement either; it runs them in order and fills the g
 
 ## When to use
 The user wants both halves for one case: file the claim online **and** send the LOR. If they
-only want one, defer to the single skill (`file-claim` or `lor-send`) directly.
+only want one, defer to the single skill (`file-claim` or `send-lor`) directly.
 
 ## Inputs
 - **Case** — driver/client name (to find the Drive case folder).
@@ -40,7 +40,7 @@ Ask only for whatever is missing.
 
 ## Two hard approval gates (never auto-pass)
 1. **Claim submit** — inside `file-claim`, the last screen before submission.
-2. **LOR send** — inside `lor-send`, before the fax/email goes out.
+2. **LOR send** — inside `send-lor`, before the fax/email goes out.
 Each is owned by its sub-skill; honor both. If the user says "dry run" for the LOR, stop at
 the draft (deliver PDF to Downloads, no send/file/log).
 
@@ -86,16 +86,16 @@ Now that the claim # exists, finalize the intake fields it determines (see
   regex (openpyxl is NOT installed), values as `t="inlineStr"`, re-zip, `gws drive files
   update --upload` same fileId with `supportsAllDrives`. Verify with `read_intake_claim.py`.
 
-## Step 3 — Send the LOR (run `lor-send`)
-Invoke the **lor-send** skill for the SAME party, now that the claim # is in the intake (the
+## Step 3 — Send the LOR (run `send-lor`)
+Invoke the **send-lor** skill for the SAME party, now that the claim # is in the intake (the
 LOR template pulls `[Claim Number]` from it). It drafts from the latest Drive template,
 renders the PDF, shows it for approval, sends **fax-first** (Mercury LOR fax `+1 866-268-8494`,
 subject `Claim No. <claim#>`), files the PDF to `1#Legal Documents`, **posts a team notice to
-the case Chat space** (`Claude sent <1P|3P> LOR via <fax|email>` — lor-send Step 8.5), and
+the case Chat space** (`Claude sent <1P|3P> LOR via <fax|email>` — send-lor Step 8.5), and
 proceeds to Step 4. Pass the CM so the signature/contact matches what was used on the form.
 
 ## Step 4 — Log the LOR on the Master tracking sheet
-lor-send Step 8: find the case **row by client name** (NOT by CM→tab) in the PI Master Sheet
+send-lor Step 8: find the case **row by client name** (NOT by CM→tab) in the PI Master Sheet
 (`1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`) and write the send date with `values update`
 (no formatting change).
 
@@ -124,7 +124,7 @@ the client not to speak with the carrier directly. Clean up scratch dirs (`~/cla
   be permission-gated — surface the exact message and ask.
 - Brand-new cases may not be on the Master sheet yet (no row to log against) — say so rather
   than invent a row; offer to add it once the new-case flow has run.
-- Sub-skills: [[file-claim]] portal playbooks live in its `references/`; [[lor-send]] channel
+- Sub-skills: [[file-claim]] portal playbooks live in its `references/`; [[send-lor]] channel
   = carrier `insurance list` tab (fax→email→draft-only). Both are dependency-free (`gws` CLI
   + bundled Python; fax via `send-fax`/RingCentral).
 - Cross-refs: [[intake_sheet_highlight_convention]], [[onboarding_cindy]], [[firm_directory]],

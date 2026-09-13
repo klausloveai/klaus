@@ -1,5 +1,5 @@
 ---
-name: lor-send
+name: send-lor
 description: |
   Draft and send a Letter of Representation (LOR) for 凌图律所 / Lingtu Law Office
   (Law Office of Shenqi Cai APC). Use this skill whenever any of the following are
@@ -11,7 +11,7 @@ description: |
   Drive, reads the intake sheet, drafts the LOR from the latest Drive template, renders
   a PDF, shows it for approval, then sends it to the carrier — **by BOTH email and fax
   whenever both are on file** (one channel if only one exists) — files the PDF in the case
-  folder, and logs it on the case-tracking sheet.
+  folder, and logs it BOTH on the PI Master Sheet row and in the firm-wide Activity Log.
   Always trigger for any "send/draft LOR" request, even a partial one.
 ---
 
@@ -30,7 +30,7 @@ then the "insurance list" directory (Step 3):**
    on file → send that one. **Neither on file → do nothing** (no send, no draft) — tell the
    user and stop (Step 6C).
 
-File + log (Steps 7–8) run after any actual send (email and/or fax).
+File + log (Steps 7–8.6) run after any actual send (email and/or fax).
 
 Fully dependency-free — uses only the `gws` CLI (already authenticated) and the bundled
 Python helpers. No python-docx / LibreOffice needed; the template's XML is edited in place
@@ -111,7 +111,7 @@ gws drive files list --params '{"q":"'\''<CASE_FOLDER_ID>'\'' in parents and tra
 
 ```bash
 gws drive files get --params '{"fileId":"<INTAKE_XLSX_ID>","alt":"media","supportsAllDrives":true}' -o $HOME/lor_work/intake.xlsx
-python3 ~/.claude/skills/lor-send/scripts/read_intake.py $HOME/lor_work/intake.xlsx
+python3 ~/.claude/skills/send-lor/scripts/read_intake.py $HOME/lor_work/intake.xlsx
 ```
 
 This returns client, DOL, and 1P/3P insurer, policy#, insured (3P), claim#, adjuster,
@@ -148,7 +148,7 @@ Only hit the directory for whatever the intake is missing:
 ```bash
 SS=1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM
 gws sheets spreadsheets values get --params "{\"spreadsheetId\":\"$SS\",\"range\":\"insurance list!A1:Z200\"}" --format json > $HOME/lor_work/ins.json
-python3 ~/.claude/skills/lor-send/scripts/match_carrier.py "<intake insurer for this type>" $HOME/lor_work/ins.json
+python3 ~/.claude/skills/send-lor/scripts/match_carrier.py "<intake insurer for this type>" $HOME/lor_work/ins.json
 # -> {"matched": "...", "fax": "+1...|null", "email": "...|null"}
 ```
 
@@ -160,7 +160,7 @@ with no real claim # as "not present". Then decide — **send through every chan
    the normal primary path (email **and** fax for redundancy).
 3. **neither email NOR fax (in EITHER intake or the list) → DO NOTHING.** Do not send, do not
    draft-to-Downloads — tell the user there's no email/fax on file for this carrier and stop
-   (Step 6C; Steps 7–8 also skip).
+   (Step 6C; Steps 7–8.6 also skip).
 
 If the user explicitly asks for one channel only ("email only" / "fax only"), honor that instead.
 
@@ -192,7 +192,7 @@ TID=$(gws drive files list --params "{\"q\":\"'$SUB' in parents and name contain
 
 gws drive files get --params "{\"fileId\":\"$TID\",\"alt\":\"media\",\"supportsAllDrives\":true}" -o $HOME/lor_work/lor_template.docx
 
-python3 ~/.claude/skills/lor-send/scripts/fill_lor.py \
+python3 ~/.claude/skills/send-lor/scripts/fill_lor.py \
   $HOME/lor_work/lor_template.docx $HOME/lor_work/lor_filled.docx $HOME/lor_work/lor_fields.json
 ```
 
@@ -289,7 +289,7 @@ Steps 7–8.5. (The rendered PDF stays in `~/lor_work` until cleanup; don't drop
 
 ## Step 7 — File the sent PDF into the case folder
 
-> Steps 7–8 run **only after an actual send** (email 6A or fax 6B). Skip both for draft-only (6C).
+> Steps 7–8.6 run **only after an actual send** (email 6A or fax 6B). Skip them all for do-nothing (6C).
 
 Upload the PDF (NOT converted) into the case's `1#Legal Documents` subfolder for the record
 (the PDF is already under `~/lor_work`, so no copy is needed):
@@ -327,6 +327,10 @@ GOOGLE_WORKSPACE_CLI_CONFIG_DIR=$CFG GOOGLE_WORKSPACE_CLI_CREDENTIALS_FILE=$CFG/
 If the case label doesn't exist in that inbox, surface it and ask (don't create a new variant).
 
 ## Step 8 — Log it on the tracking sheet (no color change)
+
+> Two different books, both required: **Step 8 = PI Master Sheet** (current state — has
+> this LOR gone out) and **Step 8.6 = Activity Log** (append-only ledger — findable later
+> by claim # / message id). Doing one is not doing the other.
 
 **The case's tracking row is NOT necessarily on the signing CM's tab** — the case manager
 who signs the letter is independent of which tab tracks the case (e.g. Guanghua Li signs
@@ -380,12 +384,46 @@ Outbound Chat posts may be permission-gated — if blocked, surface the exact me
 and ask the user to approve (or they may post it themselves). Don't double-post if the user
 says they'll send it.
 
+## Step 8.6 — Activity Log (after an actual send)
+
+> Runs **only after an actual send**, like Steps 7–8.5. Skip for do-nothing (6C).
+
+Step 8 records *current state* on the PI Master Sheet ("has the 1P LOR gone out yet"). The
+**Activity Log is a different thing** — the firm-wide, append-only ledger that makes a fact
+findable three months later by claim #, policy #, or Gmail message id. Both are required; one
+does not substitute for the other. This is the CLAUDE.md 收工留痕 rule, and it is easy to
+forget after the send succeeds, which is exactly why it is a numbered step here.
+
+Append **one row** to `Activity Log!A:J` in the Tracking Sheet
+`1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA`:
+
+| col | value |
+|---|---|
+| A Date / B Time | the send, `MM/DD/YYYY` and `HH:MM` |
+| C Case | the case-folder name, e.g. `Peng Wu-9-11-2026` |
+| D Category | `理赔` |
+| E Event | which LOR, to which carrier, from which team inbox, named adjuster, **and which channels actually fired** — say plainly when a channel did not fire and why (e.g. no fax in intake and no carrier entry in the Insurance List) |
+| F Actor | `Klaus` |
+| G Ref/ID | **claim # · policy # · Gmail message id · filed Drive file id** — this column is the only handle that works months later, so fill all of them |
+| H Source | `Local` |
+| I Msg Key | `gmail:<message id>` so the hourly agent's Gmail sweep dedups instead of double-posting |
+| J Next Step | the open loop the send created — a generic claims inbox that needs a real adjuster address, a missing fax to be added to the Insurance List, a data conflict that blocks the other party's LOR |
+
+```bash
+gws sheets spreadsheets values append \
+  --params '{"spreadsheetId":"1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA","range":"Activity Log!A:J","valueInputOption":"USER_ENTERED","insertDataOption":"INSERT_ROWS"}' \
+  --json '{"values":[["MM/DD/YYYY","HH:MM","<Case folder name>","理赔","<which LOR, to whom, from which inbox, channels used/not used and why>","Klaus","Claim <#> / Policy <#> / Gmail msg <id> / Drive <fileId>","Local","gmail:<message id>","<open loop>"]]}'
+```
+
+**Append only — never rewrite an existing row.** A correction is another appended row.
+
 ## Step 9 — Confirm & clean up
 
 Report: type(s), **channels used (email and/or fax)** + recipient(s) (email address AND/OR
 fax #), subject, the Gmail message id **and/or** fax id+status (report both when both went
 out), the **email label/INBOX/STARRED tagging** (Step 7.5, email only), the filed PDF link,
-the tracking-sheet cell updated, and the **team Chat notice** posted (Step 8.5). For **neither
+the tracking-sheet cell updated, the **team Chat notice** posted (Step 8.5), and the
+**Activity Log row** appended (Step 8.6). For **neither
 email nor fax (6C)**: report that nothing was sent (no email/fax on file), no file/log done.
 Clean up: `rm -rf ~/lor_work`.
 
@@ -407,6 +445,10 @@ own fax line is `626-240-2046` (`+16262402046`).
 - The intake sheet is an `.xlsx` (not a Google Sheet); read it with `read_intake.py`.
 - "Your Insured" (3P) = the at-fault **policyholder** (`p3_insured` / intake L8), not the
   3P driver.
+- **Two books, not one:** the PI Master Sheet (Step 8) is current state; the Activity Log
+  (Step 8.6) is the append-only ledger. Missing the Activity Log is the failure mode that
+  actually happens — it is easy to feel done once the send succeeds. 2026-09-13: caught on
+  Peng Wu only because Klaus asked.
 - Tracking-sheet writes use `values update` only — this preserves cell colors ("no color
   change"). Never apply a formatting batchUpdate in Step 8.
 - If `fill_lor.py` reports leftover placeholders, a field/token name was wrong — fix

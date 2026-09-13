@@ -14,7 +14,7 @@ description: |
 
 # Send Referral — email a client referral to a clinic
 
-Mirrors `send-lop`/`lor-send`: find case → read intake → fill template → verify → send → label
+Mirrors `send-lop`/`send-lor`: find case → read intake → fill template → verify → send → label
 + post to case Chat. **Outbound to a clinic — mandatory approval before sending.**
 
 ## Invocation inputs
@@ -55,7 +55,7 @@ Mirrors `send-lop`/`lor-send`: find case → read intake → fill template → v
 ---
 
 ## Step 1 — Find the case + key subfolders
-Search the Shared Drive for the case folder by client name (same as lor-send Step 1). Capture
+Search the Shared Drive for the case folder by client name (same as send-lor Step 1). Capture
 the case folder id, then list children for: the intake `.xlsx` id and the **`2#Accident Info`**
 folder id (where vehicle-damage photos usually live) — also note `3#Property Damage Claim` as a
 fallback location.
