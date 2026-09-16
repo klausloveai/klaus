@@ -103,13 +103,34 @@ def main(path):
         return (ci,((m.group(1) if m else str(r[2])).replace('""','"')).lower())
     rows.sort(key=key)
     for i,r in enumerate(rows,1): r[0]=i
+    before_tids={tid_of(r) for r in rows if tid_of(r)}
     ensure_rows("Sheet1",len(rows))
     for st in range(0,len(rows),200):
         ch=rows[st:st+200]
         put(f"Sheet1!A{st+2}:I{st+1+len(ch)}",ch)
     print("Sheet1 written:",len(rows),"rows")
+    # POST-WRITE GUARD: the sheet must never lose a topic. A silent shrink is how
+    # rows vanished on 2026-09-09 (grid limit) and 2026-09-13 (rows clobbered at A2).
+    back=[(r+['']*9)[:9] for r in get("Sheet1!A2:I5000")]
+    after_tids={tid_of(r) for r in back if tid_of(r)}
+    lost=before_tids-after_tids
+    if lost or len(back)<len(rows):
+        raise SystemExit(
+            f"ABORTING: post-write verification FAILED — sheet has {len(back)} rows "
+            f"(expected {len(rows)}), {len(lost)} topic(s) missing: {sorted(lost)[:10]}. "
+            "Do NOT re-run blindly; recover the missing rows first.")
+    print(f"  verified: {len(after_tids)} topics on the sheet, none lost")
     # 4) Updates Log (pure append)
     log=P.get("log",[])
+    if log:
+        # idempotent: drop entries this sync already wrote (same date + same source URL)
+        existing=set()
+        for r in get("'Updates Log'!A2:H5000"):
+            r=(r+['']*8)[:8]
+            if r[0]: existing.add((str(r[0]).strip(),str(r[7]).strip()))
+        skipped=[x for x in log if (synced,str(x.get("url","")).strip()) in existing]
+        log=[x for x in log if (synced,str(x.get("url","")).strip()) not in existing]
+        if skipped: print(f"  Updates Log: skipped {len(skipped)} already-logged entr(ies)")
     if log:
         start=len(get("'Updates Log'!A1:A5000"))+1
         ensure_rows("Updates Log",start+len(log))
@@ -130,6 +151,11 @@ def main(path):
                     if pu[name].strip()[:12] in note: continue
                     put(f"'{tab}'!F{i}",[[note.rstrip()+pu[name]]]); print(f"  {tab} row {i}: {name}")
     pn=P.get("providers_new",[])
+    if pn:
+        have_names={(r[0] if r else "").strip() for r in get("'Provider Database'!A2:A600")}
+        dropped=[x for x in pn if x[0].strip() in have_names]
+        pn=[x for x in pn if x[0].strip() not in have_names]
+        if dropped: print(f"  Provider DB: skipped {len(dropped)} already-present: {[d[0] for d in dropped]}")
     if pn:
         rows2=[[a,b,c,d,e,f,f'=HYPERLINK("https://nerdgroup.co/g/Nerds/topic/{g}","source")'] for (a,b,c,d,e,f,g) in pn]
         st=len(get("'Provider Database'!A1:A500"))+1

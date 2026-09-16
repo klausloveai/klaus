@@ -77,7 +77,14 @@ Status 为 `Caution/Blacklist/Note` 的会自动同时进 Blacklist & Cautions�
 python3 ~/.claude/skills/pinerd-sync/scripts/pinerd_write.py payload.json
 ```
 脚本负责：追加新行 → 应用 `[UPD]` 追加 → Sheet1 重排序重编号 → append Updates Log →
-append/更新 Provider DB 与 Blacklist。**幂等**：同一 topic id 不会重复入表，同一段 `[UPD]` 不会重复追加。
+append/更新 Provider DB 与 Blacklist。**幂等**：同一 topic id 不会重复入表，同一段 `[UPD]` 不会重复追加，
+同一条 Updates Log 记录不会重复写，已存在的供应商不会重建行 —— 整个脚本重跑一次是 no-op。
+写完还会**回读校验**：任何一个 topic 从表里消失就直接 abort。
+
+🚫 **绝对不要用别的方式写这张表。** 不要自己调 `values update` / `values append`，更不要
+「把新行直接加在最前面」—— Sheet1 是**排序表**，越过脚本写入会**静默覆盖既有行**。
+这已经发生过两次：2026-09-09（grid 上限吃掉 10 行）、2026-09-13（两行被写在 A2 覆盖掉）。
+脚本 abort 时**停下来报告**，不要盲目重试、不要绕过它。
 
 ### 5. Webinar Library（**每月至少查一次，别只等公告**）
 触发条件：digest 里出现 `Replay Now Available` / `Webinar Notes` / `Event: ... Webinar`，**或**距上次核对
