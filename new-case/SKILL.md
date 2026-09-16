@@ -643,7 +643,7 @@ whole case block; a blank passenger cell makes it look like that client never si
 | Referrer (D) | leave blank (Klaus fills manually) | leave blank |
 | Case Status (E) | `✒️Signing` (from template) | `✒️Signing` (from template) |
 | Note-Claims (F) | `Retainer sent M/D` | same text + same blue formatting (keep from template copy; see background rule below) |
-| 1LOR → Property Damage (cols G–M) | keep Example Row values — do not override | **EMPTY** — clear all 7 cells; one case only needs one primary record row |
+| 1LOR → Property Damage (G–M; **F–L on Claims@**) | keep Example Row values — do not override | **EMPTY + no color** — clear all 7 values *and* reset their background to white; one case only needs one primary record row |
 | Ambulance → Health Ins Lien (cols N–T) | **keep Example Row template values (P / Pending) — do NOT pull from intake** | keep Example Row template values |
 | Outstanding Balance → MRI (cols U–X) | keep Example Row values | keep Example Row values |
 
@@ -655,7 +655,25 @@ whole case block; a blank passenger cell makes it look like that client never si
 > later.** This replaces the earlier behavior of writing Ambulance/Emergency/Urgent Care/…/Health
 > Ins from the intake sheet — no longer do that.
 
-**Passenger row background rule — three zones:** A–E clear to white; F (Note-Claims) untouched (keep template blue); G–M clear to white (empty cells, no color); N–X untouched (keep template yellows). See step 6 below for the exact `repeatCell` calls.
+**Passenger row background rule — four zones, addressed BY HEADER NAME, not by letter:**
+
+| Zone | Picase@ / Piteam@ | Claims@ | Action |
+|---|---|---|---|
+| `DOL` … `Case Status` | A–E | **A–D** | clear to **white** |
+| `Note-Claims` | F | **E** | **untouched** (keep template blue) |
+| `1LOR` … `Property Damage` | G–M | **F–L** | **values emptied AND background cleared to white** |
+| `Ambulance` … end | N–X | **M–X** | **untouched** (keep template yellows) |
+
+> ⚠️ **Claims@ has no `Retainer` column, so every block sits one column to the LEFT of
+> Picase@/Piteam@.** Hardcoding `G–M` therefore leaves the passenger row's `1LOR`→`Property
+> Damage` block orange on Claims@ while whitening a column that should have stayed yellow.
+> Klaus caught exactly this on Shenglin Li / Perla Abigail Alvarado Vazquez (2026-09-16):
+> "passenger的 F-L应该是empty no color". **Derive both zones from the LIVE header row** —
+> `add_tracking_row.py` now does this automatically; never write the letters from memory.
+
+**Emptying the value is not enough — the background must be cleared too.** A passenger row whose
+`1LOR`→`Property Damage` cells are blank but still orange reads as "this row has an open LOR/PD
+task", which is the opposite of the intent.
 
 ### Workflow
 
@@ -701,6 +719,8 @@ whole case block; a blank passenger cell makes it look like that client never si
    > Safest pattern: write only the columns you're actually changing (A, B, C for driver;
    > **B, C, G–M for passenger**). Do not write a full A–X row with empty strings for the untouched columns.
 6. **Background rules for passenger rows — three zones:**
+   **Resolve every index from the live header — Claims@ is shifted one column left (no Retainer column).**
+   The letters below are the Picase@/Piteam@ case; on Claims@ they become A–D / E / F–L / M–X.
    - **A–E (indices 0–5): clear to white** — removes any inherited driver-row highlight (DOL, Client, Retainer, Referrer, Case Status)
    - **F (index 5): do NOT touch** — Note-Claims column blue must be preserved from template copy
    - **G–M (indices 6–12): clear to white** — these cells are empty (no values, no color)

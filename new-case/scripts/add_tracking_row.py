@@ -91,6 +91,28 @@ def main():
             "pasteType": "PASTE_NORMAL"}},
     ]
 
+    # 1b. passenger rows: clear the backgrounds the copyPaste dragged down.
+    #     Zones are derived from the LIVE header, never a hardcoded column letter —
+    #     Claims@ has no Retainer column, so its blocks sit one column left of
+    #     Picase@/Piteam@ (F-L there vs G-M here).
+    #       A .. Case Status          -> white
+    #       Note-Claims               -> UNTOUCHED (keep template blue)
+    #       1LOR .. Property Damage   -> white (values are cleared too, below)
+    #       Ambulance .. end          -> UNTOUCHED (keep template yellows)
+    if a.passenger:
+        white = {"userEnteredFormat": {"backgroundColor": {"red": 1, "green": 1, "blue": 1}}}
+        block = [col[h] for h in ("1LOR", "1Coverage", "1Liability", "3LOR",
+                                  "3Coverage", "3Liability", "Property Damage") if h in col]
+        zones = [(0, need("Note-Claims"))]
+        if block:
+            zones.append((min(block), max(block) + 1))
+        for c0, c1 in zones:
+            if c1 > c0:
+                reqs.append({"repeatCell": {
+                    "range": {"sheetId": sheet_id, "startRowIndex": 3, "endRowIndex": 2 + n,
+                              "startColumnIndex": c0, "endColumnIndex": c1},
+                    "cell": white, "fields": "userEnteredFormat.backgroundColor"}})
+
     # 2. per-row field writes (driver row 3, passengers 4..)
     link = f"https://docs.google.com/spreadsheets/d/{a.sheet_id}/edit"
     data = []

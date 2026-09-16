@@ -1,0 +1,68 @@
+{
+  "templates": {
+    "dogbite-case": {
+      "name": "Dog Bite Case Template",
+      "kind": "folder",
+      "file_id": "14scr16zZnF05TVj-iXSonjTAQpo7_ceA",
+      "archive_id": "1jUl2sN3aal6AzU7mikhksm_502mzPBP7",
+      "current": "1.0",
+      "versions": [
+        {
+          "v": "1.0",
+          "date": "2026-09-16",
+          "archive_id": "1m5HUB1OwzFEbBFy92AUuS2qozgJFOTdD",
+          "fingerprint": "908db61b30e0",
+          "note": "baseline — 6 numbered subfolders + Intake Sheet Template"
+        }
+      ]
+    },
+    "labor-case": {
+      "name": "Labor Law Cases Template",
+      "kind": "folder",
+      "file_id": "1SjskLFf-UqWstv8taRMc04PHzVTcFa2u",
+      "archive_id": "1jUl2sN3aal6AzU7mikhksm_502mzPBP7",
+      "current": "1.0",
+      "versions": [
+        {
+          "v": "1.0",
+          "date": "2026-09-16",
+          "archive_id": "1YEAIYvV9MS1ICxkgHL6NVEwxsf01Pq6G",
+          "fingerprint": "bebcea89d4e3",
+          "note": "baseline"
+        }
+      ]
+    },
+    "limited-civil-case": {
+      "name": "Limited Civil / Commercial Cases Template",
+      "kind": "folder",
+      "file_id": "1UG5dKRnxb6LLF-kgI6U0Nvglw81BAzEb",
+      "archive_id": "1jUl2sN3aal6AzU7mikhksm_502mzPBP7",
+      "current": "1.0",
+      "versions": [
+        {
+          "v": "1.0",
+          "date": "2026-09-16",
+          "archive_id": "1olwLWtjYcXQglm-Ep8cB_cslzWSgEn60",
+          "fingerprint": "ec7ca20a1953",
+          "note": "baseline"
+        }
+      ]
+    },
+    "family-law-case": {
+      "name": "Family Law Cases Template",
+      "kind": "folder",
+      "file_id": "1-_jlhBR7A8LeT292DSH6PPOpPEKcSQo_",
+      "archive_id": "1jUl2sN3aal6AzU7mikhksm_502mzPBP7",
+      "current": "1.0",
+      "versions": [
+        {
+          "v": "1.0",
+          "date": "2026-09-16",
+          "archive_id": "1-teA4di2DlTdBLnBcGZDsRvZKQ0jy4ss",
+          "fingerprint": "54da1221bd79",
+          "note": "baseline"
+        }
+      ]
+    }
+  }
+}
