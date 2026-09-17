@@ -32,7 +32,7 @@ the Docusign retainer as the final step.
 8. Deliver the case folder zip + place "Intake Responses.zip" in 1#Legal Documents
 9. Upload to Google Drive (default destination: 1. Pending)
 10. Add the case to the tracking sheet, insert one row per client below the Example Row
-11. Create the Google Chat case space, add the team, **promote Amos/Claire/May/CM to Manager**, ask user for case notes, post verbatim @Amos + CM
+11. Create the Google Chat case space, add the team, **promote Amos/Claire/May/CM to Manager**, ask user for case notes, post verbatim with the CM's @mention list
 12. Create the Gmail case label in the team mailbox (yellow)
 13. Send the Docusign retainer — **ONLY if the prompt explicitly asks to send** (default = skip); when sending, `retainer type = new / standard` is a hard gate
 14. **Output the client-facing signing message** (WeChat 文案 for Klaus to forward) — **always last, but only if Step 13 actually sent**
@@ -882,14 +882,32 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
    "
    ```
 
-4. **Resolve user IDs for the @mentions — always two lookups:**
-   - **Amos** (always, supervisor): `gws chat spaces members get --params '{"name":"spaces/<SPACE>/members/amos.f@lingtulaw.com"}'`
-   - **Assigned CM** (if different from Amos): same call with the CM's email.
-   Both return `member.name` = `users/<numericId>`.
+4. **Resolve user IDs for the @mentions — the mention list depends on the CM (Klaus, 2026-09-17):**
+
+   | Case | @mention, in this order |
+   |---|---|
+   | **Amos** (Claims@) | `amos.f@` + `may.z@` |
+   | **Jerry** (Piteam@) | `jerry.p@` + `angelina.m@` + `amos.f@` |
+   | **Ryan** (Picase@) | `ryan.w@` + `tiana.d@` + `amos.f@` |
+   | **Klaus** (Claims@) | `amos.f@` + `may.z@` |
+
+   > ⚠️ **Changed 2026-09-17.** The old rule was "@Amos + the assigned CM" (two mentions, Amos always
+   > first). Now the CM's own CA is mentioned too, and **Amos comes LAST on Jerry/Ryan cases** — he is
+   > cc'd as supervisor, not the lead. On an Amos case there is no CA, so it is Amos + May.
+   >
+   > Everyone in the mention list is already a space member (BASE 4 + CM + that CM's CA), so no extra
+   > `members create` call is needed — but re-verify before posting; a mention of a non-member renders
+   > as plain text with no notification.
+
+   Resolve each one's numeric id:
+   ```bash
+   gws chat spaces members get --params '{"name":"spaces/<SPACE>/members/<email>"}'
+   # -> member.name = users/<numericId>
+   ```
 
 5. **PAUSE — ask the user for their case notes.** After the space is created and all members are verified,
    stop and prompt the user:
-   > "Chat 空间已建好，请留言你对这个案子了解的信息，我会原话复制粘贴 @Amos + @CM。"
+   > "Chat 空间已建好，请留言你对这个案子了解的信息，我会原话复制粘贴 @ 给该案的 mention 名单。"
    Wait for the user's reply before posting anything.
 
 6. **Post the user's text verbatim** — prepend the @mentions, then paste the user's exact words
@@ -897,7 +915,8 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
    ```python
    import json, subprocess
    user_notes = "<user's verbatim reply — do NOT edit, translate, or reformat>"
-   msg = {"text": f"<users/AMOS_ID> <users/CM_ID> new case\n\n{user_notes}"}
+   mentions = " ".join(f"<users/{i}>" for i in MENTION_IDS)   # order per the step-4 table
+   msg = {"text": f"{mentions} new case\n\n{user_notes}"}
    subprocess.run(["gws", "chat", "spaces", "messages", "create",
      "--params", '{"parent":"spaces/XXXX"}',
      "--json", json.dumps(msg, ensure_ascii=False)])
@@ -905,7 +924,7 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
    Verify the response `annotations` contain `USER_MENTION` entries for each @mentioned person.
    **Do NOT add, edit, translate, or reformat the user's text in any way.**
 
-   > 🔒 **The message body is a CLOSED SET: `@Amos @CM` + one case-name line + Klaus's notes verbatim.
+   > 🔒 **The message body is a CLOSED SET: the step-4 @mention list + one case-name line + Klaus's notes verbatim.
    > Nothing else may appear in it. Ever.** The following are all FORBIDDEN in the Chat message,
    > no matter how useful they look:
    > - **Drive folder link / intake-sheet link / any URL** (the team opens the case from Drive and
