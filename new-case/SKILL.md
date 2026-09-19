@@ -756,27 +756,29 @@ After the case is on the tracking sheet (Step 10), open the team chat space for 
 `Qingshun Liu-5-25-2026(A)`. The CM is already known by this point — it's a mandatory gate at
 Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use the assigned CM.
 
-**Members = BASE (always, every case) + CM-specific additions. Calling user (Klaus) added automatically as owner.**
+**Members = BASE (always, every case) + that case's TEAM ROSTER. Klaus is the creator and is
+added automatically as owner — he is in every space.**
 
-**BASE (all cases — 4 people):** `cassie@lingtulaw.com`, `amos.f@lingtulaw.com`, `claire.f@lingtulaw.com`, `may.z@lingtulaw.com`
+**BASE (all cases — 3 people):** `cassie@lingtulaw.com`, `amos.f@lingtulaw.com`, `claire.f@lingtulaw.com`
 
-> `joe@lingtulaw.com` was removed from BASE on 8/7/2026 — no longer added to any new-case space.
+**Team roster — add ONLY the roster of the team that owns the case. Never add another team's people.**
 
-> ⚠️ **`jessie.l@lingtulaw.com` was removed on 8/18/2026 — she no longer works at the firm.
-> Never add her to any space.** (She had been in BASE since 7/23/2026.)
+| Case / mailbox | Team roster to add |
+|---|---|
+| **Amos** — Claims@ | `may.z@lingtulaw.com` + `lyne@lingtulaw.com` *(Amos already in BASE)* |
+| **Jerry** — Piteam@ | `jerry.p@lingtulaw.com` + `angelina.m@lingtulaw.com` + `kiko.w@lingtulaw.com` |
+| **Ryan** — Picase@ | `ryan.w@lingtulaw.com` + `tiana.d@lingtulaw.com` + `taki.x@lingtulaw.com` |
+| **Klaus** — Claims@ | same as Amos: `may.z@` + `lyne@` |
 
-**CM-specific additions — add ONLY that CM and that CM's own CA. Never add the other team's CM or CA.**
-
-| Case | Add | CA |
-|---|---|---|
-| **Ryan cases (Picase@)** | `ryan.w@lingtulaw.com` + `tiana.d@lingtulaw.com` | Tiana is Ryan's CA |
-| **Jerry cases (Piteam@)** | `jerry.p@lingtulaw.com` + `angelina.m@lingtulaw.com` | Angelina is Jerry's CA |
-| **Amos cases (Claims@)** | *(none — Amos already in BASE)* | — |
-| **Klaus cases (Claims@)** | *(none)* | — |
-
-> ⚠️ **Changed 8/18/2026.** Previously every Ryan AND Jerry case got both `tiana.d@` and
-> `angelina.m@`. That is now wrong — each case gets **its own CM + that CM's paired CA only**,
-> so the other team's people are not pulled into a case they don't work on.
+> ⚠️ **Rewritten 2026-09-18 (Klaus).** Three changes from the 8/18 version:
+> 1. **`may.z@` is NO LONGER in BASE.** May is not a firm-wide CA any more — she belongs to
+>    **Claims@ only**. She must not be added to a Jerry or Ryan space.
+> 2. **`lyne@` (Lyne Chen) joined Claims@** and is added to every Amos/Klaus case.
+> 3. Each team now has **two support people**, not one CA: Claims@ = May + Lyne ·
+>    Piteam@ = Angelina + Kiko · Picase@ = Ryan's Tiana + Taki.
+>
+> `joe@lingtulaw.com` — removed from BASE 8/7/2026, still never added.
+> `jessie.l@lingtulaw.com` — left the firm 8/18/2026, **never add her to any space.**
 
 **CM suffix in space name:** Jerry → `(J)`, Ryan → `(R)`, Klaus → `(K)`, Amos → `(A)`.
 
@@ -833,18 +835,18 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
        print(' -', m.get('member',{}).get('name','?'))
    "
    ```
-   **Expected totals (BASE 4 + CM additions + Klaus as owner) — updated 8/18/2026:**
+   **Expected totals (BASE 3 + team roster + Klaus as owner) — updated 2026-09-18:**
 
-   | Case | Members added | Total incl. Klaus |
+   | Case | Members in the space | Total |
    |---|---|---|
-   | **Ryan** | BASE 4 + ryan.w + tiana.d | **7** |
-   | **Jerry** | BASE 4 + jerry.p + angelina.m | **7** |
-   | **Amos** | BASE 4 (Amos already in BASE) | **5** |
-   | **Klaus** | BASE 4 | **5** |
+   | **Amos** | Cassie · Amos · Claire · May · Lyne · Klaus | **6** |
+   | **Jerry** | Cassie · Amos · Claire · Jerry · Angelina · Kiko · Klaus | **7** |
+   | **Ryan** | Cassie · Amos · Claire · Ryan · Tiana · Taki · Klaus | **7** |
+   | **Klaus** | Cassie · Amos · Claire · May · Lyne · Klaus | **6** |
 
    If the count is short, add the missing members with another `members create` call.
 
-3. **Promote to Manager — ALWAYS. Amos, Claire, May, and the assigned CM get the Manager role.**
+3. **Promote to Manager — ALWAYS. Amos, Claire and the assigned CM get the Manager role; add May only on a Claims@ case.**
    Everyone else stays a plain Member. Do this after the members are verified, before posting.
 
    > ⚠️ **API role names do NOT match the UI labels:**
@@ -861,8 +863,8 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
    `members get` by email). The call is idempotent — safe to re-run.
 
    ```bash
-   # promote list = amos.f + claire.f + may.z + the assigned CM (skip duplicates when CM is Amos)
-   for EMAIL in amos.f@lingtulaw.com claire.f@lingtulaw.com may.z@lingtulaw.com <CM_EMAIL>; do
+   # promote list = amos.f + claire.f + the assigned CM, plus may.z ONLY on a Claims@ case
+   for EMAIL in amos.f@lingtulaw.com claire.f@lingtulaw.com <CM_EMAIL> [may.z@lingtulaw.com]; do
      MID=$(gws chat spaces members get --params "{\"name\":\"spaces/XXXX/members/$EMAIL\"}" 2>&1 \
        | grep -v '^Using' | python3 -c "import sys,json;print(json.load(sys.stdin)['member']['name'].split('/')[-1])")
      gws chat spaces members patch \
@@ -895,9 +897,15 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
    > first). Now the CM's own CA is mentioned too, and **Amos comes LAST on Jerry/Ryan cases** — he is
    > cc'd as supervisor, not the lead. On an Amos case there is no CA, so it is Amos + May.
    >
-   > Everyone in the mention list is already a space member (BASE 4 + CM + that CM's CA), so no extra
-   > `members create` call is needed — but re-verify before posting; a mention of a non-member renders
-   > as plain text with no notification.
+   > Everyone in the mention list is already a space member, so no extra `members create` call is
+   > needed — but re-verify before posting; a mention of a non-member renders as plain text with no
+   > notification.
+   >
+   > 📌 **Open item (2026-09-18):** the team rosters grew to two support people each
+   > (Claims@ = May + Lyne · Piteam@ = Angelina + Kiko · Picase@ = Tiana + Taki), but this
+   > @mention table has NOT been re-calibrated with Klaus. It still mentions one support person
+   > per team. Everyone it names is still a member, so it is safe to use as-is — **ask Klaus
+   > before widening it** to Lyne / Kiko / Taki.
 
    Resolve each one's numeric id:
    ```bash
