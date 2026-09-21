@@ -135,6 +135,26 @@ Read the case's **filed/conformed complaint** (source of truth) + intake sheet:
 
 Then confirm the DOE number and true name before generating.
 
+## Gate — check the docket for caption-affecting events FIRST
+Before generating anything, look at what has been **filed in the last few weeks** (One Legal
+confirmations in Gmail, the case folder, the Activity Log) for events that change who belongs
+in a caption: a **Request for Dismissal / CIV-110**, a substitution, a defendant's **death**,
+an entered default, an amended complaint. The verbatim-caption rule below is about not
+*re-drafting* the caption — it is **not** a licence to skip this check.
+
+**Worked failure (Bo Tao, 2026-09-21).** Klaus e-filed a Request for Dismissal as to
+**EUTIMEO BEAS** (deceased) at **12:03 PT**; I generated the VN004 from 12:00–12:07 and
+drafted the cover email at 12:11 carrying the complaint's caption verbatim — Eutimeo included
+— without ever looking. Klaus had to add the question himself: *"Since we have filed a request
+for dismissal as to Eutimeo Beas, should we remove him from all future documents and
+filings?"* If the answer is yes, **both** PDFs have to be regenerated before e-filing.
+
+So: when such an event exists, **raise it in the cover email as the one question for the
+attorney** and say which document(s) the answer changes. The amendment form and the summons
+can land differently — the VN004 amends *the complaint as pleaded*, while the First Amended
+Summons is **new process** and naming a dismissed (here, dead) defendant in its NOTICE TO
+DEFENDANT block is the weaker position.
+
 ## Two captions — do NOT confuse them
 - **CIV 105 DEFENDANT field** = the complaint's caption **unchanged** (e.g. `JORGE
   VELAZQUEZ; and DOES 1 through 50, inclusive`). The form's BODY does the work
