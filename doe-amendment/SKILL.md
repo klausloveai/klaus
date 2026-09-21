@@ -41,6 +41,8 @@ The Amendment form is **county-specific**; pick by the case-number prefix:
   Complaint"), top **FICTITIOUS NAME (No order required)** section. Use
   `scripts/make_sb_amendment.py` (below). This is the default for Hernán dog-bite cases.
 - **LA (`…NWCV…`, etc.) → CIV 105** (LA local form) via `make_doe_amendment.py`.
+- **`…CUPO…` (Ventura) → local form VN004** ("Amendment to Complaint"), top
+  **FICTITIOUS NAME (No order required)** section. Use `scripts/make_vn_amendment.py`.
 - Other counties: find that county's Doe/fictitious-name amendment form and add a variant.
 
 ### San Bernardino SB-16778 (`make_sb_amendment.py`)
@@ -62,6 +64,26 @@ The Amendment form is **county-specific**; pick by the case-number prefix:
 - Post-filing: service + POS due **within 30 days of filing** (calendar it); the summons/POS
   must carry the fictitious-name notice or no default can be taken.
 
+### Ventura VN004 (`make_vn_amendment.py`)
+- **Blank source:** pulled fresh at run time from
+  `https://ventura.courts.ca.gov/system/files/vn004.pdf`, falling back to the bundled
+  `assets/VN004_blank.pdf`. VN004 is an **Optional Form (Rev. 07/03)**, C.C.P. §§473–474.
+- Same shape as SB-16778: a `defendants` LIST, each yielding its own VN004 **and** its own
+  First Amended Summons (it reuses `make_doe_amendment.make_fa_summons`).
+- **The courthouse checkbox is not decoration.** VN004's second court line carries a
+  checkbox whose field name literally *is* `800 SOUTH VICTORIA AVE VENTURA CA 93009` — it
+  is Ventura's location selector and the script always marks it. Leave the **Limited Civil
+  Case** box clear unless `limited_civil: true`.
+- **The DEFENDANT/RESPONDENT cell is narrow** — only ~231pt (x 162 → the vertical rule at
+  396.2). A full dog-bite caption needs 5.5pt type to fit on one line, which prints
+  unreadably, so `_draw_caption()` wraps it onto the cell's **two** baselines, breaking
+  after one of the caption's own semicolons. Two lines at 7.5pt beat one at 5.5pt.
+- Leave the FICTITIOUS-NAME **Attorney(s) for Plaintiff(s)** signature line, the whole
+  INCORRECT NAME block, and the **ORDER** block (Dated / Judge) blank — the fictitious
+  half requires no order.
+- Worked example: *Bo Tao* (`2026CUPO069898`), DOE 1 = RALPH BEAS. The filed complaint
+  pleads **Does 1–20 as one undifferentiated block**, so the dog owner goes in at DOE 1.
+
 ## Summons court block — repeat the issued summons verbatim (Klaus, 2026-08-20)
 The SUM-100 "name and address of the court" block has only **two usable line slots**,
 and **both must stop before the CASE NUMBER box** (its left edge is **x=362.8**). A long
@@ -76,6 +98,17 @@ one-line court name prints straight through the case number.
   line 2 = `County of San Bernardino, 247 West 3rd Street, San Bernardino, CA 92415-0210`.
   Note it is **not** "Superior Court of California, County of San Bernardino" on one line.
 - `_draw_fitted()` shrinks the font as a backstop, but a correct split beats shrinking.
+- **Gotcha — the e-filing stamp poisons the scrape.** Courts print a vertical
+  "…transmitted through eFiling…" band *outside* the form's left margin (SUM-100 body
+  starts at x=36.0); pdfplumber reads it as one- and two-character words at x0≈24 that land
+  inside the court-block row window and beat the real value. Ventura's copy produced
+  `court_lines == ["S", "a"]` until `extract_summons_court_block()` started dropping
+  everything left of x=34 (fixed 2026-09-21). The same rewrite stopped anchoring on
+  absolute y-windows: it now finds the two Spanish labels and reads relative to them,
+  because courts set slot 1 either on the label's own baseline (San Bernardino) or a couple
+  of points below it (Ventura, LA). **Always eyeball the printed
+  `court block (issued summons): … | …` line** — two suspiciously short values mean the
+  scrape failed, and `court_lines` in the config is the verbatim override.
 
 ## Draft-only (hard rule)
 Prep only. Output flattened PDFs to **~/Downloads**. Leave CIV 105 **DATE + SIGNATURE**

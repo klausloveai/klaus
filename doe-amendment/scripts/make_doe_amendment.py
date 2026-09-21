@@ -130,26 +130,69 @@ def extract_summons_court_block(pdf_path):
     except Exception:
         return None
 
+    # Drop the e-filing stamp. Courts print a vertical "transmitted through
+    # eFiling" band OUTSIDE the form's left margin (SUM-100 body starts at
+    # x=36.0); pdfplumber reads it as one-or-two-character words at x0~24 that
+    # otherwise land inside the court-block row window and win over the real
+    # value. Ventura's copy produced court_lines == ["S", "a"] this way.
+    words = [w for w in words if w["x0"] >= 34]
+
     # Group words into visual lines by their baseline.
     rows = {}
     for w in words:
         rows.setdefault(round(w["bottom"]), []).append(w)
 
-    court_lines, attorney_line = [], None
-    for bottom in sorted(rows):
-        ws = sorted(rows[bottom], key=lambda w: w["x0"])
-        text = " ".join(w["text"] for w in ws)
-        # Court slot 1: same row as the Spanish label, value starts after it.
-        if "corte es)" in text:
-            tail = [w["text"] for w in ws if w["x0"] > 188]
-            if tail:
-                court_lines.append(" ".join(tail))
-        # Court slot 2: the row just below, left margin, left of the case-number box.
-        elif 500 < bottom < 522 and ws[0]["x0"] < 60 and ws[-1]["x1"] < 362.8:
-            court_lines.append(text)
-        # Attorney line: the row below the plaintiff's-attorney label.
-        elif 550 < bottom < 562 and ws[0]["x0"] < 60:
-            attorney_line = text
+    def row_text(bottom):
+        return " ".join(w["text"] for w in sorted(rows[bottom], key=lambda w: w["x0"]))
+
+    # Anchor on the two labels rather than on absolute y windows: the forms are
+    # the same but each court's e-filed copy shifts the values by a few points.
+    court_label = next((b for b in sorted(rows) if "corte es)" in row_text(b)), None)
+    atty_label = next((b for b in sorted(rows)
+                       if "abogado del demandante" in row_text(b)), None)
+    if court_label is None:
+        return None
+    # Boundary = the END OF THE LABEL TEXT, not the end of the row. When a court
+    # sets the value on the label's own baseline (San Bernardino), the value
+    # words are in this row too, and taking max(x1) would swallow them.
+    label_right = max(
+        [w["x1"] for w in rows[court_label] if "es)" in w["text"]]
+        or [max(w["x1"] for w in rows[court_label])]
+    )
+
+    # Court slot 1 = the value to the RIGHT of the label. Some courts set it on
+    # the label's own baseline (San Bernardino), others a couple of points
+    # below it (Ventura: label 501, value 503) — accept either.
+    slot1 = []
+    for b in sorted(rows):
+        if abs(b - court_label) <= 6:
+            slot1 += [w for w in sorted(rows[b], key=lambda w: w["x0"])
+                      if w["x0"] > label_right]
+    # Court slot 2 = the next left-margin row below, stopping before the
+    # CASE NUMBER box (x=362.8).
+    slot2 = None
+    for b in sorted(rows):
+        if court_label + 6 < b <= court_label + 30:
+            ws = sorted(rows[b], key=lambda w: w["x0"])
+            if ws[0]["x0"] < 60 and ws[-1]["x1"] < 362.8:
+                slot2 = " ".join(w["text"] for w in ws)
+                break
+
+    court_lines = []
+    if slot1:
+        court_lines.append(" ".join(w["text"] for w in slot1))
+    if slot2:
+        court_lines.append(slot2)
+
+    # Attorney line = the first left-margin row below its Spanish label.
+    attorney_line = None
+    if atty_label is not None:
+        for b in sorted(rows):
+            if atty_label < b <= atty_label + 20:
+                ws = sorted(rows[b], key=lambda w: w["x0"])
+                if ws[0]["x0"] < 60:
+                    attorney_line = " ".join(w["text"] for w in ws)
+                    break
 
     if not court_lines:
         return None
