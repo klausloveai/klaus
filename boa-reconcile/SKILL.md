@@ -63,6 +63,9 @@ description: >
 - **看存款组成**: 打开 deposit 的 modal 后有 `[id^=deposit-slip-thumbnail]` 缩略图排
   （-1=Deposit Slip，-2 起=每张组成支票按金额标注）。逐个 click → 同法 zoom 读。
   Mobile Deposit 用描述里的确认号定位行。
+- **限流**：连续开影像/反复 apply filter 会触发「There was a problem processing your request.
+  System is temporary unavailable.」——交易表变空、filter 失效。**等 3-5 分钟才会恢复，别 reload**
+  （reload 会撞 SMAUTH 挑战直接登出）。节奏控制：开影像之间 ≥2s，一轮不超过 ~20 次 modal。
 - **勾 Reconcile**: checkbox.click → 等 ≥900ms（服务器保存）→ **一批勾完必须重设 filter 复查**：
   Non-reconciled 视图有快照延迟，**以 Reconciled 视图（reconcile-select='Y'）出现为准**。
   一次 js call 里连点多个易超时(45s CDP 限)——每 call ≤4 个勾，或单勾单 call。
@@ -76,7 +79,11 @@ recovery(→J 列)、`7020 Medical Payment Return`=MedPay 还保险(→U-Z 保�
 memo 格式 `<Client>, DOL-MM/DD/YYYY`。页面是懒加载——bodyLen<1000 就等几秒重读。
 
 ## Internal 表匹配
-读 `Internal !A1:EK<末行>` 带 backgroundColor，按客户名建行索引(一名多行都收)，在该客户行里扫
+⚠️ **读取范围必须到 `FZ`（至少 150 列），不能只读到 EK** —— 2026-09-22 踩过：脚本读 `A1:EK300`
+（EK=141 列），而 `EN` Ohai Acupuncture(144)、`EO` Dr. Harris Lee(145) 在范围外，两张已兑现支票
+被误报成「Internal 格子空着」。provider 列会一直往右加，**永远用 `A1:FZ<末行>`**，
+并在 header 读取时确认 `len(hdr)` ≈ 实际列数（当前 146 列）。
+读 `Internal !A1:FZ<末行>` 带 backgroundColor，按客户名建行索引(一名多行都收)，在该客户行里扫
 D..EK 找金额==支票额的格。歧义时以**支票收款人**定列(如同额 Exer vs Shin Imaging)。
 客户 recovery 必须落 J 列。找不到行/金额 → 不动不勾，报告（常见原因：案子没录 Internal——
 Xiaohua Yu 型;或差额——80277 型）。列结构见 accounting-agent skill(U-Z=保险公司,AA+=providers)。
