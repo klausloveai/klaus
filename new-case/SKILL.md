@@ -57,10 +57,25 @@ When the user has not said otherwise *in advance*, apply these defaults and keep
      不要凭记忆）
   2. **上一案的人数构成** —— 几个成年人、几个 minor
   3. **本案的人数构成** —— 几个成年人、几个 minor
-  然后问："上一次是 [CM]（[案名]，[N] 成年 / [M] minor）。这个案子（[N] 成年 / [M] minor）
-  assign 给谁？" —— 等 Klaus 回答再往下走。绝不自动分配、绝不自己按轮转推断。
-  （理由：minor 案的工作量和流程都不一样——要家长代签、要 GAL、和解要过法院——所以纯按案件数
-  轮转会失衡，Klaus 要看到人数构成才能拍板。）
+  4. **两位 CM 当前的加权在手量** —— 见下方折算规则
+
+  **⚖️ 折算规则（Klaus 2026-09-22）：1 个 minor = 1/3 个成年人。**
+  平衡看的是 **加权人头**，不是案件数、也不是原始人头：
+
+  ```
+  加权量 = 成年人数 + minor 数 ÷ 3
+  ```
+
+  > **为什么 minor 只算 1/3**：未成年人几乎总是跟着家长同车、同一场事故 —— 共用一份警察报告、
+  > 一次责任调查、一套现场证据，增量工作主要只是多一份病历和多一次签署。所以「一家三口」
+  > 远不等于「三个独立客户」的工作量。
+  >
+  > 反过来，**minor 案在结案端确实更重**（GAL 指定、Minor's Compromise 要过法院）—— 但那是
+  > 几个月后的事，不在新案分配这个时点计入。分配看的是当下的建案与治疗跟进负荷。
+
+  然后问："上一次是 [CM]（[案名]，[N] 成年 / [M] minor）。两边当前加权：Jerry [x.xx] /
+  Amos [y.yy]。这个案子（[N] 成年 / [M] minor，加权 [z.zz]）assign 给谁？"
+  —— 等 Klaus 回答再往下走。绝不自动分配、绝不自己按轮转推断。
 - Chat space "in charge" = the named CM (no default — must be either in the prompt or explicitly answered)
 
 This Execution Mode overrides any "ask the user" / "Get user confirmation" wording in the
