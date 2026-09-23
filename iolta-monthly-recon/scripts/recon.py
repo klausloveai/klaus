@@ -124,8 +124,9 @@ def match(rows, txns, month):
             if byconf: cands = byconf
         if len(cands) == 1:
             res["other_ok"].append((t, cands[0]))
-            if cands[0]["row"] not in prior:
-                claimed.add(cands[0]["row"]); res["assign"][cands[0]["row"]] = (t["date"], month)
+            claimed.add(cands[0]["row"])
+            if cands[0]["row"] not in prior or not cands[0]["cleared"]:
+                res["assign"][cands[0]["row"]] = (t["date"], month)
         else:
             res["other"].append((t, cands))
     res["totals"] = dict(credits=c2(sum(t["amt"] for t in credits)),
@@ -151,8 +152,9 @@ def match(rows, txns, month):
             else:
                 res["checks_ambiguous"].append((t, n, cands))
         elif any(x["row"] in prior and abs(x["dis"] - abs(t["amt"])) < 0.005 for x in by.get(n, [])):
-            res["checks_ok"].append((t, n, next(x for x in by[n]
-                                     if x["row"] in prior and abs(x["dis"] - abs(t["amt"])) < 0.005)))
+            hit = next(x for x in by[n] if x["row"] in prior and abs(x["dis"] - abs(t["amt"])) < 0.005)
+            res["checks_ok"].append((t, n, hit))
+            if not hit["cleared"]: res["assign"][hit["row"]] = (t["date"], month)   # fill missing date
         elif by.get(n):
             res["checks_mismatch"].append((t, n, by[n]))
         else:
@@ -163,7 +165,9 @@ def match(rows, txns, month):
         done = [x for x in rows if x["row"] in prior and x["dis"]
                 and abs(x["dis"] - abs(t["amt"])) < 0.005]
         if done:
-            res["unnumbered"].append((t, done[:1])); continue
+            res["unnumbered"].append((t, done[:1]))
+            if not done[0]["cleared"]: res["assign"][done[0]["row"]] = (t["date"], month)
+            continue
         cands = [x for x in rows if x["dis"] and x["row"] not in claimed
                  and abs(x["dis"] - abs(t["amt"])) < 0.005 and not _issued_after(x, t["date"])]
         res["unnumbered"].append((t, cands))
@@ -184,7 +188,7 @@ def match(rows, txns, month):
             res["dep_tie"].append((d, bs, cnt[d], jg[d]))
             for x in jg[d]:
                 claimed.add(x["row"])
-                if x["row"] not in prior: res["assign"][x["row"]] = (d, month)
+                if x["row"] not in prior or not x["cleared"]: res["assign"][x["row"]] = (d, month)
         else:
             res["dep_off"].append((d, bs, cnt[d], js, jg.get(d, [])))
     return res
