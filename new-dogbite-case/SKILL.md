@@ -35,9 +35,63 @@ Dependency-free: uses only `gws`, `python3` stdlib, and the bundled scripts.
 ## Constants — "Hernan Simo Cases" shared drive (`driveId 0APtYw9adyTl8Uk9PVA`)
 - **`1. Dog Bite Cases`** (where new case folders go): `1ewaJIoeLHoc3lG3dIyDTfWwuSt6HYRVt`
 - **`Dog Bite Case Template`** (duplicated per case): `14scr16zZnF05TVj-iXSonjTAQpo7_ceA`
-  - `0. Intake Sheet` (Google Sheet) + six subfolders `1. Incident & Liability`,
-    `2. Legal Documents`, `3. Medical Record & Bill`, `4. Litigation`,
-    `5. Cost & Receipt`, `6. Settlement & Disbursement`.
+  - `0. Intake Sheet` (Google Sheet) + six numbered folders. Two of them carry
+    fixed subfolders, because without them every case invents its own vocabulary —
+    an audit of eight live cases found `Draft` / `Drafting` / `Draft Complaint`
+    for the same thing, POE filed under three different folder names, and one
+    case keeping a to-do list as a folder (`Mailed POE/Need Action`):
+
+    ```
+    1. Incident & Liability
+    2. Legal Documents
+       2.1 Retainer & Authorizations     retainer, HIPAA, releases
+       2.2 POE - Preservation            spoliation letters + their receipts
+       2.3 LOR & LOP                     representation / protection letters
+       2.4 Records Requests              CPRA, record + bill request letters
+       2.5 Skip Trace & Party Search     people-search, ownership lookups
+    3. Medical Record & Bill
+    4. Litigation
+       4.1 Pleadings                     complaint, FAC, summons, answers
+       4.2 Service & Proofs              POS, service receipts, One Legal
+       4.3 Doe Amendments                CIV-105 + matching summons + POS
+       4.4 Discovery - From Defense      their demands AND our responses
+       4.5 Discovery - To Defense        our demands AND their responses
+       4.6 Court & Hearings              CMC statements, orders, notices
+    5. Cost & Receipt
+    6. Settlement & Disbursement
+    ```
+
+    Discovery is split by **exchange direction, not by who wrote the page**: a
+    demand and the response it draws belong together, because the pair is what
+    proves who owed what by when. Document state (draft / filed / served) lives
+    in the **filename**, never in a folder — a document that moves folder as it
+    progresses becomes three files with three names and no link between them.
+
+    `4.4 / 4.5` are for things that run on a **discovery clock**. A Request for
+    Statement of Damages is CCP §425.11, not discovery: it has its own deadline
+    and its own consequence, and shelving it beside FROG and RFP invites someone
+    to give it the 30-day treatment. It goes in `4.1`.
+
+### Filenames
+
+`<M-D-YYYY> <Type>(<party>)[ - <part>].ext`
+
+The date is **when the event happened** — the court's e-file stamp, or the date
+the document itself says it was served. Not when you downloaded it, not when
+One Legal was paid. Halfwidth parentheses `()` only; fullwidth `（）` does not
+parse and the party silently stays glued to the title.
+
+What goes in the parentheses depends on what the document is:
+
+| | Parentheses hold | Example |
+|---|---|---|
+| Pleadings | whose paper it is | `8-31-2026 Answer(Def).pdf` |
+| Discovery | the direction, because direction is who owes a response | `8-31-2026 FROG Set 1(Def → Us).pdf` |
+| Service | who was served | `7-16-2026 POS(Rhea Edpao).pdf` |
+
+Parties are abbreviated: **`Def`**, **`Pl`**, `Doe 11`, or the name itself when
+there is more than one of a kind. Write `Def`, never `Defendant` — the column is
+narrow on every screen that shows it, and the long form buys nothing.
 - Firm-level assets (not touched here, for later stages): `2. Template/POE` (POE
   spoliation letters — dog-owner + landlord variants), `2. Template/LOR`,
   `3. Litigation Forms`.
