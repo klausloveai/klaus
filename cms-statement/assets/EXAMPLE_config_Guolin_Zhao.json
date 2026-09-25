@@ -1,0 +1,54 @@
+{
+  "output_dir": "~/Downloads",
+  "file_prefix": "Guolin Zhao",
+  "case_number": "26NWCV02260",
+  "plaintiff": "GUOLIN ZHAO",
+  "defendant_caption": "JORGE VELAZQUEZ, et al.",
+  "attorney": {
+    "name": "Hernán S. Simó",
+    "sbn": "354175",
+    "firm": "LAW OFFICE OF SHENQI CAI APC",
+    "street": "13191 Crossroads Pkwy N, Suite 295",
+    "city": "City of Industry",
+    "state": "CA",
+    "zip": "91746",
+    "phone": "(626) 479-2207",
+    "fax": "(626) 479-2207",
+    "email": "hernan.s@lingtulaw.com"
+  },
+  "court": {
+    "county": "LOS ANGELES",
+    "street": "12720 Norwalk Blvd.",
+    "city_zip": "Norwalk, CA 90650",
+    "branch": "Norwalk Courthouse - Southeast District"
+  },
+  "cmc": {
+    "date": "11/23/2026",
+    "time": "9:00 a.m.",
+    "dept": "D"
+  },
+  "complaint_filed": "07/02/2026",
+  "unlimited": true,
+  "jury": true,
+  "trial_days": "5",
+  "service": {
+    "not_served": "BENJAMIN VELAZQUEZ LOPEZ (sued as DOE 1) - service in progress; DOES 2-50 - names not yet ascertained.",
+    "served_not_appeared": "JORGE VELAZQUEZ - substituted service 08/09/2026; Request for Entry of Default filed 09/21/2026."
+  },
+  "case_type": "Personal injury - dog bite. Causes of action: (1) strict liability (Civ. Code, sec. 3342); (2) negligence; (3) premises liability.",
+  "case_statement": "On 06/21/2026, while making a delivery at 7653 Salt Lake Ave, Huntington Park, California, Plaintiff was attacked and bitten on the left forearm by an unrestrained dog owned, kept, or harbored by Defendants at the subject property. Plaintiff obtained emergency treatment and continues to treat. Plaintiff seeks past and future medical expenses, lost earnings, and general damages for pain and suffering, all according to proof.",
+  "discovery": [
+    [
+      "Plaintiff",
+      "Written discovery to each appearing defendant",
+      "Per Code"
+    ],
+    [
+      "Plaintiff",
+      "Depositions; records subpoenas (animal control, medical)",
+      "Per Code"
+    ]
+  ],
+  "meet_confer_explain": "No defendant has appeared. Jorge Velazquez was served on 08/09/2026 and a Request for Entry of Default was filed on 09/21/2026. Benjamin Velazquez Lopez (Doe 1) is in the process of being served.",
+  "pages_attached": "0"
+}
