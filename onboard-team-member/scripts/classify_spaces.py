@@ -6,7 +6,7 @@
        python3 classify_spaces.py 'Piteam@' J
        python3 classify_spaces.py 'Picase@' R
 
-读 members.json，抓 Master Sheet 对应 tab (B=客户名, D=Case Status)，写 a_split.json。
+读 members.json，抓 Master Sheet 对应 tab（列按表头名定位，不写死），写 a_split.json。
 
 ⚠️ 后缀是唯一可靠判据。绝不用"CM 是不是群成员"分组 —— Amos 在 557 个空间里占 507 个。
 """
@@ -19,16 +19,27 @@ tab    = sys.argv[1]
 suffix = sys.argv[2].upper()
 
 raw = subprocess.run(['gws','sheets','spreadsheets','values','get','--params',
-        json.dumps({"spreadsheetId": MASTER, "range": f"{tab}!A1:D400"})],
+        json.dumps({"spreadsheetId": MASTER, "range": f"{tab}!A1:N400"})],
         capture_output=True, text=True).stdout
 vals = json.loads(raw[raw.index('{'):]).get('values', [])
 
 def norm(s): return re.sub(r'[^a-z]', '', s.lower())
 
+# ⚠️ 列位置会变 —— 2026-09 之间 Claims@/Picase@ 插入了 Retainer 列，Case Status 从 D 移到 E。
+# 必须按表头名字定位，绝不能写死列号。
+hdr = vals[0]
+def col(*names):
+    for i, h in enumerate(hdr):
+        if norm(h) in [norm(n) for n in names]:
+            return i
+    raise SystemExit(f'!! 在 {tab} 表头里找不到列 {names}；实际表头 = {hdr}')
+C_NAME, C_STAT = col('Client Name'), col('Case Status')
+print(f'{tab} 表头定位: Client Name={chr(65+C_NAME)} · Case Status={chr(65+C_STAT)}')
+
 status = {}
 for r in vals[1:]:
-    if len(r) > 1 and r[1].strip() and r[1].strip() != 'Example Row':
-        status[norm(r[1])] = (r[3].strip() if len(r) > 3 else '')
+    if len(r) > C_NAME and r[C_NAME].strip() and r[C_NAME].strip() != 'Example Row':
+        status[norm(r[C_NAME])] = (r[C_STAT].strip() if len(r) > C_STAT else '')
 print(f'{tab}: {len(status)} client rows')
 
 rows = []
