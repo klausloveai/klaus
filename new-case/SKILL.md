@@ -291,8 +291,14 @@ Build the local case folder mirroring whatever subfolders the template currently
 │     └── Referral/               (template id: 1fZ1giwvsg_W6FPmzREbAXT1JDZAmLjF0)
 ├── 5#Demand Package/        (template id: 1I4DRX7DVTfPq_sfLcPV0cynTVxxevEFb)
 ├── 6#Settlement Documents/  (template id: 1SWMMs0Qsy_wz2GwldlaO9JNng-Gj-gUU)
-└── [Intake Sheet].xlsx           ← in root
+└── [CaseName].xlsx               ← in root; filename = the DISK case name, nothing appended
 ```
+
+> ⚠️ **Intake sheet filename (Klaus, 2026-09-24): `<DISK case name>.xlsx` — NO suffix.**
+> `Mengmeng Wang-9-17-2026.xlsx` ✅ — not `Mengmeng Wang Intake Sheet.xlsx`,
+> not `Mengmeng Wang-9-17-2026 Intake Sheet.xlsx`. The words "Intake Sheet" never appear
+> in the filename. Same string as the case folder, dashes in the date, `.xlsx` extension.
+> (Older cases on Drive still carry the legacy ` Intake Sheet.xlsx` suffix — do not copy them.)
 
 If the live query returns a different set of folders, use the live set — the template IDs above are cached references only.
 
@@ -315,8 +321,11 @@ Export as xlsx at the start of each case:
 ```bash
 gws drive files export \
   --params '{"fileId":"1Lnp8oMj3D3k9rKAYPCSIGCndBKR1ztt3-u8Qe53QKMM","mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}' \
-  -o "/Users/Klaus/work/[CaseName] Intake Sheet.xlsx"
+  -o "/Users/Klaus/work/[CaseName]/[CaseName].xlsx"
 ```
+
+`[CaseName]` = the DISK case name (`Mengmeng Wang-9-17-2026`). The saved file is
+`Mengmeng Wang-9-17-2026.xlsx` — **no ` Intake Sheet` suffix** (see Step 5).
 
 Open the exported file with `openpyxl(data_only=False)`. **Write only to VALUE cells — never overwrite labels or change the template structure/formatting.**
 
@@ -357,7 +366,7 @@ neighbouring field.
 **Gate 2 — run the type self-check after saving. REQUIRED, not optional.**
 ```bash
 python3 ~/.claude/skills/new-case/scripts/verify_intake.py \
-  "<path>/<Case> Intake Sheet.xlsx" --client-name "<Driver Name>"
+  "<path>/<CaseName>.xlsx" --client-name "<Driver Name>"
 ```
 It pairs every value with its label and asserts the value's TYPE matches the field
 (Phone→phone number, Period→date range, Policyholder/Driver/Owner→person name, VIN→17 chars,
@@ -550,11 +559,21 @@ can take 5–30+ minutes before the Drive API sees them, and subsequent steps ne
 4. **Upload intake sheet `.xlsx` via API** immediately — this gives you the `webViewLink` for Step 10:
    ```bash
    gws drive files create \
-     --upload "/Users/Klaus/work/[CaseName]/[CaseName] Intake Sheet.xlsx" \
-     --upload-content-type "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" \
-     --json '{"name":"[CaseName] Intake Sheet.xlsx","parents":["<CASE_FOLDER_ID>"]}' \
-     --params '{"supportsAllDrives":true,"fields":"id,name,webViewLink"}'
+     --upload "/Users/Klaus/work/[CaseName]/[CaseName].xlsx" \
+     --json '{"name":"[CaseName].xlsx","parents":["<CASE_FOLDER_ID>"],"mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}' \
+     --params '{"supportsAllDrives":true,"uploadType":"multipart","fields":"id,name,webViewLink"}'
    ```
+
+   > ⚠️ **Upload it as a real `.xlsx` — NEVER convert it to a Google Sheet.** Do not pass
+   > `"mimeType":"application/vnd.google-apps.spreadsheet"` in the metadata. Every case on
+   > Drive stores the intake sheet as an xlsx file; a converted Google Sheet is the odd one
+   > out and breaks the team's expectations. The tracking-row hyperlink still uses the
+   > `https://docs.google.com/spreadsheets/d/<FILE_ID>/edit` form — Drive renders the xlsx in
+   > the Sheets viewer, so the link works either way. (Hit 2026-09-24, Mengmeng Wang.)
+   >
+   > ⚠️ **`uploadType:multipart` + mimeType in `--json`.** Declaring `uploadType:media` while
+   > sending a multipart body embeds the MIME headers INTO the file and silently corrupts it
+   > (3 files corrupted 2026-09-17 → 09-23, one undetected for 6 days).
 
 5. **Upload all other files to their respective API-created subfolders** (small files sequentially;
    large files — ZIPs, DNG, videos >20MB — in parallel background processes):
@@ -1231,10 +1250,44 @@ Examples:
 WeChat message Klaus forwards to the client asking them to sign. Klaus sends it himself —
 this step GENERATES text only, it never sends anything.
 
+> 🔒 **RE-READ THIS STEP AND COPY THE TEMPLATE VERBATIM — EVERY CASE. Do NOT compose from memory.**
+>
+> The template below is a **CLOSED SET**. The only things you may change are the fill-in values:
+> client English name(s), client email(s), the fee block (`new` vs `standard`), and 您/两位/三位.
+> **Every other character is fixed.** You may not add a block, drop a block, reorder blocks,
+> reword a sentence, or "tighten" anything.
+>
+> **FORBIDDEN in the client message** (all of these were invented on 2026-09-24, Yang Yang +
+> Mengmeng Wang, by writing the message from memory instead of opening this step):
+> - **A 补充材料 / 待补文件 checklist** (驾照、保险卡、伤情、修车行地址…). Missing documents are a
+>   **CM welcome-call** job and belong in the §7 summary to Klaus — never in the signing message.
+> - **Medical advice or treatment offers** — `建议尽早就医`, `需要我们帮您安排看诊`. This is
+>   attorney-driven solicitation and violates the firm's non-driven rule.
+> - Case facts (车主姓名、对方保险、车牌、DOL), 索赔价值, 时间预期, or any 案情分析.
+> - Paraphrasing the 费用说明 instead of pasting the exact block. Dropping
+>   `以上为简要说明，具体条款以合同为准。`
+> - Dropping the 服务内容 block, the 签约前提醒 block, or the `凌图律所` 落款.
+>
+> **Self-check before you output.** Diff what you wrote against the template: it must contain
+> the `<DISK case name>⚠️` header line, a blank line, then exactly the five blocks in order
+> (合同已发→服务内容→费用说明→签约前提醒→签署说明+落款), and nothing else. If a block is
+> missing or an extra block appeared, rewrite from the template.
+> Violated on the first two cases after this step was written — that is why this guard exists.
+
 ### Hard rules (firm's client-message style — see memory `feedback-client-message-plain`)
 
 - **Plain text only.** No markdown, no bold, no bullets, no headers, no underline fill-lines.
 - **Present it in a plain code block** so Klaus can copy it straight out.
+- **First line INSIDE the code block = the case header `<DISK case name>⚠️`, then a blank line**
+  (Klaus, 2026-09-28: "我好直接复制" — it must come out with one copy, so it lives inside the
+  block, not as a caption above it). Example first two lines:
+  ```
+  Yutao Ma-9-28-2026⚠️
+
+  Yutao 您好，我们已经把委托合同…
+  ```
+  Disk case name = same string as the case folder (dashes in the date), then the ⚠️ emoji,
+  no space before it. This header is the ONLY addition permitted to the closed set below.
 - **中文（简体）+ 全角标点**（，。：？！）
 - **CLIENT NAMES ALWAYS IN ENGLISH — exactly as they appear on the ID.** Never write a
   client's Chinese name in the message, even though the rest of the text is 中文, and even
@@ -1297,6 +1350,8 @@ Multi-client: swap 您 → 两位／三位 to match the client count.
 ### Single-client template
 
 ```
+[CaseName]⚠️
+
 您好，我们已经把委托合同通过 DocuSign 发送到您的邮箱：[客户邮箱]
 
 签之前，先跟您简单说明一下我们会做什么、以及费用怎么算。
@@ -1329,6 +1384,8 @@ Each client signs on their OWN email — say so explicitly, and list every clien
 Swap 您 → 两位／三位 etc. to match the client count.
 
 ```
+[CaseName]⚠️
+
 您好，我们已经把委托合同通过 DocuSign 分别发送到两位的邮箱：
 
 [客户1英文名]：[客户1邮箱]
