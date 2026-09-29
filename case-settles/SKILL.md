@@ -10,7 +10,8 @@ description: >
   disbursement PDF arrives with no instruction, default to running this pipeline. It orchestrates end-to-end in one pass —
   verify math + funding → Disbursement Sheet → Account Journal → archive + move to "8. Settled" →
   Pending→Completed sheet → send the team "Case settled" email (default: send, no approval gate) →
-  extract marketing material → file the case into its DOL-year folder → Activity Log + _STATE.md.
+  extract marketing material → file the case into its DOL-year folder → Activity Log + _STATE.md →
+  close out the PI Master row and move it to the top of the Completed block.
   Detail lives in `accounting-agent` (money) and `settled-case-marketing-pkg` (marketing); this
   skill owns the ORDER, the STOP gates, and the final verification. PI auto only — never dog-bite /
   Hernán Simó litigation.
@@ -127,5 +128,36 @@ sitting in drafts waiting on Klaus.
     H delivery (当面/邮寄) · J/K/L = `❓未问` (GR / 小红书 / 朋友圈). Then hand the Paralegal the
     matching 话术 line — 先请 GR(最容易),再讲 XHS/PYQ 各 $50 返现.
     Detail + the rest of the loop: `~/.claude/skills/客服回收/SKILL.md`.
-37. Report: what got done, what is waiting on Klaus, and **every discrepancy found** (DOL conflicts,
+37. **PI Master Sheet — close the row out and file it.** Master
+    `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`; the tab IS the owning mailbox (`Claims@` 86730608 /
+    `Piteam@` 102974151 / `Picase@` 775230687). Find the client in col B — **match on DOL, not name**,
+    the firm has repeat clients and near-duplicates. Column map (A is the unlabeled DOL):
+    `A DOL · B Client Name · C Retainer · D Referrer · E Case Status · F Note-Claims ·
+    G 1LOR · H 1Coverage · I 1Liability · J 3LOR · K 3Coverage · L 3Liability · M Property Damage · …`
+    Then, in this order:
+    a. **E Case Status → `✅Completed`** (with the emoji; the column is emoji-prefixed throughout).
+    b. **Put the settlement amount in the coverage column that matches the recovery.**
+       3P settlement → **K (3Coverage)**. 1P UM/UIM or MedPay → **H (1Coverage)**. Both → put each
+       under its own column. Overwrite whatever tracking word is there (`Cleared`, a date, …).
+    c. **F Note-Claims → the TOTAL of everything recovered**, written as a plain dollar amount
+       (`$25,000.00`) — that is the house style on the existing Completed rows (Yang Wang `$13,000`,
+       Wei Wang `$2,000.00`). The total is 3P + UM/UIM + **MedPay net of subrogation** — i.e. med pay
+       enters the sum after whatever the health plan clawed back, per Klaus 2026-09-29.
+       ⚠️ The first case that actually HAS med pay + subrogation, show Klaus the arithmetic before writing it.
+    d. **Wipe the rest of G–L and clear their fill.** Every G–L cell you did not fill in (b) gets
+       emptied and its background set to **white** `{red:1,green:1,blue:1}` — matching the row's other
+       blank cells (N–U). This includes cells that still hold `Cleared` / `100%` / a date: once the case
+       is completed those are spent tracking fields, not information. **Leave the filled coverage cell's
+       green fill alone**, leave F green, and never touch M (Property Damage) or anything right of it.
+    e. **Move the row to the TOP of the ✅Completed block** with `moveDimension` — the completed cases
+       live in one contiguous block at the bottom of the tab, newest first. Find the first row of that
+       block and land this row immediately above it.
+       ⚠️ `destinationIndex` is in the PRE-move coordinate system and moving DOWN is off by one: moving
+       source `[34,35)` with `destinationIndex: 161` lands the row at 161, one BELOW the target. Either
+       pass `destinationIndex = target_index` when moving down, or just do the move and read the result
+       back — then correct with a second `moveDimension` if it is off. **Always read back and confirm the
+       row sits directly above the previous top-of-block client.**
+    Scattered `✅Completed` rows still sitting up in the active list (older cases nobody moved) are not
+    your problem — do not bulk-tidy them unless Klaus asks.
+38. Report: what got done, what is waiting on Klaus, and **every discrepancy found** (DOL conflicts,
     retainer-type mismatches, cent-level gaps). Never bury these.
