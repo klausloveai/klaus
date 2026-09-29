@@ -94,6 +94,55 @@ Match the attorney whose name goes on the document.
   cross-complaint is on file.
 - **Draft only.** Verification unsigned, attorney signature blank, nothing served.
 
+## The learning loop — run this every time a review comes back
+
+This skill is meant to get measurably better each round. The loop has three parts, and
+the third is the one that makes it stick.
+
+**1. Capture.** As soon as the attorney returns a marked-up or rewritten set:
+
+```
+python3 scripts/learn.py --mine <our draft.docx> --theirs <his return.pdf> --kind FROG
+```
+
+It separates line-number noise from cosmetic house-style edits from substantive changes,
+so the substantive list is short enough to actually read. The diff tells you *what*
+changed; his covering email tells you *why*. You need both — a change without a reason
+cannot become a rule.
+
+**2. Record.** Add `revisions/<date>-<case>-<sets>.md` using the existing entry as the
+shape. It is append-only; never rewrite a past entry. Each substantive change gets a
+class:
+
+- **LAW** — an authority does not support the proposition, or the statute says something
+  else. Always mechanizable as a bad-cite check.
+- **PROCEDURE** — a required element was missing (verification, POS, §2031.240 description).
+  Usually mechanizable.
+- **METHOD** — the reasoning was wrong (wrong time window, asserted past the document,
+  internal contradiction). Rarely mechanizable; these stay prose and must be *read*.
+- **STYLE** — house format. Always a preflight warning, never a prose rule.
+- **CASE-SPECIFIC** — true for this file only. Record it in the revision entry and do
+  **not** promote it to the standard.
+
+**3. Promote.** Update `references/hernan-standard.md`, and — this is the part that
+matters — **convert everything convertible into a check in `scripts/preflight.py`.** A
+lesson that lives only in prose will be forgotten by round three. A lesson that fails the
+build will not.
+
+Then record the round's numbers in the revision entry: substantive changes, how many an
+existing check should have caught (those are drafting failures, not new knowledge), and
+how many new checks were added. **The health metric is the first number falling while the
+third approaches zero.** If corrections stay flat, the rules are not being read before
+drafting — go back to step 0 and read `hernan-standard.md` first.
+
+Finally, `git add` and commit the skill. It is backed up to the private repo.
+
+### When the attorney reverses an earlier rule
+
+Mark the superseded rule in `hernan-standard.md` with `SUPERSEDED <date>` and a pointer
+to the new revision entry; do not delete it. Knowing that a rule changed, and when, is
+worth more than a clean file — and it stops the next round re-litigating a settled point.
+
 ## Output
 
 To the case folder, as `.docx` for the responses and index (the attorney edits in Word;

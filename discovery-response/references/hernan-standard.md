@@ -1,8 +1,16 @@
 # The Hernán standard — what he changed, and the check that catches it
 
-Derived from his line-by-line revision of the Yi Cong v. Edpao responses (FROG Set One,
-51 answers; RFP Set One, 19 requests), returned 2026-09-28. Every row is a mistake that
-was actually made. Run the check, not the intention.
+**How to read this file.** Every rule below came from an actual correction, logged in
+`revisions/`. Each is one of: **LAW** (an authority does not say what it was cited for),
+**PROCEDURE** (a required element was missing), **METHOD** (the reasoning was wrong), or
+**STYLE** (house format). LAW and PROCEDURE rules are mostly enforced by
+`scripts/preflight.py` — run it and the machine catches them. **METHOD rules are not
+mechanizable; they only work if you read this file before drafting.** That is the whole
+reason it is short.
+
+Provenance: round 1 — Yi Cong v. Edpao, FROG + RFP Set One, returned 2026-09-28
+(`revisions/2026-09-28-yi-cong-frog-rfp.md`).
+
 
 ## A. Citation must support the proposition
 
