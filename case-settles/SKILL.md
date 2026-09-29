@@ -136,14 +136,18 @@ sitting in drafts waiting on Klaus.
     G 1LOR · H 1Coverage · I 1Liability · J 3LOR · K 3Coverage · L 3Liability · M Property Damage · …`
     Then, in this order:
     a. **E Case Status → `✅Completed`** (with the emoji; the column is emoji-prefixed throughout).
-    b. **Put the settlement amount in the coverage column that matches the recovery.**
-       3P settlement → **K (3Coverage)**. 1P UM/UIM or MedPay → **H (1Coverage)**. Both → put each
-       under its own column. Overwrite whatever tracking word is there (`Cleared`, a date, …).
+    b. **Put the settlement amount in the coverage column that matches the recovery**, taking the
+       figures from the `Internal ` row: **D (3P) → K (3Coverage)**; **E + F + H (UM + UIM + MP post
+       subrogation) → H (1Coverage)**. A case with both gets both. Overwrite whatever tracking word is
+       there (`Cleared`, a date, …).
     c. **F Note-Claims → the TOTAL of everything recovered**, written as a plain dollar amount
        (`$25,000.00`) — that is the house style on the existing Completed rows (Yang Wang `$13,000`,
-       Wei Wang `$2,000.00`). The total is 3P + UM/UIM + **MedPay net of subrogation** — i.e. med pay
-       enters the sum after whatever the health plan clawed back, per Klaus 2026-09-29.
-       ⚠️ The first case that actually HAS med pay + subrogation, show Klaus the arithmetic before writing it.
+       Wei Wang `$2,000.00`). The total is 3P + UM/UIM + **MedPay net of subrogation**.
+       **Don't compute it — it is already sitting in the Disbursement Sheet.** `Internal ` column **I
+       (Total Settlement)** is `=SUM(D,E,F,H)` = 3P + UM + UIM + **H "MP Post Subrogation"**, which is
+       exactly this definition. Copy col I. (Verified across all 129 disbursed rows 2026-09-29: I always
+       equals D+E+F+H, and the med-pay cases prove the net rule — Jianjun Li MP $500 → post-subro
+       $166.67, Yining Li $7,003.23 → $2,334.41, Alvin Xu $2,000 → $0 and therefore excluded.)
     d. **Wipe the rest of G–L and clear their fill.** Every G–L cell you did not fill in (b) gets
        emptied and its background set to **white** `{red:1,green:1,blue:1}` — matching the row's other
        blank cells (N–U). This includes cells that still hold `Cleared` / `100%` / a date: once the case
@@ -159,5 +163,17 @@ sitting in drafts waiting on Klaus.
        row sits directly above the previous top-of-block client.**
     Scattered `✅Completed` rows still sitting up in the active list (older cases nobody moved) are not
     your problem — do not bulk-tidy them unless Klaus asks.
+    **When doing this in bulk** (Klaus: "把所有已经和解的案子都更新整理"), drive it off the Disbursement
+    Sheet: every `Internal ` row with a real date in col A (ignore blanks and the `12/31/2026` placeholder)
+    is a settled case. Match it into the Master and update whatever is not yet `✅Completed`. Three traps:
+    · **Passenger rows leave col A blank in the Master** and inherit the driver's DOL — forward-fill the
+      DOL down the tab before matching, or every passenger looks unmatched.
+    · **Match on name + DOL and keep BOTH in the identifier** — repeat clients are common (two Lianhai Mu,
+      two Jingrui Hu, two Jiwen Zhang). Never verify a move by name alone; you will read back the other matter.
+    · **The Completed block is not at the very bottom** — `💼Substituted` / `❌Withdrawn` / `⚖️Small Claim`
+      rows sit below it. Find the longest contiguous `✅Completed` run, and note that once you start marking
+      rows Completed up in the active list the "longest run" logic can pick one of those instead; anchor on
+      the known block instead of recomputing after every write.
+    Process oldest-disbursed first so the newest case ends up at the very top.
 38. Report: what got done, what is waiting on Klaus, and **every discrepancy found** (DOL conflicts,
     retainer-type mismatches, cent-level gaps). Never bury these.
