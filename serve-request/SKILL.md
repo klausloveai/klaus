@@ -335,7 +335,10 @@ gws calendar events insert --params '{"calendarId":"primary","sendUpdates":"all"
 - 三色实现不同：蓝 `<font color="#0000ff">` 字色 · 黄 `background-color:rgb(255,255,0)` 高亮 ·
   红 `<font color="#ff0000">` 字色
 - **没有结尾句**，最后一项写完直接接签名
-- Cc：他原信抄送所内多人 → 只保留 **Cassie + Joe**；只发给 Klaus 一人 → 不加 Cc
+- Cc：**默认照他的原收件人名单 reply-all,不要自己裁**（Bo Tao 他裁到 Cassie+Joe、
+  Yi Cong 四人全留 —— 没有固定规则，裁减交给 Klaus）；只发给 Klaus 一人 → 不加 Cc
+- **开头那句不要预告红字项**（别写 "with one point at the end"）—— 红字随时可能被删，
+  留下一句空指的话
 - 打招呼 `Hi Hernan,`（不带重音）
 
 **红字 = 提议层，宁可多给。** 凡是 Hernán 能答的问题就写出来（例如"你那份独立 POS 这次没用上，

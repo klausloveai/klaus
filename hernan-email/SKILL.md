@@ -137,6 +137,11 @@ Klaus 删光蓝字 = 一封干净可发的信。
 
 1. **开头一句注明颜色含义**，原话：`Below is where each of your <N> items stands.
    (Blue is confirm, yellow is pending, red is question.)` —— `<N>` 用英文数词（four / six）。
+
+   ⚠️ **这句话绝不能引用某个可能被删掉的条目。** 2026-09-29 Yi Cong 我写成
+   `Below is where each of your four items stands, **with one point at the end.**`,
+   Klaus 把末尾那条红字删了 —— 于是 "with one point at the end" 在发出去的信里**空指**。
+   红字是可删层，**开头那句必须在任何一条被删之后仍然成立**。只说他的条目数，别预告附加项。
 2. **三色，实现方式各不相同**（照他 9/28、9/29 两封发出稿）：
 
    | 色 | 含义 | markup |
@@ -164,8 +169,11 @@ Klaus 删光蓝字 = 一封干净可发的信。
    绝不把提议揉进某句话中间，那样他删起来要重写句子。这与
    [[feedback-drafts-keep-simple]]「分析别写进正文」不冲突：那条禁的是**把分析揉进叙述里**，
    红字是可整段摘除的分离层，跟本节蓝字备注同一个机制。
-7. **Cc**：他原信若抄送了所内多人，回信**只保留 Cassie + Joe**（诉讼线固定二人），
-   Cindy / Claire 去掉。他原信只发给我一人 → 回信也不加 Cc（见下一节）。
+7. **Cc：默认 reply-all 照他的原收件人名单，不要自己裁。**
+   两次实测不一致 —— Bo Tao（9/29）Klaus 裁到 Cassie + Joe；Yi Cong（同日）**四人全留**
+   （Cassie / Cindy / Claire / Joe）。**没有固定规则，要看案子谁在跟。**
+   所以照抄他的名单，裁减交给 Klaus —— 跟红字同一个不对称逻辑：多留一个他删掉要 1 秒，
+   少留一个就是有人该知道却没收到。他原信只发给我一人 → 回信也不加 Cc（见下一节）。
 8. 收尾签名一律从 `gws gmail users settings sendAs get` 取，**绝不手打、绝不从旧邮件抽**
    （见 [[gmail-signature-source]]）。
 9. 他打招呼用 **`Hi Hernan,`**（不带重音）。
