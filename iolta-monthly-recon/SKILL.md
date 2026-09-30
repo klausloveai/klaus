@@ -149,3 +149,74 @@ gws sheets spreadsheets values append \
 - [ ] 写前备份到 `Backups/`
 - [ ] 底稿 + 待办两样都产出
 - [ ] `_STATE.md` + Activity Log 各追加一条
+
+---
+
+# State Bar package（2026-09-30 加）
+
+对账跑完之后，出一套 Rule 1.15 Standard (1)(d) 要的六份附件。一条命令：
+
+```bash
+python3 ~/.claude/skills/iolta-monthly-recon/scripts/build_package.py \
+  --month 2026-07 --bank-end <期末余额> \
+  --stmt-pdf "<eStatement PDF>" --stmt-csv "<对账单 CSV>" [--dry-run]
+```
+
+**先 `--dry-run`。** 三方不到分一致它会打印差额并退出、不写任何文件 —— 这是设计，不是故障。
+差额要逐条查清，绝不调平。
+
+产出 `Monthly Reconciliations/<YYYY-MM> State Bar Package/`：
+
+| 附件 | 内容 |
+|---|---|
+| 1 | 总账，开户至月末全量，带 running balance |
+| 2 | 每客户一 tab 的分户账（期初结转 + 逐笔 + sweep 分摊）+ Summary |
+| 3 | **eStatement PDF** ← 见下 |
+| 3a | 对账单 CSV |
+| 4 | 客户余额汇总 |
+| 5 | 在途存款清单（没有就明写 NONE，不留白） |
+| 6 | 未兑现支票清单，>90 天自动标红为 stale-dated |
+| — | 对账表（有旧表就出 AMENDED，旧表改名 SUPERSEDED 留存） |
+
+再手写一份 `README — what is in this package.md`：六项对照表、三方余额、改了什么、还剩什么。
+
+## ⚠️ 下对账单要 PDF，不要只下 CSV
+
+**BoA 的 eStatement PDF 内嵌当月全部 cancelled check 影像**（5 月是第 4–7 页，36 张）。
+Standard (1)(c) 要的 check copies 靠这一份就齐了，**不用去 BoA 一张张开 modal 截图**。
+CSV 只有交易明细、没有影像。
+→ BoA → Statements & Documents → 下 PDF；CSV 另外下一份供机器读。
+（存款的组成支票影像 PDF 里没有，但 (1)(c) 要的是 cancelled checks = 出账支票，够了。）
+
+## 日期怎么填
+
+| 栏位 | 填什么 |
+|---|---|
+| Reconciliation Date (L7) | **当月最后一天**。这是对账截止日，不是做表日 |
+| 签名日 (L58 / L67) | **实际签字那天**。绝不倒填 —— 月末那天对账单还没出，写月末等于记录不实，正是抽查最敏感的点 |
+
+目标是次月前三天内做完，那时真实日期自然就好看。迟做的月份在 Note 里写明原因：
+**主动披露的迟延是管理瑕疵，倒填日期是诚信问题。**
+
+## 脚本里两个不能动的地方
+
+1. **MERGE 别名表** —— 每一组都是用费用恒等式验过的（结算额 − 客户 − lien − 1/3 费 = 0）。
+   没有这个证明不准往里加。
+2. **sweep 分摊要 round 到分。** 1/3 律师费除不尽，Disbursement Sheet 上存的是浮点
+   （如 6741.666666666667）。银行只能转整分，所以每个客户的分摊额 round 到分，
+   舍入差调给最大的那一笔，加总必须精确等于 sweep 金额。不这么做，分户账合计会比总账差几分。
+   （踩过：6 月差 0.01，六个 5 月结清的客户各留 1/300 美元尾巴。）
+
+## 负余额怎么处理
+
+Rule 1.15 不允许客户分户账为负。脚本会列出来并在 Summary 标红。
+**如实披露，在 README 里写清原因和是否已纠正 —— 不要为了好看去调。**
+已知两例：Danny Qin −450（Sun Imaging 重复付款，7/9 退款到账后转正）、
+Haoze He −0.04（disbursement letter 四舍五入，至今未平）。
+
+## 已出的包
+
+| 月 | 三方余额 | 状态 |
+|---|---|---|
+| 2026-05 | 739,607.11 | 六项齐（影像在 eStatement PDF 里）· 未签字 |
+| 2026-06 | 913,253.57 | 缺附件 3 的 PDF · 未签字 · 两个负余额已披露 |
