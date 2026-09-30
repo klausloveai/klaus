@@ -69,6 +69,10 @@ gws gmail users threads modify --params '{"userId":"me","id":"<THREAD_ID>"}' \
 ⚠️ **labelIds 是 `Label_xxxxxxxx` 这种不透明 id，不是 label 名字** —— 必须先 `labels list`
 换成 id 再用。第 10 步给送达邮件打星时同理，也顺手把 case label 贴到那两条 sent thread 上。
 
+**命名法（照 2026-09-29 的实际库）：** Hernán 诉讼线的 case label 一律是
+`⚖️Hernan Cases/DB-<Client>-<MMDDYY DOL>`,例如 `⚖️Hernan Cases/DB-Yi Cong-041226`、
+`⚖️Hernan Cases/DB-Weicong Lin-070926`。**按客户名搜，别按这个全名搜**（前缀和 DOL 后缀记不住）。
+
 ⚠️ **别新建重名 label。** 先在 `labels list` 里按客户名搜一遍；同一个案子出现两个 label
 比没有 label 更难搜。查到名字不完全一致（`Yi Cong` vs `Yi Cong - Camden`）就**用已有那个**，
 不要自作主张改名。
@@ -153,11 +157,21 @@ Answer 上是 **SBN 349900** + **(213) 615-2500**。Answer 同时证明被告确
 
 ### 一名被告一封邮件
 
-不同被告收到不同附件 → **分开发**，即使两名被告共用同一律师、同一送达地址。
-每封的主题点名该被告。（Bo Tao：两封都发到同一个 `la.legal@farmersinsurance.com`，
+**默认永远分开发，一名被告一封**（Klaus 定死 2026-09-29：「always 分开发，unless email
+instruction said combine」）。即使两名被告共用同一律师、同一送达地址，也分开。
+每封主题点名该被告。（Bo Tao：两封都发到同一个 `la.legal@farmersinsurance.com`，
 一封 Rachel R. Beas、一封 Becky Beas。）
 
-**例外：他明确要求一封发全部时，问 Klaus 一句再定** —— 别自己替他选。
+**唯一例外：来信明确要求合并成一封。** 判据要严 —— 必须是"in one email" / "a single email" /
+"combine them" 这类**直接说邮件封数**的话。下面这些**都不算**，仍然分开发：
+
+| 他写的 | 意思 | 封数 |
+|---|---|---|
+| "Serve all eight documents **on the same day**" | 同一天，因为 FROG 17.1 引用 RFA | 仍分两封，同日发 |
+| "Serve … **to every address listed** in the proofs of service" | 收件人名单要全 | 仍分两封 |
+| "Serve **all** the documents" | 别漏件 | 仍分两封 |
+
+**不要因为拿不准就回来问** —— 默认已经定了，照默认走。
 
 ### 同日送达约束
 
@@ -209,8 +223,29 @@ HTML 形状：`<p>greeting</p><p>lead-in</p><ol><li>…</li></ol><p>closing</p>`
 ## Step 5 — 发送（Klaus 放行后）
 
 ```bash
-gws gmail users drafts send --params '{"userId":"me","id":"<DRAFT_ID>"}'
+gws gmail users drafts send --params '{"userId":"me"}' --json '{"id":"<DRAFT_ID>"}'
 ```
+
+⚠️ **draft id 必须放在 `--json` 请求体里。** 写成 `--params '{"userId":"me","id":"..."}'`
+会回 `400 Invalid draft`,而且**草稿还在、邮件没发出去** —— 别以为失败了就重建草稿，
+先 `drafts list` 看还在不在、再看 Sent 里有没有（2026-09-29 Yi Cong 踩过）。
+
+⚠️ **`gws` 会在 JSON 前后打印 `Using keyring backend: keyring`。** 直接 `json.load(sys.stdin)`
+会炸 `Extra data`。用 `json.loads(s[s.index('{'):])` 或 `JSONDecoder().raw_decode()`。
+解析炸掉**不等于**命令失败，**先查状态再动作**。
+
+### ⚠️ Date header 的时区坑
+
+`gws` 发出去的邮件 Date header 用的是 **-0400（东部）**,Klaus 自己从 Gmail 网页发的是 **-0700**。
+绝对时刻是对的，但**下午 5 点（太平洋）之后用 gws 送达，header 上会显示成第二天**。
+
+POS 上写的是太平洋日期，两者会对不上一天。CCP §1010.6(a)(3)(B) 下电子送达于**发送时**完成，
+所以 POS 写太平洋当日是对的，但对方可以拿 header 做文章。处理：
+
+- **能在太平洋时间下午 5 点前送达就在 5 点前送**，这个坑自然消失
+- 已经晚发了：POS 日期不改（它是准的），**日历描述里写明两个算法的日期**，
+  按晚的那个（+1 天）作为 motion to compel 的安全线
+- 在给 Hernán 的回信里**以红字项**把这件事提出来，由他决定要不要书面向对方确认送达日
 
 ---
 
@@ -230,8 +265,25 @@ for f in *.pdf; do
 done
 ```
 
-⚠️ 用正则抓页码会抓到 pleading 的**行号**（1–28），看着像 MISMATCH 其实没错。
-拿不准就 `pdftoppm` 渲染那几页用眼睛看一次。
+⚠️ **就地填的 POS（A 分支）绝不能用 `pdftotext | grep "<整句>"` 验。** 填进去的字是覆盖在
+下划线上的独立文字对象，`pdftotext` 会把它排到别处，于是
+`grep "On September 29, 2026, I served"` **必然 0 命中** —— 文件是对的，是验法错了
+（2026-09-29 Yi Cong 上误报过一次，差点回头去修没坏的东西）。正确验法：
+
+```bash
+python3 -c "
+import fitz
+d=fitz.open('<file.pdf>')
+for p in d:
+    if p.search_for('September 29'): print('p',p.number+1,'date OK')
+    if 'Klaus Liu' in p.get_text(): print('p',p.number+1,'name OK')
+"
+```
+
+配合 `pdftoppm -png -r 90 -f <n-2> -l <n>` 渲染 POS 那几页**用眼睛看一次**。日期、签名图、
+`[X]` 勾选、service list 一次看全。
+
+⚠️ 用正则抓页码会抓到 pleading 的**行号**（1–28），看着像 MISMATCH 其实没错，同样渲染确认。
 
 ---
 
