@@ -130,7 +130,11 @@ Read the case's **filed/conformed complaint** (source of truth) + intake sheet:
   person's ROLE. Worked examples:
   - *Yi Cong* (CIVSB2619725): Does **1–10** = dog owner (strict liability, Civ. Code
     §3342); Does **11–20** = premises/landlord. Camden entities → Does 11 and 12.
-  - *Guolin Zhao* (26NWCV02260): pleads Does 1–50; the dog owner went in at Doe 1.
+  - *Guolin Zhao* (26NWCV02260): the caption says Does 1–50, **but the body blocks them** —
+    ¶6 puts **Does 1–20** with the dog's "owners, keepers, handlers, harborers", ¶7 puts
+    **Does 21–50** with the "owners, landlords, lessors, lessees, property" side. The dog
+    owner went in at Doe 1; the landlord entity therefore goes in at **Doe 21**, the first
+    unused number in that block. Reading only the caption would have missed this entirely.
   These differ — that is the point. Confirm the number with Hernán before generating.
 
 Then confirm the DOE number and true name before generating.
@@ -154,6 +158,38 @@ attorney** and say which document(s) the answer changes. The amendment form and 
 can land differently — the VN004 amends *the complaint as pleaded*, while the First Amended
 Summons is **new process** and naming a dismissed (here, dead) defendant in its NOTICE TO
 DEFENDANT block is the weaker position.
+
+## When the Doe is an ENTITY — item 3 is not optional
+
+Every earlier run added a natural person (Benjamin Velazquez Lopez, Ralph Beas), so the
+summons only ever needed item 2. **An LLC or corporation also needs item 3**, because §474's
+fictitious-name endorsement says the entity was sued as DOE N — it does not say *through
+whom* the entity was reached, which is what a process server and a later default court need.
+
+Pass `entity_service` and the script checks item 3, writes the name, and marks the
+subdivision (added 2026-09-30, Guolin Zhao DOE 21 = ON GRAND AVE, LLC):
+
+```json
+"entity_service": { "name": "ON GRAND AVE, LLC", "ccp": "416.10" }
+```
+
+| entity | box |
+|---|---|
+| corporation | `416.10` |
+| **LLC** | **`416.10`** — Corp. Code §17701.16(b) routes LLC service to CCP §416.10 |
+| defunct corporation | `416.20` |
+| association / partnership | `416.40` |
+| minor / conservatee / authorized person | `416.60` / `416.70` / `416.90` |
+
+Omit `entity_service` for a human — item 2 alone is right there, and a stray item 3 invites
+a motion to quash.
+
+**Confirm the entity's exact legal name and agent for service from a filed SOS document**
+(Statement of Information / Articles), not from a deed or a title report. Guolin Zhao:
+`On Grand Ave, LLC`, Entity No. 202358817782, agent **Iqbal Mahmood**, 20200 Pioneer Blvd,
+Cerritos, CA 90703, type of business **RENTAL REAL ESTATE** — which is itself the landlord
+allegation in documentary form. **Check the entity is ACTIVE, not suspended** (Rev. & Tax.
+Code §23301 — a suspended entity cannot defend, which changes strategy, not the form).
 
 ## Two captions — do NOT confuse them
 - **CIV 105 DEFENDANT field** = the complaint's caption **unchanged** (e.g. `JORGE

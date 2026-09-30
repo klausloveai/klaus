@@ -307,6 +307,25 @@ def make_fa_summons(cfg, out_path):
         _draw_fitted(c, ax, ay, attorney_line, aright, size=8)   # FillText30 attorney
         c.setFont("BodyB", 11); c.drawString(190.2, 150.0, "X")  # item 2 checkbox
         line(212, 140.0, cfg["doe_number"], 10)              # item 2 specify (fictitious name)
+        # Item 3 — only when the Doe is an ENTITY. A natural person is served as
+        # himself, so item 2 alone says everything; an LLC or corporation is served
+        # THROUGH someone, and §474's fictitious-name endorsement does not by itself
+        # tell the process server (or a later default court) under which subdivision
+        # the entity was reached. Leave it off for a human.
+        #   An LLC goes under CCP 416.10: Corp. Code §17701.16(b) routes service on a
+        #   limited liability company to that section.
+        ent = cfg.get("entity_service")
+        if ent:
+            CCP_SLOTS = {"416.10": (218.2, 110.3), "416.20": (218.2, 97.6),
+                         "416.40": (218.2, 84.9),  "416.60": (414.9, 110.3),
+                         "416.70": (414.9, 97.6),  "416.90": (414.9, 84.9)}
+            c.setFont("BodyB", 11); c.drawString(190.2, 126.2, "X")   # item 3 checkbox
+            line(298, 128.0, ent["name"], 10)                          # item 3 specify
+            slot = CCP_SLOTS.get(str(ent.get("ccp", "")).strip())
+            if slot:
+                c.setFont("BodyB", 11); c.drawString(slot[0], slot[1], "X")
+            else:
+                print(f"  !! unknown CCP section {ent.get('ccp')!r} — no box marked")
         # DATE / Clerk / Deputy left blank -> court issues.
         c.showPage(); c.save(); buf.seek(0)
 
