@@ -47,6 +47,111 @@ files, run this end to end:
 Steps 3 and 4 are hard gates: the email is only ever a draft until the explicit "send",
 and the calendar is only created after the send actually happens.
 
+## Hernán hands over signed discovery to serve → THIS skill, every time
+
+**Trigger:** any Hernán email of the shape *"Please find attached … Plaintiff's written
+discovery, Set One, to Defendants X and Y … Please complete and sign the Proof of Service,
+serve them at \<designated address\>, calendar the response deadline, and save them in the
+case folder."* Klaus's standing instruction (2026-09-29): **run this skill, don't hand-assemble.**
+
+The four things he always asks for map onto this skill exactly:
+
+| Hernán's task | Here |
+|---|---|
+| Complete + sign the Proof of Service | the template already carries Klaus's signature (see below) |
+| Serve to the designated address | step 3 → Gmail DRAFT, gated on "发" |
+| Calendar the response deadline | step 4 → **30 days + 2 court days** (CCP §1010.6(a)(4)(B)) |
+| Save to the case folder | Drive `4. Litigation / 4.5 Discovery - To Defense` |
+
+### One POS per document, page numbers continuing — not one standalone POS
+
+Hernán usually drafts **one standalone POS listing all the documents** and expects it served
+as a ninth attachment. **Klaus's format is different and it is the one to follow:** append a
+copy of the POS to the **end of each document**, with that document's own caption title in the
+POS footer and the POS page numbers **continuing the host document** (start = host pages + 1).
+No page number is ever used twice inside one PDF — this was Klaus's explicit requirement
+("主要不要重叠页码"). `build_pos.py` does both automatically.
+
+Worked example (Bo Tao, 2026-09-29):
+
+| Document | Own pages | POS pages |
+|---|---|---|
+| Form Interrogatories (DISC-001) | 8 | 9–11 |
+| Special Interrogatories | 11 | 12–14 |
+| Requests for Admission | 10 | 11–13 |
+| Requests for Production | 10 | 11–13 |
+
+When you take this route, Hernán's standalone POS is **not** served (it would duplicate).
+Put that in the reply to him as a **red (question) item** — his standalone POS went unused and
+does he want the combined form going forward — rather than letting him find out from the Cc.
+Klaus may well cut it (he did on 2026-09-29), but that is his call to make, not a reason to
+leave it out. See `hernan-email` SKILL.md, Type B rule 6.
+
+### One email per defendant
+
+Different attachments per defendant → separate emails, **even when both defendants share one
+attorney and one service address**. Run the skill once per defendant; each email carries only
+that defendant's documents and its subject names that defendant. (Bo Tao: two emails to the
+same `la.legal@farmersinsurance.com`, one for Rachel R. Beas, one for Becky Beas.)
+
+## Service-email body — the house format
+
+Exactly **three blocks**, then the signature. This is Klaus's final sent version of
+2026-09-29; he cut everything else out of the draft before sending:
+
+```
+Dear Counsel,
+
+Please find attached, for service on Defendant <Name>, Plaintiff's written discovery, Set One:
+
+1. Plaintiff <CLIENT>'s Form Interrogatories—General (Judicial Council form DISC-001), Set One, to Defendant <NAME>;
+2. ... ;
+3. ... ; and
+4. ... .
+
+Kindly confirm receipt, thank you,
+
+<the real Gmail signature>
+```
+
+**What he deleted, and why it stays deleted:**
+
+- ❌ "A Proof of Electronic Service is attached to the end of each document." — the POS is
+  bound into every attachment; saying so is telling opposing counsel what they can see.
+- ❌ "…the electronic service address designated by your office and stated on Defendants'
+  Answer filed September 25, 2026." — **no legal recitals in the body.** The POS does the
+  §1010.6 work. A recital in the email adds nothing and creates one more sentence that can be
+  wrong.
+- ❌ a separate `Thank you,` line — it is folded into `Kindly confirm receipt, thank you,`.
+
+HTML shape: `<p>greeting</p><p>lead-in</p><ol><li>…</li></ol><p>closing</p>` + signature.
+Numbered list is a real `<ol>`, items punctuated `;` … `; and` … `.`
+
+**Signature comes from `gws gmail users settings sendAs get`, never hard-coded.**
+`build_pos.py` used to carry a hard-coded block reading `Klaus Liu | Director of Case
+Management`; his actual signature is `Klaus Liu | Paralegal` plus the NOTICE REGARDING
+SERVICE and CONFIDENTIALITY paragraphs. Fixed 2026-09-29 — see `gmail_signature()`.
+Cross-ref memory `gmail_signature_source.md`.
+
+## Where the service-list block comes from: the FILED ANSWER
+
+Take opposing counsel's name, **SBN**, firm, address and phone from the **caption block of
+their filed Answer** (Drive `4. Litigation / 4.1 Pleadings`). Not from their email signature.
+
+2026-09-29, Bo Tao: the email signature gave `Christine Hanna, Esq.` with no bar number and
+`Cell: (818) 966-5390`; the Answer filed 9/25/2026 gave **`CHRISTINE HANNA, ESQ. - State Bar
+No. 349900`** and **`Phone: (213) 615-2500`**. The Answer is what a court looks at if service
+is ever contested, and it is the only place the SBN appears.
+
+The Answer also settles the POS checkbox recital *"represented by counsel and **has appeared**
+in the action"* — confirm each defendant you are serving actually appears on that Answer. A
+defendant who has not appeared cannot be e-served under §1010.6(c).
+
+The **designated e-service address** is still the one counsel designated; it appears in the
+Answer's caption `Email:` line and typically also as a standing line in their firm's email
+signature. Do not cite a particular email's date as "the designation date" — that line is
+boilerplate on every message they send, not an event.
+
 ## FIRST: does the document already contain a POS?
 
 Before anything else, check each uploaded PDF for an embedded Proof of Service:
@@ -86,8 +191,13 @@ Use the template + `build_pos.py` path **only** when the documents have no POS o
 
 ### Judicial Council forms (DISC-001, DISC-002, CM-110, ...)
 
-A Judicial Council form is a fixed government PDF — you cannot append a POS page to it and
-you must not stamp anything onto it. Its POS lives in the **companion attachment document**
+A Judicial Council form is a fixed government PDF — **never stamp or write anything onto the
+form's own pages.** Appending POS pages *after* the form is fine and is what Klaus wants when
+the form has no companion document (see "One POS per document" above): the form's internal
+`Page 8 of 8` footer stays as printed and the POS continues at 9, 10, 11 — no number is reused.
+
+Where the attorney HAS drafted a companion document, the POS lives in that **companion
+attachment document**
 the attorney drafts alongside it (e.g. *"DISC-001 Attachment and Proof of Service"*), and
 that POS must name the form by its full title in the documents-served recital:
 

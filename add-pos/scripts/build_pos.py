@@ -63,7 +63,7 @@ config.json shape (see also references/):
   }
 }
 """
-import json, sys, os, subprocess
+import json, sys, os, re, subprocess
 from docx import Document
 from docx.shared import Inches
 from docx.oxml.ns import qn
@@ -71,6 +71,30 @@ from docx.oxml import OxmlElement
 import pypdf
 
 RIGHT_GAP = Inches(0.13)
+
+
+def gmail_signature(sender="klaus@lingtulaw.com"):
+    """Return (html, plain) of the sender's REAL Gmail signature from settings.sendAs.
+
+    Never hard-code a signature block here: the job title and the NOTICE/CONFIDENTIALITY
+    paragraphs change, and a stale copy goes out to opposing counsel. See
+    memory/gmail_signature_source.md — take it from settings.sendAs, never from an old email.
+    """
+    import html as _html
+    try:
+        r = subprocess.run(
+            ["gws", "gmail", "users", "settings", "sendAs", "get",
+             "--params", json.dumps({"userId": "me", "sendAsEmail": sender})],
+            capture_output=True, text=True)
+        sig_html = json.loads(r.stdout[r.stdout.index("{"):])["signature"]
+    except Exception:
+        return "", ""
+    t = re.sub(r"<br\s*/?>", "\n", sig_html)
+    t = re.sub(r"</(p|div|li)>", "\n", t)
+    t = re.sub(r"<[^>]+>", "", t)
+    t = _html.unescape(t)
+    t = re.sub(r"\n{3,}", "\n\n", t).strip()
+    return sig_html, t
 
 
 def inline_list(lines):
@@ -254,47 +278,67 @@ def make_email(cfg):
         body_items[-1] = body_items[-1].rstrip(";") + "."
     doc_block = "\n".join(body_items)
 
-    # Default body = simple/conversational (the carrier IDs live in the subject; the POS
-    # attached to each document does the formal §1010.6 work). desig_clause/claimant/
-    # matter_ref are computed above and available if a longer recital is ever wanted.
+    # Body = greeting / lead-in + numbered list / "Kindly confirm receipt, thank you," +
+    # the real Gmail signature. THREE BLOCKS, nothing else. Klaus deleted every legal
+    # recital from the 2026-09-29 Bo Tao drafts before sending: no "A Proof of Service is
+    # included with each document", no designated-address citation, no reference to the
+    # Answer. The POS bound to each document does that work; repeating it in the body is
+    # noise to opposing counsel. See SKILL.md "Service-email body — the house format".
     _ = (desig_clause, claimant, matter_ref)
-    body = f"""Dear Counsel,
+    import html as _html
+    lead_in = e.get("lead_in") or "Please find attached the following documents:"
+    closing = e.get("closing", "Kindly confirm receipt, thank you,")
+    greeting = e.get("greeting", "Dear Counsel,")
+    sig_html, sig_txt = gmail_signature(e.get("from", "klaus@lingtulaw.com"))
 
-Please see attachments.
+    body = f"""{greeting}
+
+{lead_in}
 
 {doc_block}
 
-A Proof of Service is included with each document. Kindly confirm receipt at your convenience.
+{closing}
 
-Thank you,
-
-Klaus Liu | Director of Case Management
-Lingtu Law Office
-13191 Crossroads Pkwy N, Suite 295, City of Industry, CA 91746
-Direct: (626) 479-2207 | Fax: (626) 479-2207
+{sig_txt}
 """
+    # list items carry the same ";" / "; and" / "." punctuation as the plain text
+    items_html = []
+    for i, t in enumerate(lines):
+        if i == len(lines) - 1:
+            suffix = "."
+        elif i == len(lines) - 2:
+            suffix = "; and"
+        else:
+            suffix = ";"
+        items_html.append("<li>%s%s</li>" % (_html.escape(t, quote=False).rstrip(";. "), suffix))
+    body_html = ('<div dir="ltr"><p>%s</p><p>%s</p><ol>%s</ol><p>%s</p>%s</div>'
+                 % (_html.escape(greeting, quote=False),
+                    _html.escape(lead_in, quote=False),
+                    "".join(items_html),
+                    _html.escape(closing, quote=False),
+                    sig_html))
     display = f"To: {to}\nCc: {', '.join(cc)}\nSubject: {subject}\n\n{body}"
-    return {"to": to, "cc": cc, "subject": subject, "body": body, "display": display}
+    return {"to": to, "cc": cc, "subject": subject, "body": body,
+            "body_html": body_html, "display": display}
 
 
 def create_gmail_draft(cfg, email, attachments):
     """Create a Gmail DRAFT (klaus@) with the service email + POS'd PDFs attached.
     DRAFT ONLY — never sends. Returns the draft id (or None)."""
-    from email.mime.multipart import MIMEMultipart
-    from email.mime.text import MIMEText
-    from email.mime.application import MIMEApplication
-    msg = MIMEMultipart()
+    from email.message import EmailMessage
+    msg = EmailMessage()
     msg["From"] = cfg.get("email", {}).get("from", "klaus@lingtulaw.com")
     msg["To"] = email["to"]
     if email["cc"]:
         msg["Cc"] = ", ".join(email["cc"])
     msg["Subject"] = email["subject"]
-    msg.attach(MIMEText(email["body"], "plain", "utf-8"))
+    msg.set_content(email["body"])
+    if email.get("body_html"):
+        msg.add_alternative(email["body_html"], subtype="html")
     for f in attachments:
         with open(f, "rb") as fh:
-            part = MIMEApplication(fh.read(), _subtype="pdf")
-        part.add_header("Content-Disposition", "attachment", filename=os.path.basename(f))
-        msg.attach(part)
+            msg.add_attachment(fh.read(), maintype="application", subtype="pdf",
+                               filename=os.path.basename(f))
     eml = "_draft.eml"                      # gws --upload requires the file inside its cwd
     with open(os.path.join(cfg["outdir"], eml), "wb") as fh:
         fh.write(msg.as_bytes())
