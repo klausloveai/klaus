@@ -245,6 +245,48 @@ def _layout_court_lines(cfg):
     return lines[:2], "composed"
 
 
+# ---- Summons ordinal -------------------------------------------------------
+# The ordinal tracks the SUMMONS, not the amendment. Original summons issued
+# with the complaint; the first Doe amendment gets a FIRST Amended Summons; the
+# second Doe amendment gets a SECOND Amended Summons, and so on. (The CIV 105 /
+# SB-16778 / VN004 amendment itself carries NO ordinal — each is standalone.)
+#
+# Hernán's template has "FIRST AMENDED SUMMONS" as STATIC page content, so any
+# other ordinal must be painted over. Measured off the template (2026-09-30):
+# heading occupies PDF y 736.3..746.4, x 92.6..284.2 -> centre x 188.4,
+# baseline 736.3, Arial-Bold 14 (width 192.1 vs the template's 191.5).
+HEADING_CENTRE_X = 188.4
+HEADING_BASELINE = 736.3
+HEADING_SIZE = 14
+HEADING_WHITEOUT = (85.0, 733.5, 300.0, 749.5)   # x0, y0, x1, y1
+
+_ORDINALS = {1: "FIRST", 2: "SECOND", 3: "THIRD", 4: "FOURTH", 5: "FIFTH",
+             6: "SIXTH", 7: "SEVENTH", 8: "EIGHTH", 9: "NINTH", 10: "TENTH"}
+
+
+def summons_ordinal(cfg):
+    """Return the ordinal word for this summons, upper-case. Accepts
+    summons_ordinal as a word ("SECOND") or a number (2). Defaults to FIRST."""
+    raw = cfg.get("summons_ordinal", "FIRST")
+    if isinstance(raw, int):
+        return _ORDINALS.get(raw, _ORDINALS[1])
+    raw = str(raw).strip().upper()
+    if raw.isdigit():
+        return _ORDINALS.get(int(raw), _ORDINALS[1])
+    return raw or "FIRST"
+
+
+def _redraw_heading(c, ordinal):
+    """Paint out the template's FIRST heading and set the real one."""
+    x0, y0, x1, y1 = HEADING_WHITEOUT
+    c.setFillColorRGB(1, 1, 1)
+    c.rect(x0, y0, x1 - x0, y1 - y0, stroke=0, fill=1)
+    c.setFillColorRGB(0, 0, 0)
+    c.setFont("BodyB", HEADING_SIZE)
+    c.drawCentredString(HEADING_CENTRE_X, HEADING_BASELINE,
+                        f"{ordinal} AMENDED SUMMONS")
+
+
 def _strip_fa_template(src, dst):
     """Remove widget annotations + AcroForm so the firm template's pre-filled
     values (court/attorney from a prior case) drop away, keeping the static
@@ -288,6 +330,12 @@ def make_fa_summons(cfg, out_path):
 
         def line(x, y, t, s=9, f="Body"):
             c.setFont(f, s); c.drawString(x, y, t)
+
+        # Heading — the template says FIRST; repaint it for any other ordinal.
+        ordinal = summons_ordinal(cfg)
+        if ordinal != "FIRST":
+            _redraw_heading(c, ordinal)
+            print(f"  heading repainted: {ordinal} AMENDED SUMMONS")
 
         # NOTICE TO DEFENDANT (FillText25 box y651.7..673.6, x36..431 -> usable ~388w)
         deflines = _wrap(cfg["summons_defendant_caption"], "Body", 9, 388)
@@ -345,7 +393,8 @@ def main():
     tag = f"{cfg['doe_number']} {cfg['true_name']}"
 
     civ = os.path.join(out_dir, f"{prefix} - CIV 105 Amendment to Complaint ({tag}).pdf")
-    summ = os.path.join(out_dir, f"{prefix} - First Amended Summons ({tag}).pdf")
+    ordinal = summons_ordinal(cfg).title()
+    summ = os.path.join(out_dir, f"{prefix} - {ordinal} Amended Summons ({tag}).pdf")
     make_civ105(cfg, civ)
     make_fa_summons(cfg, summ)
     print("CIV105:", civ)

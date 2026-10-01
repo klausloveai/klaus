@@ -192,7 +192,8 @@ def main():
         for d in cfg["defendants"]:
             tag = f"{d['doe_number']} {d['true_name']}"
             vn = os.path.join(out_dir, f"{prefix} - VN004 Amendment to Complaint ({tag}).pdf")
-            su = os.path.join(out_dir, f"{prefix} - First Amended Summons ({tag}).pdf")
+            ordinal = mda.summons_ordinal(cfg).title()
+            su = os.path.join(out_dir, f"{prefix} - {ordinal} Amended Summons ({tag}).pdf")
             make_vn004(cfg, d["doe_number"], d["true_name"], blank, vn)
             scfg = dict(cfg); scfg["doe_number"] = d["doe_number"]; scfg["true_name"] = d["true_name"]
             mda.make_fa_summons(scfg, su)

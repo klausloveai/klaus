@@ -1,0 +1,33 @@
+{
+  "output_dir": "~/Downloads",
+  "file_prefix": "Guolin Zhao",
+  "case_number": "26NWCV02260",
+  "plaintiff": "GUOLIN ZHAO",
+  "attorney": {
+    "name": "Hernán S. Simó",
+    "sbn": "354175",
+    "firm": "Law Office of Shenqi Cai APC",
+    "addr1": "13191 Crossroads Pkwy N, Suite 295",
+    "addr2": "City of Industry, CA 91746",
+    "tel": "(626) 479-2207",
+    "fax": "(626) 479-2207",
+    "email": "hernan.s@lingtulaw.com"
+  },
+  "court_name": "Norwalk Courthouse",
+  "court_address": "12720 Norwalk Blvd, Norwalk, CA 90650",
+  "court_branch_note": "Southeast District",
+  "court_lines": [
+    "Norwalk Courthouse",
+    "12720 Norwalk Blvd, Norwalk, CA 90650"
+  ],
+  "summons_attorney_line": "Hernán S. Simó (SBN 354175), Law Office of Shenqi Cai APC, 13191 Crossroads Pkwy N, Suite 295, City of Industry, CA 91746 · (626) 479-2207",
+  "complaint_defendant_caption": "JORGE VELAZQUEZ; and DOES 1 through 50, inclusive",
+  "summons_defendant_caption": "JORGE VELAZQUEZ; BENJAMIN VELAZQUEZ LOPEZ; ON GRAND AVE, LLC; and DOES 1 through 50, inclusive",
+  "doe_number": "DOE 21",
+  "true_name": "ON GRAND AVE, LLC",
+  "entity_service": {
+    "name": "ON GRAND AVE, LLC",
+    "ccp": "416.10"
+  },
+  "summons_ordinal": 2
+}

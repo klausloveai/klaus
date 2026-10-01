@@ -84,6 +84,28 @@ The Amendment form is **county-specific**; pick by the case-number prefix:
 - Worked example: *Bo Tao* (`2026CUPO069898`), DOE 1 = RALPH BEAS. The filed complaint
   pleads **Does 1–20 as one undifferentiated block**, so the dog owner goes in at DOE 1.
 
+## Summons ordinal — FIRST / SECOND / THIRD (Klaus, 2026-09-30)
+**The ordinal tracks the SUMMONS, not the amendment.** Original summons issues with the
+complaint; the 1st Doe amendment gets a **FIRST** Amended Summons; the 2nd Doe amendment
+gets a **SECOND** Amended Summons, and so on. Before drafting, count how many amended
+summonses the court has already issued on this case.
+- **The amendment form itself carries NO ordinal.** CIV 105 / SB-16778 / VN004 are each a
+  standalone "Amendment to Complaint (Fictitious/Incorrect Name)" — never "Second
+  Amendment to Complaint". Also note it is an *Amendment **to** Complaint*, not an
+  *Amended Complaint*; the First/Second **Amended Complaint** numbering is a different
+  instrument entirely.
+- Set `"summons_ordinal": 2` (or `"SECOND"`) in the config. It drives both the filename
+  and the heading. Default is FIRST.
+- **Hernán's template has "FIRST AMENDED SUMMONS" as STATIC page content**, so any other
+  ordinal is painted over: `_redraw_heading()` whites out x 85–300 / y 733.5–749.5 and
+  re-draws centred at x 188.4, baseline 736.3, Arial-Bold 14 (matched to the template's
+  own 191.5pt width). The script prints `heading repainted: … ` when it fires — if you do
+  not see that line on a second-or-later amendment, the PDF still says FIRST.
+- **The summons caption is CUMULATIVE**: list every defendant added so far, not just the
+  new one. Worked example (Guolin Zhao, DOE 21): `JORGE VELAZQUEZ; BENJAMIN VELAZQUEZ
+  LOPEZ; ON GRAND AVE, LLC; and DOES 1 through 50, inclusive`. The CIV 105 DEFENDANT field
+  stays the complaint as pleaded (`JORGE VELAZQUEZ; and DOES 1 through 50, inclusive`).
+
 ## Summons court block — repeat the issued summons verbatim (Klaus, 2026-08-20)
 The SUM-100 "name and address of the court" block has only **two usable line slots**,
 and **both must stop before the CASE NUMBER box** (its left edge is **x=362.8**). A long
