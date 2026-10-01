@@ -63,6 +63,7 @@ For every task, check whether Klaus already has a tool:
 | **提问 / 要分析、要事实** | **A. 引用—作答**（黑字照抄原文 + 红字答案） | 下一节 |
 | **编号任务清单，我照做了** | **B. 编号状态回复**（三色，逐条对应） | 下下节 |
 | **一条指示，做完了** | **C. 纯确认**（两句，只说这一件事） | [[feedback-email-reply-one-liner]] |
+| **他没开口 —— 我备好文书请他签** | **D. 交件送签**（编号、全黑、附凭证、收尾时间线） | D 节 |
 
 选错型比写得不好更糟：拿 A 去回任务清单，他得自己把我的散文跟他的编号对着读。
 
@@ -188,6 +189,48 @@ Klaus 删光蓝字 = 一封干净可发的信。
 8. 收尾签名一律从 `gws gmail users settings sendAs get` 取，**绝不手打、绝不从旧邮件抽**
    （见 [[gmail-signature-source]]）。
 9. 他打招呼用 **`Hi Hernan,`**（不带重音）。
+
+---
+
+### D. 交件送签 —— 我备好文书、请他签字（Klaus 2026-10-01 定稿，Guolin Zhao）
+
+前三型都是**他先开口、我回**。这一型是**我先开口**：文书已经做好，需要他签名/审核，
+顺带把他可能会追问的依据一次交代完。Bo Tao / Guolin Zhao 的 CIV 105、SUM-100、CIV-120
+一类送签件都走这个形状。
+
+- **Subject**：`<Client> — <文书名> for your signature | Case No. <案号>`
+  —— 客户名在前、要他做的动作在中、案号收尾。他按案号归档。
+- **颜色：全黑，不上色。** 三色是 B 型「逐条对应他的编号」才用的。这一型没有他的编号可对，
+  上色反而制造"哪条要我答"的假信号。真有要他定夺的，就写成一个独立编号项，照样黑字。
+- **Cc**：Cassie + Joe（Guolin Zhao / Bo Tao 实测一致）。他不在原信里 → 按案子谁在跟来定。
+
+**骨架（照 Klaus 发出稿的顺序）：**
+
+1. **第 1 项 = 附了什么 + 哪些空白留给谁。** 原话：
+   `Attached are the CIV 105 Amendment to Complaint and the Second Amended Summons adding
+   DOE 21 as ON GRAND AVE, LLC. The CIV 105 DATE and signature are left for you; the summons
+   DATE and Clerk line are left for the court.` —— 他最关心"要我签哪里"，放第一条。
+2. **中间各项 = 每一个他可能质疑的判断，各占一条，自足成段。** Guolin Zhao 这封是：
+   DOE 号为什么是 21（引 complaint ¶6/¶7 的 Doe 分块）→ 产权记录怎么把 LLC 绑到事发地址
+   （录件号 + APN + "Also Known as" 原文）→ SOS 状态与送达代理人 → 实体送达的法条依据
+   （CCP §416.10 + Corp. Code §17701.16(b)）。
+3. **最后一项 = 这次动作会不会碰坏已经在跑的事，以及为什么不会。** 他这封写的是
+   Jorge Velazquez 的 default 仍在法院 review，并说明 §474 加新当事人不重开已 default
+   一方的期间。**这一条是自己想到的，不是他问的** —— 价值最高的一条。
+4. **收尾时间线**（签名之前）：斜体一行 `Quick timeline update for your reference.`
+   然后**倒序**几条「日期 + 一句话」，各自一个 `<p>`：
+   `9/28/2026 filed CMC statement.` / `9/22/2026 placed process of service and still attempting.`
+   / `9/21/2026 filed request for default for Jorge and still under court review.`
+
+**★ 最硬的一条：凡是正文里作为事实陈述的东西，把原始凭证一起附上。**
+Guolin Zhao 这封除了两份待签文书，Klaus 还附了 **SOS Initial Filing (9/1/2023)、
+两份 SOI (9/22/2023、9/17/2025)、以及完整 title report (`3827 TR.pdf`, 2.7 MB)** ——
+正文第 3、4 项的每一句都有对应附件可查。
+**不要只写"我查了 SOS，状态 ACTIVE"就算完**；他要能自己点开核对，而不是回信问我要。
+大附件走 `--upload`（见 [[gws-large-attachments]]）。
+
+**不写的东西**：没有结尾句（最后一项或时间线写完直接接签名）、不写 "Let me know if you
+need anything else."、不预告"我接下来会…"。签名照旧从 `sendAs` 取。
 
 ---
 
