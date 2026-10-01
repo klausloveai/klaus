@@ -86,25 +86,39 @@ The Amendment form is **county-specific**; pick by the case-number prefix:
 
 ## Summons ordinal — FIRST / SECOND / THIRD (Klaus, 2026-09-30)
 **The ordinal tracks the SUMMONS, not the amendment.** Original summons issues with the
-complaint; the 1st Doe amendment gets a **FIRST** Amended Summons; the 2nd Doe amendment
-gets a **SECOND** Amended Summons, and so on. Before drafting, count how many amended
-summonses the court has already issued on this case.
+complaint; the 1st Doe amendment gets a **FIRST** Amended Summons; the 2nd gets a
+**SECOND**, and so on. Count the amended summonses the court has already issued before
+drafting.
 - **The amendment form itself carries NO ordinal.** CIV 105 / SB-16778 / VN004 are each a
   standalone "Amendment to Complaint (Fictitious/Incorrect Name)" — never "Second
-  Amendment to Complaint". Also note it is an *Amendment **to** Complaint*, not an
-  *Amended Complaint*; the First/Second **Amended Complaint** numbering is a different
-  instrument entirely.
-- Set `"summons_ordinal": 2` (or `"SECOND"`) in the config. It drives both the filename
-  and the heading. Default is FIRST.
-- **Hernán's template has "FIRST AMENDED SUMMONS" as STATIC page content**, so any other
-  ordinal is painted over: `_redraw_heading()` whites out x 85–300 / y 733.5–749.5 and
-  re-draws centred at x 188.4, baseline 736.3, Arial-Bold 14 (matched to the template's
-  own 191.5pt width). The script prints `heading repainted: … ` when it fires — if you do
-  not see that line on a second-or-later amendment, the PDF still says FIRST.
-- **The summons caption is CUMULATIVE**: list every defendant added so far, not just the
-  new one. Worked example (Guolin Zhao, DOE 21): `JORGE VELAZQUEZ; BENJAMIN VELAZQUEZ
-  LOPEZ; ON GRAND AVE, LLC; and DOES 1 through 50, inclusive`. The CIV 105 DEFENDANT field
-  stays the complaint as pleaded (`JORGE VELAZQUEZ; and DOES 1 through 50, inclusive`).
+  Amendment to Complaint". It is also an *Amendment **to** Complaint*, not an *Amended
+  Complaint*; the First/Second **Amended Complaint** numbering is a different instrument.
+- Set `"summons_ordinal": 2` (or `"SECOND"`); it drives the heading and the filename.
+- **Hernán's template draws "FIRST AMENDED" as its own text block** — embedded CID font
+  `/C2_0` at 14pt, `91.637 736.237 Td`, in the LAST content stream — sitting to the left of
+  the stock `(SUMMONS  )Tj` at x=212.42. So the heading is two pieces, not one.
+- ⚠️ **Never paint it over.** A white rectangle hides it visually but leaves "FIRST AMENDED"
+  in the **text layer**, so `pdftotext` — and the court's own extraction — still reads FIRST
+  on a SECOND amended summons. `_drop_template_heading()` deletes the BT..ET block instead,
+  then `_redraw_heading()` sets "<ORD> AMENDED" right-aligned to x=209.5 on baseline 736.237
+  so it reads straight into the stock SUMMONS. **Verify with
+  `pdftotext <pdf> - | grep -c FIRST` — it must be 0.**
+
+## Summons caption — do not re-list a Doe you have already used (Hernán, 2026-10-01)
+Hernán on the Guolin Zhao second amendment: *"the two last defendants are also the DOE'd in
+by amendment… and then naming DOES 1-50 again doesn't make much sense to me."* He is right —
+once a Doe has been substituted, that number is spent, so repeating the full `DOES 1 through
+50` double-counts it.
+- **Name each substituted defendant with its Doe designation, then list only the Does still
+  unused.** Worked example (Guolin Zhao, after DOE 1 and DOE 21):
+  `JORGE VELAZQUEZ; BENJAMIN VELAZQUEZ LOPEZ, sued herein as DOE 1; ON GRAND AVE, LLC, sued
+  herein as DOE 21; and DOES 2 through 20 and 22 through 50, inclusive`
+- This supersedes the earlier house preference of keeping `DOES 1 through 50` verbatim.
+- The caption is still **cumulative** — every defendant added so far, not just the new one.
+- The **CIV 105 DEFENDANT field is unaffected**: it stays the complaint as pleaded
+  (`JORGE VELAZQUEZ; and DOES 1 through 50, inclusive`), because the amendment form describes
+  the pleading it is amending.
+- It wraps to the box's two lines at 9pt; ~160 characters still fits.
 
 ## Summons court block — repeat the issued summons verbatim (Klaus, 2026-08-20)
 The SUM-100 "name and address of the court" block has only **two usable line slots**,

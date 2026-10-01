@@ -18,7 +18,7 @@ flatten a clean base first, then draw every value with an embedded Unicode TTF a
 the exact field coordinates. Field rects for both forms are hard-coded below and
 were mapped from the official/firm templates (identical SUM-100 layout).
 """
-import sys, os, io, json, subprocess, tempfile
+import sys, os, io, json, re, subprocess, tempfile
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -255,10 +255,19 @@ def _layout_court_lines(cfg):
 # other ordinal must be painted over. Measured off the template (2026-09-30):
 # heading occupies PDF y 736.3..746.4, x 92.6..284.2 -> centre x 188.4,
 # baseline 736.3, Arial-Bold 14 (width 192.1 vs the template's 191.5).
-HEADING_CENTRE_X = 188.4
-HEADING_BASELINE = 736.3
+# Hernán added "FIRST AMENDED" to the template as a SEPARATE text block drawn
+# with the embedded CID font /C2_0 at 14pt, `91.637 736.237 Td`, in the LAST
+# content stream — the form's own `(SUMMONS  )Tj` sits at x=212.42 on the same
+# baseline. So the heading is really two pieces: Hernán's "FIRST AMENDED" plus
+# the stock "SUMMONS".
+#
+# Do NOT paint over it: a white rectangle hides it visually but leaves "FIRST
+# AMENDED" in the text layer, so pdftotext (and the court's own extraction)
+# still reads FIRST on a SECOND amended summons. Delete the block instead, then
+# redraw the ordinal right-aligned against the stock SUMMONS.
+HEADING_BASELINE = 736.237
 HEADING_SIZE = 14
-HEADING_WHITEOUT = (85.0, 733.5, 300.0, 749.5)   # x0, y0, x1, y1
+HEADING_RIGHT = 209.5          # end "<ORD> AMENDED" just left of SUMMONS (x=212.42)
 
 _ORDINALS = {1: "FIRST", 2: "SECOND", 3: "THIRD", 4: "FOURTH", 5: "FIFTH",
              6: "SIXTH", 7: "SEVENTH", 8: "EIGHTH", 9: "NINTH", 10: "TENTH"}
@@ -276,15 +285,42 @@ def summons_ordinal(cfg):
     return raw or "FIRST"
 
 
+def _drop_template_heading(pdf_path):
+    """Delete Hernán's 'FIRST AMENDED' text block from the page content so it
+    cannot survive in the text layer. Matches the BT..ET block that uses the
+    /C2_0 CID font on the heading baseline. Returns True if something was cut."""
+    r = PdfReader(pdf_path); w = PdfWriter(); w.append(r)
+    pg = w.pages[0]
+    arr = pg.get("/Contents")
+    streams = arr if isinstance(arr, ArrayObject) else [arr]
+    cut = False
+    for ref in streams:
+        obj = ref.get_object()
+        data = obj.get_data().decode("latin-1")
+        out, pos = [], 0
+        for m in re.finditer(r"BT\b.*?\bET", data, re.S):
+            blk = m.group(0)
+            if "/C2_0" not in blk:
+                continue
+            td = re.search(r"([-\d.]+)\s+([-\d.]+)\s+T[dDm]", blk)
+            if td and 730.0 <= float(td.group(2)) <= 742.0:
+                out.append(data[pos:m.start()]); pos = m.end(); cut = True
+        if cut and pos:
+            out.append(data[pos:])
+            obj.set_data("".join(out).encode("latin-1"))
+            break
+    if cut:
+        with open(pdf_path, "wb") as fh:
+            w.write(fh)
+    return cut
+
+
 def _redraw_heading(c, ordinal):
-    """Paint out the template's FIRST heading and set the real one."""
-    x0, y0, x1, y1 = HEADING_WHITEOUT
-    c.setFillColorRGB(1, 1, 1)
-    c.rect(x0, y0, x1 - x0, y1 - y0, stroke=0, fill=1)
+    """Set '<ORDINAL> AMENDED' right-aligned so it reads straight into the
+    template's own 'SUMMONS'. The old block is deleted, not covered."""
     c.setFillColorRGB(0, 0, 0)
     c.setFont("BodyB", HEADING_SIZE)
-    c.drawCentredString(HEADING_CENTRE_X, HEADING_BASELINE,
-                        f"{ordinal} AMENDED SUMMONS")
+    c.drawRightString(HEADING_RIGHT, HEADING_BASELINE, f"{ordinal} AMENDED")
 
 
 def _strip_fa_template(src, dst):
@@ -323,6 +359,9 @@ def make_fa_summons(cfg, out_path):
         stripped = os.path.join(td, "fa_stripped.pdf")
         flat = os.path.join(td, "fa_flat.pdf")
         _strip_fa_template(tmpl, stripped)
+        if summons_ordinal(cfg) != "FIRST":
+            if not _drop_template_heading(stripped):
+                print("  !! template 'FIRST AMENDED' block not found — check the heading")
         _qpdf(["--flatten-annotations=all", stripped, flat])
 
         buf = io.BytesIO()
