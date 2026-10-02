@@ -231,13 +231,66 @@ Code §23301 — a suspended entity cannot defend, which changes strategy, not t
 - **CIV 105 DEFENDANT field** = the complaint's caption **unchanged** (e.g. `JORGE
   VELAZQUEZ; and DOES 1 through 50, inclusive`). The form's BODY does the work
   (DOE N → true name). Do **not** add the new name to the CIV 105 caption.
-- **Summons NOTICE TO DEFENDANT** = the complaint's named defendants **plus** the new
-  one (e.g. `JORGE VELAZQUEZ; BENJAMIN VELAZQUEZ LOPEZ; and DOES 1 through 50,
-  inclusive`), because the summons is served on and identifies the new defendant. The
-  DOE endorsement lives in the person-served box (item 2 = the DOE number).
-  Klaus's house preference: name the new defendant AND keep `DOES 1 through 50` to match
-  the complaint boilerplate. (A cleaner variant "sued herein as DOE N; and DOES N+1
-  through 50" is acceptable — offer it, but default to matching the complaint.)
+- **Summons NOTICE TO DEFENDANT** = see the next section. It is NOT the complaint's
+  caption and it is NOT "named defendants + DOES 1 through 50".
+
+## The summons caption after one or more Does are substituted (Klaus, 2026-10-01)
+
+**Nothing in CCP §474 or the SUM-100 instructions prescribes this block.** What carries the
+legal effect — relation back, and the right to take a default later — is **NOTICE TO THE
+PERSON SERVED item 2**, "as the person sued under the fictitious name of (specify)". The
+caption above is descriptive only. So the question is never "which is lawful"; it is
+"which one does not contradict itself".
+
+Three styles, using Guolin Zhao (26NWCV02260) where DOE 1 = Benjamin Velazquez Lopez and
+DOE 21 = ON GRAND AVE, LLC:
+
+| | Text | Verdict |
+|---|---|---|
+| (i) strict | `JORGE VELAZQUEZ; and DOES 1 through 50, inclusive` | Defensible. The §474 amendment never amends the caption, so the summons describes the action as pleaded and item 2 identifies the new defendant. Downside: the person served cannot tell from the caption who they are. |
+| (ii) hybrid | `JORGE VELAZQUEZ; BENJAMIN VELAZQUEZ LOPEZ; and DOES 1 through 50, inclusive` | **Do not use.** It names Benjamin and then asserts DOES 1–50 are all still fictitious. Self-contradictory. |
+| **(iii) precise — DEFAULT** | `JORGE VELAZQUEZ; BENJAMIN VELAZQUEZ LOPEZ, sued herein as DOE 1; ON GRAND AVE, LLC, sued herein as DOE 21; and DOES 2 through 20 and 22 through 50, inclusive` | **Use this.** Accurate and informative: each substituted Doe carries its own number, and the remaining fictitious block excludes the numbers already used. |
+
+⚠️ **This REVERSES the pre-2026-10-01 rule in this skill, which made (ii) the default.**
+Hernán caught it on Guolin Zhao: *"the two last defendants are also the DOE'd in by
+amendment... and then naming DOES 1-50 again doesn't make much sense to me."* He was right.
+If a case already has an issued summons in style (ii), **do not revert to match it** —
+it cannot be un-issued; say in the cover email that the change is deliberate so he does
+not read it as a drafting slip.
+
+## "First" / "Second" / "Nth" Amended Summons — verify, never infer
+
+The ordinal counts **summonses the clerk has actually issued**, not Doe amendments filed.
+A Doe can be brought in on the ORIGINAL summons with item 2 endorsed by the server (that is
+what Bo Tao did for Ralph Beas) — that produces no amended summons and does not advance the
+count.
+
+**Check the court's own acceptance record before titling the form**: search Gmail for
+`subject:("eFiling accepted") <CLIENT>` and read the *Accepted Documents* list. An entry
+naming **Summons** (or "Amended Summons Issued and Filed") is one increment.
+Worked example — Guolin Zhao: One Legal order **29000262**, submitted 08/12/2026, court
+transaction **26LA01732968**, accepted documents *"Amendment to Complaint
+(Fictitious/Incorrect Name) + Summons"* → that was the **First** Amended Summons → the
+DOE 21 round is the **Second**.
+⚠️ Filter by case name: a "Amended Summons Issued and Filed" acceptance in the same mailbox
+belonged to *Yi Cong v. Edpao* (CIVSB2619725, San Bernardino — clerk phone 909-708-8678),
+not to Guolin Zhao. Match the `Case ... #<number>` line, not just the subject.
+
+## Entity Does: check BOTH item 2 and item 3
+
+For a corporate/LLC Doe, the person-served box needs **item 2** (fictitious name = DOE N,
+the §474 endorsement) **and** item 3 (on behalf of <entity>, under the right CCP section).
+Checking only item 3 loses the §474 endorsement; checking only item 2 loses the basis for
+serving the entity through its agent. `entity_service` in the config drives item 3; the
+script always marks item 2.
+
+## Before handing the file over: kill the stale draft
+
+Each regeneration writes a new PDF to ~/Downloads. On 2026-10-01 a 09-30 draft titled
+**FIRST** AMENDED SUMMONS with a style-(ii) caption was still sitting in
+`~/Downloads/Guolin Zhao/` beside the signed CIV 105 — one folder, two summonses, one of
+them wrong. **`md5` the candidates, render the title line, and rename the loser
+`… DRAFT <date> (SUPERSEDED - <why>).pdf`** (keep it; see [[feedback-always-file-to-case-folder]]).
 
 ## How to generate
 1. Build a config JSON (see schema below) from the gathered inputs.
@@ -254,8 +307,24 @@ Code §23301 — a suspended entity cannot defend, which changes strategy, not t
    checked with the DOE number, accents intact, DATE/signature blank.
 5. Present to Klaus. On his go, the flow is: **Hernán signs the CIV 105 → e-file CIV 105 +
    summons via One Legal (Amendment to Complaint = no fee; summons issued by clerk) →
-   personal service on the new defendant** with the packet **issued Amended Summons +
-   Complaint + filed CIV 105**. Instruct the server to log GPS + a door photo per attempt.
+   personal service on the new defendant**. Instruct the server to log GPS + a door photo
+   per attempt.
+
+   **The service packet is county-specific — copy what this court actually handed back at
+   filing, not a remembered list.** The authoritative source is the case's own `Served`
+   folder in Drive from the original round. Worked examples:
+   - **LA County** (Guolin Zhao, `4. Litigation / Served DOE1`) — six documents: issued
+     Amended Summons · Complaint · Civil Case Cover Sheet **and Addendum** · Notice of Case
+     Assignment · **ADR Packet** · filed CIV 105. LA issues an ADR information package and
+     it goes in the packet (CRC 3.221(c)).
+   - **Ventura** (Bo Tao) — the court returned **no ADR package**, so there is none to
+     serve. Its **Notice of Case Assignment and Mandatory Appearance** says on its face it
+     "shall be served by the filing party on all named Defendants/Respondents with the
+     Complaint", so that one is mandatory.
+
+   Judgement call that recurs: an ADR package only has to be served if the court issued
+   one — CRC 3.221(c) is parasitic on 3.221(a)/(b). No package in the filing return means
+   nothing to serve, and there is no penalty clause in the rule either way.
 
 ## Config schema
 ```json
