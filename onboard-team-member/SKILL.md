@@ -164,6 +164,10 @@ gws gmail users settings sendAs list --params '{"userId":"me"}'   # 取 isDefaul
    [新人装机与设置 · Day 1 安装清单](https://docs.google.com/document/d/1P0f5q_3ZNlAV6TbHE8sYa4H4gbCMEPH4HJgcywDqmFk/edit)
    ＋ [RingCentral JWT 教程](https://docs.google.com/document/d/1dZeAodD-udvSWFN_C2Ypr9uVCSksq--y4H7vFkBrh_4/edit)。
    **CA 要明写跳过 Cowork/Claude 那项。** 分机 / 直线 / 签名档写成"带教人带你设"，**绝不编号码**。
+   **装完必须让他跑装机自检**（[[gws_machine_setup_check]]，`~/Downloads/GWS-Setup/gws-check.sh`）
+   并**把输出截图发回**——普通员工 `./gws-check.sh <他的邮箱>`（18 项），
+   CM 加 team slug `./gws-check.sh <他的邮箱> picase|piteam|claims`（31 项）。
+   邮件里顺带说清两个常见堵点归主管处理：共享盘只给到 Viewer、team 邮箱没配签名。
 3. **第一周按序读 00–10**（Drive `Claude培训` 文件夹 `1q3aD0M-_cffvlGFraLoX9yFQEfwh5PIn`）：
 
    | # | Doc id | 备注 |
@@ -204,7 +208,11 @@ gws gmail users settings sendAs list --params '{"userId":"me"}'   # 取 isDefaul
 1. 写 memory `onboarding_<name>.md`（type: project）：user id、组、带教人、
    加了哪些群（数量 + 范围口径）、Drive 角色与范围、邮件草稿 id。MEMORY.md 加一行索引。
 2. **不写 Activity Log** —— 那是案件台账，人员入职不是案件动作。
-3. **⚠️ 每次都要提醒的已知缺口**：`new-case` skill Step 11 的建群成员名单
+3. **⚠️ 离职即回收** —— 每次跑这个 skill 时顺手查一遍共享盘成员和 Chat 占位，
+   **离职的人要移出**（先例：Jessie 8/18 移出且永不再加；Nicole 9/29 离职后 86 个群 + 整盘
+   `fileOrganizer` 挂了至少 3 天没人收）。清理 = 逐空间 `members.delete` + 该盘 `permissions.delete`，
+   **报 Klaus 拍板后再动**。
+4. **⚠️ 每次都要提醒的已知缺口**：`new-case` skill Step 11 的建群成员名单
    （`~/.claude/skills/new-case/SKILL.md`）**没有 Taki / Kiko / Lyne** —— 8/31 起就挂着。
    今后新开的案件群不会自动带上新人，要么手动补，要么让 Klaus 拍板改名单。
    同理 [[feedback_chat_mention_list_by_cm]] 的 @ 名单也没加新人 —— **Klaus 没发话不要自己改**。
