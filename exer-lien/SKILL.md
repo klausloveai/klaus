@@ -64,9 +64,11 @@ patient — remind the user of this at the end.
 
 ## Step 3 — Fill + sign the documents (4 docs in the envelope)
 Use the left **Start/Next** navigation; it jumps to required fields for the firm signer.
-- **Doc 1 — Notice of Doctor's Lien:** Patient First/Last name, Patient DOB, Date of Accident
-  (date field opens a calendar — it defaults to the current month, so click the prev-month `<` arrow
-  to reach the DOL month, then the day). Then the **ATTORNEY SIGNATURE** (purple Sign box) —
+- **Doc 1 — Notice of Doctor's Lien:** Patient First/Last name, Patient DOB, Date of Accident.
+  **The date fields accept TYPED input — click the field and type `MM/DD/YYYY`.** A calendar pops
+  open on the current month; ignore it and type. (Clicking its prev-month `<` arrow only works for
+  a recent DOL — a 1988 date of birth would be 400+ clicks.)
+  Then the **ATTORNEY SIGNATURE** (purple Sign box) —
   **Attorney Full Name = `Shenqi Cai` is now PRE-FILLED** on the new form (the old form needed it
   typed). DATED auto-stamps. Use the left **Next / Fill In** nav to reach the Sign box; if it keeps
   cycling through already-filled preset fields, just scroll up to Doc 1's signature box and click it
@@ -74,10 +76,18 @@ Use the left **Start/Next** navigation; it jumps to required fields for the firm
 - **Doc 2 — Authorization for Use/Disclosure:** patient **Name + DOB auto-carry from Doc 1** (no
   re-typing). The firm "release to" block is now **almost fully PRE-FILLED by the updated PowerForm**:
   - Attorney `Shenqi Cai` · Law Firm `Lingtu Law Firm` · Address `13191 Crossroads Parkway N, Suite 295`
-    · City `City of Industry` · State `CA` · Zip `91746` · Facsimile `626-240-2046` — all **pre-filled**, confirm only.
-  - **Phone — PRE-FILLED to `626-614-6666`, but OVERWRITE it** with the handling CM's direct line
+    · City `City of Industry` · State `CA` · Zip `91746` — pre-filled, confirm only.
+  - **Phone — PRE-FILLED (seen as `626-614-6666` and as the `888-343-9794` office line); ALWAYS
+    OVERWRITE** with the handling CM's direct line
     (NOT the 888 office line, and NOT the preset — see [[feedback_form_firm_phone_cm]]). Triple-click →
     `cmd+a` → Delete → type the CM line (e.g. Piteam@ = Jerry Piao `626-598-6352`).
+  - **🚨 Facsimile — PRE-FILLED to `626-240-2046`. NEVER LEAVE IT.** That number is claims@'s
+    fax-to-email and CLAUDE.md forbids it on **any** letterhead, form or pleading. **Overwrite it with
+    the SAME handling CM's number as the Phone field — whoever owns this case** (Klaus's rule,
+    2026-10-05). Same triple-click → `cmd+a` → Delete → type. Both fields then carry the one CM line,
+    so whatever Exer sends back reaches the person actually running the matter.
+    *Missed once — Long Tang, envelope 71EF41CF-2691-8264-812A-1FFC831BB673, 10/5/2026 — because this
+    skill used to list the Facsimile as "pre-filled, confirm only". It went out with 626-240-2046.*
   - **Email — PRE-FILLED to `piteam@lingtulaw.com`.** This is the records destination; if the case's
     owning team is NOT Piteam@ (i.e. Claims@ or Picase@), overwrite it with that team's mailbox.
   - **Patient Phone No.** = client's phone (this one is blank — type it).
