@@ -20,7 +20,8 @@ Usage:
 import argparse, json, subprocess, sys
 
 SPREADSHEET = "1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM"
-TAB_SHEET_IDS = {"Piteam@": 102974151, "Picase@": 775230687, "Claims@": 86730608}
+TAB_SHEET_IDS = {"Piteam@": 102974151, "Picase@": 775230687, "Claims@": 86730608,
+                 "Klaus@": 1401961516}
 
 
 def gws(*args, params=None, body=None):
