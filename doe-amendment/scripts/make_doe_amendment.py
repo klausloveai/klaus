@@ -370,6 +370,15 @@ def make_fa_summons(cfg, out_path):
         def line(x, y, t, s=9, f="Body"):
             c.setFont(f, s); c.drawString(x, y, t)
 
+        # The firm template paints the fillable form's grey "Warning" button
+        # background into the STATIC content layer, so stripping widgets does not
+        # remove it and it prints as a grey block under the footer (it shipped on
+        # the Guolin Zhao Second Amended Summons before anyone noticed). The area
+        # is otherwise blank, so cover it.
+        c.setFillColorRGB(1, 1, 1)
+        c.rect(34.0, 3.0, 216.0, 24.2, stroke=0, fill=1)
+        c.setFillColorRGB(0, 0, 0)
+
         # Heading — the template says FIRST; repaint it for any other ordinal.
         ordinal = summons_ordinal(cfg)
         if ordinal != "FIRST":
