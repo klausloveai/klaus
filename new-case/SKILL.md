@@ -811,7 +811,7 @@ added automatically as owner — he is in every space.**
 > `picase@ = amos + jenkins + tiana` · 所有都有 cassie and claire。
 >
 > Changes from 9/18:
-> 1. **`may.z@` and `ryan.w@` are GONE — both have left the firm. Never add either to any space.**
+> 1. **`may.z@`, `ryan.w@` and `lyne@` are GONE — all three have left the firm. Never add any of them to any space.**
 > 2. **`amos.f@` is now in every team** (he was already BASE; Klaus now names him in all three).
 > 3. **`taki.x@` moved Picase@ → Claims@**; **`eeve.l@` (Yulu) joined Claims@**.
 > 4. **`jenkins.l@` replaced Ryan as the Picase@ CM.**
@@ -819,7 +819,7 @@ added automatically as owner — he is in every space.**
 >
 > `joe@lingtulaw.com` — removed from BASE 8/7/2026, still never added.
 > `jessie.l@lingtulaw.com` — left the firm 8/18/2026, **never add her to any space.**
-> `lyne@lingtulaw.com` — **not in Klaus's 10/08 list; do not add until he confirms.**
+> `lyne@lingtulaw.com` — left the firm (confirmed 2026-10-08), **never add her to any space.**
 
 **Suffix in space name:** Claims@ → `(A)`, Piteam@ → `(J)`, Picase@ → `(R)`.
 
@@ -935,9 +935,9 @@ added automatically as owner — he is in every space.**
 
    > ⚠️ **Changed 2026-10-08.** Two changes from the 9/17 rule:
    > 1. **The whole group gets @'d, not one support person.** The old list named only one CA per
-   >    team (May / Angelina / Tiana) and left Lyne / Kiko / Taki out — that open item is now closed:
+   >    team (May / Angelina / Tiana) and left Kiko / Taki out — that open item is now closed:
    >    **everyone in the mailbox's roster is mentioned.**
-   > 2. `may.z@` and `ryan.w@` are gone (left the firm); `taki.x@` + `eeve.l@` are Claims@;
+   > 2. `may.z@`, `ryan.w@` and `lyne@` are gone (left the firm); `taki.x@` + `eeve.l@` are Claims@;
    >    `jenkins.l@` is the Picase@ CM.
    >
    > **Order:** the CM first, then that team's support people, and **`amos.f@` LAST on Piteam@ /
