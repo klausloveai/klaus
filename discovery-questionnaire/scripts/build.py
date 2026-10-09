@@ -230,18 +230,31 @@ def build_client(c, out):
            bold=True, center=True, after=60))
     A(section_break_para(sectpr(2880, header=HDR_RID)))
 
-    n = 0
+    BLUE = "1F3864"
+    n = filled = 0
     for gi, (title, qs) in enumerate(c.GROUPS):
         A(para(title, bold=True, center=True, brk=(gi > 0), after=60, keep=True))
         A(blank(sz=12))
-        for text, lines, xref, note in qs:
+        for q in qs:
+            text, lines, xref, note = q[0], q[1], q[2], q[3]
+            prefill = q[4] if len(q) > 4 else None
             n += 1
             A(tbl_open())
+            tag = "【我们已填，请核对】" if prefill else "【请您填写】"
             body = qline(f"{n}.", text)
+            body += para(tag, bold=True, color=(BLUE if prefill else RED), before=60)
             if note: body += para(note, bold=True, color=RED, before=60)
             body += para(f"（对应 {xref}）", sz=16, color=GRAY, before=60)
             A(row_full(body, shade="EDEDED", height=300))
-            A(row_box(lines * 360))
+            if prefill:
+                filled += 1
+                inner = "".join(para(ln, color=BLUE) for ln in prefill.split("\n"))
+                inner += para("　", before=60)
+                inner += para("以上正确吗？正确请写「正确」；有出入或要补充，请直接在上面改。",
+                              bold=True, color=RED, before=60)
+                A(row_full(inner, height=lines * 360))
+            else:
+                A(row_box(lines * 360))
             A(tbl_close()); A(blank())
 
     docs = getattr(c, "RFP_DOCS", [])
@@ -263,7 +276,7 @@ def build_client(c, out):
            "请留意我们的电话和邮件。", center=True))
     A(sectpr(1440, blank_header=True, footer=FOOT_RID))
     pkg_build("".join(X), out, base=LETTERHEAD)
-    return n
+    return n, filled
 
 
 if __name__ == "__main__":
@@ -280,6 +293,7 @@ if __name__ == "__main__":
             print("FROGs/SROGs:", build_case(c, out), "->", out)
         elif mode == "client":
             out = out or os.path.expanduser(f"~/Downloads/{c.CASE['short']} - 证据交换问卷（中文版·给客户）.docx")
-            print("questions:", build_client(c, out), "->", out)
+            tot, fl = build_client(c, out)
+            print(f"questions: {tot} (prefilled {fl}, blank {tot-fl}) -> {out}")
         else:
             sys.exit("mode must be master | case | client")
