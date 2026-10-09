@@ -75,15 +75,20 @@ The now-obsolete hidden `_NonLien` tab is only referenced by that row; delete it
 ---
 
 ## TRIGGER A0 — Incoming settlement check(s) received (scanned before deposit)
-Klaus scans every settlement check he receives and sends it here BEFORE mailing/depositing. For each check:
-1. **First check "存过吗?"** — dedup by **CHECK NUMBER**, not client name (one client can have several separate deposits — Stephen Li had a Tesla $1k MedPay AND a Kemper $30k BI; a name-only match falsely flagged the new one as a dup and nearly skipped recording it).
-2. **Record it as a pending DEPOSIT** in the Account Journal JULY/…-PENDING block (payor, check#, amount, client, claim#, "to deposit"/deposited date). Deposit-only, no cleared date until month-end bank.
-3. **EXCLUDE non-trust checks** — do NOT record (and warn Klaus): a check whose coverage is **Property Damage / Collision**, or where the **law firm is NOT a payee** (body-shop money, client-only PD). E.g. Kemper PD to a collision center; Mercury Collision payable to client only.
-4. **Build a Pending Disbursed Sheet tab for the case** (Sheet `1b_vPr…`) so lien-reduction can start later:
-   - If the client already has a tab, skip. Otherwise `duplicateSheet` from **Template** (sheetId 0), name = client (multi-client `/`-joined, driver first).
-   - Fill A1 client, B1 DOL, and the settlement amount(s): **B2 3P / B3 UM-UIM** (Total B4, Fee B6, Recovery B7 are formulas — auto). Green the received-settlement amount cell(s). Providers left blank — filled during lien reduction.
-   - Add a row to the Pending **🔍 Search** tab (sheetId 263451925), alphabetical by client: col A = `=HYPERLINK(".../edit#gid=<tab gid>","<client>")` (click-to-jump), B = DOL, C = tab name.
-5. This is the pre-work for the eventual disbursement (Trigger A) — the tab is where Amos computes the lien reductions.
+**This trigger now lives in its own skill: `check-intake`. Invoke that instead of working from here.**
+
+Klaus scans every settlement check BEFORE mailing/depositing it. `check-intake` runs the whole
+pre-deposit path — dedup by check number, the journal row, splitting and renaming one PDF per
+client, the one-line Chat notice with the check attached, filing into Case Disbursements or the
+case folder's `6#` subfolder depending on whether the case has finished collecting, and the
+Pending Disbursed tab. It is the pre-work for the eventual disbursement (Trigger A below): the
+Pending tab is where Amos computes the lien reductions.
+
+Two corrections to what this file used to say here, in case an older copy is in play:
+- **Property Damage never enters the IOLTA — not even when the firm is the payee "f/b/o" the
+  client** (Klaus, 2026-08-20). The old wording excluded PD only when the firm was not a payee.
+- The `🔍 Search` tab is **sheetId 2016288373** (not 263451925) and its columns are now
+  **A** status formula · **B** client hyperlink · **C** DOL · **D** tab name.
 
 ---
 
