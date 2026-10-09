@@ -220,3 +220,38 @@ Haoze He −0.04（disbursement letter 四舍五入，至今未平）。
 |---|---|---|
 | 2026-05 | 739,607.11 | 六项齐（影像在 eStatement PDF 里）· 未签字 |
 | 2026-06 | 913,253.57 | 缺附件 3 的 PDF · 未签字 · 两个负余额已披露 |
+
+## 支票影像：怎么抓、怎么验（2026-10-09）
+
+**先试 eStatement PDF。** 有 PDF 就不用抓 —— 它内嵌当月全部 cancelled check 影像。
+⚠️ 但 **#3618 没有开 paperless**：BoA 的 Statements & Documents 页面账户下拉里只有
+CORP Account，没有 3618；Request Statements 的下拉是空的。所以 6 月起只能逐张抓。
+（5 月那份 `acct3618 eStmt_2026-05-29.pdf` 是 6/2 跟 #4854 全套一起下的，现在同一入口已下不到。）
+
+**抓法**：BoA 账户活动页设月份 filter → View more 加载全部（会出重复行，按 日期|描述|金额 去重）
+→ 逐行点 `a[id^=view-txn-details]` → 展开 Back View → `#checks-accordionPanel0/1 img` 是
+base64 data URI，用 `<a download>` 直接存。命名 `<兑现日>_ck<号>_<金额>_front.jpg` / `_back.jpg`。
+
+**四个坑，都踩过：**
+1. **Chrome 拦连续下载** —— 第二张起静默失败。让 Klaus 点 Allow，或
+   `chrome://settings/content/automaticDownloads` 加 `secure.bankofamerica.com`。
+2. **CDP 45 秒硬超时** —— `await` 整批会超时。改成 fire-and-forget：
+   `window.__runFrom(i,n)` 立即返回，外面轮询文件系统看进度。
+3. **限流 / 登出** —— 连开 ~30 个 modal 后页面报 "There was a problem processing your request"，
+   再硬跑会被踢回登录页。每轮 ≤25 张，轮间冷却 3 分钟，**reload 会撞 SMAUTH 直接登出**。
+4. **⚠️ 最危险：modal 没加载完就读图，会抓到上一张支票的影像、却用当前行的号码命名。**
+   6 月真发生过（ck80168 的文件里是 80155 Vanguard IPS）。单张等待 2.8 秒不够。
+
+**所以抓完必须验，三道：**
+```bash
+python3 scripts/verify_images.py --month 2026-06          # 对账单覆盖：缺图/单面/多余/金额不符
+python3 scripts/ocr_check.py <影像目录>                    # OCR 图上号码 vs 文件名
+```
+- `verify_images.py` **全齐才允许 --move 归档**，有任何缺口就拒绝并退出。
+- `ocr_check.py` 读右上角号码。OCR 不可靠（6 月 57 张只读出 31 张，还把 80181 误读成
+  205083、800089 读成 00089）—— **读不出和不匹配的必须人眼看**，把号码区裁剪拼成 contact sheet
+  一次看 9 张。折角遮住号码的改看底部 MICR 行（`080171` 这种）。
+- **md5 查重**：114 张内容应全唯一。有重复 = 抓到了同一张两次。
+  （注意：全唯一**不能**排除「整体偏移一位」，要靠 OCR 的匹配数来排除。）
+
+6 月结果：57 张全抓到，正反面齐、金额零差异、号码逐张核对无误、114 张内容唯一。
