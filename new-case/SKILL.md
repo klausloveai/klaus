@@ -32,7 +32,7 @@ the Docusign retainer as the final step.
 8. Deliver the case folder zip + place "Intake Responses.zip" in 1#Legal Documents
 9. Upload to Google Drive (default destination: 1. Pending)
 10. Add the case to the tracking sheet, insert one row per client below the Example Row
-11. Create the Google Chat case space, add the team, **promote Amos/Claire/May/CM to Manager**, ask user for case notes, post verbatim with the CM's @mention list
+11. Create the Google Chat case space, add the team, **promote Amos/Claire/CM to Manager**, ask user for case notes, post verbatim with the whole team's @mention list
 12. Create the Gmail case label in the team mailbox (yellow)
 13. Send the Docusign retainer — **ONLY if the prompt explicitly asks to send** (default = skip); when sending, `retainer type = new / standard` is a hard gate
 14. **Output the client-facing signing message** (WeChat 文案 for Klaus to forward) — **always last, but only if Step 13 actually sent**
@@ -50,14 +50,17 @@ When the user has not said otherwise *in advance*, apply these defaults and keep
   `standard retainer`, or `send retainer`. If the prompt says nothing about the retainer, or says
   `retainer skip` / `retainer sent`, **skip both Step 13 and Step 14** (just note it in the summary).
   See the retainer gate below.
-- CM assignment = **均摊轮转（round-robin），目前只在 Jerry 和 Amos 之间轮**（Ryan 已不在轮转内，
-  2026-09-10 起）。**每一个新案都必须停下来跟 Klaus 确认 assign 给谁 —— 即使 prompt 里已经写了
-  CM 名字也要确认。** 确认时必须同时给出这三样：
-  1. **上一次 assign 给了谁** —— 案件名 + CM + 建档日期（从 Piteam@ / Claims@ 两个 tab 的最新行读，
-     不要凭记忆）
+- CM assignment = **按信箱分，三个信箱轮转：`Claims@` / `Piteam@` / `Picase@`**（Klaus,
+  2026-10-08）。**每一个新案都必须停下来跟 Klaus 确认 assign 给谁 —— 即使 prompt 里已经写了
+  信箱或 CM 名字也要确认。** 确认时必须同时给出这三样：
+  1. **上一次 assign 给了谁** —— 案件名 + 信箱 + 建档日期（从 Claims@ / Piteam@ / Picase@
+     三个 tab 的最新行读，不要凭记忆）
   2. **上一案的人数构成** —— 几个成年人、几个 minor
   3. **本案的人数构成** —— 几个成年人、几个 minor
-  4. **两位 CM 当前的加权在手量** —— 见下方折算规则
+  4. **三个信箱当前的加权在手量** —— 见下方折算规则
+
+  > ⚠️ **2026-10-08 改口径**：以前是「只在 Jerry 和 Amos 之间轮」，现在 **Picase@ 回到轮转里**，
+  > 三个信箱一起算。**少的那个就是 next assign**（Klaus 原话）；并列时规则选不出来，直接问 Klaus。
 
   **⚖️ 折算规则（Klaus 2026-09-22）：1 个 minor = 1/3 个成年人。**
   平衡看的是 **加权人头**，不是案件数、也不是原始人头：
@@ -73,8 +76,8 @@ When the user has not said otherwise *in advance*, apply these defaults and keep
   > 反过来，**minor 案在结案端确实更重**（GAL 指定、Minor's Compromise 要过法院）—— 但那是
   > 几个月后的事，不在新案分配这个时点计入。分配看的是当下的建案与治疗跟进负荷。
 
-  然后问："上一次是 [CM]（[案名]，[N] 成年 / [M] minor）。两边当前加权：Jerry [x.xx] /
-  Amos [y.yy]。这个案子（[N] 成年 / [M] minor，加权 [z.zz]）assign 给谁？"
+  然后问："上一次是 [信箱]（[案名]，[N] 成年 / [M] minor）。三边当前加权：Claims@ [x.xx] /
+  Piteam@ [y.yy] / Picase@ [z.zz]。这个案子（[N] 成年 / [M] minor，加权 [w.ww]）assign 给谁？"
   —— 等 Klaus 回答再往下走。绝不自动分配、绝不自己按轮转推断。
 - Chat space "in charge" = the named CM (no default — must be either in the prompt or explicitly answered)
 
@@ -638,7 +641,7 @@ prints the payload without touching the sheet.
 > a set of steps to execute manually.
 
 **Spreadsheet:** "PI Master Sheet" — ID `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`
-**CM tabs:** Jerry → `Piteam@` (sheetId `102974151`), Ryan → `Picase@` (sheetId `775230687`), Amos → `Claims(Amos)`.
+**Tabs = the mailbox itself:** `Claims@` · `Piteam@` (sheetId `102974151`) · `Picase@` (sheetId `775230687`).
 Always read the live header row (row 1) to map columns — never hardcode the order.
 
 **Picase@ confirmed column layout (A–X):** DOL · Client Name · **Retainer** · Referrer · Case Status · Note-Claims · 1LOR · 1Coverage · 1Liability · 3LOR · 3Coverage · 3Liability · Property Damage · Ambulance · Emergency · Urgent Care · Primary Doctor · Medi-Cal · Medicare · Health Ins Lien · Outstanding Balance · Note-Treatment · Chiropractic · MRI
@@ -711,7 +714,7 @@ task", which is the opposite of the intent.
 
 ### Workflow
 
-1. Match CM to tab: Jerry → `Piteam@`, Ryan → `Picase@`, Amos → `Claims(Amos)`.
+1. The assigned mailbox IS the tab: `Claims@` / `Piteam@` / `Picase@`.
 2. **Read header row (row 1) and Example Row (row 2)** from the CM tab. Confirm client not already present (avoid duplicates).
 3. **Insert N blank rows immediately below the Example Row** using `insertDimension` with
    `inheritFromBefore: true`. `startIndex: 2` is a 0-based index = spreadsheet **row 3**, so rows 1
@@ -793,28 +796,32 @@ Step 1 (see Execution Mode), so **do NOT ask "who is in charge" here**; just use
 **Members = BASE (always, every case) + that case's TEAM ROSTER. Klaus is the creator and is
 added automatically as owner — he is in every space.**
 
-**BASE (all cases — 3 people):** `cassie@lingtulaw.com`, `amos.f@lingtulaw.com`, `claire.f@lingtulaw.com`
+**BASE (all cases — 3 people):** `cassie@lingtulaw.com`, `claire.f@lingtulaw.com`, `amos.f@lingtulaw.com`
 
-**Team roster — add ONLY the roster of the team that owns the case. Never add another team's people.**
+**Team roster — add ONLY the roster of the mailbox that owns the case. Never add another team's people.**
 
-| Case / mailbox | Team roster to add |
-|---|---|
-| **Amos** — Claims@ | `may.z@lingtulaw.com` + `lyne@lingtulaw.com` *(Amos already in BASE)* |
-| **Jerry** — Piteam@ | `jerry.p@lingtulaw.com` + `angelina.m@lingtulaw.com` + `kiko.w@lingtulaw.com` |
-| **Ryan** — Picase@ | `ryan.w@lingtulaw.com` + `tiana.d@lingtulaw.com` + `taki.x@lingtulaw.com` |
-| **Klaus** — Claims@ | same as Amos: `may.z@` + `lyne@` |
+| Mailbox | Team roster to add | CM |
+|---|---|---|
+| **Claims@** | `taki.x@lingtulaw.com` + `eeve.l@lingtulaw.com` *(Amos already in BASE)* | Amos |
+| **Piteam@** | `jerry.p@lingtulaw.com` + `angelina.m@lingtulaw.com` + `kiko.w@lingtulaw.com` | Jerry |
+| **Picase@** | `jenkins.l@lingtulaw.com` + `tiana.d@lingtulaw.com` | Jenkins |
 
-> ⚠️ **Rewritten 2026-09-18 (Klaus).** Three changes from the 8/18 version:
-> 1. **`may.z@` is NO LONGER in BASE.** May is not a firm-wide CA any more — she belongs to
->    **Claims@ only**. She must not be added to a Jerry or Ryan space.
-> 2. **`lyne@` (Lyne Chen) joined Claims@** and is added to every Amos/Klaus case.
-> 3. Each team now has **two support people**, not one CA: Claims@ = May + Lyne ·
->    Piteam@ = Angelina + Kiko · Picase@ = Ryan's Tiana + Taki.
+> ⚠️ **Rewritten 2026-10-08 (Klaus) — this REPLACES the 9/18 roster.** Klaus's words:
+> `claims@ = amos + taki + eeve` · `piteam@ = amos + jerry + angelina + kiko` ·
+> `picase@ = amos + jenkins + tiana` · 所有都有 cassie and claire。
+>
+> Changes from 9/18:
+> 1. **`may.z@` and `ryan.w@` are GONE — both have left the firm. Never add either to any space.**
+> 2. **`amos.f@` is now in every team** (he was already BASE; Klaus now names him in all three).
+> 3. **`taki.x@` moved Picase@ → Claims@**; **`eeve.l@` (Yulu) joined Claims@**.
+> 4. **`jenkins.l@` replaced Ryan as the Picase@ CM.**
+> 5. **The `Klaus@` row is deleted** — cases go to the three mailboxes only.
 >
 > `joe@lingtulaw.com` — removed from BASE 8/7/2026, still never added.
 > `jessie.l@lingtulaw.com` — left the firm 8/18/2026, **never add her to any space.**
+> `lyne@lingtulaw.com` — **not in Klaus's 10/08 list; do not add until he confirms.**
 
-**CM suffix in space name:** Jerry → `(J)`, Ryan → `(R)`, Klaus → `(K)`, Amos → `(A)`.
+**Suffix in space name:** Claims@ → `(A)`, Piteam@ → `(J)`, Picase@ → `(R)`.
 
 ### Workflow
 
@@ -848,8 +855,8 @@ added automatically as owner — he is in every space.**
    # Capture: spaces/XXXX and spaceUri
 
    # Step 1b: add each member individually (run in parallel or sequentially)
-   for EMAIL in cassie@lingtulaw.com amos.f@lingtulaw.com \
-                claire.f@lingtulaw.com may.z@lingtulaw.com; do   # BASE 4 + CM additions (CM + that CM's CA)
+   for EMAIL in cassie@lingtulaw.com claire.f@lingtulaw.com amos.f@lingtulaw.com \
+                <that mailbox's roster...>; do   # BASE 3 + the owning mailbox's roster
      gws chat spaces members create \
        --params '{"parent":"spaces/XXXX"}' \
        --json "{\"member\":{\"name\":\"users/$EMAIL\",\"type\":\"HUMAN\"}}"
@@ -869,18 +876,17 @@ added automatically as owner — he is in every space.**
        print(' -', m.get('member',{}).get('name','?'))
    "
    ```
-   **Expected totals (BASE 3 + team roster + Klaus as owner) — updated 2026-09-18:**
+   **Expected totals (BASE 3 + that mailbox's roster + Klaus as owner) — updated 2026-10-08:**
 
-   | Case | Members in the space | Total |
+   | Mailbox | Members in the space | Total |
    |---|---|---|
-   | **Amos** | Cassie · Amos · Claire · May · Lyne · Klaus | **6** |
-   | **Jerry** | Cassie · Amos · Claire · Jerry · Angelina · Kiko · Klaus | **7** |
-   | **Ryan** | Cassie · Amos · Claire · Ryan · Tiana · Taki · Klaus | **7** |
-   | **Klaus** | Cassie · Amos · Claire · May · Lyne · Klaus | **6** |
+   | **Claims@** | Cassie · Claire · Amos · Taki · Eeve · Klaus | **6** |
+   | **Piteam@** | Cassie · Claire · Amos · Jerry · Angelina · Kiko · Klaus | **7** |
+   | **Picase@** | Cassie · Claire · Amos · Jenkins · Tiana · Klaus | **6** |
 
    If the count is short, add the missing members with another `members create` call.
 
-3. **Promote to Manager — ALWAYS. Amos, Claire and the assigned CM get the Manager role; add May only on a Claims@ case.**
+3. **Promote to Manager — ALWAYS. Amos, Claire and the assigned CM get the Manager role.** (On a Claims@ case the CM *is* Amos, so the list is just Amos + Claire.)
    Everyone else stays a plain Member. Do this after the members are verified, before posting.
 
    > ⚠️ **API role names do NOT match the UI labels:**
@@ -897,8 +903,8 @@ added automatically as owner — he is in every space.**
    `members get` by email). The call is idempotent — safe to re-run.
 
    ```bash
-   # promote list = amos.f + claire.f + the assigned CM, plus may.z ONLY on a Claims@ case
-   for EMAIL in amos.f@lingtulaw.com claire.f@lingtulaw.com <CM_EMAIL> [may.z@lingtulaw.com]; do
+   # promote list = amos.f + claire.f + the assigned CM (Claims@: amos.f + claire.f only)
+   for EMAIL in amos.f@lingtulaw.com claire.f@lingtulaw.com <CM_EMAIL>; do
      MID=$(gws chat spaces members get --params "{\"name\":\"spaces/XXXX/members/$EMAIL\"}" 2>&1 \
        | grep -v '^Using' | python3 -c "import sys,json;print(json.load(sys.stdin)['member']['name'].split('/')[-1])")
      gws chat spaces members patch \
@@ -907,7 +913,7 @@ added automatically as owner — he is in every space.**
    done
    ```
 
-   **Verify** by re-listing and confirming the four show `ROLE_ASSISTANT_MANAGER`
+   **Verify** by re-listing and confirming they show `ROLE_ASSISTANT_MANAGER`
    (Klaus will show `ROLE_MANAGER` as the space owner — that is correct, leave it):
    ```bash
    gws chat spaces members list --params '{"parent":"spaces/XXXX"}' 2>&1 | grep -v '^Using' | \
@@ -918,28 +924,30 @@ added automatically as owner — he is in every space.**
    "
    ```
 
-4. **Resolve user IDs for the @mentions — the mention list depends on the CM (Klaus, 2026-09-17):**
+4. **Resolve user IDs for the @mentions — @ EVERYONE in that mailbox's team (Klaus, 2026-10-08:
+   「每次 at 就 at 组里的人」):**
 
-   | Case | @mention, in this order |
+   | Mailbox | @mention, in this order |
    |---|---|
-   | **Amos** (Claims@) | `amos.f@` + `may.z@` |
-   | **Jerry** (Piteam@) | `jerry.p@` + `angelina.m@` + `amos.f@` |
-   | **Ryan** (Picase@) | `ryan.w@` + `tiana.d@` + `amos.f@` |
-   | **Klaus** (Claims@) | `amos.f@` + `may.z@` |
+   | **Claims@** | `amos.f@` + `taki.x@` + `eeve.l@` |
+   | **Piteam@** | `jerry.p@` + `angelina.m@` + `kiko.w@` + `amos.f@` |
+   | **Picase@** | `jenkins.l@` + `tiana.d@` + `amos.f@` |
 
-   > ⚠️ **Changed 2026-09-17.** The old rule was "@Amos + the assigned CM" (two mentions, Amos always
-   > first). Now the CM's own CA is mentioned too, and **Amos comes LAST on Jerry/Ryan cases** — he is
-   > cc'd as supervisor, not the lead. On an Amos case there is no CA, so it is Amos + May.
+   > ⚠️ **Changed 2026-10-08.** Two changes from the 9/17 rule:
+   > 1. **The whole group gets @'d, not one support person.** The old list named only one CA per
+   >    team (May / Angelina / Tiana) and left Lyne / Kiko / Taki out — that open item is now closed:
+   >    **everyone in the mailbox's roster is mentioned.**
+   > 2. `may.z@` and `ryan.w@` are gone (left the firm); `taki.x@` + `eeve.l@` are Claims@;
+   >    `jenkins.l@` is the Picase@ CM.
+   >
+   > **Order:** the CM first, then that team's support people, and **`amos.f@` LAST on Piteam@ /
+   > Picase@** — he is cc'd as supervisor, not the lead. On Claims@ Amos *is* the CM, so he leads.
+   >
+   > `cassie@` and `claire.f@` are space members but are **not** @mentioned.
    >
    > Everyone in the mention list is already a space member, so no extra `members create` call is
    > needed — but re-verify before posting; a mention of a non-member renders as plain text with no
    > notification.
-   >
-   > 📌 **Open item (2026-09-18):** the team rosters grew to two support people each
-   > (Claims@ = May + Lyne · Piteam@ = Angelina + Kiko · Picase@ = Tiana + Taki), but this
-   > @mention table has NOT been re-calibrated with Klaus. It still mentions one support person
-   > per team. Everyone it names is still a member, so it is safe to use as-is — **ask Klaus
-   > before widening it** to Lyne / Kiko / Taki.
 
    Resolve each one's numeric id:
    ```bash
@@ -1034,11 +1042,11 @@ This matches Gmail's built-in yellow preset (RGB 251, 233, 131) visible in the l
 
 ### Mailbox → gws config mapping
 
-| CM tab | Team mailbox | gws config |
+| Tab / mailbox | Team mailbox | gws config |
 |---|---|---|
+| `Claims@` (Amos) | claims@lingtulaw.com | `GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-claims` |
 | `Piteam@` (Jerry) | piteam@lingtulaw.com | `GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-piteam` |
-| `Picase@` (Ryan) | picase@lingtulaw.com | `GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-picase` |
-| `Claims@` (Amos/Klaus) | claims@lingtulaw.com | `GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-claims` |
+| `Picase@` (Jenkins) | picase@lingtulaw.com | `GOOGLE_WORKSPACE_CLI_CONFIG_DIR=~/.config/gws-picase` |
 
 All three config dirs exist and are authenticated. If a future mailbox is added without
 credentials, note it to the user and skip — do not create the label in the wrong mailbox.
@@ -1118,8 +1126,8 @@ pages of waiver text irrelevant to them). **2+ clients → always use one.**
 > | Signer 2 | `Attorney` (Shenqi Cai) | signer |
 > | CC | **exactly ONE** mailbox: the assigned CM's | carbon copy |
 >
-> **CC mailbox by CM:** Ryan → `picase@lingtulaw.com` · Jerry → `piteam@lingtulaw.com` ·
-> Amos → `claims@lingtulaw.com`. **CM not decided → `klaus@lingtulaw.com` only.**
+> **CC = the assigned mailbox itself:** `claims@lingtulaw.com` / `piteam@lingtulaw.com` /
+> `picase@lingtulaw.com`. **Mailbox not decided → `klaus@lingtulaw.com` only.**
 >
 > **Delete every other recipient the template carries** — the other two team mailboxes, Klaus
 > when a CM's mailbox is being kept, and any extra *signer* role the template picks up.
