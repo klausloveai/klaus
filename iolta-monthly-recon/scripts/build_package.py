@@ -55,12 +55,22 @@ def load_journal():
         if any(ws.cell(r, c).value is not None for c in range(1, 15)): last = r
     return ws, last
 
-def issued(ws, r):
+def issued(ws, r, year=2026):
+    """When the entry happened: the check's issue date, or the deposit date for a deposit.
+    Column A is often blank on the pending blocks, where the date lives in the note instead
+    ("Lien Payment (check 7/22/2026)", "deposited 7/9"). Rows whose date is only in a note
+    were silently dropped from the period before this fallback existed."""
     d = ws.cell(r, 1).value
     if isinstance(d, datetime.datetime): return d.date()
     blob = f(ws.cell(r, 5).value) + " " + f(ws.cell(r, 10).value)
-    m = re.search(r"check (\d{1,2})/(\d{1,2})/(\d{4})", blob) or re.search(r"\((\d{1,2})/(\d{1,2})/(\d{4})\)", blob)
-    return datetime.date(int(m.group(3)), int(m.group(1)), int(m.group(2))) if m else None
+    m = (re.search(r"check (\d{1,2})/(\d{1,2})/(\d{4})", blob)
+         or re.search(r"\((\d{1,2})/(\d{1,2})/(\d{4})\)", blob))
+    if m: return datetime.date(int(m.group(3)), int(m.group(1)), int(m.group(2)))
+    m = re.search(r"deposit(?:ed)?(?: at counter)?(?: wk of)? (\d{1,2})/(\d{1,2})", blob)
+    if m:
+        try: return datetime.date(year, int(m.group(1)), int(m.group(2)))
+        except ValueError: return None
+    return None
 
 def cleared(ws, r):
     c = ws.cell(r, 13).value
@@ -129,13 +139,20 @@ def sweep_allocation(ws, last, eom, disb):
         # in the Disbursement Sheet. The bank moved whole cents, so each client's share is
         # rounded and the rounding difference is carried by the largest share — the shares
         # must add back to the sweep exactly or the client ledgers will not total the journal.
-        shares = [[nm, round(a, 2)] for nm, a in cases if a]
-        drift = round(amt - sum(x[1] for x in shares), 2)
-        if drift and shares:
-            big = max(range(len(shares)), key=lambda k: shares[k][1])
-            shares[big][1] = round(shares[big][1] + drift, 2)
-        if abs(sum(x[1] for x in shares) - amt) > 0.005:
-            sys.exit(f"sweep {d.date()} allocation {sum(x[1] for x in shares):,.2f} != {amt:,.2f}")
+        # Each client is charged exactly the fee shown on the Disbursement Sheet, rounded to
+        # the cent. A 1/3 fee on a settlement that does not divide by three means those
+        # shares need not add back to the sweep exactly; the few cents left over are the
+        # firm's own rounding, NOT a charge against any client's money. Loading the drift
+        # onto the largest share pushed a client's ledger a cent negative (Zeming Chen,
+        # August) — a negative client ledger is exactly what Rule 1.15 forbids.
+        shares = [(nm, round(a, 2)) for nm, a in cases if a]
+        drift = round(amt - sum(a for _, a in shares), 2)
+        if abs(drift) > 0.50:
+            sys.exit(f"sweep {d.date()} is {amt:,.2f} but client shares total "
+                     f"{sum(a for _, a in shares):,.2f} — off by {drift:,.2f}, too much to be rounding")
+        if drift:
+            alloc["(firm rounding)"].append(
+                (d, conf, f"{d.strftime('%-m/%-d')} sweep — {prev} fees, rounding", drift))
         for nm, a in shares:
             alloc[nm].append((d, conf, f"{d.strftime('%-m/%-d')} sweep — {prev} fees", a))
     return alloc
@@ -173,10 +190,15 @@ def main():
     for r in range(10, last + 1):
         d, s = num(ws.cell(r, 6).value), num(ws.cell(r, 7).value)
         if not (d or s): continue
-        i = issued(ws, r)
-        if i is None or i > eom: continue
-        inp.append(r)
         c = cleared(ws, r)
+        i = issued(ws, r, y)
+        # An entry belongs to the period if it was issued by period end, or — for the many
+        # rows whose issue date was never written down — if the bank cleared it by then.
+        # Clearing is itself proof it existed; requiring an issue date dropped 34 July
+        # checks worth 75,497.52 out of the period entirely.
+        in_period = (i is not None and i <= eom) or (c is not None and c <= eom)
+        if not in_period: continue
+        inp.append(r)
         if c is None or c > eom: (OS if s else DIT).append(r)
     os_amt  = round(sum(num(ws.cell(r, 7).value) for r in OS), 2)
     dit_amt = round(sum(num(ws.cell(r, 6).value) for r in DIT), 2)
@@ -274,7 +296,7 @@ def main():
             items.append((datetime.date(2026,5,4), "Bank of America — FDES Transfer", "Funds Transfer Credit",
                           "", "Carryover from closed IOLTA #4854", v if v > 0 else 0.0, -v if v < 0 else 0.0))
         for jr in rows_by.get(c, []):
-            items.append((issued(ws, jr) or eom, f(ws.cell(jr,2).value), f(ws.cell(jr,3).value),
+            items.append((issued(ws, jr, y) or eom, f(ws.cell(jr,2).value), f(ws.cell(jr,3).value),
                           f(ws.cell(jr,4).value), f(ws.cell(jr,5).value),
                           num(ws.cell(jr,6).value), num(ws.cell(jr,7).value)))
         for dt, conf, lbl, amt in sweeps.get(c, []):
@@ -362,7 +384,7 @@ def main():
     today = datetime.date.today()
     for jr in sorted(OS, key=lambda r: -num(ws.cell(r,7).value)):
         cl = f(ws.cell(jr,13).value); amt = num(ws.cell(jr,7).value)
-        iss = issued(ws, jr)
+        iss = issued(ws, jr, y)
         w.cell(rr,1).value = f(ws.cell(jr,4).value); w.cell(rr,2).value = iss.strftime("%m/%d/%Y") if iss else ""
         w.cell(rr,3).value = f(ws.cell(jr,2).value); w.cell(rr,4).value = f(ws.cell(jr,9).value)
         w.cell(rr,5).value = amt; w.cell(rr,5).number_format = MONEY

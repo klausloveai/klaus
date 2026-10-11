@@ -177,11 +177,43 @@ def match(rows, txns, month):
     # deposits: group journal rows on their own date, compare each day's totals
     bank = defaultdict(float); cnt = defaultdict(int)
     for t in credits: bank[t["date"]] += t["amt"]; cnt[t["date"]] += 1
+    bank = defaultdict(float); cnt = defaultdict(int)
+    for t in credits: bank[t["date"]] += t["amt"]; cnt[t["date"]] += 1
+
+    def dep_date(x):
+        """Deposit date: column A if present, else a 'deposited M/D' note."""
+        if isinstance(x["date"], datetime.datetime): return fmt(x["date"])
+        blob = f"{fmt(x['purpose'])} {fmt(x['notes'])}"
+        m = re.search(r"deposit(?:ed)?(?: at counter)?(?: wk of)? (\d{1,2})/(\d{1,2})", blob)
+        if not m: return None
+        mm, dd = int(m.group(1)), int(m.group(2))
+        if f"{mm:02d}" != month[5:7]: return None      # only this statement's month
+        exact = f"{mm:02d}/{dd:02d}/{month[:4]}"
+        if exact in bank: return exact
+        # "wk of 7/21" names the week, not the day — snap to the statement's deposit
+        # date within the following few days.
+        if re.search(r"wk of", blob, re.I):
+            for off in range(0, 7):
+                try: cand = (datetime.date(int(month[:4]), mm, dd) + datetime.timedelta(days=off)).strftime("%m/%d/%Y")
+                except ValueError: break
+                if cand in bank: return cand
+        return exact
     jg = defaultdict(list)
     for x in rows:
-        if x["dep"] and isinstance(x["date"], datetime.datetime) and (
-                x["row"] not in claimed or x["row"] in prior):
-            jg[fmt(x["date"])].append(x)
+        if x["dep"] and (x["row"] not in claimed or x["row"] in prior):
+            d = dep_date(x)
+            if d: jg[d].append(x)
+    # A "RETURNED CHECK" credit reverses a check that cleared days earlier; it has no
+    # deposit row of its own. Pair it with the matching cleared check and report it so the
+    # pair can be booked, rather than leaving the day's deposits looking short.
+    res["returned"] = []
+    for t in list(credits):
+        if not re.search(r"RETURNED CHECK", t["desc"], re.I): continue
+        src = [x for x in rows if x["dis"] and abs(x["dis"] - t["amt"]) < 0.005]
+        res["returned"].append((t, src))
+        bank[t["date"]] -= t["amt"]; cnt[t["date"]] -= 1
+        if abs(bank[t["date"]]) < 0.005: del bank[t["date"]]; del cnt[t["date"]]
+
     for d in sorted(bank, key=lambda s: (s[6:], s[:2], s[3:5])):
         js, bs = c2(sum(x["dep"] for x in jg.get(d, []))), c2(bank[d])
         if abs(js - bs) < 0.005 and jg.get(d):
@@ -250,6 +282,10 @@ def report(res, rows, bank_end=None):
         P(f"  *** NON-CHECK DEBIT with NO journal row: {o['date']} {o['desc']} {o['amt']:,.2f}"
           + (f"  [{len(cands)} same-amount candidates: {[c['row'] for c in cands]}]" if cands else ""))
     P("")
+    for t, src in res.get("returned", []):
+        P(f"  *** RETURNED CHECK credit {t['date']} {t['amt']:,.2f} — reverses a cleared check; "
+          f"needs its own journal row. candidates: "
+          f"{[(x['row'], x['ck'], fmt(x['payee'])) for x in src] if src else 'none found'}")
     P("## Deposits")
     for d, bs, n, jr in res["dep_tie"]:
         P(f"  {d} {bs:>13,.2f} ({n} credits) = {len(jr)} journal rows  TIE")

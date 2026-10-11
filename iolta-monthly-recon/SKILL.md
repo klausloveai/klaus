@@ -255,3 +255,42 @@ python3 scripts/ocr_check.py <影像目录>                    # OCR 图上号�
   （注意：全唯一**不能**排除「整体偏移一位」，要靠 OCR 的匹配数来排除。）
 
 6 月结果：57 张全抓到，正反面齐、金额零差异、号码逐张核对无误、114 张内容唯一。
+
+## 三方一致不等于账对 —— 必做逐案复核（2026-10-11）
+
+三方对账只证明**三份记录彼此自洽**，证明不了每笔分配正确。Haoze He 那 4 分就不是对账查出来的，
+是比对 disbursement letter 和实际支票才发现的。所以每月在三方之外必跑：
+
+```bash
+python3 scripts/audit_cases.py --month 2026-07     # 逐案
+python3 scripts/audit_month.py --month 2026-07 --bank-end <期末>   # 从原始凭证重推并核 package
+```
+
+`audit_cases.py` 两层：
+1. **Disbursement Sheet 自身自洽**：结算 I = 客户 J + 费 K + cost L + liens M
+2. **实开支票 vs Sheet**：journal 里该客户的支票按类加总，和 J / M 比
+
+### 支票分类口径（错了会制造假警报，也会掩盖真问题）
+| 类 | 判据 | 归到 |
+|---|---|---|
+| 客户款 | purpose 含 Client Recovery / Case Settlement / Client Compensation | J 列 |
+| provider lien | 其余付诊所的 | M 列 |
+| **健保 / Medi-Cal 代位** | Katch(L.A. Care)、Machinify(Health Net/Kaiser)、DHCS、Carelon、Rawlings | **M 列（算 lien）** |
+| **1P MedPay 退还** | 退还给保险公司的 MedPay | **U–Z 保险公司列，不是 M** |
+| **case cost** | Sheet 的 L 列 | **不开支票**，随律师费 sweep 走 |
+
+踩过：Alvin Xu ck 80164 MedPay 退还被当 lien（虚增 2,000）；Jiehui Xie 的 70 元 case cost 被
+当成该开票的 lien（虚减 70）；Jing Guo ck 80270 付 Katch 的健保代位被 "subrogation" 关键字
+误归到 MedPay。三个都不是账错。
+
+## sweep 分摊的零头归律所，不归客户
+
+1/3 律师费除不尽时，各客户按分四舍五入后的合计未必等于 sweep 总额。**差额是律所自己的零头，
+绝不能摊到某个客户头上** —— 早期版本把它加给「最大的那一笔」，直接让 Zeming Chen 的分户账
+变成 −0.01（8 月）。**客户分户账为负正是 Rule 1.15 禁止的。**
+现在记进 `(firm rounding)` 这个伪客户；若差额 > $0.50 则判定不是舍入、直接报错退出。
+
+## 结论别用过期的
+
+给 6 月写 note 时直接搬了 9/30 的「11 张逾期 $79,550.34」，没按当天的账本重查 —— 实际 20 张
+已在 7–8 月兑现，只剩 1 张。**每次要写进文档的数字都当场重算**，账本天天在变。
