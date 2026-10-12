@@ -70,8 +70,19 @@ Amos 出现在 557 个空间里的 507 个、May 359 个 —— 按人筛会全�
 |---|---|---|
 | `(A)` | Claims@ | Amos |
 | `(J)` | Piteam@ | Jerry |
-| `(R)` | Picase@ | Ryan |
-| `(K)` | Picase@ | Klaus |
+| **`(Z)`** | **Picase@** | **Jenkins**（2026-10 起） |
+| ~~`(R)`~~ | ~~Picase@~~ | ~~Ryan~~ —— **已全部改名为 `(Z)`，不要再按 (R) 找** |
+| `(K)` | Picase@ | Klaus（他自有的老案子） |
+
+> ⚠️ **换 CM 会把整组房间批量改后缀**。2026-10 Jenkins 接手后，87 个 `(R)` 房全改成了 `(Z)`，
+> 按 `(R)` 筛会得到 **0 个**而且**不报错** —— 新人只会拿到 3 个共享群，看起来"成功"了。
+> **每次跑之前先打一遍后缀分布**，别信这张表：
+> ```python
+> collections.Counter(re.search(r'\(([A-Za-z ]{1,3})\)\s*$', dn.strip()).group(1).upper()
+>                     if re.search(r'\(([A-Za-z ]{1,3})\)\s*$', dn.strip()) else '无后缀'
+>                     for n,dn,ms,e in members)
+> ```
+> 对不上就停下来问 Klaus 哪个字母是哪个组。
 
 1. 全量拉空间（**必须 page-all 或 pageSize 1000**，单页静默截断在 ~100）：
    ```bash
