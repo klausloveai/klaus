@@ -802,9 +802,9 @@ added automatically as owner — he is in every space.**
 
 | Mailbox | Team roster to add | CM |
 |---|---|---|
-| **Claims@** | `taki.x@lingtulaw.com` + `eeve.l@lingtulaw.com` *(Amos already in BASE)* | Amos |
+| **Claims@** | `taki.x@lingtulaw.com` *(Amos already in BASE)* | Amos |
 | **Piteam@** | `jerry.p@lingtulaw.com` + `angelina.m@lingtulaw.com` + `kiko.w@lingtulaw.com` | Jerry |
-| **Picase@** | `jenkins.l@lingtulaw.com` + `tiana.d@lingtulaw.com` | Jenkins |
+| **Picase@** | `jenkins.l@lingtulaw.com` + `eeve.l@lingtulaw.com` + `tiana.d@lingtulaw.com` | Jenkins |
 
 > ⚠️ **Rewritten 2026-10-08 (Klaus) — this REPLACES the 9/18 roster.** Klaus's words:
 > `claims@ = amos + taki + eeve` · `piteam@ = amos + jerry + angelina + kiko` ·
@@ -813,7 +813,8 @@ added automatically as owner — he is in every space.**
 > Changes from 9/18:
 > 1. **`may.z@`, `ryan.w@` and `lyne@` are GONE — all three have left the firm. Never add any of them to any space.**
 > 2. **`amos.f@` is now in every team** (he was already BASE; Klaus now names him in all three).
-> 3. **`taki.x@` moved Picase@ → Claims@**; **`eeve.l@` (Yulu) joined Claims@**.
+> 3. **`taki.x@` moved Picase@ → Claims@**; **`eeve.l@` (Yulu) joined Claims@** —
+>    ⚠️ **superseded 2026-10-12: `eeve.l@` moved Claims@ → Picase@**, learning CM alongside Jenkins.
 > 4. **`jenkins.l@` replaced Ryan as the Picase@ CM.**
 > 5. **The `Klaus@` row is deleted** — cases go to the three mailboxes only.
 >
@@ -821,7 +822,11 @@ added automatically as owner — he is in every space.**
 > `jessie.l@lingtulaw.com` — left the firm 8/18/2026, **never add her to any space.**
 > `lyne@lingtulaw.com` — left the firm (confirmed 2026-10-08), **never add her to any space.**
 
-**Suffix in space name:** Claims@ → `(A)`, Piteam@ → `(J)`, Picase@ → `(R)`.
+**Suffix in space name:** Claims@ → `(A)`, Piteam@ → `(J)`, Picase@ → **`(Z)`**.
+
+> ⚠️ **Corrected 2026-10-12.** The skill said Picase@ → `(R)`. It is **`(Z)`** — a live scan of all
+> 618 Chat spaces found **87 `(Z)` spaces and ZERO `(R)` spaces**; every Picase@ case on the board
+> (e.g. `Amanda Luo-Lucas Yu-8-28-2026(Z)`) carries `(Z)`. `(K)` is the retired Klaus@ line.
 
 ### Workflow
 
@@ -880,9 +885,9 @@ added automatically as owner — he is in every space.**
 
    | Mailbox | Members in the space | Total |
    |---|---|---|
-   | **Claims@** | Cassie · Claire · Amos · Taki · Eeve · Klaus | **6** |
+   | **Claims@** | Cassie · Claire · Amos · Taki · Klaus | **5** |
    | **Piteam@** | Cassie · Claire · Amos · Jerry · Angelina · Kiko · Klaus | **7** |
-   | **Picase@** | Cassie · Claire · Amos · Jenkins · Tiana · Klaus | **6** |
+   | **Picase@** | Cassie · Claire · Amos · Jenkins · Eeve · Tiana · Klaus | **7** |
 
    If the count is short, add the missing members with another `members create` call.
 
@@ -929,15 +934,15 @@ added automatically as owner — he is in every space.**
 
    | Mailbox | @mention, in this order |
    |---|---|
-   | **Claims@** | `amos.f@` + `taki.x@` + `eeve.l@` |
+   | **Claims@** | `amos.f@` + `taki.x@` |
    | **Piteam@** | `jerry.p@` + `angelina.m@` + `kiko.w@` + `amos.f@` |
-   | **Picase@** | `jenkins.l@` + `tiana.d@` + `amos.f@` |
+   | **Picase@** | `jenkins.l@` + `eeve.l@` + `tiana.d@` + `amos.f@` |
 
    > ⚠️ **Changed 2026-10-08.** Two changes from the 9/17 rule:
    > 1. **The whole group gets @'d, not one support person.** The old list named only one CA per
    >    team (May / Angelina / Tiana) and left Kiko / Taki out — that open item is now closed:
    >    **everyone in the mailbox's roster is mentioned.**
-   > 2. `may.z@`, `ryan.w@` and `lyne@` are gone (left the firm); `taki.x@` + `eeve.l@` are Claims@;
+   > 2. `may.z@`, `ryan.w@` and `lyne@` are gone (left the firm); `taki.x@` is Claims@;
    >    `jenkins.l@` is the Picase@ CM.
    >
    > **Order:** the CM first, then that team's support people, and **`amos.f@` LAST on Piteam@ /

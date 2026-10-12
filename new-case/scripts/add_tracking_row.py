@@ -68,6 +68,11 @@ def main():
               params={"spreadsheetId": SPREADSHEET, "range": f"{a.tab}!1:1"}).get("values", [[]])[0]
     col = {h.strip(): i for i, h in enumerate(hdr) if h and h.strip()}
 
+    # Some tabs spell the DOL header "Date of Loss" (Picase@) instead of "DOL".
+    if "DOL" not in col and "Date of Loss" in col:
+        col["DOL"] = col["Date of Loss"]
+        print(f"note: {a.tab} spells the DOL header 'Date of Loss' -> using that column")
+
     # Claims@ leaves column A's header blank even though A holds the DOL.
     # Only accept that specific shape, and say so out loud — never guess any other column.
     if "DOL" not in col and hdr and not str(hdr[0]).strip():
