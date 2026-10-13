@@ -17,6 +17,12 @@ BAD_CITES = {
     "not waived by": "Webb/Schnabel do not say the taxpayer privilege is unwaivable",
 }
 WITHHOLD = "No responsive document is being withheld"
+# Two legitimate classes of yellow highlight (Klaus, house rule):
+#   1. an attorney decision  -> "[FOR <ATTORNEY> - REMOVE BEFORE SERVICE] ..."
+#   2. a field we cannot fill -> "[... TO BE INSERTED]" / "[... TO BE CONFIRMED]"
+# Anything else highlighted is an unexplained highlight and fails.
+DECISION_TAG = "REMOVE BEFORE SERVICE"
+MISSING_TAG  = re.compile(r'\[[^\]]*TO BE (INSERTED|CONFIRMED|SUPPLIED)[^\]]*\]')
 
 def paras(path):
     from docx import Document
@@ -38,19 +44,28 @@ def check(path):
         if CJK.search(t):
             fails.append(f"Chinese characters in a served document: {t.strip()[:70]}")
         if hl:
-            tag = "REMOVE BEFORE SERVICE" in t
-            (warns if tag else fails).append(
-                ("attorney-decision flag still present (clear before service): "
-                 if tag else "unexplained highlight: ") + t.strip()[:70])
+            if DECISION_TAG in t:
+                warns.append("attorney-decision flag still present (clear before "
+                             "service): " + t.strip()[:70])
+            elif MISSING_TAG.search(t):
+                warns.append("unfilled field (find it or ask before service): "
+                             + MISSING_TAG.search(t).group(0))
+            else:
+                fails.append("unexplained highlight: " + t.strip()[:70])
 
     for m in NUMDATE.finditer(text):
         warns.append(f"numeric date {m.group(0)} — house style writes dates out")
-    for m in ABBREV.finditer(text):
+    body = text
+    for anchor in ("SUPERIOR COURT OF THE STATE OF CALIFORNIA", "SUPERIOR COURT OF CALIFORNIA"):
+        if anchor in body:
+            body = body.split(anchor, 1)[1]
+            break
+    for m in ABBREV.finditer(body):
         warns.append(f"abbreviated address {m.group(0)!r} — spell it out")
     for frag, why in BAD_CITES.items():
         if frag in text:
             fails.append(f"suspect authority {frag!r}: {why}")
-    if ", Esq." in text.split("VERIFICATION")[0][-600:]:
+    if "VERIFICATION" in text and ", Esq." in text.split("VERIFICATION")[0][-600:]:
         warns.append("signature block carries ', Esq.' — house style omits it")
 
     # objection + full production must carry the withholding sentence

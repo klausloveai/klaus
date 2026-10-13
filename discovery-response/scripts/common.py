@@ -213,8 +213,16 @@ def truncate_body(doc, keep_upto=18):
 
 
 def emit(doc, protos, kind, text, bold=None):
-    """Append a clone of prototype `kind` carrying `text`, before the sectPr."""
+    """Append a clone of prototype `kind` carrying `text`, before the sectPr.
+
+    The "body" prototype's defining feature is a tab-indented first line, and
+    every answer paragraph in Hernan's signed work carries it. retext() clears
+    the prototype's <w:tab/> along with its text, so restore it here unless the
+    caller is laying out its own tab stops (signature and date lines).
+    """
     from docx.text.paragraph import Paragraph
+    if kind == "body" and text and "\t" not in text:
+        text = "\t" + text
     new = copy.deepcopy(protos[kind])
     body = doc.element.body
     sect = body.find(W + "sectPr")
@@ -234,3 +242,30 @@ def page_break(doc, protos):
 def set_footer(doc, text):
     """Footer paragraph 1 carries the title; paragraph 0 is the PAGE field."""
     retext(doc.sections[0].footer.paragraphs[1], text)
+
+
+def signature_block(doc, protos, lines):
+    """Dated-line + signature-rule + name, with the name aligned to the LEFT EDGE
+    of the signature rule.
+
+    Klaus, 2026-10-12: the name was sitting left of the rule. Chaining \t\t\t\t\t
+    does not work -- the Dated line's visible text eats width before its own tabs,
+    so the two lines land on different stops. Both lines get ONE explicit tab stop
+    at the same position instead.
+
+    `lines` is a list of names, one signature block each.
+    """
+    from docx.shared import Inches
+    STOP = Inches(3.5)
+
+    def stopped(p):
+        pf = p.paragraph_format
+        pf.tab_stops.clear_all()
+        pf.tab_stops.add_tab_stop(STOP)
+        return p
+
+    for name in lines:
+        stopped(emit(doc, protos, "body",
+                     "Dated: ______________________\t______________________________"))
+        stopped(emit(doc, protos, "body", "\t" + name))
+        emit(doc, protos, "body", "")
