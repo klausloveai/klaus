@@ -8,19 +8,32 @@ TPL_DIR=os.environ.get('POS_TPL_DIR','/tmp/postpl_clean')
 POS_TEMPLATE_DRIVE_ID='1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok'  # "Proof of Service - TEMPLATE (fillable, highlighted).docx"
 SERVE_DATE=os.environ.get('SERVE_DATE','')  # e.g. 'August 5, 2026' — REQUIRED, set before use
 
+# Markers of the current template (reformatted 2026-10-12): 0.15" gutters inside the
+# pleading rules, and the body on the 503-twip line grid so every text line sits on its
+# line number. A cache that predates that is re-downloaded, never reused.
+TPL_MARKERS = ('w:left="1584"', 'w:right="1656"', 'w:line="503"')
+
+
 def ensure_template():
-    """Download + extract the firm POS template into TPL_DIR if missing."""
-    if os.path.exists(TPL_DIR+'/word/document.xml'): return
+    """Download + extract the firm POS template into TPL_DIR if missing or stale."""
+    xp0 = TPL_DIR+'/word/document.xml'
+    if os.path.exists(xp0):
+        cached = open(xp0, encoding='utf-8').read()
+        if all(m in cached for m in TPL_MARKERS): return
+        shutil.rmtree(TPL_DIR)   # stale cache of the pre-2026-10-12 template
     os.makedirs(TPL_DIR, exist_ok=True)
-    docx='/tmp/_pos_template.docx'
+    # gws refuses an -o path outside the cwd, so download from the target directory
+    # with a bare filename (this used to fail whenever the caller ran from elsewhere).
     subprocess.run(['gws','drive','files','get','--params',
         '{"fileId":"%s","alt":"media","supportsAllDrives":true}'%POS_TEMPLATE_DRIVE_ID,
-        '-o',docx], check=True, capture_output=True)
+        '-o','_pos_template.docx'], check=True, capture_output=True, cwd=TPL_DIR)
+    docx=os.path.join(TPL_DIR,'_pos_template.docx')
     with zipfile.ZipFile(docx) as z: z.extractall(TPL_DIR)
-    # shorten the 28-underscore signature line so it doesn't wrap in narrow pleading margins
-    xp=TPL_DIR+'/word/document.xml'; t=open(xp,encoding='utf-8').read()
-    t=t.replace('____________________________','________________________')
-    open(xp,'w',encoding='utf-8').write(t)
+    os.remove(docx)
+    xp0=TPL_DIR+'/word/document.xml'
+    got=open(xp0,encoding='utf-8').read()
+    missing=[m for m in TPL_MARKERS if m not in got]
+    assert not missing, 'Drive POS template is not the current format (missing %s)'%missing
 def esc(s): return s.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
 OUTSIDE={
  '{{DECLARANT NAME}}':'Klaus Liu',
@@ -28,13 +41,13 @@ OUTSIDE={
  '{{COURT &amp; CASE NO. (or: In the Matter of the Arbitration... Claim No. ___)}}':
    'In the Matter of the Arbitration Pursuant to California Insurance Code § 11580.2(f); Claim No. CL-70-93NTRL-1',
 }
-def _P(runs): return ('<w:p><w:pPr><w:pStyle w:val="Normal"/><w:spacing w:lineRule="auto" w:line="240"/><w:ind w:end="90"/><w:rPr><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr>'+runs+'</w:p>')
+def _P(runs): return ('<w:p><w:pPr><w:pStyle w:val="Normal"/><w:spacing w:lineRule="auto" w:line="240"/><w:rPr><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr>'+runs+'</w:p>')
 def _R(text,b=False,i=False):
     rpr='<w:rPr>'+('<w:b/>' if b else '')+('<w:i/>' if i else '')+'<w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>'
     return '<w:r>'+rpr+'<w:t xml:space="preserve">'+esc(text)+'</w:t></w:r>'
 _BRD='<w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:start w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:end w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders>'
-LB='<w:tcPr><w:tcW w:w="5504" w:type="dxa"/>'+_BRD+'</w:tcPr>'
-RB='<w:tcPr><w:tcW w:w="3972" w:type="dxa"/>'+_BRD+'</w:tcPr>'
+LB='<w:tcPr><w:tcW w:w="5228" w:type="dxa"/>'+_BRD+'</w:tcPr>'
+RB='<w:tcPr><w:tcW w:w="3772" w:type="dxa"/>'+_BRD+'</w:tcPr>'
 def _row(left,right): return '<w:tr><w:trPr><w:trHeight w:val="1000" w:hRule="atLeast"/></w:trPr><w:tc>'+LB+left+'</w:tc><w:tc>'+RB+right+'</w:tc></w:tr>'
 def service_rows(mode):
     cl=(_P(_R('Daniel A. Everakes, Esq.'))+_P(_R('Colman Perkins Law Group',b=True))
@@ -63,7 +76,14 @@ def transform(t,title,set_no,mode):
     t=re.sub(r',\s*<w:r>[^<]*<w:rPr>[^<]*<w:highlight w:val="yellow"/>[^<]*</w:rPr><w:t>\{\{SET NO\.\}\}</w:t></w:r>',(', '+esc(set_no)) if set_no else '',t)
     t=t.replace('{{SET NO.}}',esc(set_no)).replace('{{TITLE(S) OF DOCUMENT(S) SERVED}}',esc(title))
     for k,v in OUTSIDE.items(): t=t.replace(k,esc(v))
-    ti=t.find('<w:tbl>'); tr0=t.find('<w:tr>',ti); tre=t.find('</w:tr>',tr0)+len('</w:tr>')
+    # Replace the template's Service List row. Match <w:tr ...> as well as a bare <w:tr>:
+    # Word re-saves the template with rsid attributes on the row, and the old bare-tag
+    # find() silently returned -1 and appended the rows AFTER </w:document> (invalid docx).
+    ti=t.find('<w:tbl>')
+    assert ti>=0, 'no Service List table in the POS template'
+    m0=re.search(r'<w:tr\b', t[ti:])
+    assert m0, 'no <w:tr> inside the Service List table'
+    tr0=ti+m0.start(); tre=t.find('</w:tr>',tr0)+len('</w:tr>')
     t=t[:tr0]+service_rows(mode)+t[tre:]
     return t.replace('<w:highlight w:val="yellow"/>','')
 def transform_footer(f,title):
@@ -86,7 +106,13 @@ def _pdf(docx,outpdf):
 def build_standalone_pdf(outpdf,title,set_no,mode):
     d=_fresh()
     xp=d+'/word/document.xml'; _t=open(xp,encoding='utf-8').read(); open(xp,'w',encoding='utf-8').write(transform(_t,title,set_no,mode))
-    fp=d+'/word/footer1.xml'; _f=open(fp,encoding='utf-8').read(); open(fp,'w',encoding='utf-8').write(transform_footer(_f,title))
+    # Every footer part, not just footer1.xml: the template's default footer (the one that
+    # actually carries the PAGE field + document title) is footer2.xml, so the old
+    # footer1-only pass left {{TITLE(S) OF DOCUMENT(S) SERVED}} printed on the served PDF.
+    import glob as _glob
+    for fp in _glob.glob(d+'/word/footer*.xml'):
+        _f=open(fp,encoding='utf-8').read()
+        open(fp,'w',encoding='utf-8').write(transform_footer(_f,title))
     _zip(d,'/tmp/_sa.docx'); _pdf('/tmp/_sa.docx',outpdf); return outpdf
 def build_block(title,set_no,mode):
     d=_fresh(); t=transform(open(d+'/word/document.xml',encoding='utf-8').read(),title,set_no,mode)
