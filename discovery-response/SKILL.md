@@ -61,6 +61,14 @@ Match the attorney whose name goes on the document.
    visit with no records, and a wage timeline contradicted by our own intake sheet.
 
 5. **Draft.** `scripts/common.py` carries the objection library and the docx engine.
+   **The proof of service is not hand-written — call `scripts/pos.py`.** It reproduces the
+   firm template (Drive: *Proof of Service - TEMPLATE (fillable, highlighted).docx*, local
+   copy in `assets/`, re-cut by Klaus 2026-10-12): centred PROOF OF SERVICE / STATE OF
+   CALIFORNIA headings, the employment recital, the bolded documents-served line, **all
+   five service methods with only the one used marked `X`**, the `///` break, the signature
+   block at a 5760-twip indent, the centred `[Service List on following page.]` line, and a
+   SERVICE LIST page whose counsel block is a **bordered two-column table**. Never emit a
+   POS that lists only the method actually used — the template lists all five.
    Objections: one ground, one cite, no stacking. Where you object but still produce
    everything, add the withholding sentence (see the standard).
 

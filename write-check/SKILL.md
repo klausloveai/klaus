@@ -57,6 +57,20 @@ do NOT post; verify on the Ledger instead (see Step 5).**
 
 ## Steps
 
+0. **Funding check FIRST — was the settlement check deposited, and when?** (Klaus, 2026-10-13:
+   "在这个 skill 前多做一个就是查找是否 deposit 支票，什么时候存入".) Before drafting anything,
+   open `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`
+   and search for the client. On a **Deposit** row, **column A IS the deposit date** (check rows leave
+   A blank until the bank clears them), col D = the carrier's check #, col F = amount, col I = client.
+   Report "deposited <date>, <carrier> check <#>, $<amt>" in the final table's header line.
+   - **Dedup/match by CHECK NUMBER and amount, never by name alone** — the firm has repeat and
+     near-duplicate clients (the journal itself warns "Jing Wang … NOT the same client as Jingjing Wang";
+     Alejandra Rios and Angel Miner had two $7,594.62 checks on one claim).
+   - **Not found in #3618?** Look in #4854 (pre-5/2026 carryover) and Lashine IOLTA-5429. Money in 5429
+     is NOT in #3618. **Underfunded or not deposited → STOP and tell Klaus; never draft against
+     another client's funds.**
+   - Deposited but the month isn't reconciled yet is fine — say so rather than claiming it cleared.
+
 1. **Connect & open.** select_browser → tabs_context_mcp. Go to
    `expense.php?bank_id=111793` (Banking → IOLTA account → Post Expense). Confirm logged in
    as Klaus (one screenshot). If not logged in, STOP — never enter credentials.
@@ -80,6 +94,24 @@ do NOT post; verify on the Ledger instead (see Step 5).**
    - **Vendor Category gotcha:** do NOT `form_input` the vendor Category select — it
      concatenates/garbles the label. Always click the dropdown → type the code → click the
      result. Setting the right default category here makes the expense line auto-fill it.
+3b. **VERIFY EVERY LINE'S AMOUNT FROM THE SAVED DRAFT — never trust `form_input`'s return.**
+   `form_input` reports `Set number input to 450.00` and the form *looks* right, but the value can
+   fail to persist into the saved draft row and the line commits as **0.00**. This has now bitten
+   twice: Jingxiang Lin's SimonMed $1,200 (found a session later, repaired via the row's edit pencil)
+   and Jing Wang's **Sun Imaging $450 + Vanguard IPS $450**, which Klaus had to fill in himself
+   ("sun imaging和vanguard没有加金额进去下次注意", 2026-10-13).
+   After clicking **+ New Transaction** on each line, re-read the *Draft Expense Ledger* (not the form)
+   and confirm that line's amount and running balance moved:
+   ```
+   javascript_tool: (()=>{const el=[...document.querySelectorAll('*')].find(e=>e.innerText&&e.innerText.includes('Balance Forward')&&e.children.length<40);
+   const t=el.innerText.replace(/\n(Date|Check #|Description|Actions|Assignee:|Category:|Memo:|Amount|Balance)\n/g,' | ');return t.slice(t.indexOf('Balance Forward'))})()
+   ```
+   A line showing **0.00**, or a balance that did not move by that amount, means the write was lost —
+   fix it with the row's edit pencil before moving on. **Do the same sweep one last time before
+   reporting**, and only report the table once `last balance − Balance Forward` equals the
+   reconciliation total to the cent. The late lines are the ones that get missed, because the
+   per-line screenshots stop once the routine feels established.
+
 4. **Review & STOP.** Show Klaus a table (payee, category, memo, amount, running balance,
    total) cross-checked against the signed letters + the reconciliation identity. Do NOT
    click Post Expenses.
