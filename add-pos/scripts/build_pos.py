@@ -8,7 +8,7 @@ Usage:
     python3 build_pos.py config.json
 
 The firm POS template ("Proof of Service - TEMPLATE (fillable, highlighted).docx",
-Drive id 1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok, in "2. Template / Legal Form")
+Drive id 1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok, in "2. Template / 2. Service & Proofs")
 is a pleading-format Proof of Service with double side-rules, line numbers, a Word DATE
 auto-field (fills the serve day), a footer PAGE field + title, and {{tokens}}. This script:
   1. loads the template,

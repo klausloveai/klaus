@@ -48,7 +48,7 @@ The Amendment form is **county-specific**; pick by the case-number prefix:
 ### San Bernardino SB-16778 (`make_sb_amendment.py`)
 - **Template source (Klaus's standing rule, 2026-08-20):** the SB-16778 blank is pulled
   **fresh at run time from Klaus's Drive file** so template edits flow through automatically —
-  `Amendent to Complaint.pdf`, id **`184p3wdnweubmMwkuU4sB8EJQ5cUgMDgj`**. Falls back to the
+  `Amendment to Complaint (SB, blank).pdf` (renamed 2026-10-12; was `Amendent to Complaint（SB).pdf`), id **`184p3wdnweubmMwkuU4sB8EJQ5cUgMDgj`**. Falls back to the
   bundled cache `assets/SB-16778_blank.pdf` if Drive is unreachable. (gws forbids `--output`
   outside cwd → the script fetches with a relative name inside a tempdir.)
 - **One run can add several Does** — config takes a `defendants` LIST; each yields its own
@@ -354,7 +354,8 @@ Optional: `summons_attorney_line` to override the auto-built attorney line on th
 
 ## Assets & implementation notes
 - `assets/FA-Summons-template.pdf` — Hernán's First Amended Summons template (Drive
-  shared drive "Legal Form": file id `1mpnI1wWxt_NGfDnBFCBoe_wikMas7reA`). It already
+  shared drive `2. Template / 1. Pleadings & Court Forms / Judicial Council forms (Hernán pre-filled)`,
+  now named `SUM-100 First Amended Summons (Hernán pre-filled).pdf`, file id `1mpnI1wWxt_NGfDnBFCBoe_wikMas7reA`). It already
   carries the centered **"FIRST AMENDED SUMMONS"** heading. The script strips its widget
   fields (dropping the prior case's pre-filled Pasadena court + attorney), flattens, then
   overlays this case's values. To refresh the template, re-download that Drive file over

@@ -12,7 +12,7 @@ this script for San Bernardino cases (case no. prefix CIVSB...).
 TEMPLATE SOURCE (Klaus's standing instruction, 2026-08-20): the SB-16778 blank is
 pulled fresh at run time from Klaus's Drive file so that if he revises the firm's
 template, the change flows through automatically:
-    Drive file "Amendent to Complaint.pdf"  id = 184p3wdnweubmMwkuU4sB8EJQ5cUgMDgj
+    Drive file "Amendment to Complaint (SB, blank).pdf"  id = 184p3wdnweubmMwkuU4sB8EJQ5cUgMDgj
 If the Drive pull fails (offline / gws down), it falls back to the bundled cache
 assets/SB-16778_blank.pdf (byte-identical to the official court blank as of 8/20/26).
 

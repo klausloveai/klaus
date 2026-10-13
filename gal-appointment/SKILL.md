@@ -121,10 +121,12 @@ file the proposed Order together with the Application.
 ## Reusable firm template (fixed attorney block)
 `scripts/make_hernan_template.py <out_dir>` builds editable blanks with ONLY Hernán's
 attorney block pre-filled (name/SBN/firm/address/phone/fax/email), everything
-case-specific left blank. Canonical home = Hernán's Drive **"Legal Form"** folder
-(`1ytvCvg9Bx_OxDdN9fEDgnnhzSHHtTWUZ`), alongside `1.Summons(Hernan).pdf` /
-`1.Civil Cover Sheet(Hernan).pdf`, stored as **"CIV-010 Application for Guardian ad Litem
-(Hernan).pdf"** and **"CIV-011 Order Appointing Guardian ad Litem (Hernan).pdf"**; local
+case-specific left blank. Canonical home = `2. Template / 1. Pleadings & Court Forms`
+(`1ytvCvg9Bx_OxDdN9fEDgnnhzSHHtTWUZ`) → **`Judicial Council forms (Hernán pre-filled)`**
+(`1sAntYNtyGJbjIbRwP5nNopwm2jtG58BM`), alongside `SUM-100 Summons (Hernán pre-filled).pdf` /
+`CM-010 Civil Case Cover Sheet (Hernán pre-filled).pdf`, stored as
+**"CIV-010 Application for Appointment of Guardian ad Litem (Hernán pre-filled).pdf"** and
+**"CIV-011 Order Appointing Guardian ad Litem (Hernán pre-filled).pdf"**; local
 backups in `assets/` (civ010(Hernan).pdf / civ011(Hernan).pdf). NOTE: gws `--upload` only
 accepts a file inside the shell's cwd — copy into cwd first, then upload.
 

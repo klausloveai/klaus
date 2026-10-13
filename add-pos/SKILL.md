@@ -25,7 +25,7 @@ description: |
 
 Attach a California electronic-service Proof of Service to a set of attorney-signed
 documents, then run them through the firm's e-serve workflow. The firm POS template lives
-in **Google Drive** at `2. Template / Legal Form / `**`Proof of Service - TEMPLATE (fillable,
+in **Google Drive** at `2. Template / 2. Service & Proofs / `**`Proof of Service - TEMPLATE (fillable,
 highlighted).docx`** (file id `1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok`) — a
 pleading-format POS with the firm's double side-rules, line numbers 1–28, a Word DATE
 auto-field, and `{{tokens}}`. **Always pull it from Drive; never hand-rebuild it**
@@ -279,8 +279,8 @@ signature from a cursive font or by cropping it out of another filed document.
    EOF
    ```
    (Local filename stays `POS Template.docx` — that is what `config.template` points at.
-   If the id ever fails, list the firm template folder `2. Template / Legal Form`
-   — Drive id `1ytvCvg9Bx_OxDdN9fEDgnnhzSHHtTWUZ` — and take the Proof of Service template
+   If the id ever fails, list `2. Template / 2. Service & Proofs`
+   — Drive id `1b47P9NpbSWqUq6oRZFK5e2inK4eDm8ir` — and take the Proof of Service template
    from there. **That folder is the source of truth**; never rebuild the POS locally.)
 
 2. **Confirm the designated service address** against opposing counsel's opening letter.
@@ -348,7 +348,7 @@ signature from a cursive font or by cropping it out of another filed document.
   builder strips the highlight after filling, so the served output is clean.
 - **2026-09-09:** the old id `19BhkRUm99mGnajKmAP-vaQCoFzfZnWCU` / `POS Template.docx` is dead
   (Drive returns "File not found"). Canonical template is now the one in `2. Template /
-  Legal Form` named above.
+  2. Service & Proofs` named above.
 - **2026-09-09:** Klaus's signature PNG was added to the Drive POS template
   (`word/media/image1.png`, 476×116 transparent). Both paths can now produce a fully
   executed POS — nothing has to be hand-signed afterwards.

@@ -377,7 +377,7 @@ animal-control agency plus activity number in I. There is no SOL column — carr
 
 Fill the Dog Owner POE from **this case's own collected info** — never copy another case.
 ```bash
-gws drive files get --params '{"fileId":"1Jrm0rA9khq4rKRFR-YKkZMm4w2ByaeEi","alt":"media","supportsAllDrives":true}' -o poe_template.docx   # 2. Template/POE/Dog Owner_Resident Template.docx
+gws drive files get --params '{"fileId":"1Jrm0rA9khq4rKRFR-YKkZMm4w2ByaeEi","alt":"media","supportsAllDrives":true}' -o poe_template.docx   # 2. Template/4. Letters & Requests/POE - Dog Owner or Resident - TEMPLATE.docx
 python3 ~/.claude/skills/new-dogbite-case/scripts/fill_poe.py poe_template.docx poe_fields.json poe_out.docx
 ```
 `poe_fields.json` keys: owner_name, address, city_zip, client_name, date_of_incident,
