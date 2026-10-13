@@ -14,7 +14,10 @@ auto-field (fills the serve day), a footer PAGE field + title, and {{tokens}}. T
   1. loads the template,
   2. fills every token with the case/serve info,
   3. strips any yellow highlight from the filled text (clean served output),
-  4. adds a ~0.13" right-margin gap so a long documents-served list never touches the rule,
+  4. leaves ALL geometry to the template — margins, the 503-twip line grid that puts every
+     text line on its line number, and the Service List table width are the template's and
+     must not be patched here (2026-10-12: the old 0.13" right-indent band-aid was removed
+     after the template itself was given proper 0.15" gutters inside the pleading rules),
   5. for EACH document: sets the footer title to that document's own caption title and
      sets the POS page-numbering to continue the host document (start = host pages + 1),
   6. converts the filled POS to PDF (LibreOffice) and appends it after the document's
@@ -65,12 +68,15 @@ config.json shape (see also references/):
 """
 import json, sys, os, re, subprocess
 from docx import Document
-from docx.shared import Inches
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 import pypdf
 
-RIGHT_GAP = Inches(0.13)
+# NO geometry patching here. The Drive template owns margins, line grid and table width.
+# (Until 2026-10-12 this was Inches(0.13), a right-indent applied to every paragraph to stop
+# a long documents-served list from hitting the right pleading rule. The template now has
+# 0.15" gutters on both sides, so re-applying it would push the text visibly off-centre and
+# re-introduce the w:ind w:right junk that was cleaned out.)
 
 
 def gmail_signature(sender="klaus@lingtulaw.com"):
@@ -192,8 +198,6 @@ def build_one(cfg, doc, served):
         for k, v in tokens.items():
             para_replace(p, k, v)
         strip_highlight(p)
-    for p in d.paragraphs:
-        p.paragraph_format.right_indent = RIGHT_GAP
     # Service-list cells: left-align so a wrapped counsel/e-service line is not
     # stretched by justification into ugly inter-word gaps.
     from docx.enum.text import WD_ALIGN_PARAGRAPH

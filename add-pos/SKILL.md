@@ -233,8 +233,13 @@ signature from a cursive font or by cropping it out of another filed document.
    day. Generate on the serve day. Never hardcode a date.
 5. **Clean text, no overlay patching.** Fill the docx tokens and regenerate; never paste
    white boxes over a baked PDF.
-6. **Right-margin gap** (~0.13") is applied so a long documents-served list never touches
-   the right pleading rule.
+6. **Geometry comes from the template, never from code.** The Drive template owns the
+   margins (0.15" gutters inside the pleading rules), the **503-twip line grid** that puts
+   every text line exactly on its line number, and the Service List table width.
+   `build_pos.py` must not patch any of it. (Until 2026-10-12 it applied a 0.13"
+   right-indent to every paragraph as a band-aid for a template whose text ran into the
+   right rule; the template was fixed properly, so that code was deleted. If a generated
+   POS ever looks off-centre, fix the **template**, not the script.)
 7. **Draft, then gate on "send".** The email is created as a Gmail DRAFT only. Do NOT send,
    serve, or create the calendar until the user explicitly says "send"/"发". After sending,
    set the calendar and invite Hernán + Cassie.
@@ -262,6 +267,16 @@ signature from a cursive font or by cropping it out of another filed document.
    gws drive files get \
      --params '{"fileId":"1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok","alt":"media","supportsAllDrives":true}' \
      -o "POS Template.docx"
+   ```
+   Sanity-check the download before building — it must be the current template:
+   ```bash
+   python3 - <<'EOF'
+   import zipfile,re
+   d=zipfile.ZipFile("POS Template.docx").read("word/document.xml").decode()
+   assert 'w:left="1584"' in d and 'w:right="1656"' in d, "OLD template — margins not fixed"
+   assert 'w:line="240"' not in d.split("<w:tbl>")[0], "OLD template — body not on the 503 line grid"
+   print("template ok: 0.15in gutters + 503 line grid")
+   EOF
    ```
    (Local filename stays `POS Template.docx` — that is what `config.template` points at.
    If the id ever fails, list the firm template folder `2. Template / Legal Form`
