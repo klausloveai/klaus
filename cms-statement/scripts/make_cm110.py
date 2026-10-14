@@ -119,6 +119,9 @@ def build_values(cfg):
         P+"Page1[0].P1Caption[0].AttyPartyInfo[0].AttyFor[0]": at.get("atty_for", "Plaintiff " + plaintiff),
         P+"Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]": ct["county"],
         P+"Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]": ct["street"],
+        # courts print the same line twice unless they really differ; mirror the
+        # street address by default so the block is never left half-blank.
+        P+"Page1[0].P1Caption[0].CourtInfo[0].CrtMailingAdd[0]": ct.get("mailing", ct["street"]),
         P+"Page1[0].P1Caption[0].CourtInfo[0].CrtCityZip[0]": ct["city_zip"],
         P+"Page1[0].P1Caption[0].CourtInfo[0].CrtBranch[0]": ct["branch"],
         P+"Page1[0].Note[0].Date1[0]": cmc["date"],
