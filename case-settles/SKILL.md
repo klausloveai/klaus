@@ -7,7 +7,10 @@ description: >
   settlement/checks packet — and on: "案子结了", "和解完了走一下流程", "这个案子入账", "跑完整流程",
   "settled case", "record this disbursement". **Explicit invocation is `/case-settles`** — that always
   fires this pipeline, no inference needed. A bare attachment with zero words also counts: when a
-  disbursement PDF arrives with no instruction, default to running this pipeline. It orchestrates end-to-end in one pass —
+  disbursement PDF arrives with no instruction, default to running this pipeline. **A multi-case batch scan
+  counts too** — a single file holding several clients' signed packets back to back; Phase 0a splits it per
+  client, prepends each client's incoming carrier check, and files `<Client>-Disbursements.pdf` before the
+  pipeline runs. It orchestrates end-to-end in one pass —
   verify math + funding → Disbursement Sheet → Account Journal → archive + move to "8. Settled" →
   Pending→Completed sheet → send the team "Case settled" email (default: send, no approval gate) →
   extract marketing material → file the case into its DOL-year folder → Activity Log + _STATE.md →
@@ -38,6 +41,31 @@ sitting in drafts waiting on Klaus.
 5. **Confidentiality** — a settlement agreement with a confidentiality clause: skip marketing, tell Klaus.
 
 ---
+
+## Phase 0a — Batch scan? Split it first  (only when the drop is a multi-case scan)
+Klaus often scans a whole run of signed disbursement packets in one pass — a file like
+`2026-10-14_124644.pdf` or `收据_…pdf` holding several clients back to back. His manual routine was:
+split it per client, pull that client's INCOMING carrier settlement check out of the case folder, put the
+check in FRONT, save as `<Client>-Disbursements.pdf`, then run this pipeline. Do that for him:
+0a-1. **Find the client boundaries.** Render every page and look for the DIS letters — each one starts a
+   client (`CLIENT NAME: …` / `FINAL SETTLEMENT DISBURSEMENT`). A client's block runs from its DIS page up
+   to the page before the next DIS. The pages in between are that client's checks and lien letters, in
+   whatever order the scanner fed them — **keep the scan order, do not re-sort.**
+0a-2. **Read every check face at ≥150 dpi before trusting an amount.** A 6-across thumbnail montage is for
+   finding boundaries only; it misreads digits. On 2026-10-14 the montage showed Jing Wang's provider checks
+   as 6,300 / 4,300 and they were really **6,500 / 4,500** — the error exactly cancelled to a phantom
+   "$400 case cost". Crop the top ~16% of each check page and read them stacked.
+0a-3. **Get the carrier check(s)** from that client's `Case Disbursements/<Client>/` folder — they are already
+   there from `check-intake`, named like `收据_<date>.pdf`, `MX-M476WH_<date>.pdf`, or
+   `<Client>-<carrier> <coverage> $<amt> (chk <no>) <date>.pdf`. Open each one and confirm the check number
+   and amount against the journal row before using it. A case with two coverages has two checks — prepend
+   both, in the order the money came in.
+0a-4. **Build `<Client>-Disbursements.pdf`** = carrier check page(s) first, then that client's block, and
+   upload it into `Case Disbursements/<Client>/`. Create with `uploadType=multipart`, then `files update` to
+   rename and reparent off the shared-drive root — the two-call dance, or it lands as "Untitled".
+0a-5. Render the first 3–4 pages of each finished packet and eyeball them before moving on.
+Then run Phase 0 below once per client. **Funded clients proceed; an unfunded one stops at gate 1 even if
+its sibling in the same scan is fine** — never run a batch as all-or-nothing.
 
 ## Phase 0 — Read and verify (before touching anything)
 1. From the PDF: client(s), DOL, total settlement, attorney fee, case cost, client recovery, each

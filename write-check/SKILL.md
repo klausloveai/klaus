@@ -107,10 +107,21 @@ do NOT post; verify on the Ledger instead (see Step 5).**
    const t=el.innerText.replace(/\n(Date|Check #|Description|Actions|Assignee:|Category:|Memo:|Amount|Balance)\n/g,' | ');return t.slice(t.indexOf('Balance Forward'))})()
    ```
    A line showing **0.00**, or a balance that did not move by that amount, means the write was lost —
-   fix it with the row's edit pencil before moving on. **Do the same sweep one last time before
-   reporting**, and only report the table once `last balance − Balance Forward` equals the
-   reconciliation total to the cent. The late lines are the ones that get missed, because the
-   per-line screenshots stop once the routine feels established.
+   fix it with the row's edit pencil before moving on.
+
+   ⚠️ **The in-page read is NOT proof. Only a RELOAD is.** On 2026-10-14 the Jun Hao client line read
+   `3,666.67` in the draft ledger with "All changes saved." showing — and came back **0.00 with the memo
+   gone** after the page was reloaded. The DOM can be ahead of what the server stored. So:
+   **before reporting, `navigate` to `expense.php?bank_id=111793` again and re-run the read above.**
+   Treat only that post-reload output as the truth, and only report once
+   `last balance − Balance Forward` equals the reconciliation total to the cent.
+   Re-check the same way at the start of any later turn that touches this batch — a line verified
+   earlier can still be empty now, and these drafts sit around for days before Klaus posts.
+
+   ⚠️ **Never type into the top form while an existing row is loaded in it.** Clicking a row's edit
+   pencil loads that row into the same form; typing a payee there overwrites that saved line instead of
+   starting a new one. After any edit-pencil repair, click **+ New Transaction** (or reload) before
+   touching the form again.
 
 4. **Review & STOP.** Show Klaus a table (payee, category, memo, amount, running balance,
    total) cross-checked against the signed letters + the reconciliation identity. Do NOT
