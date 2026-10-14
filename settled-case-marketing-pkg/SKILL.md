@@ -146,3 +146,15 @@ one Activity Log row (Category `起草`/`客户`, Source `Drive`, Ref = the 人�
 - Marketing reaches the folder by a Drive link pasted into 车祸部-Marketing on WeChat (manual, by
   Klaus). Access is by **named account** on the shared drive — a marketing teammate who is not a
   member will get a 403 on the link.
+
+## ⚠️ A `PD.pdf` / `PhotoPD.pdf` is NOT a clean photo set — page through it first
+The PD scans in folder 2 are whatever the client sent, bound into one PDF, and identity documents are
+routinely mixed in among the vehicle shots. Seen on 2026-10-14:
+- Jun Hao `PD.pdf`, 2 pages — p1 night scene, **p2 a Mercury insurance card**.
+- Jing Wang `PhotoPD.pdf`, 9 pages — **p1 a GEICO insurance card photographed on a phone (policy number and
+  VIN legible), p3 a Mercury insurance card, p8 and p9 California driver licenses**; only pp 2, 4, 5, 6, 7
+  are actual vehicle/scene photos.
+**Render every page and rebuild the PDF from the pages that are genuinely photos** before it goes to 人伤 —
+do not copy the file as-is just because its name says PD. Same rule for anything named `1P*.jpg` / `2P*.jpg`
+/ `3P*.jpg` / `WechatIMG*.jpg`: the name predicts nothing (those have turned out to be DMV registration
+cards, insurance cards, driver licenses and a skip-trace report on the at-fault driver).
