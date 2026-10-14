@@ -10,8 +10,9 @@ description: |
   records the deposit in the IOLTA Account Journal, splits the scan and renames one PDF per
   client, posts a one-line notice WITH THE CHECK ATTACHED to that case's Google Chat space,
   files the PDF into the right Drive folder (Case Disbursements if the case has finished
-  collecting money, otherwise the case folder's own settlement subfolder), and creates the
-  Pending Disbursed tab whenever it created a Case Disbursements folder. It NEVER deposits,
+  collecting money, otherwise the case folder's own settlement subfolder), creates the
+  Pending Disbursed tab whenever it created a Case Disbursements folder, and finally verifies
+  every page against its archived copy before moving the scan out of Downloads. It NEVER deposits,
   never writes a disbursement check, and never decides a coverage question it cannot prove
   from the PI Master Sheet — those stop and ask Klaus. The OUTGOING side (disbursement
   packets, provider/client checks, Pending→Completed) belongs to `accounting-agent` and
@@ -25,7 +26,13 @@ scanner to "ready to deposit", run once per check.
 
 ## Files & IDs
 
-- **Account Journal** — `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`, sheet `Account journal`. Back it up to `Backups/` before every write.
+- **IOLTA#3618 folder** — Drive id **`1Le1fdsT7d8rQDOVER1nLXw2kd4pQTWrf`**, today at
+  `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Documents/Lingtu Law-Disbursement/IOLTA#3618/`.
+  ⚠️ **The local path moves.** It was `My Drive/Lingtu Law-Disbursement/…` until 2026-10-13, when the whole tree
+  was dropped into a new `Documents` folder and the old path began throwing FileNotFoundError. The folder **id**
+  is stable — if the path fails, resolve it from the id rather than creating a file at the stale path.
+- **Account Journal** — `Account-Journal.xlsx` in that folder, sheet `Account journal`. Back it up to
+  `Backups/` before every write.
 - **`_STATE.md`** — same folder. The live state file; append a block after every batch.
 - **Pending Disbursed Sheet** — gsheet `1b_vPr9WD7P9arR6DTTJRxeWs0apk8DTiTgc2iAzIrR0`. Templates: `Template of 1/3` **sheetId 0**, `Template of 50/50` **sheetId 1179762877**. Index tab `🔍 Search` **sheetId 2016288373**.
 - **Case Disbursements** — Drive folder **`1wIM0orXM7t4ogE6RgQIUAEYYU6pSRj2v`** (one folder per client, multi-client joined with `:`).
@@ -57,10 +64,35 @@ deposits (Stephen Li: a Tesla $1k MedPay and a Kemper $30k BI — a name match n
 the new one). Search the journal for the check number *and* for the claim number, which
 surfaces co-claimants on the same claim.
 
+### A new check number is not proof of new money — test for a REISSUE
+
+**Same claim # + same amount + same payee + a later check date** than a check already in the
+journal means the carrier reissued, not that it paid twice. Dedup on the number alone would
+book the money a second time: Xiaohang Li's AFICS $6,000 would have read as $12,000 collected
+on a $6,000 claim. Then split on whether the earlier check was deposited:
+
+- **Earlier check still pending (no cleared date)** → one recovery. **Update the existing row in
+  place** — new check number, and a purpose line recording the supersession and that the old
+  check must not be deposited. Do not add a second row. Re-read the client's total afterwards to
+  confirm it did not double. Rename the filed PDF with `REISSUE` and the new number.
+  (Xiaohang Li, chk 0012858411 → 0012883228, 2026-10-12.)
+- **Earlier check already deposited** → ⛔ **STOP, record nothing, ask Klaus.** Three readings
+  lead to opposite entries: the deposit was returned and the carrier reissued (one recovery);
+  the carrier paid twice (overpayment — book both and arrange a refund, per the Danny Qin /
+  Wei Feng precedent); or the "deposited" note was wrong. Name the split PDF
+  `… - SECOND CHECK HOLD.pdf`. (Pu Tang, Wawanesa chk 0000188972 deposited 9/23 → chk
+  0000197141 arrived 10/8, 2026-10-13.)
+
 ### Is it trust money?
 
 Record it only if the **law firm is a payee** AND the coverage is bodily-injury-side
 (BI / UM / UIM / MedPay).
+
+**Read the whole payee line — it can name a lienholder.** GEICO chk 268503590 was payable to
+"Law Office Of Shenqi Cai Apc **and** Peile Zhao **and Medi-Cal**" (2026-10-13). Record the
+deposit as normal, but say so in the purpose and on the tab's C1: the check cannot be negotiated
+until the lienholder endorses or is paid at source, and nobody downstream should assume the full
+face amount is distributable.
 
 > ⛔ **Property Damage / Collision never enters the IOLTA — not even when the firm is the
 > payee "f/b/o" the client.** Klaus ruled this 2026-08-20 on Kemper check 6153439518 ($3,000,
@@ -89,7 +121,12 @@ the scan date, and `to deposit`.
 
 ## Step 3 — Split and rename
 
-One PDF per check into `~/Downloads/Checks <YYYY-MM-DD>/`:
+One PDF per check into the **session scratchpad**, not Downloads — Downloads gets cleaned out
+(the `~/Downloads/Checks <date>/` folders were gone within the hour on 2026-10-13) and Step 8
+deletes the source from there anyway. The scan itself can always be re-split; the Drive copy is
+the archive.
+
+Name each one:
 
 ```
 <Client> - <Carrier> <Coverage> $<amount> (chk <number>) <MM-DD-YYYY>.pdf
@@ -161,9 +198,27 @@ sitting there get **copied** into the new Case Disbursements folder, renamed to 
 convention, so the disbursement folder holds every check for the case. Leave the original in
 place. Releases and invoices stay where they are — checks only.
 
-Upload with the two-call pattern (`files create --upload`, then `files update` with
-`addParents` / `removeParents` + the real name) — a one-call create stringifies `parents` and
-drops the file in the shared-drive root as "Untitled".
+### Folder naming — ONE folder per CASE, every client's name on it
+
+Klaus, 2026-10-13: 一个案子一个 folder，加上所有客户的名字. Clients who share a claim share a
+folder, names joined with `:` — `Li Liu Sun:Yanjun Pan`, `Alejandra Rios:Angel Michelle Miner:
+Chantalle Verenice Miner`. Not one folder per client. The case folder's own name is the model
+(`Li Liu Sun:Yanjun Pan 11:10:2025`).
+
+**Add the DOL when the client has more than one live matter** — `Dacheng Xu 03/16/2026`, so his
+3/16/2026 checks cannot land among the 9/11/2025 ones. Every other folder is plain names.
+
+⚠️ Known violation to raise, not silently fix: claim 787612-GQ (DOL 10/19/2025) has one Pending
+tab and one Chat space for Hanwen Li / Yehao Li / Zihan Liu but **two** folders — `Hanwen Li`
+and `Yehao Li:Zihan Liu`. Merging moves files other people filed, so ask first.
+
+### Uploading
+
+Two calls, and **run them as two separate commands**, not chained: `gws drive files create
+--upload`, then `gws drive files update` with `addParents` / `removeParents` + the real name.
+A one-call create stringifies `parents` and drops the file in the shared-drive root as
+"Untitled"; and a chained command that times out mid-way (a 1.5 MB PDF exceeded 120s on
+2026-10-13) leaves exactly that orphan — recover it by running the `update` on its own.
 
 ## Step 6 — Pending Disbursed tab (default, whenever Step 5 created a folder)
 
@@ -196,6 +251,22 @@ and a sample row before writing.)*
 Append a block to `_STATE.md`: the batch total, a row-by-row table (journal row, payor, check #,
 amount, client, DOL), every folder and gid created, what was verified against what, and every
 open question with enough context to act on it cold.
+
+## Step 8 — Verify the archive, then clear Downloads
+
+Only after everything is filed. Klaus's rule: 先逐件比 MD5 再移废纸篓.
+
+**Do not compare the source file's MD5** — what is in Drive are single-page splits, so the bytes
+never match. Compare **the embedded scan image of each page**: hash every `page.images` payload
+in the source PDF page, download the corresponding Drive file, hash its page image the same way,
+and require an exact match per page.
+
+- **Every page must be accounted for, including any check you HELD.** On 2026-10-13 six of seven
+  pages were archived and the seventh — Pu Tang, held pending Klaus — had never been uploaded;
+  deleting the source then would have left no copy of that scan. Filing the scan is independent
+  of the hold: archive it with `HOLD` in the name and verify it too.
+- All pages matched → **move the source to `~/.Trash`**, never `rm`. Reversible by design.
+- Any page unmatched → file it, re-verify, and only then clear. Never delete on a partial match.
 
 ---
 
