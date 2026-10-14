@@ -103,6 +103,20 @@ its sibling in the same scan is fine** — never run a batch as all-or-nothing.
 16. Move the case folder → `8. Settled` (`1P35bCgC82Lh6Xftpbt03TX1Cs20G6BoB`). Use `8. Settled`,
     never the sibling `8. Completed`.
 
+## ⚠️ Two claimants on one Pending tab — close the tab only when BOTH halves are paid
+A shared tab (`Ya Meng/Ava Huang`, `Hanwen Li/Yehao Li/Zihan Liu`, `Li Liu Sun/Yanjun Pan`) is one unit in
+Phases 4 and 6 but **not** in Phases 1–2. When only one claimant is funded or signed:
+- Run the money steps for that claimant alone — their own `Internal ` row (the second claimant is usually
+  already sitting there as a **passenger row**: name + DOL filled, everything else blank — fill it, don't
+  append a new one) and their own journal check rows.
+- **Do not** `copyTo` the tab, do not delete it from Pending, and do not move the case folder out of its
+  stage folder. Moving either buries the open half.
+- Prefix `✅ ` and the disburse date per block (`A1`/`C1` for the first claimant, `A19`/`C19` for the
+  second), so a half-done tab reads correctly.
+- Hold the team email too, then send **one** email covering both claimants when the tab closes.
+A minor's half has its own gate on top of funding: the compromise route must be settled, and the carrier
+check is usually payable to **both parents as guardians** — both must endorse before it can be deposited.
+
 ## Phase 4 — Pending → Completed
 17. Pending tab: `✅` prefix on the client name, disburse date into C1, green every non-zero figure.
     No Pending tab yet → duplicate `Template` (sheetId 0) and fill it first.
@@ -151,7 +165,9 @@ its sibling in the same scan is fine** — never run a batch as all-or-nothing.
 36. **满意度回收建行** — for each adult client on this case, add a row to the 客户满意度回收系统
     ledger (`1-i0Dw-cccJOFIxNM-6tsBd2SefNCN5KezuoVCwLLguE` → `回收台账`, write **B:M only** —
     A/N/O/P/W are ARRAYFORMULA columns, and never append with `insertDataOption=INSERT_ROWS`).
-    One row per adult client (a minor's row goes to the parent, noted `代 <Minor> 领`). Fill
+    One row per adult client (a minor's row goes to the parent, noted `代 <Minor> 领`) — and if that
+    parent already has a row from their own half of the same accident, **add nothing**; the satisfaction
+    ask is per person, not per claimant line. Fill
     B disburse date (ISO) · C client · D DOL · E owning mailbox · F CM · G 好评负责人 ·
     H delivery (当面/邮寄) · J/K/L = `❓未问` (GR / 小红书 / 朋友圈). Then hand the Paralegal the
     matching 话术 line — 先请 GR(最容易),再讲 XHS/PYQ 各 $50 返现.
