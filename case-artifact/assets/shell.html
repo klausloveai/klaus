@@ -190,16 +190,21 @@ tfoot td { border-top: 1px solid var(--edge); font-weight: 600; color: var(--ink
 }
 
 /* ---------- blockers as rows（标准写法；上面的 .blockers/.bl 卡片为旧版，勿再新用） ---------- */
-.bls { margin-top: 22px; border-top: 1px solid var(--hairline); }
+.bls { margin-top: 22px; }
 .bls .grp {
   font-family: var(--f-han); font-size: 13px; font-weight: 500; letter-spacing: .1em;
-  color: var(--accent-text); padding: 20px 0 9px;
+  color: var(--accent-text); padding: 18px 0 10px;
 }
-.bls .grp:first-child { padding-top: 14px; }
+.bls .grp:first-child { padding-top: 0; }
+/* 每条一个纸面盒子 —— 行的节奏，但与羊皮纸底分开（Klaus 2026-10-14） */
 .bls .it {
   display: flex; gap: 12px; align-items: baseline;
-  padding: 13px 0; border-bottom: 1px solid var(--hairline);
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 15px 18px; margin-bottom: 8px; box-shadow: var(--shadow-1);
+  transition: box-shadow .3s cubic-bezier(.4,0,.2,1);
 }
+.bls .it:hover { box-shadow: var(--shadow-2); }
+.bls .it:last-child { margin-bottom: 0; }
 .bls .it .n {
   flex: 0 0 22px; font-family: var(--f-mono); font-size: 12px; font-weight: 500;
   color: var(--accent-text); text-align: right;
@@ -281,7 +286,7 @@ a:focus-visible { outline: none; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
-<div class="wrap" data-shell="6.0">
+<div class="wrap" data-shell="6.1">
   <header class="mast">
     <p class="eyebrow">{{EYEBROW}}</p>
     <h1>{{CAPTION}}</h1>
