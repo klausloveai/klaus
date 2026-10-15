@@ -87,6 +87,17 @@ Klaus 不手动翻 Drive，他看这一页，所以页面错了等于他的判�
 10. **记台账**：Activity Log 一行，`Category` = 起草，`Ref/ID` 里放 **artifact 的 url**，
    这样三个月后搜得到。
 
+## 收工增量同步（默认，不等 Klaus 开口）
+
+Klaus 2026-10-15 定：**每个 session 里做完的案件动作，凡记进 Activity Log 的，同一收尾里同步到该案 artifact。**
+（规则本体在 `~/.claude/CLAUDE.md`「收工同步 Case Artifact」。）
+
+1. `assets/applied.json` 查案名 → url；没有就 `Artifact list` 按标题找，找到补登记。该案没页面 → 跳过，不新建。
+2. `Artifact read` 带 `path:"index.html"` 存盘 —— **用线上最新版，不用本地旧稿**（别的 session 可能改过，例如加了折叠）。
+3. 只做定点替换（Python 每处 `assert count==1` 再替换），只碰受影响的节：期限、待办与阻塞、时间线、文件位置、风险点。不重排、不重写其他节。
+4. publish 回同一个 url（`label` 写一句改了什么），更新 `applied.json` 的 `updated`。
+5. 收尾一句话报告改了哪几节。未核实的金额/专科/结论不写。
+
 ## 版本与同步 —— 模板怎么迭代
 
 **shell 是唯一标准。** 在某个案子页面上试出来的改动，**回写进 `assets/shell.html`
