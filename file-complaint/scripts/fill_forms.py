@@ -187,6 +187,66 @@ def wrap_text(text, max_w, size, font='Helvetica'):
     return '\n'.join(lines)
 
 
+def caption_wrap(text, limit=330, size=9):
+    """Break a SUM-100 caption at PARTY boundaries (the semicolons), never mid-phrase.
+
+    The caption fields are declared ~395pt wide but the FOR COURT USE box crowds the
+    right side (usable width ~330pt), and a viewer that cannot resolve the /ArialMT in
+    the field's /DA re-flows the text a size larger — so a 395pt wrap lands under the
+    box. Wrap to 330pt measured at 9pt and the line still clears it at 10pt.
+    Breaking by width alone splits phrases ("JOSHUA OLVERA, an / individual"), which
+    reads as a typesetting accident; split on '; ' so each party stays whole.
+    See references/summons-caption.md.
+    """
+    parts = []
+    for chunk in text.split('; '):
+        parts.append(chunk if chunk.endswith(';') else chunk + ';')
+    parts[-1] = parts[-1].rstrip(';')
+    lines, cur = [], ''
+    for seg in parts:
+        trial = (cur + ' ' + seg).strip()
+        if cur and stringWidth(trial, 'Helvetica', size) > limit:
+            lines.append(cur); cur = seg
+        else:
+            cur = trial
+        # A single party longer than the limit (long entity names, minor-by-GAL blocks):
+        # break at commas first so a person's name is never split, then fall back to
+        # word wrap.
+        if stringWidth(cur, 'Helvetica', size) > limit and ' ' in cur:
+            sub, acc = [], ''
+            for piece in cur.split(', '):
+                cand = (acc + ', ' + piece) if acc else piece
+                if acc and stringWidth(cand + ',', 'Helvetica', size) > limit:
+                    sub.append(acc + ','); acc = piece
+                else:
+                    acc = cand
+            sub.append(acc)
+            if all(stringWidth(x, 'Helvetica', size) <= limit for x in sub):
+                lines.extend(sub[:-1]); cur = sub[-1]
+            else:
+                wrapped = wrap_text(cur, limit, size).split('\n')
+                lines.extend(wrapped[:-1]); cur = wrapped[-1]
+    if cur: lines.append(cur)
+    return '\n'.join(lines)
+
+
+def flatten(path):
+    """Burn field values into the page content with qpdf.
+
+    SUM-100 / CM-010 / CIV-050 / CIV 109 are XFA hybrids. Once XFA is stripped the
+    values live only in AcroForm fields and not every widget carries an appearance
+    stream, so Preview and Quick Look can show an EMPTY form while Ghostscript renders
+    it correctly. Flatten before delivering anything.
+    """
+    tmp = path + '.flat'
+    r = subprocess.run(['qpdf', '--flatten-annotations=all', path, tmp],
+                       capture_output=True, text=True)
+    if r.returncode in (0, 3) and os.path.exists(tmp):
+        os.replace(tmp, path); return True
+    print('  [warn] flatten failed for', os.path.basename(path), r.stderr[:160])
+    return False
+
+
 def overlay(writer, page_index, draw_fn):
     """Stamp reportlab drawing onto a page (letter, 612x792)."""
     buf = io.BytesIO(); c = canvas.Canvas(buf, pagesize=(612, 792))
@@ -201,10 +261,10 @@ def fill_sum100(cfg, tmpl, out):
     # NOTICE-TO-DEFENDANT / SUED-BY-PLAINTIFF boxes are multiline but don't auto-wrap;
     # wrap to the field width so long captions (multi-defendant, minor-by-GAL) don't
     # overflow into the FOR-COURT-USE box. Feed these the VERBATIM complaint caption.
-    dw, ds = field_geom(w, 'FillText25[0]')
-    pw, ps = field_geom(w, 'FillText180[0]')
-    defendant = wrap_text(cfg['defendant_block'], dw - 6, ds)
-    plaintiff = wrap_text(cfg['plaintiff'], pw - 6, ps)
+    # Wrap at party boundaries to a fixed 330pt — NOT to the field's declared width.
+    # See caption_wrap() and references/summons-caption.md.
+    defendant = caption_wrap(cfg['defendant_block'])
+    plaintiff = caption_wrap(cfg['plaintiff'])
     set_text(w, {
         (lambda nm, tu: nm.endswith('FillText25[0]')): defendant,
         (lambda nm, tu: nm.endswith('FillText180[0]')): plaintiff,
@@ -298,6 +358,9 @@ def main():
     fill_sum100(cfg, t['sum100'], os.path.join(outd, '1 - Summons.pdf'))
     fill_cm010(cfg, t['cm010'], os.path.join(outd, '3 - Civil Case Cover Sheet.pdf'))
     fill_civ109(cfg, t['civ109'], os.path.join(outd, '4 - Civil Case Cover Sheet Addendum and Statement of Location.pdf'))
+    for fn in ['1 - Summons.pdf', '3 - Civil Case Cover Sheet.pdf',
+               '4 - Civil Case Cover Sheet Addendum and Statement of Location.pdf']:
+        flatten(os.path.join(outd, fn))
     print('DONE ->', outd)
 
 

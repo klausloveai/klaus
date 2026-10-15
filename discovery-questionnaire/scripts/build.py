@@ -192,13 +192,19 @@ def build_case(c, out):
 
     srogs = getattr(c, "SROGS", [])
     if srogs:
-        A(para("PART 2  —  SPECIAL INTERROGATORIES, SET ONE", bold=True, center=True, brk=True, after=40))
-        A(para(f"特别质询问卷 —— 对方共 {len(srogs)} 条", center=True, after=120))
+        # Part 2 holds whatever second set the case carries — Special Interrogatories in
+        # most files, Requests for Admission where that is what was served. The headings
+        # and the per-item prefix are overridable so an RFA set reads as A/B/C, not No. 1.
+        A(para(getattr(c, "PART2_EN", "PART 2  —  SPECIAL INTERROGATORIES, SET ONE"),
+               bold=True, center=True, brk=True, after=40))
+        A(para(getattr(c, "PART2_ZH", "特别质询问卷") + f" —— 对方共 {len(srogs)} 条",
+               center=True, after=120))
         A(blank(sz=12))
         notes = getattr(c, "WHO_NOTES", {})
+        prefix = getattr(c, "PART2_PREFIX", "No.")
         for n, en, zh, who in srogs:
             A(tbl_open())
-            body = qline(f"No. {n}", en) + para(zh, hl="yellow")
+            body = qline(f"{prefix} {n}".strip(), en) + para(zh, hl="yellow")
             note = (getattr(c, "PRIVACY_NOTE", None) if n in getattr(c, "PRIVACY", set())
                     else notes.get(who))
             if note: body += para(note, bold=True, color=RED, before=60)
