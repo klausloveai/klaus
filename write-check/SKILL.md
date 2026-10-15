@@ -101,6 +101,8 @@ do NOT post; verify on the Ledger instead (see Step 5).**
      Payees) with the address + EIN off its W-9 and Category 7000, then fix the Mailing Address on
      the line itself — editing the vendor does NOT retro-fill a line (or an already-posted
      transaction) whose address was snapshotted at payee-pick time.
+     See **"Provider W-9s"** below for where the W-9 is and, when it is a new one sitting in the case
+     folder, **the backup copy you owe into `3. Disbursements/` afterwards**.
    - read_page → `form_input` Memo + Amount (digits only, e.g. `2841.00`).
    - **Category:** if the vendor has a default expense category it auto-fills correctly
      (verify it reads 7000 / 7010). If it shows **0000 Uncategorized**, fix it: click the
@@ -153,22 +155,42 @@ do NOT post; verify on the Ledger instead (see Step 5).**
    `bank_account.php?bank_id=111793` and confirm the lines are there (check# is blank until
    Print Checks is run — that's normal) and the balance ties.
 
-## Provider W-9s — where they live
+## Provider W-9s — where they live, and backing a new one up
 
-**All provider W-9s are in `PI Team Folder/3. Disbursements/`** (Klaus, 2026-10-14: "所有的w9都会在
-folder 3, disbursements"). Two places inside it:
+**The library is `PI Team Folder/3. Disbursements/`** (Drive id `16klZfsFWR6SIL_s2646-4DATwPUNix32`) (Klaus, 2026-10-14: "所有的w9都会在 folder 3,
+disbursements"). Three places to look, in this order:
 - the folder **root**, named `<Payee Entity>.pdf` — e.g. `Integrative Physical Medicine Physicians.pdf`,
   `Cyrus Sedaghat, M.D. APMC.pdf`, `Dr. Anil Date, MD.pdf`, `Masrour Chiropractic, Inc..pdf`;
-- the older **`W9/`** subfolder, and the Drive W-9 folder `1oWX7kFan5W8M7uW6RHkvRu1RiJRFAf9Y` that the
-  Disbursement Sheet's column headers hyperlink to.
-Klaus renames a case-folder W-9 to the payee entity and files it here, so a W-9 that was in the case
-folder an hour ago may already have moved — **search `3. Disbursements` by payee name before
-concluding it is missing.**
+- the older **`W9/`** subfolder;
+- the Drive W-9 folder **`1oWX7kFan5W8M7uW6RHkvRu1RiJRFAf9Y`** that the Disbursement Sheet's provider
+  column headers hyperlink to.
 
-⚠️ **Read a W-9 with `pdftotext -layout`, not vision.** These are AcroForm PDFs whose filled values
-sit in form fields that the renderer does not draw — a vision read shows a **blank** form while
-`pdftotext` returns the entity name, d/b/a, address and EIN. (The EIN comes out digit-spaced, e.g.
+**A NEW W-9 arrives in the case folder and YOU file the backup** (Klaus, 2026-10-14: "下次我会把新的
+W9保留在case folder然后你抓取完后备份进 folder3"). So when a stub vendor sends you to a W-9:
+1. Look for it in the **case folder** first (`3. Disbursements/Case Disbursements/<Client>/`) — it may be
+   named after the clinic's brand, not the payee entity (`ISSrehab W-9.pdf` → Integrative Physical
+   Medicine Physicians).
+2. Read it, fill the RD vendor record, fix the line's Mailing Address.
+3. **Then back it up into `3. Disbursements/` root as `<Payee Entity>.pdf`** — the W-9 entity on line 1,
+   not the brand, so the next case finds it by payee name. Copy it, do **not** move it: Klaus keeps the
+   original in the case folder.
+   ```
+   gws drive files copy --params '{"fileId":"<w9 id>","supportsAllDrives":true,"fields":"id,name,parents,md5Checksum"}' \
+     --json '{"name":"<Payee Entity>.pdf","parents":["16klZfsFWR6SIL_s2646-4DATwPUNix32"]}'
+   ```
+   Verify the copy's `md5Checksum` equals the source's before calling it filed. Already a file of that
+   name there? Compare MD5 — identical means it is already filed (do nothing); different means the
+   provider re-issued one, so keep both and suffix the older `(SUPERSEDED <date>)`.
+4. If it is genuinely nowhere — case folder, `3. Disbursements`, `W9/`, Drive W-9 folder — say so with
+   the names you searched, and fill the vendor's address from the **signed reduction letter's PAYMENT
+   REMIT TO block** (that is authoritative for where the check goes); leave Tax ID blank and tell Klaus
+   the W-9 is missing. Never invent an EIN.
+
+⚠️ **Read a W-9 with `pdftotext -layout`, not vision.** These are AcroForm PDFs whose filled values sit
+in form fields that the renderer does not draw — a vision read shows a **blank** form while `pdftotext`
+returns the entity name, d/b/a, address and EIN. (The EIN comes out digit-spaced, e.g.
 `8 4 – 4 0 0 4 7 7 3` = 84-4004773.) `pypdf.get_fields()` returns None on them, so don't bother.
+Line 1 = the payee entity (what goes on the check); line 2 = the d/b/a / brand the clinic is known by.
 
 ## Intake address lookup (client check)
 
