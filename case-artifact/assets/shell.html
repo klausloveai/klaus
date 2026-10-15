@@ -84,6 +84,9 @@ section { margin-top: 72px; }
 @media (min-width: 768px)  { section { margin-top: 96px; } }
 @media (min-width: 1100px) { section { margin-top: 104px; } }
 .rule { width: 40px; height: 1px; background: var(--accent); margin-bottom: 16px; }
+section { margin-top: 56px; }
+@media (min-width: 768px) { section { margin-top: 64px; } }
+@media (min-width: 1100px) { section { margin-top: 68px; } }
 h2 {
   font-family: var(--f-han); font-weight: 500; font-size: 22px; letter-spacing: .05em;
   margin: 0; line-height: 1.45;
@@ -228,17 +231,25 @@ tfoot td { border-top: 1px solid var(--edge); font-weight: 600; color: var(--ink
 
 /* ---------- misc ---------- */
 .note {
-  border-left: 1px solid var(--accent); background: var(--paper-tint); border-radius: 0 4px 4px 0;
+  border-left: 1px solid var(--accent); background: var(--paper); border-radius: 0 4px 4px 0;
   padding: 16px 20px; margin-top: 20px; font-size: 14px; line-height: 1.95; color: var(--ink-muted);
 }
 .note b { color: var(--ink); font-weight: 600; }
 .calc {
   font-family: var(--f-mono); font-size: 12.5px; line-height: 2.2; color: var(--ink-muted);
-  background: var(--paper-tint); border: 1px solid var(--hairline); border-radius: 4px;
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px;
   padding: 16px 18px; margin-top: 18px; overflow-x: auto; white-space: nowrap;
 }
 .calc b { color: var(--ink); font-weight: 500; }
 /* ---------- section fold（每节可折叠，summary 包 h2） ---------- */
+/* 每节一块面板（Klaus 2026-10-14）：面板用 paper-tint，比羊皮纸底浅一级，
+   正文不再直接压在底色上；面板内的卡片、表格、待办行、期限行仍是纯白 paper，
+   于是「底 → 面板 → 卡片」三级一眼分得开。 */
+.sec {
+  background: var(--paper-tint); border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 22px 24px;
+}
+@media (max-width: 620px) { .sec { padding: 18px 16px; } }
 .sec > summary {
   list-style: none; cursor: pointer; position: relative; padding-right: 30px;
 }
@@ -256,12 +267,17 @@ tfoot td { border-top: 1px solid var(--edge); font-weight: 600; color: var(--ink
 .sec > *:last-child { margin-bottom: 0; }
 
 /* ---------- deadlines as rows（标准写法；.deadlines 卡片为旧版，勿再新用） ---------- */
-.dls { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid var(--hairline); }
+.dls { list-style: none; margin: 24px 0 0; padding: 0; }
+/* 每条一个纸面盒子，与待办行同一套观感（Klaus 2026-10-14） */
 .dls .dl {
-  display: block; background: transparent; border: 0; border-radius: 0; box-shadow: none;
-  border-bottom: 1px solid var(--hairline); padding: 17px 0;
+  display: block; background: var(--paper);
+  border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 15px 18px; margin-bottom: 8px; box-shadow: var(--shadow-1);
+  transition: box-shadow .3s cubic-bezier(.4,0,.2,1);
 }
-.dls .dl:hover { box-shadow: none; }
+.dls .dl:hover { box-shadow: var(--shadow-2); }
+.dls .dl.now { border-color: var(--accent); }
+.dls .dl:last-child { margin-bottom: 0; }
 .dl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; }
 .dl-title {
   font-family: var(--f-han); font-size: 15px; font-weight: 500; letter-spacing: .03em;
@@ -286,7 +302,7 @@ a:focus-visible { outline: none; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
-<div class="wrap" data-shell="6.1">
+<div class="wrap" data-shell="6.3">
   <header class="mast">
     <p class="eyebrow">{{EYEBROW}}</p>
     <h1>{{CAPTION}}</h1>

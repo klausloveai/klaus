@@ -1,10 +1,10 @@
 {
   "_comment": "哪个案子页面刷到了 shell 的哪一版。查这里不用打开任何页面。刷完就更新这里。",
-  "shell_current": "6.1",
+  "shell_current": "6.3",
   "artifacts": {
     "https://claude.ai/artifact/VVhtG1bgrt13gS2VyVaBTZ": {
       "case": "Chao Zheng v. Jasa Transportation",
-      "shell": "6.1",
+      "shell": "6.3",
       "updated": "2026-10-14"
     },
     "https://claude.ai/artifact/SYxju1a4DPr7iYjsxmDVPw": {

@@ -154,6 +154,16 @@ publish 之前切掉，从 `<title>` 开始，否则会套两层。
 
 ## 设计
 
+**三级表面，别弄混**（Klaus 2026-10-14 定）：
+
+| 层 | 颜色 | 用在哪 |
+|---|---|---|
+| 底 | `--ground` `#F2EDE2` | 页面背景 |
+| 面板 | `--paper-tint` `#FAF6EC` | 每一节 `.sec`，让正文不直接压在底色上 |
+| 卡片 | `--paper` `#FFFDF8` | 面板内的 `.card`、`.tw` 表格、`.bls .it` 待办行、`.dls .dl` 期限行、`.note`、`.calc` |
+
+新加任何块状元素，先想它属于哪一层 —— 同层叠同层就会糊成一片。
+
 凌图 design system v1 的 token 原值照用（shell 里已写死，附来源注释）：
 ink `#1C1917` / parchment `#F2EDE2` / paper `#FFFDF8` / gold `#C0A260` /
 deep gold `#A8862F` / hairline `#E6DFD1` / row tint `#FAF6EC`。
