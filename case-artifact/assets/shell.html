@@ -183,6 +183,11 @@ tfoot td { border-top: 1px solid var(--edge); font-weight: 600; color: var(--ink
 .bl li:last-child { border-bottom: 0; padding-bottom: 0; }
 .bl li:first-child { padding-top: 0; }
 .bl li b { color: var(--ink); font-weight: 600; }
+/* 待办编号：三栏共用一套连续编号，Klaus 用号码点事（「办 9」）。金色等宽数字。 */
+.bl li .n {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+  color: var(--accent-text); margin-right: 9px;
+}
 
 /* ---------- timeline ---------- */
 .tl { margin-top: 20px; border-left: 1px solid var(--edge); padding-left: 0; list-style: none; }
@@ -258,7 +263,7 @@ a:focus-visible { outline: none; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
-<div class="wrap">
+<div class="wrap" data-shell="5.0">
   <header class="mast">
     <p class="eyebrow">{{EYEBROW}}</p>
     <h1>{{CAPTION}}</h1>
