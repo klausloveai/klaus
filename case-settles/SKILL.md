@@ -159,6 +159,17 @@ check is usually payable to **both parents as guardians** — both must endorse 
 33. Verify the whole chain: N = zero · journal rows present and row 2 of the xlsx still empty ·
     PDF in subfolder 6 · case folder in the year folder · marketing folder populated ·
     **no stray "Untitled" in the shared-drive root** · email draft labeled.
+    Then **clear the staging folder**. `Case Disbursements/<Client>/` is a workbench, not an archive —
+    once the email is out and `<Client>-Disbursements.pdf` is verified inside the case's subfolder 6,
+    trash the whole client folder. Before trashing, account for **every file in it one at a time**:
+    · The signed DIS, the signed lien-reduction letters, the carrier check and each outgoing check are
+      normally already **pages of the archived packet** — confirm by rendering, not by assuming from the
+      filename (a file called `WANG, TIANHUA.pdf` turned out to be the Sun Imaging lien letter).
+    · Anything that is **not** inside the packet — a signed Release, a W-9, a records invoice, a second
+      revision of a lien release — gets copied into the right case subfolder FIRST. Losing it means
+      asking the provider or the carrier for it again.
+    · Then **trash the folder** (`trashed: true`), never a hard delete, so Drive's 30-day net still holds it.
+    Do this per client, not per batch — a sibling held at the funding gate keeps its folder.
 34. Append **one** Activity Log row (Category `会计` or `起草`, Source `Drive`, Ref = check #s +
     the marketing folder id).
 35. Update `_STATE.md` in the IOLTA#3618 Drive folder — last case processed, anything left pending.
