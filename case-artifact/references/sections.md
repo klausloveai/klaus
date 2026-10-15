@@ -3,9 +3,11 @@
 每节都标了：**放什么** · **数据来自哪** · **写坏了会怎样**。
 节次固定；该案没有的节整节删掉，不要留空壳。
 
+**每节固定包在 `<details class="sec">` 里，`<summary>` 包 `<h2>`**（见 SKILL.md 第 6 步）。
+
 shell 里可用的组件：
 `.card`（纸面卡片） · `.grid.g2/.g3`（卡片网格） · `.tw > table`（可横向滚动的表） ·
-`.note`（金线旁注） · `.calc`（等宽算式块） · `.deadlines > .dl`（倒计时） ·
+`.note`（金线旁注） · `.calc`（等宽算式块） · `.dls > .dl`（倒计时行） ·
 `.blockers > .bl`（阻塞栏） · `.tl`（时间线） · `.chip.done/.wait/.due`（状态标）
 
 ---
@@ -30,9 +32,23 @@ Case number / Court / Department / Complaint filed / Date of loss / Attorney of 
 
 - lede 要有判断，不是复述。Yi Cong 那段写的是：对犬主的责任是法定的、硬；
   对物业全押在 notice 一个点上，而这个点零证据 —— 所以近期工作是防守性的。
-- 倒计时卡片用 `<div class="count" data-days="YYYY-MM-DD">`，shell 的脚本自动算天数，
-  过期自动变灰。**日期写死在 HTML 里，天数永远是实时的。**
-- 最紧的那张加 `class="dl now"`。
+- **倒计时独立成「关键期限」一节，一行一条，不要方框**（Klaus 2026-10-14 改定）。固定形状：
+
+  ```html
+  <ol class="dls">
+    <li class="dl now">                      <!-- now 只给最紧的那一条 -->
+      <div class="dl-head">
+        <span class="dl-title">送达 X 并递交 POS-010</span>
+        <span class="dl-when">2026-11-02<span class="count" data-days="2026-11-02"></span></span>
+      </div>
+      <p class="dl-desc">一两句：法条依据 + 为什么是这个日子 + 卡在谁身上。</p>
+    </li>
+  </ol>
+  ```
+
+  标题在左、日期与天数靠右，描述在下面一行。**按时间顺序排**，不按紧急度。
+  `data-days` 的日期写死在 HTML 里，天数由 shell 的脚本实时算，过期自动变灰。
+- `.now` 只上金色字（标题与天数），**绝不给行加金色边框** —— 金色只做 1px 细线与数字。
 - `.note` 必须把法定期限**算给人看**：送达方式 → 起算 → 顺延 → 加几天。
   再写一句逾期的代价（waive objection / RFA 被视为承认）。
 

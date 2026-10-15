@@ -63,32 +63,50 @@ Klaus 不手动翻 Drive，他看这一页，所以页面错了等于他的判�
    该案没有的节（比如还没 discovery）整节删掉，不要留空壳。
 6. **套 `assets/shell.html`**，替换 `{{TITLE}}` `{{CAPTION}}` `{{EYEBROW}}` `{{SUBTITLE}}`
    `{{DOCKET}}` `{{CHIPS}}` `{{ATTORNEY}}` `{{SECTIONS}}`。CSS、配色、字体、倒计时脚本都在 shell 里，不要改。
-7. **发布前自检**（照做，不要跳）：
+   **每一节都写成可折叠**（Klaus 2026-10-14 要求），固定形状：
+
+   ```html
+   <section>
+     <div class="rule"></div>
+     <details class="sec" open>          <!-- open 只给默认展开的那两节 -->
+       <summary><h2>标题<small>English</small></h2></summary>
+       ...内容...
+     </details>
+   </section>
+   ```
+
+   **默认展开：关键期限 + 待办与阻塞；其余全部收起。** 一开页面就是「一屏看完卡在哪」，
+   其余按需点开。用原生 `<details>`，不加 JS —— 倒计时脚本在页面加载时就把收起的节也算好了。
+8. **发布前自检**（照做，不要跳）：
    ```
    node --check <(sed -n '/^<script>/,/^<\/script>/p' page.html | sed '1d;$d')
    grep -nE '#[0-9A-Fa-f]{6}' page.html | grep -v '\-\-'      # 正文里不该有写死的颜色
    ```
    再人眼过一遍：有没有 emoji（design system 禁用）、有没有没填的占位符。
-8. **发布**：`Artifact` publish，`icon:"folder"`，一句话 `description`。更新时带 `url`。
-9. **记台账**：Activity Log 一行，`Category` = 起草，`Ref/ID` 里放 **artifact 的 url**，
+9. **发布**：`Artifact` publish，`icon:"folder"`，一句话 `description`。更新时带 `url`。
+10. **记台账**：Activity Log 一行，`Category` = 起草，`Ref/ID` 里放 **artifact 的 url**，
    这样三个月后搜得到。
 
 ## 页面结构
 
-十一节，顺序固定。详见 `references/sections.md`。
+十三节，顺序固定。详见 `references/sections.md`。**每节都包在 `<details class="sec">` 里。**
 
 1. **masthead** —— docket 块，**全英文**（它对应法院 caption）
-2. **案件现状** —— 分析，不是罗列；配倒计时卡片
-3. **待办与阻塞** —— 按"卡在谁身上"分三栏
-4. **Discovery 进度** —— 矩阵 + 对方这套到底问了什么
-5. **当事人与律师** —— 含送达地址
-6. **事发经过** —— 事实 + 机关记录 + 责任基础
-7. **伤情与治疗** —— 机构 / 诊治 / 日期 / 金额
-8. **损害赔偿** —— SOD 分项 + 算式摊开
-9. **文书产出** —— Bates 索引
-10. **风险点** —— 每条写清"会怎么咬到我们"
-11. **关键日期** —— 时间线，含未来
-12. **文件位置** —— Drive 文件夹对照
+2. **案件现状** —— 分析，不是罗列
+3. **关键期限** —— 倒计时，**一行一条**（`.dls`），不要方框卡片 · *默认展开*
+4. **待办与阻塞** —— 按"卡在谁身上"分三栏 · *默认展开*
+5. **Discovery 进度** —— 矩阵 + 对方这套到底问了什么
+6. **当事人与律师** —— 含送达地址
+7. **事发经过** —— 事实 + 机关记录 + 责任基础
+8. **伤情与治疗** —— 机构 / 诊治 / 日期 / 金额
+9. **损害赔偿** —— SOD 分项 + 算式摊开
+10. **文书产出** —— Bates 索引
+11. **供应商订单史** —— One Legal 全部订单：order / 递交 / 内容 / 结果 + court transaction #
+12. **风险点** —— 每条写清"会怎么咬到我们"
+13. **关键日期** —— 时间线，含未来
+14. **文件位置** —— Drive 文件夹对照
+
+该案没有的节整节删掉，不要留空壳。
 
 ## 设计
 
