@@ -136,21 +136,19 @@ Klaus 删光蓝字 = 一封干净可发的信。
 
 **硬规则：**
 
-1. **开头一句注明颜色含义**，原话：`Below is where each of your <N> items stands.
-   (Blue is confirm, yellow is pending, red is question.)` —— `<N>` 用英文数词（four / six）。
+1. **不写颜色说明那一行。**（Klaus 2026-10-14 当场删除，取代此前规则。）
+   过去的写法是开头加一句 `Below is where each of your <N> items stands.
+   (Blue is confirm, yellow is pending, red is question.)` —— **不要再写了**，
+   `Hi Hernan,` 之后直接进第 1 项。
 
-   ⚠️ **这句话绝不能引用某个可能被删掉的条目。** 2026-09-29 Yi Cong 我写成
-   `Below is where each of your four items stands, **with one point at the end.**`,
-   Klaus 把末尾那条红字删了 —— 于是 "with one point at the end" 在发出去的信里**空指**。
-   红字是可删层，**开头那句必须在任何一条被删之后仍然成立**。只说他的条目数，别预告附加项。
+   **为什么取消**：这句话是个持续出问题的可删层引用。2026-09-29 Yi Cong 我写成
+   `…, with one point at the end.`，Klaus 删了末尾那条红字，于是它空指；
+   2026-10-12 Lina Lu 我给了两条红字，Klaus 两条都删，`red is question` 留在信里，
+   发出去的版本承诺了一个不存在的颜色。颜色本身不需要解释 —— 取消这行，
+   整类错误随之消失。
 
-   ⚠️ **颜色说明那一行本身也会空指 —— 红字被全删时要一起改。** 2026-10-12 Lina Lu，
-   我给了两条红字（改他的签名日期要不要他点头、出示日 11/16→11/23 换不换），
-   **Klaus 两条都删了**，但 `(Blue is confirm, yellow is pending, red is question.)`
-   留在信里 —— 发出去的版本承诺了一个不存在的颜色。
-   **交稿时用一句话提醒他**：红字如果全删，把 `, red is question` 一起去掉。
-   （同理只剩蓝字时黄色也要去掉。）这跟上面那条是同一个毛病：**可删层被删之后，
-   引用它的那句话必须跟着消失。**
+   **三色照用不变**（见下条）。编号、分段、无结尾句也都不变。
+
 2. **三色，实现方式各不相同**（照他 9/28、9/29 两封发出稿）：
 
    | 色 | 含义 | markup |
