@@ -1,0 +1,9 @@
+[
+ {"pattern": "Lin,\\s*Weicong|Benjamin Velazquez Lopez|Jorge Esteban Velazquez", "label_id": "Label_2", "note": "Weicong Lin（反写名 / 被告名）"},
+ {"pattern": "Junhua Wu", "label_id": "Label_198681423325285319", "note": "Jun Hua Wu 的另一种写法"},
+ {"pattern": "CL-Wang v\\.? Shaojie Li|Wang v\\.? Shaojie Li", "label_id": "Label_29", "note": "One Legal 订单名 = Weihong Wang"},
+ {"pattern": "Wei Zhang v\\.? Yan Zhang|26NNCV05107", "label_id": "Label_15", "note": "Wei Zhang v. Yan Zhang（Joe 线）"},
+ {"pattern": "5042140380", "label_id": "Label_8754352487615821831", "note": "Bristol West claim # = Chao Zheng"},
+ {"pattern": "052480PI", "label_id": "Label_4283864447399238367", "note": "Vanguard report # = Chunpeng Wu"},
+ {"pattern": "Patient Gaoyang Qin|Dear Gaoyang", "label_id": "Label_3", "note": "PACPC 心理评估 = Gaoyang Qin"}
+]
