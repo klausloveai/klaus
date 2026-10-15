@@ -17,14 +17,15 @@ FIRST：跑 `date "+%m/%d/%Y (%A) %H:%M"` 取真实日期时间，绝不猜。
 
 ---
 
-## 幂等机制（label 就是"已处理"的标记）
+## 幂等机制（两个"已处理"标记：案件 label 或 Activity Log 的 Msg Key）
 
-**规则：没有 label 的邮件 = 还没处理过。** 所以：
+**规则：一封邮件算"已处理"，当且仅当它有用户 label，或者它的 message id 已经在 Activity Log 的 I 列（`Msg Key (dedup)`）里。** 所以：
 - **先把活干完（读懂、附件归档、Activity Log 行写好），最后一步才打 label。** 中途失败就别打 —— 下一轮会重新捡起来。
 - 处理完匹配到案件的 → 打**案件 label**。
-- 处理完但**匹配不到任何案件**的（新案件、法院/One Legal 通用通知、无法归属的）→ 打 `AI-待归档` label（不存在就创建），并在简报里列出来让 Klaus 指认归属。
-- 判定为**不需要任何动作**的（营销、订阅、系统通知、纯 FYI）→ 也打 `AI-待归档`，否则下轮会重复读。简报里一行带过数量即可。
+- 处理完但**匹配不到任何案件**的（新案件、法院/One Legal 通用通知、无法归属的）→ **不打任何 label**。照样 append Activity Log 一行，`Case` 填 `待指认`；**这一行的 Msg Key 就是"已处理"标记**，下轮 Step 1b 查到它就跳过。简报的「❓ 待指认归属」里只在**首次处理的那一轮**列一次。
+- 判定为**不需要任何动作**的（营销、订阅、系统通知、纯 FYI）→ 不打 label、不记台账，直接跳过（见 Step 2 末尾的取舍）。
 - **已经有 label 的邮件一律跳过** —— 那是已处理过，或 Klaus 自己在管。
+- ⛔ **`AI-待归档` 已废止（2026-10-15 Klaus 定）**：Klaus 已删掉这个 label，**不要再打、也不要重建它**；也不要为了"留个记号"新建任何别的 label。
 
 ## Step 0 — 逾期哨兵（先跑，一次调用，最便宜）
 
@@ -53,13 +54,23 @@ gws sheets spreadsheets values get --params '{"spreadsheetId":"1XmV816UBTWcEyo65
 ```
 gws gmail users messages list --params '{"userId":"me","q":"in:inbox newer_than:2d has:nouserlabels -category:forums -category:promotions -from:chat-noreply@google.com -from:docusign.net -from:ringcentral.com","maxResults":40}' --format json
 ```
-（`has:nouserlabels` = 没有任何用户 label，正好等于"未处理"。时间窗 2d 让 app 关过一阵也能补上。）
+（`has:nouserlabels` = 没有任何用户 label。时间窗 2d 让 app 关过一阵也能补上。）
+
+### Step 1b — 用 Activity Log 查重（必须做，在读任何正文之前）
+
+没有 label 不再等于"未处理"：匹配不到案件的邮件处理完也是无 label 的。所以拿到候选列表后，先读一次台账的 Msg Key 列：
+
+```
+gws sheets spreadsheets values get --params '{"spreadsheetId":"1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA","range":"Activity Log!I:I"}'
+```
+
+候选 message id **已经在 I 列里的 → 直接剔除，不读、不记、不进简报**。读台账失败就**整轮停下**，简报写 `⏭️ 台账读取失败，本轮未处理`，不要在无法查重的情况下处理邮件（会重复记行、重复归档附件）。
 
 ### ⚠️ 排除清单不能删 —— 每一条都是实测出来的（2026-08-14 Klaus 定）
 
 被排除的**根本不会被捞进来**，所以既不会被处理、也不会被打标签，邮件原样留在收件箱。
-这比"捞进来再打个 `AI-待归档` 跳过"干净得多 —— 那样做的结果是 82 个标签里 52 个是噪音，
-`AI-待归档` 本来是「请指认归属」的信号，被稀释成一整列灰标签就没人看了。
+这比"捞进来再打个标签跳过"干净得多 —— 当年用 `AI-待归档` 这么做，82 个标签里 52 个是噪音，
+「请指认归属」的信号被稀释成一整列灰标签就没人看了（这也是 2026-10-15 彻底废掉它的原因）。
 
 | 排除项 | 为什么 |
 |---|---|
@@ -88,9 +99,8 @@ Ortho / Neuro / 心理诊所、预约确认、lien 谈判、转介回执。这�
 Google Tasks 清单管。
 
 **跳过时的处理**：Step 1 的查询已经排掉的那几类根本不会出现在这里；出现在这里但属于上述
-「不记录」的，**直接跳过、不打任何 label**。只有**真的匹配不到案件、但确实需要 Klaus 指认归属**
-的才打 `AI-待归档` —— 这个 label 是「请告诉我这属于哪个案子」，不是「我读过了」。滥用它等于
-把它变成噪音（实测 2026-08-14：82 个里 52 个是 listserv）。
+「不记录」的，**直接跳过、不打任何 label、不记台账**。**真的匹配不到案件、但确实需要 Klaus 指认归属**
+的 → 记台账（`Case` = `待指认`）+ 简报「❓ 待指认归属」列一行，**不打任何 label**。
 
 代价是被跳过的邮件下轮还会被列出来一次（因为没 label）。这是**故意的取舍**：列一下几乎不花钱，
 往 Klaus 的邮箱里堆没用的标签才贵。
@@ -112,7 +122,8 @@ gws sheets spreadsheets values append \
   --json '{"values":[["MM/DD/YYYY","HH:MM","<Case>","<Category>","<一句话：谁来信+要什么/说了什么>","<发件人>","<Ref/ID：案号/claim#/order#等，尽量抓全>","Gmail-In","<message id>","<Next Step 一句话，含 deadline>"]]}'
 ```
 
-- **message id 进 Msg Key 列 = 天然去重**；append 前不用查重（label 幂等已挡住重复处理）。
+- **message id 进 Msg Key 列 = 去重的依据**；Step 1b 已经按这一列剔除过处理过的邮件，append 前不用再查一次。
+- 匹配不到案件的：`Case` 填 `待指认`，其余列照常填（Ref/ID 照样抓全 —— Klaus 指认归属时就靠它）。
 - **Ref/ID 必须抓全**：One Legal order # · 案号 · claim # · 报案号 · 挂号号。这列是全局搜索的唯一抓手。
 - 带 deadline 的（discovery due、法院期限、Hernán 给的日期）→ **Next Step 里写明日期**，格式 `MM/DD 前 <动作>`。
 - **只 append，永不改写既有行。**
@@ -126,7 +137,7 @@ gws sheets spreadsheets values append \
 
 ## Step 5 — 最后才打 label
 
-活干完（台账行 + 附件归档）→ 打 label（案件 label 或 `AI-待归档`）。复用已有 label，**匹配不到不要自动新建案件 label**。
+活干完（台账行 + 附件归档）→ 匹配到案件的打**案件 label**；匹配不到的**什么 label 都不打**（台账那一行就是它的已处理标记）。复用已有 label，**匹配不到不要自动新建任何 label**，`AI-待归档` 也不要重建。
 
 ## Step 6 — 简报（本次任务的输出）
 
@@ -149,8 +160,8 @@ gws sheets spreadsheets values append \
 ⚠️ 需你拍板（没有就整块省略）
 • <决定项>？—— 因为 <一个从句>。A <…> / B <…>
 
-🏷️ AI-待归档（请指认归属）
-• <邮件> — 疑似属于 <案件>
+❓ 待指认归属（本轮首次处理的才列；没有就整块省略）
+• <邮件主题> — <发件人> · 疑似属于 <案件 / 看不出>
 
 ⏭️ 未完成：<还剩 X 封 / 某封卡在哪>（下轮继续）
 ```
@@ -166,4 +177,5 @@ gws sheets spreadsheets values append \
 - 客户名、案件名保持英文。
 - Drive 只新增/移动，绝不删除，绝不跨案件搬。
 - Activity Log 只 append，绝不改写既有行。
-- **中途失败别打 label** —— 没 label 就是没处理，下轮会自动重来。
+- **中途失败别打 label、别写台账** —— 两样都没有就是没处理，下轮会自动重来。
+- **绝不打 `AI-待归档`，绝不新建任何 label。**
