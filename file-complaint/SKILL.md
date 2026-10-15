@@ -59,8 +59,10 @@ already state everything). Extract:
   `, an individual` (or `, a business entity`, etc.) after each name and the DOE range,
   e.g. `CHELSEA PINPIN, an individual; LOUIS ARCA, an individual; MICHAEL A. CABANALAN, an individual; and DOES 1 through 50, inclusive`.
   **Never abbreviate defendants to "et al."** — they must be named for service. The
-  SUM-100 caption boxes auto-wrap to the field width (fill_forms.py), so long
-  multi-defendant / minor-by-GAL captions fit on 2–3 lines; do not hand-truncate.
+  `caption_wrap()` in fill_forms.py breaks the caption at the **party boundaries**
+  (the semicolons) to a fixed 330pt — not to the field's declared 395pt, which runs
+  under the FOR COURT USE box. Do not hand-truncate and do not re-wrap by width.
+  **Read `references/summons-caption.md` before touching a summons.**
 - **Case caption / short title** → `ZHAO v. VELAZQUEZ` (LAST v. LAST)
 - **Incident address** (the "Subject Property" / where it happened) incl. city + ZIP
 - **Number of causes of action** (count the CAUSE OF ACTION headers)
@@ -155,8 +157,12 @@ python3 scripts/fill_forms.py config.json
 ```
 
 This strips the XFA layer, generates real appearance streams, checks the right
-boxes, stamps the CIV 109 Column B action box, and preserves the pre-filled
-attorney block. See `references/la-county-pi.md` for why each of those steps
+boxes, stamps the CIV 109 Column B action box, preserves the pre-filled attorney
+block, and **flattens every output with `qpdf --flatten-annotations=all`**.
+Flattening is not optional: these are XFA hybrids and not every widget carries an
+appearance stream, so an unflattened form can look completely EMPTY in Preview and
+Quick Look while Ghostscript renders it correctly. See
+`references/summons-caption.md`. See `references/la-county-pi.md` for why each of those steps
 matters (XFA hybrids, form-revision field-name drift, non-fillable CIV 109
 checkboxes).
 
@@ -172,7 +178,11 @@ gs -q -dNOPAUSE -dBATCH -sDEVICE=png16m -r120 -dFirstPage=1 -dLastPage=1 \
 
 Confirm: defendant/plaintiff, court info, the checked case-type box, complex=No,
 monetary, causes count, class=No, and — on CIV 109 — the ☒ in the correct Column B
-action box, reason box, incident address, and district. If a checkbox didn't land
+action box, reason box, incident address, and district. Because the output is
+flattened, `pdftotext -layout` must also read back every value you filled — if it
+does not, the text never reached the page content. On the summons, check that the
+caption breaks at the semicolons and that both lines sit left of the FOR COURT USE
+box. If a checkbox didn't land
 (e.g. the CIV 109 stamp is off for a new form revision), fix the coord in the
 script's `CIV109_ACTION_XY` map and re-run.
 
