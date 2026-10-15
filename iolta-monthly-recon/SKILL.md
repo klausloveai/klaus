@@ -132,8 +132,17 @@ gws sheets spreadsheets values append \
 1. **223 行 A 列没日期** —— 日期埋在 Purpose 文本里（`Lien Payment (check 8/26/2026)`）。Standard (1)(b) 要求每行有日期。
 2. **K / L 两列 437 行全空** —— 从来没填过。
 3. **H 列 running balance 只到 181 行**，182–446 共 265 行没余额。Standard (1)(b) 要求每行有当前余额。
-4. **支票号重号** —— 80275 用了两次（r292 Axis $705 / r314 Hong Li $3,210，银行两张都付了）。每月查一次重号。
-5. **旧 #4854 800xxx 号段还有六个号在外**：800025 / 800079 / 800080 / 800092 / 800093 / 800094。
+4. **支票号重号 —— 两个号，两种成因，别混为一谈（2026-10-14 查清）**
+   · **80275 = 真重号，Rentec 自己把同一个号发了两次。** Rentec ledger 上白纸黑字两条：
+     **7/31 Axis Chiropractic & Health Center $705.00（Changming Dong）** 和
+     **8/3 Hong Li $3,210.00（Case Settlement）**，银行两张都付了，所以外面真有两张纸号码相同。
+     账本（r292 / r314）两条都记对了，错在开票端。**查重号要去 Rentec 对，不要默认是账本抄错。**
+   · **80097 ≠ 重号。** 同一张支票被银行扣了两次：Haoze He 的 $8,688.80 客户款
+     **5/11 NSF 退票（r18→r25 回冲）、6/1 再提示又 NSF（r84→r88 回冲）**，
+     最后 **6/26 以新号 80215 重开才真正付掉**（r177）。一张票两次提示＝两条借记行，账本是对的。
+   每月仍查一次重号，但先分清是「开票端发重」还是「同票多次提示」。
+5. **旧 #4854 800xxx 号段**：原记六个号在外，**800025 / 800079 / 800080 已在 #3618 账本里找到归属**
+   （r450 Wei Li/Prestige · r454+r455 Ying Yu），**剩 800092 / 800093 / 800094 仍无解释**。
    #4854 账本里有一串标了 **Fraud** 的支票（80030–80049，payee 是 Tian Pan / Tian Fan /
    Minh Trang Nguyen / Renguang LLC），而 8 月兑现的六张 800xxx **全部落在 #4854 从没记过的号里**。
    这六个号一旦出现在对账单上，立刻报 Klaus，不要当普通漏记处理。
@@ -152,7 +161,11 @@ gws sheets spreadsheets values append \
 - 是真案子 → 别只补 journal，**整套 `case-settles` 回补**（支票日期就是 disburse date），
   并在每条 memo 上标 `BACKFILL <今天> — cut in Rentec <开票日> but never journaled`
 - 是已结案的补充款（DV / 代位追偿退款）→ 只补一行 journal，不重开那一行 Disbursement Sheet
-- 真作废 → 也要留一行写 VOID，Rule 1.15 要求号段连续可追
+- 真作废（票已打出再作废）→ 留一行写 VOID，Rule 1.15 要求号段连续可追
+- **只是 Rentec 草稿、从未打印 → 什么都不用记**，因为没有交易发生；草稿一删，那个号在 ledger 上
+  也会消失。2026-10-14 的 80406 / 80407（Jinmei Chen DV $1,200 + Infinite Solution Consulting $800）
+  就是这一类 —— 乍看像对同一笔 $2,000 DV 付了两次，实际从未开出。
+**把结论写回 `_STATE.md`**，否则下个月同一个空号会被重新追查一遍。
 
 ## 每月自查
 - [ ] **账本支票号 vs Rentec ledger 逐号对平，号段无缺**
