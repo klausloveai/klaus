@@ -48,7 +48,12 @@ do NOT post; verify on the Ledger instead (see Step 5).**
   (b) verify the saved line / final ledger.
 - **Verify totals via the Ledger, not by scrolling the draft.** The Post Expense viewport
   is short and fights scrolling. To see everything, open the permanent Ledger
-  `bank_account.php?bank_id=111793` (or `get_page_text`) — don't burn screenshots scrolling.
+  `/owners/bank_account.php?bank_id=111793` (or `get_page_text`) — don't burn screenshots scrolling.
+  On that Ledger `get_page_text` returns nothing and `querySelectorAll('table')` is 0 (it renders without
+  a real `<table>`); read it with `javascript_tool` over **`document.body.innerText`** split into lines —
+  a 5-digit check number sits on its own line, so `L.slice(i-4, i+3)` around each one gives
+  date / payee / category / memo / check# / amount / balance. Dumping every line at once trips the
+  tool's cookie/query-string filter, so **filter to the check numbers you care about**.
 - **Re-read refs only when they go stale.** Field refs (Memo/Amount) change after each
   Payee pick or New Transaction. One `read_page{filter:"interactive"}` per line is enough;
   Memo/Amount are the two you need.
@@ -72,13 +77,30 @@ do NOT post; verify on the Ledger instead (see Step 5).**
    - Deposited but the month isn't reconciled yet is fine — say so rather than claiming it cleared.
 
 1. **Connect & open.** select_browser → tabs_context_mcp. Go to
-   `expense.php?bank_id=111793` (Banking → IOLTA account → Post Expense). Confirm logged in
-   as Klaus (one screenshot). If not logged in, STOP — never enter credentials.
+   **`https://secure.rentecdirect.com/owners/expense.php?bank_id=111793`**
+   (Banking → IOLTA account → Post Expense). Confirm logged in as Klaus (one screenshot).
+   ⚠️ **The app lives under `/owners/`, not `/Manager/`** — `secure.rentecdirect.com/Manager/…` returns a
+   bare 404 and a bare `secure.rentecdirect.com/` bounces to the marketing site, both of which look like
+   "logged out" and are not. If you land on the marketing page: LOGIN → **LOGIN TO RENTEC DIRECT**
+   (`/owners/login.php`) → a Cloudflare "Just a moment…" interstitial clears itself in ~10s → a
+   **"Continue as Klaus"** button resumes the saved session. Clicking that is fine; it asks for nothing.
+   If it ever shows an actual password field or a CAPTCHA, STOP — never enter credentials, never solve a
+   CAPTCHA; hand it to Klaus.
 2. **Per payee** (provider or client), on the blank draft line:
    - Payment Type → **Print Check** (custom dropdown; resets to "Check" each new line).
    - Payee → custom type-ahead: click, type name, click the exact match (watch
      near-duplicates: "Advantage Plus MRI" ≠ "Open Advantage MRI"; "Sun Imaging, Inc" ≠
-     "Sunnyvale Imaging Center"). Picking it auto-fills the Mailing Address — confirm it.
+     "Sunnyvale Imaging Center"; "Integrative Physical Medicine Physicians" ≠ "Premier
+     Integrative Health Center" ≠ "Prestige Integrative Health Center").
+   - ⚠️ **Picking the payee auto-fills Mailing Address — read it and confirm it has a STREET.**
+     Some vendors are **stub records** created inline by a past "Add …" and never filled in: the
+     address box then shows the company name alone and **the check prints with no address**.
+     (2026-10-14, Wei Lang: `Integrative Physical Medicine Physicians`, vendor id 991924, had no
+     address, no Tax ID and Category 0000 — caught only because Klaus asked "这个是否是我们的 vendor?".)
+     Name-only address ⇒ stop and fix the **vendor record** (Settings → Financial → Vendors &
+     Payees) with the address + EIN off its W-9 and Category 7000, then fix the Mailing Address on
+     the line itself — editing the vendor does NOT retro-fill a line (or an already-posted
+     transaction) whose address was snapshotted at payee-pick time.
    - read_page → `form_input` Memo + Amount (digits only, e.g. `2841.00`).
    - **Category:** if the vendor has a default expense category it auto-fills correctly
      (verify it reads 7000 / 7010). If it shows **0000 Uncategorized**, fix it: click the
@@ -130,6 +152,23 @@ do NOT post; verify on the Ledger instead (see Step 5).**
    once. If Klaus says he already posted ("我处理了"), DON'T post — open the Ledger
    `bank_account.php?bank_id=111793` and confirm the lines are there (check# is blank until
    Print Checks is run — that's normal) and the balance ties.
+
+## Provider W-9s — where they live
+
+**All provider W-9s are in `PI Team Folder/3. Disbursements/`** (Klaus, 2026-10-14: "所有的w9都会在
+folder 3, disbursements"). Two places inside it:
+- the folder **root**, named `<Payee Entity>.pdf` — e.g. `Integrative Physical Medicine Physicians.pdf`,
+  `Cyrus Sedaghat, M.D. APMC.pdf`, `Dr. Anil Date, MD.pdf`, `Masrour Chiropractic, Inc..pdf`;
+- the older **`W9/`** subfolder, and the Drive W-9 folder `1oWX7kFan5W8M7uW6RHkvRu1RiJRFAf9Y` that the
+  Disbursement Sheet's column headers hyperlink to.
+Klaus renames a case-folder W-9 to the payee entity and files it here, so a W-9 that was in the case
+folder an hour ago may already have moved — **search `3. Disbursements` by payee name before
+concluding it is missing.**
+
+⚠️ **Read a W-9 with `pdftotext -layout`, not vision.** These are AcroForm PDFs whose filled values
+sit in form fields that the renderer does not draw — a vision read shows a **blank** form while
+`pdftotext` returns the entity name, d/b/a, address and EIN. (The EIN comes out digit-spaced, e.g.
+`8 4 – 4 0 0 4 7 7 3` = 84-4004773.) `pypdf.get_fields()` returns None on them, so don't bother.
 
 ## Intake address lookup (client check)
 

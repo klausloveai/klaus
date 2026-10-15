@@ -84,6 +84,10 @@ its sibling in the same scan is fine** — never run a batch as all-or-nothing.
    M `=SUM(Y{r}:…)`, N `=I-J-K-M-L`, O/P.
 8. New provider → new column, header = `=HYPERLINK(<W9 url>,"<payee entity>")`, and **widen that
    row's M range to include it** or N won't zero.
+   ⚠️ The same trap bites on rows you did NOT create. Blank **passenger rows seeded long ago carry the old
+   narrow `=SUM(Y{r}:DR{r})`**, which stops at DR and silently drops every provider column from DS onward
+   (Hongrui Ma / Tsz Shuen Chau, EV Cyrus Sedaghat $800). Overwrite M with the current form
+   `=SUM($U{r}:{r})-G{r}+H{r}` whenever you fill one in — don't trust the formula that is already there.
 9. **Re-search the row again**, then color: A no fill · received coverage green · I/M/N/O green ·
    J/K yellow · L green if zero else yellow · P yellow · Q–T yellow · provider cells yellow.
 10. Read back and confirm **N = zero**.
@@ -135,6 +139,13 @@ check is usually payable to **both parents as guardians** — both must endorse 
     signature is **Amos Feng's** — using it signs the wrong person.
 25. Attach the disbursements PDF. Create as a DRAFT by writing an `.eml` and uploading with
     `uploadType=multipart` — `--json` blows the shell arg limit, `uploadType=media` is rejected.
+    **Over ~18 MB the message won't send** — Gmail's cap is 25 MB and base64 adds ~37%. `gs`
+    downsampling is useless here (the scans are already ~150 dpi; a 17.4 MB packet came out 17.1 MB).
+    What works: **rasterize every page at 150 dpi and re-encode as JPEG quality 72** —
+    `page.get_pixmap(dpi=150)` → `PIL.save(..., 'JPEG', quality=72)` → `insert_image` into a fresh PDF.
+    That took the same packet to **2.84 MB** with the check numbers, amounts and MICR lines all still
+    legible (render one check face back and look before you send). Attach the compressed copy; the
+    **full-resolution original stays in Drive** and is what subfolder 6 keeps.
 26. Label the draft with the case's Gmail label in that mailbox. Label missing there but present in
     klaus@ → that case was run out of klaus@; **ask Klaus which mailbox**, don't create a new label.
 27. **Send it** — `drafts send` (no approval needed as of 2026-08-21), then **re-apply the case label**:
@@ -146,6 +157,11 @@ check is usually payable to **both parents as guardians** — both must endorse 
     (`1M1yRLjQyfHUnYlCOOCAD1kOzERJ9l9-W`) and write into the target.
 29. Extract **only the carrier's settlement check** page(s) → `<Clients>-<M:D:YYYY>.pdf`. Never the
     client-recovery check (prints the client's home address), the fee/lien breakdown, or lien letters.
+    ⚠️ **When the check arrives as a BofA "Transaction details" page, crop the check off it — never ship
+    the page.** Those pages print the whole deposit the check landed in: Hongrui Ma / Tsz Shuen Chau's
+    two checks sat on pages showing `Counter Credit $181,000.00`, which is a dozen other clients' trust
+    money. Render the page, crop the check rectangle only (it sits around 58–84% of the page height),
+    and build the marketing PDF from the crops.
 30. Folder 2 only → copy PD photos and **every video** as-is, original names, no merging. Skip
     driver licenses / insurance cards / police card / policy dec; flag hand-drawn diagrams and
     vehicle-less streetscapes showing a third party's house number.

@@ -138,7 +138,24 @@ gws sheets spreadsheets values append \
    Minh Trang Nguyen / Renguang LLC），而 8 月兑现的六张 800xxx **全部落在 #4854 从没记过的号里**。
    这六个号一旦出现在对账单上，立刻报 Klaus，不要当普通漏记处理。
 
+## ⚠️ 支票号断号 ≠ 跳号作废 —— 去 Rentec 认（2026-10-14 血的教训）
+账本里支票号跳过去一段，**第一反应不该是"打印跳号/作废"，而是"有人开了票没记账"**。
+10 月查出 80462→80472 和 80476→80478 两段断号，到 Rentec ledger 一看十个号全是真支票，
+合计 **$34,055.16 已付出、账本一行没有** —— 其中 Hongrui Ma / Tsz Shuen Chau 一整个案子
+（8 张票 $32,000）只开了票，journal、Disbursement Sheet、Pending→Completed、团队邮件全没走。
+账面上那 $48,000 还显示留在信托里。
+
+**每月必做**：把账本的支票号集合跟 **Rentec IOLTA ledger**
+（`https://secure.rentecdirect.com/owners/bank_account.php?bank_id=111793`，路径是 `/owners/` 不是
+`/Manager/`；导航与读页方法见 `write-check`）逐号对一遍。Rentec 是开票那一端的权威源，
+银行对账单只能证明"已兑现"，证明不了"开了没开"。对每个账本缺的号：
+- 是真案子 → 别只补 journal，**整套 `case-settles` 回补**（支票日期就是 disburse date），
+  并在每条 memo 上标 `BACKFILL <今天> — cut in Rentec <开票日> but never journaled`
+- 是已结案的补充款（DV / 代位追偿退款）→ 只补一行 journal，不重开那一行 Disbursement Sheet
+- 真作废 → 也要留一行写 VOID，Rule 1.15 要求号段连续可追
+
 ## 每月自查
+- [ ] **账本支票号 vs Rentec ledger 逐号对平，号段无缺**
 - [ ] 对账单三行自检对平
 - [ ] 每个存款日整天对平
 - [ ] 每张有号支票号 + 金额都对上，或已列入待办
