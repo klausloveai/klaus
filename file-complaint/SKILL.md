@@ -9,8 +9,9 @@ description: >-
   triggers include "prepare the filing package", "prepare summons and cover sheet",
   "fill the SUM-100 / CM-010 / CIV 109", "get this ready to file", "立案文件",
   "准备起诉文件", "/file-complaint" for a named case, or dropping a drafted
-  Complaint into a case folder and asking to prep the court forms. Scope v1: Los
-  Angeles County, personal-injury (PI) cases. It does NOT draft the complaint
+  Complaint into a case folder and asking to prep the court forms. Scope: personal-injury
+  (PI) cases in **Los Angeles** (CIV 109) and **San Bernardino** (Certificate of
+  Assignment 13-16503-360) — see `references/san-bernardino.md`. It does NOT draft the complaint
   (the attorney does) and NEVER e-files or submits — it prepares fillable PDFs and
   leaves the case number, signature, and date blank. Always trigger for any
   "prepare/fill the filing forms" request for a case whose complaint is ready,
@@ -73,7 +74,14 @@ Cross-check the incident city/ZIP against the intake if anything is ambiguous.
 **Do not confuse the incident address with the firm's address** (the firm is at
 City of Industry, CA 91746 — that is never the incident location).
 
-## Step 2 — Determine the filing court (LA County)
+## Step 2 — Determine the filing court
+
+**San Bernardino County → read `references/san-bernardino.md` and skip the rest of
+this step.** It records the branch and district wording that the court has actually
+accepted (Ontario → Civil Division of the San Bernardino District, One Legal branch
+`San Bernardino-Justice`), and the Certificate of Assignment replaces CIV 109 there.
+
+### Los Angeles County
 
 LA County assigns PI cases to the district **where the incident occurred** (per the
 5/17/2024 General Order — the old central "PI Hub" model is retired). You do NOT
@@ -202,6 +210,8 @@ plain document type, in filing order — no form codes (SUM-100/CM-010) and no
 `ZHAO v VELAZQUEZ - Summons.pdf`-style copy, and after filing save the conformed
 versions with a `(Conformed <date>, Case No. ___)` suffix.
 
-Deliver the folder to the user. Do not e-file. If the case is in a county other
-than LA, or the attorney isn't Hernán, flag it — v1 covers LA County PI with the
-Hernán templates only.
+Deliver the folder to the user. Do not e-file. LA and San Bernardino are covered
+(`references/la-county-pi.md`, `references/san-bernardino.md`). **Any other county, or
+an attorney other than Hernán, gets flagged** — confirm the county's addendum form and
+its filing branch with One Legal before building anything, then write what you learned
+into a new county reference so the next case does not start from zero.
