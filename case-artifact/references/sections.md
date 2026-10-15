@@ -8,7 +8,7 @@
 shell 里可用的组件：
 `.card`（纸面卡片） · `.grid.g2/.g3`（卡片网格） · `.tw > table`（可横向滚动的表） ·
 `.note`（金线旁注） · `.calc`（等宽算式块） · `.dls > .dl`（倒计时行） ·
-`.blockers > .bl`（阻塞栏） · `.tl`（时间线） · `.chip.done/.wait/.due`（状态标）
+`.bls > .it`（阻塞行；旧的 `.blockers > .bl` 卡片勿再新用） · `.tl`（时间线） · `.chip.done/.wait/.due`（状态标）
 
 ---
 
@@ -58,6 +58,10 @@ Case number / Court / Department / Complaint filed / Date of loss / Attorney of 
 
 ## 3. 待办与阻塞 —— **排在 masthead 之后的第一节**
 
+> **行式，不要方框。** 用 `.bls`：组标题 `<div class="grp">等 Hernán</div>`，
+> 每条 `<div class="it"><span class="n">7</span><div class="tx">…</div></div>`。
+> 旧的 `.blockers > .bl` 三个卡片盒子是 v5 及以前的写法，Klaus 2026-10-14 让换掉了。
+>
 > **编号：三栏共用一套连续编号**，从 1 开始，跨栏不重复
 > （等律师 1-3 → 等客户 4-6 → 等所内 7-13…）。写法
 > `<li><span class="n">7</span><b>事项。</b>说明…</li>`。

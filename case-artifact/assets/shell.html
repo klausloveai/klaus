@@ -189,6 +189,24 @@ tfoot td { border-top: 1px solid var(--edge); font-weight: 600; color: var(--ink
   color: var(--accent-text); margin-right: 9px;
 }
 
+/* ---------- blockers as rows（标准写法；上面的 .blockers/.bl 卡片为旧版，勿再新用） ---------- */
+.bls { margin-top: 22px; border-top: 1px solid var(--hairline); }
+.bls .grp {
+  font-family: var(--f-han); font-size: 13px; font-weight: 500; letter-spacing: .1em;
+  color: var(--accent-text); padding: 20px 0 9px;
+}
+.bls .grp:first-child { padding-top: 14px; }
+.bls .it {
+  display: flex; gap: 12px; align-items: baseline;
+  padding: 13px 0; border-bottom: 1px solid var(--hairline);
+}
+.bls .it .n {
+  flex: 0 0 22px; font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+  color: var(--accent-text); text-align: right;
+}
+.bls .it .tx { flex: 1; min-width: 0; font-size: 14px; line-height: 1.9; color: var(--ink-muted); }
+.bls .it .tx b { color: var(--ink); font-weight: 600; }
+
 /* ---------- timeline ---------- */
 .tl { margin-top: 20px; border-left: 1px solid var(--edge); padding-left: 0; list-style: none; }
 .tl li { position: relative; padding: 0 0 0 24px; margin-bottom: 18px; }
@@ -263,7 +281,7 @@ a:focus-visible { outline: none; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
-<div class="wrap" data-shell="5.0">
+<div class="wrap" data-shell="6.0">
   <header class="mast">
     <p class="eyebrow">{{EYEBROW}}</p>
     <h1>{{CAPTION}}</h1>
