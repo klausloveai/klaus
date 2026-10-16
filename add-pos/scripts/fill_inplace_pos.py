@@ -1,50 +1,59 @@
 #!/usr/bin/env python3
 """
-fill_inplace_pos.py — Complete a POS that is ALREADY EMBEDDED in an attorney-drafted
-pleading, instead of appending the firm template POS.
+fill_inplace_pos.py — Date and sign the blanks an attorney left in his own signed
+document: the embedded Proof of Service, and (opt-in) the Declaration of Translator.
 
 Usage:
     python3 fill_inplace_pos.py <outdir> <file.pdf> [file2.pdf ...]
+        [--inplace]                 overwrite the source files instead of writing to <outdir>
+        [--date "October 16"]       default: today, as "Month D" (", 2026" is already printed)
+        [--city "City of Industry"] city written into an "at ____, California" blank
+        [--declarant "Klaus Liu"]   who signs the POS
+        [--translator "Klaus Liu"]  ALSO date + sign the Declaration of Translator
 
-Use this when Hernán (or any attorney) drafted the Proof of Service INTO the pleading
-with the blanks left open, e.g.:
+    Pass "-" as <outdir> together with --inplace.
 
-    On ______________________, 2026, I served the foregoing document described as ...
-    Executed on ______________________, 2026, at City of Industry, California.
-    ______________________________          <- declarant signature rule
-    Name: ______________________
+Use this when Hernán (or any attorney) drafted the Proof of Service INTO the pleading with
+the blanks left open. Appending the firm template POS to such a document would give it
+TWO proofs of service and would discard any case-specific recital he wrote. Fill in place.
 
-Appending the firm template POS to such a document would give it TWO proofs of service,
-and would also discard any case-specific recital the attorney wrote into his own POS
-(e.g. "pursuant to the Consent to Electronic Service ... served by Defendant on
-August 31, 2026" — CRC 2.251(b)(1)(B)). Fill in place instead.
+What it fills — and nothing else:
+  POS region (from the "PROOF OF SERVICE" heading to the end of the document, so a POS
+  that runs onto a second page is covered):
+    * "On ____, 2026, I served ..."              -> date
+    * "Executed on ____, 2026[,] at ____, ..."   -> date (and city, if that blank exists)
+    * "Name: ____"                               -> declarant
+    * the signature rule directly above the declarant's name, or above "Name:",
+      or a "By: ____" line followed by the declarant's name -> signature
+  Translator region (only with --translator; from "DECLARATION OF TRANSLATOR" to the next
+  heading or page end):
+    * "On ____, 2026, I translated ..."          -> date
+    * "Executed on ____, 2026, at ____, ..."     -> date + city
+    * rule above "Signature of Translator"       -> signature
+    * rule above "Printed Name of Translator"    -> translator's name
 
-What it fills, per document:
-  * both date blanks  -> today, as "Month D" (the ", 2026" is already in the template text)
-  * Name: blank       -> the declarant
-  * signature rule    -> Klaus's signature PNG, taken from the firm POS template in Drive
+Never touched: the client's VERIFICATION (the client signs it), the attorney's "Dated:" and
+"By:" lines (the attorney signs them), and anything outside the two regions above.
+
+Fill method: the value is written ON the existing underscores, centred, slightly above the
+baseline, so it reads as a hand-filled blank. The underscores are never removed — removing
+them leaves a gap the rest of the line cannot close up (tried 2026-10-16, Jiayu Ma).
 
 The signature lives inside the firm POS template as word/media/image1.png
 (template file id 1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok). This script extracts it on the fly,
-so there is one source of truth for the signature and it stays in step with the template.
+so there is one source of truth for the signature.
 
-Judicial Council forms (DISC-001, DISC-002, ...) cannot take an appended page. Their POS
-belongs in the companion attachment document, and that POS must name the form by its full
-title in the "documents served" recital. Do not try to stamp the form itself.
+Judicial Council forms (DISC-001, DISC-002, ...) are never stamped. Their POS belongs in the
+companion attachment document, which must name the form by its full title.
 
-Requires: pymupdf, python-docx-free (zipfile only), gws on PATH.
+Requires: pymupdf, gws on PATH.
 """
-import fitz, sys, os, io, json, zipfile, subprocess, datetime
+import fitz, sys, os, json, zipfile, subprocess, datetime, argparse, shutil
 
 TEMPLATE_ID = "1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok"
-DECLARANT   = "Klaus Liu"
-FONT, SIZE  = "tiro", 12          # Times — matches firm pleading paper
-SIG_W       = 115.0               # pt on the page
-
-DATE_PATTERNS = ("On ______________________, 2026, I served",
-                 "Executed on ______________________, 2026")
-NAME_PATTERN  = "Name: ______________________"
-RULE_PATTERN  = "______________________________"
+TNR = "/System/Library/Fonts/Supplemental/Times New Roman.ttf"
+SIZE = 12
+SIG_W = 115.0          # pt on the page
 
 
 def signature_png(workdir):
@@ -67,50 +76,141 @@ def signature_png(workdir):
     return png
 
 
-def fill(path, outdir, sig_png, date_str, declarant=DECLARANT):
-    d = fitz.open(path)
-    filled = signed = 0
+# ---------------------------------------------------------------- page geometry
+def lines(pg):
+    out = []
+    for b in pg.get_text("dict")["blocks"]:
+        for l in b.get("lines", []):
+            txt = "".join(s["text"] for s in l["spans"])
+            if txt.strip():
+                out.append({"rect": fitz.Rect(l["bbox"]), "text": txt.strip(),
+                            "base": l["spans"][0]["origin"][1]})
+    return sorted(out, key=lambda x: (round(x["rect"].y0), x["rect"].x0))
+
+
+def runs(pg, rect):
+    """Underscore runs on one line, left to right, merged into contiguous blanks."""
+    hits = sorted((r for r in pg.search_for("___") if r.intersects(rect)), key=lambda r: r.x0)
+    out = []
+    for r in hits:
+        if out and r.x0 - out[-1].x1 < 3:
+            out[-1] |= r
+        else:
+            out.append(fitz.Rect(r))
+    return out
+
+
+def write_on(pg, run, base, text):
+    font = fitz.Font(fontfile=TNR)
+    w = font.text_length(text, SIZE)
+    x = run.x0 + max(2, (run.width - w) / 2)
+    pg.insert_font(fontname="TNR", fontfile=TNR)
+    pg.insert_text((x, base - 1.5), text, fontname="TNR", fontsize=SIZE, color=(0, 0, 0))
+
+
+def sign_on(pg, run, sig_png, aspect):
+    h = SIG_W * aspect
+    pg.insert_image(fitz.Rect(run.x0 + 8, run.y1 - 1 - h, run.x0 + 8 + SIG_W, run.y1 - 1),
+                    filename=sig_png, overlay=True)
+
+
+def rule_above(L, i):
+    for j in range(i - 1, max(-1, i - 3), -1):
+        if "___" in L[j]["text"] and (L[i]["rect"].y0 - L[j]["rect"].y0) < 40:
+            return L[j]
+    return None
+
+
+def is_heading(t):
+    t = t.strip()
+    return t.isupper() and len(t) > 6 and "___" not in t and not t.startswith("BY ")
+
+
+# ---------------------------------------------------------------- filling
+def fill_doc(d, sig_png, date, city, declarant, translator):
     with fitz.open(sig_png) as s:
         aspect = s[0].rect.height / s[0].rect.width
+    log = []
+    in_pos = False
     for pg in d:
-        for pat, val in [(p, date_str) for p in DATE_PATTERNS] + [(NAME_PATTERN, declarant)]:
-            for r in pg.search_for(pat):
-                clip = fitz.Rect(r.x0 - 2, r.y0 - 2, r.x1 + 2, r.y1 + 2)
-                for u in pg.search_for("______________________", clip=clip):
-                    w = fitz.get_text_length(val, fontname=FONT, fontsize=SIZE)
-                    x = u.x0 + max(2, ((u.x1 - u.x0) - w) / 2)
-                    pg.insert_text((x, u.y1 - 3.2), val, fontname=FONT,
-                                   fontsize=SIZE, color=(0, 0, 0))
-                    filled += 1
-        # the signature rule is the long underscore run sitting just ABOVE a "Name:" line
-        for nm in pg.search_for(NAME_PATTERN):
-            for rule in pg.search_for(RULE_PATTERN):
-                if 8 < (nm.y0 - rule.y0) < 40:
-                    h = SIG_W * aspect
-                    box = fitz.Rect(rule.x0 + 18, rule.y1 - 2 - h,
-                                    rule.x0 + 18 + SIG_W, rule.y1 - 2)
-                    pg.insert_image(box, filename=sig_png, overlay=True)
-                    signed += 1
-    out = os.path.join(outdir, os.path.basename(path))
-    d.save(out)
-    d.close()
-    return out, filled, signed
+        L = lines(pg)
+        in_tr = False
+        for i, ln in enumerate(L):
+            t = ln["text"]
+            if t == "PROOF OF SERVICE":
+                in_pos, in_tr = True, False
+                continue
+            if t.startswith("DECLARATION OF TRANSLATOR"):
+                in_tr = translator is not None
+                continue
+            if in_tr and is_heading(t):
+                in_tr = False
+
+            if in_tr:
+                rs = runs(pg, ln["rect"])
+                if t.startswith("I am fluent") and rs:
+                    write_on(pg, rs[0], ln["base"], date); log.append("translator date")
+                elif t.startswith("Executed on") and rs:
+                    write_on(pg, rs[0], ln["base"], date)
+                    if len(rs) > 1:
+                        write_on(pg, rs[1], ln["base"], city)
+                    log.append("translator executed")
+                elif t == "Signature of Translator":
+                    r = rule_above(L, i)
+                    if r: sign_on(pg, runs(pg, r["rect"])[0], sig_png, aspect); log.append("translator signature")
+                elif t == "Printed Name of Translator":
+                    r = rule_above(L, i)
+                    if r: write_on(pg, runs(pg, r["rect"])[0], r["base"] - 1.5, translator); log.append("translator name")
+                continue
+
+            if not in_pos:
+                continue
+            rs = runs(pg, ln["rect"])
+            if t.startswith("On ") and "served" in t and rs:
+                write_on(pg, rs[0], ln["base"], date); log.append("POS served date")
+            elif t.startswith("Executed on") and rs:
+                write_on(pg, rs[0], ln["base"], date)
+                if len(rs) > 1:
+                    write_on(pg, rs[1], ln["base"], city)
+                log.append("POS executed date")
+            elif t.startswith("Name:") and rs:
+                write_on(pg, rs[0], ln["base"], declarant); log.append("POS name")
+                r = rule_above(L, i)
+                if r: sign_on(pg, runs(pg, r["rect"])[0], sig_png, aspect); log.append("POS signature")
+            elif t == declarant:
+                r = rule_above(L, i)
+                if r: sign_on(pg, runs(pg, r["rect"])[-1], sig_png, aspect); log.append("POS signature")
+    return log
 
 
 def main():
-    if len(sys.argv) < 3:
-        raise SystemExit(__doc__)
-    outdir, srcs = sys.argv[1], sys.argv[2:]
-    os.makedirs(outdir, exist_ok=True)
-    sig = signature_png(outdir)
-    date_str = datetime.date.today().strftime("%B %-d")
-    for src in srcs:
-        out, n, s = fill(src, outdir, sig, date_str)
-        tag = f"filled {n}, signed {s}" if n else "no embedded POS — skipped"
-        print(f"  {tag:28s} {os.path.basename(out)}")
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("outdir")
+    ap.add_argument("files", nargs="+")
+    ap.add_argument("--inplace", action="store_true")
+    ap.add_argument("--date", default=datetime.date.today().strftime("%B %-d"))
+    ap.add_argument("--city", default="City of Industry")
+    ap.add_argument("--declarant", default="Klaus Liu")
+    ap.add_argument("--translator", default=None)
+    a = ap.parse_args()
+
+    work = os.path.dirname(os.path.abspath(a.files[0]))
+    sig = signature_png(work)
+    for src in a.files:
+        d = fitz.open(src)
+        log = fill_doc(d, sig, a.date, a.city, a.declarant, a.translator)
+        if a.inplace:
+            tmp = src + ".tmp.pdf"; d.save(tmp, garbage=3, deflate=True); d.close()
+            shutil.move(tmp, src); out = src
+        else:
+            os.makedirs(a.outdir, exist_ok=True)
+            out = os.path.join(a.outdir, os.path.basename(src)); d.save(out, garbage=3, deflate=True); d.close()
+        tag = ", ".join(log) if log else "no embedded POS / translator blank — skipped"
+        print(f"  {os.path.basename(out)}\n      {tag}")
     os.remove(sig)
-    print(f"\nServe date used: {date_str}, {datetime.date.today().year}")
-    print("Spot-check one signature page before serving.")
+    print(f"\nDate used: {a.date}, {datetime.date.today().year} · city: {a.city}"
+          + (f" · translator: {a.translator}" if a.translator else ""))
+    print("Render and look at every signature page before serving.")
 
 
 if __name__ == "__main__":

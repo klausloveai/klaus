@@ -19,6 +19,9 @@ description: |
   user says send does it send, then set the response-deadline calendar event and invite
   Hernán + Cassie. It never sends or serves without the user's explicit "send". Always
   trigger for any "add a POS / prepare proof of service / e-serve these" request.
+  Also trigger on "date and sign these", "加日期和签名", "把 POS 签上", "填 POS 日期",
+  "签 translator declaration / 我翻译的也签上" — filling the blanks the attorney left in his
+  own POS and Declaration of Translator is the in-place path of this skill.
 ---
 
 # Add Proof of Service (POS) + e-serve workflow
@@ -180,12 +183,40 @@ Fill it **in place** instead:
 
 ```bash
 python3 ~/.claude/skills/add-pos/scripts/fill_inplace_pos.py \
-  ~/Downloads/"<Client Name>" <signed pdf> [<signed pdf> ...]
+  ~/Downloads/"<Client Name>" <signed pdf> [<signed pdf> ...] \
+  [--inplace] [--date "October 16"] [--translator "Klaus Liu"]
 ```
 
-That fills both date blanks with today, fills `Name:` with the declarant, and stamps
-Klaus's signature onto the rule above it. Then jump straight to the e-serve email
+Add `--inplace` (with `-` as outdir) to overwrite the files where they are, and
+`--translator "Klaus Liu"` when Klaus is also the translator of a verified response set.
+
+It reads the page line by line, so it does not depend on how many underscores the attorney
+typed. What it fills, and only this:
+
+| Region | Blank | Value |
+|---|---|---|
+| POS (from the `PROOF OF SERVICE` heading to the end of the document) | `On ____, 2026, I served` | today, `Month D` |
+| | `Executed on ____, 2026[,] at ____, California` | today, and the city if that blank exists |
+| | `Name: ____` | declarant |
+| | rule above `Name:`, or the `By: ____` line followed by the declarant's name | Klaus's signature |
+| Declaration of Translator (only with `--translator`) | `On ____, 2026, I translated` | today |
+| | `Executed on ____, 2026, at ____, California` | today + `City of Industry` |
+| | rule above `Signature of Translator` | Klaus's signature |
+| | rule above `Printed Name of Translator` | translator's name |
+
+**Never touched:** the client's VERIFICATION and the attorney's `Dated:` / `By:` lines.
+
+**Fill method:** the value is written on top of the existing underscores, centred, so it reads
+as a hand-filled blank. Never redact the underscores first — the line cannot reflow, and the
+removed run leaves a visible gap (`October 16        , 2026`). Klaus approved the
+on-the-line look on Jiayu Ma, 2026-10-16.
+
+Then render every signature page and look at it, and jump straight to the e-serve email
 (step 3 of the workflow) — skip the template/config/builder steps entirely.
+
+**Before serving, check the two signatures this script does not add:** the client's
+verification (he signs; merge his signed page in) and the attorney's signature on the
+responses. A response set with objections is not servable until the attorney has signed.
 
 Use the template + `build_pos.py` path **only** when the documents have no POS of their own.
 
@@ -356,3 +387,7 @@ signature from a cursive font or by cropping it out of another filed document.
 - Deposition scheduling reminder: opposing counsel commonly requires the depo date to be
   **≥10 days after** the claimant's discovery responses are served.
 - The default declarant/sender is Klaus (klaus@). gws default account = klaus@.
+- **2026-10-16 (Jiayu Ma):** `fill_inplace_pos.py` rewritten to read the page line by line.
+  The old version only matched `On ______________________, 2026, I served` exactly and missed
+  Hernán's arbitration POS (`On ________________, 2026` + `By: ____` above the declarant's name).
+  Added the Declaration of Translator (`--translator`), `--inplace`, `--date`, `--city`.
