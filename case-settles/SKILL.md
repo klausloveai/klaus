@@ -55,11 +55,27 @@ check in FRONT, save as `<Client>-Disbursements.pdf`, then run this pipeline. Do
    finding boundaries only; it misreads digits. On 2026-10-14 the montage showed Jing Wang's provider checks
    as 6,300 / 4,300 and they were really **6,500 / 4,500** — the error exactly cancelled to a phantom
    "$400 case cost". Crop the top ~16% of each check page and read them stacked.
-0a-3. **Get the carrier check(s)** from that client's `Case Disbursements/<Client>/` folder — they are already
-   there from `check-intake`, named like `收据_<date>.pdf`, `MX-M476WH_<date>.pdf`, or
-   `<Client>-<carrier> <coverage> $<amt> (chk <no>) <date>.pdf`. Open each one and confirm the check number
-   and amount against the journal row before using it. A case with two coverages has two checks — prepend
+0a-3. **Get the carrier check(s) — search all four places before concluding it doesn't exist.**
+   Klaus 2026-10-15: "如果下次没有到处找一下。" The incoming check turns up in a different place depending
+   on who handled it, so walk the list in order and stop at the first hit:
+   1. the case folder's **`6#…Settlement Documents`**
+   2. **`Case Disbursements/<Client>/`** — put there by `check-intake`, named like `收据_<date>.pdf`,
+      `MX-M476WH_<date>.pdf`, or `<Client>-<carrier> <coverage> $<amt> (chk <no>) <date>.pdf`
+   3. **the case's Google Chat space** — Klaus and the CMs often just post the scan there when the check
+      arrives ("支票收到了" + a `收据_<date>.pdf`). List the space's messages around the journal's deposit
+      date and pull the attachment:
+      `gws chat spaces list` → find the space → `gws chat spaces messages list --params
+      '{"parent":"spaces/XXX","pageSize":100,"filter":"createTime > \"<deposit-date>T00:00:00Z\"","orderBy":"createTime asc"}'`
+      → `gws chat media download --params '{"resourceName":"<attachmentDataRef.resourceName>","alt":"media"}'
+      --output check.pdf` (the path parameter really is **`resourceName`**, not `name`).
+   4. **Still nothing → look up the deposit date in the Account Journal, then pull the image from BofA**
+      and print it. A counter-credit deposit's item images live under that transaction's details.
+   ⚠️ **Never trust the filename.** `Case Disbursements/Wei Lang/Wei Lang.pdf` looked like the carrier
+   check and was actually the four OUTGOING Rentec checks; open it and look. Confirm the check number and
+   amount against the journal row before using it. A case with two coverages has two checks — prepend
    both, in the order the money came in.
+   The same page is what Phase 6 needs for `人伤/<Clients>-<M:D:YYYY>.pdf`, so finding it here does
+   double duty.
 0a-4. **Build `<Client>-Disbursements.pdf`** = carrier check page(s) first, then that client's block, and
    upload it into `Case Disbursements/<Client>/`. Create with `uploadType=multipart`, then `files update` to
    rename and reparent off the shared-drive root — the two-call dance, or it lands as "Untitled".
