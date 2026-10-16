@@ -167,6 +167,20 @@ check is usually payable to **both parents as guardians** — both must endorse 
 27. **Send it** — `drafts send` (no approval needed as of 2026-08-21), then **re-apply the case label**:
     sending DROPS it and the sent message comes back `['SENT']` only. Verify To/Subject/labels after sending.
     Report what went out. If the case had an unresolved discrepancy, raise that in chat — but still send.
+27b. **Retire the case label and star the thread** (Klaus 2026-10-15: "发出 disbursement letter 后把 label
+    归类到 2026 completed case，然后 color green … star green-check"). Once the letter is out:
+    · **Rename the label in place** with `labels.patch` — `💉Treating/<Client>` → `✅2026 Completed Case/<Client>`.
+      **Patch, never create-and-retag**: the id is kept, so all of that case's existing threads follow the
+      rename (Wei Lang's 29 threads / 40 messages moved with it).
+    · **Colour it green**: `{"backgroundColor":"#42d692","textColor":"#094228"}` — exactly what the other
+      `✅2026 Completed Case/*` labels carry; keep `labelListVisibility: labelShow`, `messageListVisibility: show`.
+    · **Star the disbursement thread ✅ green check** — the API name is **`GREEN_CIRCLE`**, which is what
+      renders as the green tick. `GREEN_CHECK` and any lowercase-hyphen form return `400 Invalid label`.
+      Go through **`threads.modify`**, remove all 12 superstars first, then add `GREEN_CIRCLE` (it pulls in
+      `STARRED` by itself). Star every disbursement thread for that case, the original and any resend.
+      This re-activates `GREEN_CIRCLE`, which the old star convention had retired — for settled cases it is
+      now the closing mark.
+    · Apply the case label at **thread** level so replies in the thread carry it too.
 
 ## Phase 6 — Marketing material  (PI auto only)
 28. Resolve the `人伤` **shortcut** (`1YjOq97wy58uhV_5QMaoOIQ0te5oHShrj`) to its target
