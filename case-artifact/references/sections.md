@@ -1,4 +1,4 @@
-# 十一节，逐节的内容契约
+# 逐节的内容契约（shell 7.0：masthead + 十五节，顺序以 SKILL.md「页面结构」为准）
 
 每节都标了：**放什么** · **数据来自哪** · **写坏了会怎样**。
 节次固定；该案没有的节整节删掉，不要留空壳。
@@ -9,6 +9,8 @@ shell 里可用的组件：
 `.card`（纸面卡片） · `.grid.g2/.g3`（卡片网格） · `.tw > table`（可横向滚动的表） ·
 `.note`（金线旁注） · `.calc`（等宽算式块） · `.dls > .dl`（倒计时行） ·
 `.bls > .it`（阻塞行；旧的 `.blockers > .bl` 卡片勿再新用） · `.tl`（时间线） · `.chip.done/.wait/.due`（状态标）
+v7 新增：`.stats`（状态条，shell 自带） · `.road`（路线图） · `.it .meta`（待办出处行） ·
+`.chk > li.miss/.got`（材料清单） · `[data-mail]`（寄件行，状态条据此计数） · `.bars`（周收入堆叠柱）
 
 ---
 
@@ -21,7 +23,38 @@ shell 里可用的组件：
 Case number / Court / Department / Complaint filed / Date of loss / Attorney of record
 `{{CHIPS}}` `.chip.plain`：案件性质、陪审费、`And related cross-action`、开庭日状态
 
+`{{CHIPS}}` 末尾加一个 `<a class="chip plain" href="<case folder url>">Drive 案卷</a>`（没核到 folder url 就不加）
+
 > 为什么全英文：这一块一一对应法院 caption，中英混排会让人核对时出错。
+> 下面的状态条和路线图不属于 docket，用中文。
+
+### 状态条 `{{STAGE}}` `{{DOL_ISO}}`
+
+shell 自带五格。**只填两样**：`{{STAGE}}` 阶段（中文短语，与路线图「现在」那一步同名）、
+`{{DOL_ISO}}` 事发日 `YYYY-MM-DD`。其余三格脚本数：待办 = `.bls .it` 条数；
+寄件在途 = `[data-mail="pending|transit"]` 行数（页面没有寄件追踪节时这一格自动消失）；
+下一期限 = 「关键期限」里最近的未来 `data-days`，并带出那一行的标题。
+**所以这三格永远不要手写**，写了就会跟正文脱节。
+
+### 路线图 `{{ROAD}}`
+
+```html
+<ol class="road" aria-label="案件进程">
+  <li class="done"><span class="st">起诉立案</span><small>2026-06-02</small></li>
+  <li class="now"><span class="here">现在</span><span class="st">送达</span><small>等 POS</small></li>
+  <li><span class="st">Discovery</span></li>
+  <li class="maybe"><span class="st">开庭</span></li>
+</ol>
+```
+
+`done` 已完成（写完成日）· `now` 只有一个（写一句在等什么）· 无 class 为必经未到 ·
+`maybe` 视情况才走（虚线圈）。最多 8 步，超出就合并。标准轨道：
+
+- **诉讼**：起诉立案 · 送达 · 答辩 · Discovery · 调解 / MSC · 开庭 · 和解分配
+- **诉前（狗咬 / PI）**：接案建档 · 调查保全 · 医疗账单 · 诉前索赔 · 起诉 · 诉讼程序 · 和解分配
+
+**不写可能性百分比。** 分岔（被告有没有保险、对方会不会 cross-complain）写进「案件现状」，
+每条写触发条件与依据，判断留给律师。
 
 ---
 
@@ -74,6 +107,16 @@ Case number / Court / Department / Complaint filed / Date of loss / Attorney of 
 - 分栏依据是"**卡在谁身上**"，不是事项类别。Klaus 看这一节是为了知道该去催谁。
 - 开头一句点题，例：「这案子现在没有一件事卡在起草上，全部卡在人身上。」
 - 真的没有阻塞，就写「当前无阻塞」，不要为了填满而列伪待办。
+- **v7：每条末尾一行出处** `<span class="meta">来源 Hernán 2026-10-12 邮件第 3 项 · 负责 Klaus · 期限 2026-10-20</span>`。
+  来源写到能搜回原件为止（邮件日期 + 第几项 / 法条 / 客户微信日期）；负责人与期限没有就省掉那一段，
+  不要编。期限若够硬，同时进「关键期限」。
+
+---
+
+## 3b. 案件现状 · 分岔口（v7）
+
+lede 之后，路线图上每个 `maybe` 一张 `.card`：标题写分岔本身（「被告是否有 homeowner's 保险」），
+正文写**触发条件 / 两条路各意味着什么 / 我们现在知道什么、从哪知道**。不写百分比。
 
 ---
 
@@ -90,6 +133,25 @@ Case number / Court / Department / Complaint filed / Date of loss / Attorney of 
 
 ---
 
+## 4b. 寄件追踪（v7）
+
+**放什么** 一张表：收件人 / 内容 / 寄出 / 追踪号 / 状态 / 回复期限。每行 `<tr data-mail="…">`，
+值只有四个：`pending` 待入网 · `transit` 运输中 · `delivered` 已签收 · `returned` 退回。
+状态 chip 对应 `plain` / `wait` / `done` / `due`；签收的写日期（`已签收 10-04`）。
+
+- 追踪号 mono，链到 `https://tools.usps.com/go/TrackConfirmAction?tLabels=<号码>`
+- 签收后回复期限算出来写进本表，**同时进「关键期限」**，`.note` 写算法
+- 签收截图存 Drive，`.note` 写路径；页面上不贴图
+- 一个收件人一行（一个收件人一套挂号，律所规矩）
+
+## 4c. 客户材料（v7）
+
+`.grid.g2` 两张卡：**待补** `li.miss`、**已收** `li.got`（右侧 mono 收到日期）。
+待补项已在「待办与阻塞 · 等客户」里的，只写「见待办 N」，别把说明抄两遍。
+清单依据写一句 `.note`（按哪类案子的材料清单 / 哪封律师邮件要的）。
+
+---
+
 ## 5. 当事人与律师
 
 **放什么** 一张表：当事人 / 身份 / 代理律师 / 送达地址（mono）。
@@ -99,6 +161,8 @@ Case number / Court / Department / Complaint filed / Date of loss / Attorney of 
   旧律师仍是 record counsel —— 这决定送达义务，错了就是送达瑕疵
 - 送达地址列全（七个 g3pmlaw 那种就写"另六个个人邮箱"，不要漏说数量）
 - 底下 `.note` 写送达名单的现状与依据，包括查 docket 的日期
+- **v7**：保险公司（claim # mono）、房东 / 物业、政府机构（报告号）也各占一行；
+  身份没核实的（只知道 DoorDash 账号名、只知道车牌）在身份列加 `<span class="chip due">身份未明</span>`
 
 ---
 
@@ -137,6 +201,23 @@ Case number / Court / Department / Complaint filed / Date of loss / Attorney of 
 - 取数窗口的讲究要写（"at the time of the INCIDENT" 取事发前四周，不是停工后的平均）
 - 口径要写（gross receipts / Form 1099 / 未扣业务支出 / 保留改按 net）
 - **尚未主张但已浮现的损失**单独一条 `.note`，写清不披露的后果
+- **v7 误工案：每周收入堆叠柱**，事发前后各取够看出断崖的周数：
+
+  ```html
+  <figure class="bars">
+    <div class="bars-legend"><span style="--c:var(--s1)">Uber</span><span style="--c:var(--s2)">Lyft</span></div>
+    <div class="bars-scroll"><div class="bars-plot" style="--max:1200">
+      <div class="col hit" tabindex="0" title="05-04 周 · Uber $420 · Lyft $180">
+        <div class="bar"><i style="--v:420;--c:var(--s1)"></i><i style="--v:180;--c:var(--s2)"></i></div>
+        <span class="x">05-04</span></div>
+    </div></div>
+    <figcaption>数据来源 + 口径（gross / 1099）。明细见下表。</figcaption>
+  </figure>
+  ```
+
+  `--max` 取最高那周向上取整；`<i>` 从底往上写；**值为 0 的段不写**（否则留一道 2px 缝）；
+  事发那周 `col hit`。平台按 `--s1`…`--s4` **固定顺序**分配，不轮换（已过 dataviz 校验）。
+  **图下必须跟一张明细表**（周 / 各平台 / 合计），图只是看形状，数以表为准；表的合计要跟 `.calc` 对得上。
 
 ---
 
@@ -157,6 +238,8 @@ Case number / Court / Department / Complaint filed / Date of loss / Attorney of 
 - 标题要能单独读懂：「送达的 Index 只列到 CONG 000105」好过「索引问题」
 - 每张卡要讲**会怎么咬到我们**，以及现在的处置
 - 已经发生但无害的（产出完整、只是清单漏行）要明说无害，不要制造假警报
+- **v7 定级**：卡片第一行 `<p><span class="chip due">要处理</span></p>` / `chip wait 留意` / `chip done 已解决`，
+  按「要处理 → 留意 → 已解决」排。已解决的留着 —— 它说明这个坑查过了
 
 ---
 

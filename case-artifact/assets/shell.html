@@ -299,10 +299,118 @@ tfoot td { border-top: 1px solid var(--edge); font-weight: 600; color: var(--ink
 a { color: var(--accent-text); text-underline-offset: 3px; }
 a:focus-visible { outline: none; color: var(--ink); }
 @media (max-width: 560px) { .docket { gap: 0 24px; } }
+a.chip { text-decoration: none; }
+a.chip:hover { border-color: var(--accent); color: var(--ink); }
+
+/* ---------- v7：状态条（masthead 内，数字由脚本从正文实时算，不手写） ---------- */
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  margin: 28px 0 0; border: 1px solid var(--hairline); border-radius: 4px;
+  background: var(--paper); box-shadow: var(--shadow-1); overflow: hidden;
+}
+.stats > div { padding: 14px 18px; border-right: 1px solid var(--hairline); min-width: 0; }
+.stats > div:last-child { border-right: 0; }
+.stats dt { font-family: var(--f-han); font-size: 12px; letter-spacing: .08em; color: var(--ink-faint); line-height: 1.5; }
+.stats dd {
+  margin: 2px 0 0; font-family: var(--f-body); font-variant-numeric: tabular-nums;
+  font-size: 26px; font-weight: 500; line-height: 1.25; color: var(--ink);
+}
+.stats dd small { font-size: 12px; font-weight: 400; color: var(--ink-faint); margin-left: 3px; }
+.stats dd.txt { font-family: var(--f-han); font-size: 16px; line-height: 1.6; padding-top: 6px; }
+.stats .next dd { color: var(--accent-text); }
+.stats .stat-sub { margin: 2px 0 0; font-size: 12px; line-height: 1.6; color: var(--ink-muted); }
+@media (max-width: 620px) {
+  .stats > div { border-right: 0; border-bottom: 1px solid var(--hairline); }
+  .stats > div:last-child { border-bottom: 0; }
+}
+
+/* ---------- v7：诉讼路线图（masthead 内，一行轨道；分岔细节写进「案件现状」） ---------- */
+.road {
+  list-style: none; margin: 22px 0 0; padding: 26px 0 6px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(92px, 1fr);
+  overflow-x: auto;
+}
+.road li { position: relative; padding-top: 22px; text-align: center; min-width: 0; }
+/* 连线：从本节点中心画到下一个节点中心，1px */
+.road li::after {
+  content: ""; position: absolute; top: 5px; left: 50%; width: 100%; height: 1px;
+  background: var(--edge);
+}
+.road li:last-child::after { display: none; }
+.road li.done::after { background: var(--accent); }
+/* 节点 */
+.road li::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 11px; height: 11px; border-radius: 999px; z-index: 1;
+  background: var(--ground); border: 1px solid var(--edge-muted);
+}
+.road li.done::before { background: var(--accent-text); border-color: var(--accent-text); width: 9px; height: 9px; top: 1px; }
+.road li.now::before { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ground), 0 0 0 4px var(--accent); }
+.road li.maybe::before { border-style: dashed; }
+.road .st { display: block; font-family: var(--f-han); font-size: 13px; line-height: 1.5; color: var(--ink-muted); padding-inline: 4px; }
+.road li.done .st { color: var(--ink); }
+.road li.now .st { color: var(--accent-text); font-weight: 500; }
+.road li.maybe .st { color: var(--ink-faint); }
+.road small { display: block; font-family: var(--f-mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+.road .here {
+  position: absolute; top: -24px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font-size: 10px; font-weight: 600; letter-spacing: .2em; color: var(--accent-text);
+}
+
+/* ---------- v7：待办行的出处行（来源 · 负责 · 期限） ---------- */
+.bls .it .meta {
+  display: block; margin-top: 3px; font-size: 12px; line-height: 1.7;
+  color: var(--ink-faint); letter-spacing: .02em;
+}
+
+/* ---------- v7：客户材料清单（待补 / 已收） ---------- */
+.chk { list-style: none; margin: 0; padding: 0; }
+.chk li {
+  position: relative; padding: 8px 0 8px 20px; border-bottom: 1px solid var(--hairline);
+  font-size: 14px; line-height: 1.8; color: var(--ink-muted);
+}
+.chk li:last-child { border-bottom: 0; padding-bottom: 0; }
+.chk li:first-child { padding-top: 0; }
+.chk li::before {
+  content: ""; position: absolute; left: 2px; top: 15px; width: 7px; height: 7px; border-radius: 999px;
+}
+.chk li:first-child::before { top: 7px; }
+.chk li.miss::before { border: 1px solid var(--alarm); }
+.chk li.got::before { background: var(--steady); }
+.chk li b { color: var(--ink); font-weight: 600; }
+.chk li .mono { float: right; margin-left: 12px; color: var(--ink-faint); font-size: 12px; }
+
+/* ---------- v7：每周收入堆叠柱（误工案才用；必须配明细表） ----------
+   数据色四个，按此顺序固定分配，不轮换（dataviz 校验通过：明度带 / 彩度 / CVD / 正常视觉 / 对比度）。
+   这是数据标记，不是界面填面 —— 「金色绝不填面」管的是界面，不管柱子。 */
+.bars { margin: 22px 0 0; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 18px 18px 12px; }
+.bars { --s1: #2F6DA8; --s2: #B5862A; --s3: #6A5BA8; --s4: #A4503A; }
+.bars-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--ink-muted); margin-bottom: 14px; }
+.bars-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.bars-legend span::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
+.bars-scroll { overflow-x: auto; padding-top: 22px; }
+.bars-plot { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(28px, 1fr); position: relative; }
+/* 基线：画在柱区底部（标签区 20px 之上），1px */
+.bars-plot::after { content: ""; position: absolute; left: 0; right: 0; bottom: 20px; height: 1px; background: var(--edge); }
+.bars .col { display: flex; flex-direction: column; padding-inline: 3px; position: relative; cursor: default; outline: none; }
+.bars .bar { height: 190px; display: flex; flex-direction: column-reverse; gap: 2px; }
+.bars .bar i { display: block; height: calc(var(--v) / var(--max) * 100%); background: var(--c); }
+.bars .bar i:last-child { border-radius: 4px 4px 0 0; }
+.bars .col:hover .bar i, .bars .col:focus-visible .bar i { filter: brightness(1.1); }
+.bars .col .x { height: 20px; font-family: var(--f-mono); font-size: 10px; line-height: 20px; color: var(--ink-faint); text-align: center; white-space: nowrap; }
+/* 事发周：金色 1px 框 + 眉标，不靠改色 */
+.bars .col.hit .bar { box-shadow: 0 0 0 1px var(--accent); border-radius: 4px 4px 0 0; }
+.bars .col.hit .x { color: var(--accent-text); font-weight: 500; }
+.bars .col.hit::before {
+  content: "事发周"; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; font-weight: 600; letter-spacing: .12em; color: var(--accent-text); white-space: nowrap;
+}
+.bars figcaption { font-size: 12px; color: var(--ink-faint); margin-top: 8px; line-height: 1.7; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
-<div class="wrap" data-shell="6.3">
+<div class="wrap" data-shell="7.0">
   <header class="mast">
     <p class="eyebrow">{{EYEBROW}}</p>
     <h1>{{CAPTION}}</h1>
@@ -313,6 +421,14 @@ a:focus-visible { outline: none; color: var(--ink); }
     <div class="chips">
 {{CHIPS}}
     </div>
+    <dl class="stats">
+      <div><dt>阶段</dt><dd class="txt">{{STAGE}}</dd></div>
+      <div><dt>距事发</dt><dd data-since="{{DOL_ISO}}">—</dd></div>
+      <div><dt>待办</dt><dd data-stat="open">—</dd></div>
+      <div data-stat-box="mail"><dt>寄件在途</dt><dd data-stat="mail">—</dd></div>
+      <div class="next"><dt>下一期限</dt><dd data-stat="next">—</dd><p class="stat-sub" data-stat="next-what"></p></div>
+    </dl>
+{{ROAD}}
   </header>
 
 {{SECTIONS}}
@@ -350,6 +466,37 @@ a:focus-visible { outline: none; color: var(--ink); }
       if (card) { card.classList.remove("now"); card.style.opacity = ".55"; }
     }
   }
+  /* v7 状态条：全部从正文实时数，不手写 —— 正文改了，条子自动跟着对 */
+  var since = document.querySelector("[data-since]");
+  if (since) {
+    var ds = -daysUntil(since.getAttribute("data-since"));
+    since.innerHTML = ds + ' <small>天</small>';
+  }
+  function put(k, html) {
+    var el = document.querySelector('[data-stat="' + k + '"]');
+    if (el) el.innerHTML = html;
+  }
+  put("open", String(document.querySelectorAll(".bls .it").length) + ' <small>条</small>');
+  var mailRows = document.querySelectorAll("[data-mail]");
+  if (mailRows.length) {
+    put("mail", String(document.querySelectorAll('[data-mail="pending"],[data-mail="transit"]').length) +
+        ' <small>/ ' + mailRows.length + ' 封</small>');
+  } else {
+    var mb = document.querySelector('[data-stat-box="mail"]');
+    if (mb) mb.parentNode.removeChild(mb);
+  }
+  var best = null, bestD = Infinity;
+  var dls = document.querySelectorAll(".dls [data-days]");
+  for (var j = 0; j < dls.length; j++) {
+    var dd = daysUntil(dls[j].getAttribute("data-days"));
+    if (dd >= 0 && dd < bestD) { bestD = dd; best = dls[j]; }
+  }
+  if (best) {
+    put("next", bestD === 0 ? "今天" : bestD + ' <small>天</small>');
+    var row = best.closest(".dl"), t = row && row.querySelector(".dl-title");
+    if (t) put("next-what", t.textContent);
+  }
+
   var f = document.getElementById("asof");
   if (f) {
     var n = new Date();

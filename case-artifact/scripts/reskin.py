@@ -29,7 +29,7 @@ def stamp(text):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if a != '--check']
+    args = [a for a in sys.argv[1:] if a not in ('--check', '--css-only')]
     check = '--check' in sys.argv
     if not args:
         print(__doc__)
@@ -41,7 +41,13 @@ def main():
     print('shell %s  |  page %s  |  %s' % (
         want, have or '(无戳，视为旧版)', '已是最新' if have == want else '需要刷新'))
     if check or have == want:
+        if have and have.split('.')[0] != want.split('.')[0]:
+            print('  [大版本] 正文结构也变了，脚本只换样式；加 --css-only 才执行，正文缺的节下次动该页时人工补')
         return
+    if have and have.split('.')[0] != want.split('.')[0] and '--css-only' not in sys.argv:
+        print('  [停] 大版本 %s → %s：脚本只能换样式。确认只要样式就加 --css-only；'
+              '版本戳会写成 %s 并在 applied.json 里记 "%s-css"' % (have, want, want, want))
+        sys.exit(1)
     for tag in ('style', 'script'):
         new, old = block(shell, tag), block(page, tag)
         if new is None:
