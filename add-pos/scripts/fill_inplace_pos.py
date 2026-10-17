@@ -26,7 +26,9 @@ What it fills — and nothing else:
     * the signature rule directly above the declarant's name, or above "Name:",
       or a "By: ____" line followed by the declarant's name -> signature
   Translator region (only with --translator; from "DECLARATION OF TRANSLATOR" to the next
-  heading or page end):
+  heading or page end). Two layouts are recognised -- the firm template's, and Hernan's
+  ("I, ____, declare:" ... "Printed name: ____", first met on Yi Cong 2026-10-16, where the
+  old patterns silently filled nothing):
     * "On ____, 2026, I translated ..."          -> date
     * "Executed on ____, 2026, at ____, ..."     -> date + city
     * rule above "Signature of Translator"       -> signature
@@ -148,9 +150,20 @@ def fill_doc(d, sig_png, date, city, declarant, translator):
 
             if in_tr:
                 rs = runs(pg, ln["rect"])
-                if t.startswith("I am fluent") and rs:
+                # Hernan's layout (Yi Cong, 2026-10-16): "I, ____, declare: I am fluent ..."
+                # -- the translator's name sits in the first blank of the opening line.
+                if t.startswith("I,") and "declare" in t and rs:
+                    write_on(pg, rs[0], ln["base"], translator); log.append("translator name")
+                    rs = rs[1:]
+                # The date blank is on whichever line carries "I translated" -- the opening
+                # line in the older layout, the next line ("Chinese. On ____, 2026, I
+                # translated ...") in Hernan's. Match the phrase, not the line's first word.
+                if "I translated" in t and rs:
                     write_on(pg, rs[0], ln["base"], date); log.append("translator date")
-                elif t.startswith("Executed on") and rs:
+                elif t.startswith("I am fluent") and rs:
+                    write_on(pg, rs[0], ln["base"], date); log.append("translator date")
+                # "Executed on" can open the line or follow "foregoing is true and correct."
+                elif "Executed on" in t and rs:
                     write_on(pg, rs[0], ln["base"], date)
                     if len(rs) > 1:
                         write_on(pg, rs[1], ln["base"], city)
@@ -161,6 +174,13 @@ def fill_doc(d, sig_png, date, city, declarant, translator):
                 elif t == "Printed Name of Translator":
                     r = rule_above(L, i)
                     if r: write_on(pg, runs(pg, r["rect"])[0], r["base"] - 1.5, translator); log.append("translator name")
+                # Hernan's layout: "Printed name: ____" carries its own blank; the signature
+                # goes on the bare rule directly above it (a line of underscores and nothing else).
+                elif t.lower().startswith("printed name") and rs:
+                    write_on(pg, rs[0], ln["base"], translator); log.append("translator printed name")
+                    r = rule_above(L, i)
+                    if r and r["text"].strip("_ ") == "":
+                        sign_on(pg, runs(pg, r["rect"])[0], sig_png, aspect); log.append("translator signature")
                 continue
 
             if not in_pos:
