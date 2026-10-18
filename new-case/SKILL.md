@@ -960,6 +960,10 @@ added automatically as owner — he is in every space.**
    # -> member.name = users/<numericId>
    ```
 
+> ⚠️ **2026-10-17 (Klaus)：@ 至少 CM + CA + CM supervisor Amos。** Picase 已拆成 Picase@(Amos)/(Jenkins)/(Eeve) 三个 tab，
+> 按案子所在 tab 定 CM —— Picase@(Jenkins) 案 = `jenkins.l@` + `tiana.d@` + `amos.f@`（不 @ Eeve）。
+> **没有 case notes 也要立刻发** `@CM @CA @Amos new case`，不能停着等 —— 群建好没人被 @ 就等于没分配。笔记来了再原话补发一条。
+
 5. **PAUSE — ask the user for their case notes.** After the space is created and all members are verified,
    stop and prompt the user:
    > "Chat 空间已建好，请留言你对这个案子了解的信息，我会原话复制粘贴 @ 给该案的 mention 名单。"
