@@ -20,8 +20,15 @@ Usage:
 import argparse, json, subprocess, sys
 
 SPREADSHEET = "1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM"
-TAB_SHEET_IDS = {"Piteam@": 102974151, "Picase@": 775230687, "Claims@": 86730608,
-                 "Klaus@": 1401961516}
+# 2026-10-16: Picase@ was split into three tabs (one per CM). The old name 'Picase@' no longer
+# exists — Picase@(Jenkins) is the original tab renamed (same sheetId). Klaus names the tab per case.
+TAB_SHEET_IDS = {"Piteam@": 102974151, "Claims@": 86730608, "Klaus@": 1401961516,
+                 "Picase@(Amos)": 948247733, "Picase@(Jenkins)": 775230687,
+                 "Picase@(Eeve)": 1835238126}
+
+
+def a1(tab, ref):  # quote the tab name: 'Picase@(Jenkins)' has parentheses
+    return "'" + tab.replace("'", "''") + "'!" + ref
 
 
 def gws(*args, params=None, body=None):
@@ -65,7 +72,7 @@ def main():
     n = 1 + len(a.passenger)
 
     hdr = gws("sheets", "spreadsheets", "values", "get",
-              params={"spreadsheetId": SPREADSHEET, "range": f"{a.tab}!1:1"}).get("values", [[]])[0]
+              params={"spreadsheetId": SPREADSHEET, "range": a1(a.tab, "1:1")}).get("values", [[]])[0]
     col = {h.strip(): i for i, h in enumerate(hdr) if h and h.strip()}
 
     # Some tabs spell the DOL header "Date of Loss" (Picase@) instead of "DOL".
@@ -124,7 +131,7 @@ def main():
     data = []
 
     def put(row, header, value):
-        data.append({"range": f"{a.tab}!{col_letter(need(header))}{row}", "values": [[value]]})
+        data.append({"range": a1(a.tab, f"{col_letter(need(header))}{row}"), "values": [[value]]})
 
     put(3, "DOL", a.dol)
     put(3, "Client Name", f'=HYPERLINK("{link}","{a.client}")')
@@ -162,7 +169,7 @@ def main():
         params={"spreadsheetId": SPREADSHEET},
         body={"valueInputOption": "USER_ENTERED", "data": data})
 
-    rng = f"{a.tab}!A3:{col_letter(len(hdr)-1)}{2+n}"
+    rng = a1(a.tab, f"A3:{col_letter(len(hdr)-1)}{2+n}")
     got = gws("sheets", "spreadsheets", "values", "get",
               params={"spreadsheetId": SPREADSHEET, "range": rng,
                       "valueRenderOption": "FORMULA"}).get("values", [])
