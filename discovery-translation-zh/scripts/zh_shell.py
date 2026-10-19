@@ -106,7 +106,7 @@ def build_shell(title_zh, footer_zh):
 def verification(doc, protos, title_zh):
     page_break(doc, protos)
     E(doc, protos, "head", "宣誓认证 (VERIFICATION)")
-    E(doc, protos, "body", "\t本人 YI CONG 声明：")
+    E(doc, protos, "body", "\t本人 " + CASE["plaintiff"] + " 声明：")
     E(doc, protos, "prelim",
       "本人系上述案件之原告。本人的母语为普通话，不能流利阅读英文。前述" + title_zh +
       "已由英文口译为普通话向本人宣读，本人知悉其内容。除依据传闻与确信陈述之事项外，"
@@ -119,14 +119,14 @@ def verification(doc, protos, title_zh):
     E(doc, protos, "body", "\t\t\t\t\t" + CASE["plaintiff"])
     E(doc, protos, "body", "")
     E(doc, protos, "head", "口译人声明 (DECLARATION OF TRANSLATOR)")
-    E(doc, protos, "body", "\t本人 ______________________________ 声明：")
+    E(doc, protos, "body", "\t本人 " + CASE.get("translator", "______________________________") + " 声明：")
     E(doc, protos, "prelim",
       "本人精通英文与普通话。本人于 2026 年 ____ 月 ____ 日将前述答复及宣誓认证由英文口译为普通话"
       "向 " + CASE["plaintiff"] + " 转述，其表示已理解上述内容。本人依加利福尼亚州法律在伪证罪处罚下声明，"
       "上述内容真实无误。")
     E(doc, protos, "body", "")
     E(doc, protos, "body", "\t\t\t\t\t______________________________")
-    E(doc, protos, "body", "\t\t\t\t\t口译人签名")
+    E(doc, protos, "body", "\t\t\t\t\t" + CASE.get("translator", "口译人签名"))
 
 def signature(doc, protos):
     E(doc, protos, "body", "")

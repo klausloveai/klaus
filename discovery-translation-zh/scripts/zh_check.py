@@ -38,7 +38,9 @@ def main():
 
     zh_pat, en_pat = KINDS[a.kind]
     if zh_pat:
-        nz, ne = z.count(zh_pat), len(re.findall(en_pat, e))
+        # count numbered labels only — the footer and verification also contain "对…第一组"
+        nz = len(re.findall(r"(?m)^[\s\d]*" + re.escape(zh_pat) + r"\s*[\d.]+\s*条的答复：", z))
+        ne = len(re.findall(en_pat, e))
         print(f"answers: Chinese {nz} / English {ne}")
         if nz != ne:
             fails.append(f"answer count mismatch — Chinese {nz}, English {ne}. "
