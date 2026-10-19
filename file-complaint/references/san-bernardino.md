@@ -82,13 +82,16 @@ SUM-100 / CM-010 仍用 `Judicial Council forms (Hernán pre-filled)/` 里那两
 |---|---|---|
 | 原告 | `undefined` | y≈697.7 |
 | 被告 | `vs 1` | **只有 221pt 宽** —— 用 `JASA TRANSPORTATION INC, et al.`；这张不是送达文书，可以简称 |
-| 区 | `District of the Superior Court under Rule131 and General Order` | 填 `Civil Division of the San Bernardino` |
+| 区 | `District of the Superior Court under Rule131 and General Order` | 填 `Civil Division of the San Bernardino`；**`/DA` 必须 7pt** —— 默认字号会切成 `San Bernard`（Chao Zheng 2026-10-15 律师已签的那份就是被切的，只能重签） |
 | 案由勾选 第 N 行 | `undefined_(N+1)` | 填 `X`。**Personal Injury 是第 11 行 → `undefined_12`** |
 | 资格事由名称 | `NAME  INDICATE TITLE OR OTHER QUALIFYING FACTOR` | 人伤写 `Place of injury` |
 | 地址 | `ADDRESS` | **只有约 179pt** —— 长地址要把 `/DA` 调到 6pt，否则会被切掉 |
 | 城市 / 州 / 邮编 | `CITY` / `STATE` / `ZIP CODE` | |
 | 宣誓地点 | `undefined_23` | 填 `City of Industry` |
 | 宣誓日期 | `executed on` | **留空**，律师签字当天填 |
+
+**用 `fill_forms.py` 的 `fill_sb_coa(cfg, tmpl, out)` 填，然后 `flatten(out)`** —— 字号、勾选框定位都在里面，别再手写一次性脚本。
+交给律师签之前**渲染一遍看 district 行和地址行**，pdftotext 读得出全文不代表画面上没被切。
 
 勾选框不要按行号硬算 —— `fill_forms.py` 的做法是**先在页面上找到 "Personal Injury"
 那行文字的 y 坐标，再取最近的那个窄方框**，表格改版也不会错位。

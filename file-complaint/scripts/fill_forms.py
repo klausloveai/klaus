@@ -351,6 +351,62 @@ def fill_civ109(cfg, tmpl, out):
     print('wrote', out)
 
 
+def fill_sb_coa(cfg, tmpl, out):
+    """San Bernardino Certificate of Assignment (13-16503-360). Field names are generated
+    `undefined_N`, so this works from the map in references/san-bernardino.md.
+    cfg keys: plaintiff, defendant_short, district, coa_reason_text ('Personal Injury'),
+    coa_factor ('Place of injury'), incident_address, incident_city, incident_state,
+    incident_zip, coa_place ('City of Industry')."""
+    r = PdfReader(tmpl); w = PdfWriter(); w.append(r); strip_xfa(w)
+    # tick the reason row by locating its label on the page, then the nearest narrow box
+    label = cfg.get('coa_reason_text', 'Personal Injury')
+    ys = []
+    def v(text, cm, tm, fd, fs):
+        if label in text:
+            ys.append(cm[1] * tm[4] + cm[3] * tm[5] + cm[5])
+    PdfReader(tmpl).pages[0].extract_text(visitor_text=v)
+    box = None
+    if ys:
+        best = None
+        for pi, page, o in collect_widgets(w):
+            if o.get('/FT') != '/Tx':
+                continue
+            rect = [float(x) for x in o['/Rect']]
+            if rect[0] < 60 and (rect[2] - rect[0]) < 15:
+                d = abs(rect[1] - ys[0])
+                if best is None or d < best[0]:
+                    best = (d, fqname(o))
+        if best and best[0] < 12:
+            box = best[1]
+    # narrow fields: shrink the font so the text is not clipped by the widget box.
+    # The district field is ~160pt: at 9pt "Civil Division of the San Bernardino" was
+    # clipped to "San Bernard" on a signed copy (Chao Zheng, 10/15/2026).
+    for pi, page, o in collect_widgets(w):
+        t = str(o.get('/T') or '')
+        if t == 'ADDRESS':
+            o[NameObject('/DA')] = TextStringObject('/Helv 6 Tf 0 g')
+        elif t.startswith('District of the Superior Court'):
+            o[NameObject('/DA')] = TextStringObject('/Helv 7 Tf 0 g')
+    fills = {
+        (lambda nm, tu: tu == 'undefined' and nm.endswith('undefined')): cfg['plaintiff'],
+        (lambda nm, tu: nm.endswith('vs 1')): cfg['defendant_short'],
+        (lambda nm, tu: nm.startswith('District of the Superior Court')): cfg['district'],
+        (lambda nm, tu: nm == 'NAME  INDICATE TITLE OR OTHER QUALIFYING FACTOR'): cfg.get('coa_factor', 'Place of injury'),
+        (lambda nm, tu: nm == 'ADDRESS'): cfg['incident_address'],
+        (lambda nm, tu: nm == 'CITY'): cfg['incident_city'],
+        (lambda nm, tu: nm == 'STATE'): cfg['incident_state'],
+        (lambda nm, tu: nm == 'ZIP CODE'): cfg.get('incident_zip', ''),
+        (lambda nm, tu: nm == 'undefined_23'): cfg.get('coa_place', 'City of Industry'),
+    }
+    if box:
+        fills[(lambda nm, tu, b=box: nm == b)] = 'X'
+    else:
+        print('  [warn] could not locate the "%s" box — tick it by hand' % label)
+    set_text(w, fills)
+    with open(out, 'wb') as fh: w.write(fh)
+    print('wrote', out, '| reason box =', box)
+
+
 def main():
     cfg = json.load(open(sys.argv[1], encoding='utf-8'))
     t = cfg['templates']; outd = cfg['out_dir']
