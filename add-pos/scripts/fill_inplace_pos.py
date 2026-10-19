@@ -168,6 +168,11 @@ def fill_doc(d, sig_png, date, city, declarant, translator):
                     if len(rs) > 1:
                         write_on(pg, rs[1], ln["base"], city)
                     log.append("translator executed")
+                # Hernan's Bo Tao layout (2026-10-19): bare rule, then the translator's name
+                # printed under it ("Klaus Liu") -- sign on that rule.
+                elif t.strip().lower() == translator.lower():
+                    r = rule_above(L, i)
+                    if r: sign_on(pg, runs(pg, r["rect"])[0], sig_png, aspect); log.append("translator signature")
                 elif t == "Signature of Translator":
                     r = rule_above(L, i)
                     if r: sign_on(pg, runs(pg, r["rect"])[0], sig_png, aspect); log.append("translator signature")
