@@ -259,6 +259,10 @@ document confirms it:
 **Disk name:** `Firstname Lastname-M-D-YYYY`
 **Multi-client:** Driver first, then all passengers in order.
 
+> ⚠️ **超过 3 个客户（Klaus 2026-10-19）**：司机全名 + 其余客户首字母缩写，例
+> `David Li Kwong-LZ-XZ-YM-BW-10-13-2026`（≤3 人仍用全名串）。Drive / intake 文件名 / Chat 群名 / 企微群名 /
+> 签约文案标题用这串；Gmail label 用 `David Li Kwong/LZ/XZ/YM/BW`；tracking、DocuSign、intake 人名格子仍全名。
+
 Examples:
 - `Hsuan-Yun Chang-5-24-2026`
 - `Hsuan-Yun Chang-Ting-Wei Chien-5-24-2026`
