@@ -220,7 +220,11 @@ Klaus 删光蓝字 = 一封干净可发的信。
 
    ⚠️ **送他审阅/签字的文书附 `.docx`，不附 `.pdf`**（Klaus 2026-10-14 当场换掉）。
    理由就一句：他要能直接改。定稿、要签字、或对外送达的那一版才用 PDF。
-7. **Cc：默认 reply-all 照他的原收件人名单，不要自己裁。**
+7. **Cc：他群发给所内多人时，回信只 Cc Cassie + Joe —— 不加 Allison、Cindy、Claire。**
+   （Klaus 2026-10-19 Jiayu Ma 明确：「service list 不要加 Allison，也不要 Cindy，也不要 Claire」；
+   与 9/29 Bo Tao、10/16 Jiayu Ma demand thread 他亲手裁的结果一致，三次同一结论，定为默认。）
+   他只发给我一人 → 不加 Cc。下面是此前的旧口径，仅留作背景：
+   ~~**Cc：默认 reply-all 照他的原收件人名单，不要自己裁。**~~
    两次实测不一致 —— Bo Tao（9/29）Klaus 裁到 Cassie + Joe；Yi Cong（同日）**四人全留**
    （Cassie / Cindy / Claire / Joe）。**没有固定规则，要看案子谁在跟。**
    所以照抄他的名单，裁减交给 Klaus —— 跟红字同一个不对称逻辑：多留一个他删掉要 1 秒，
