@@ -222,7 +222,7 @@ snooze 只会按日期弹：**东西到了它不弹，没到它照弹**。所以
   |---|---|
   | 院方账单 / 记录 | `3. Medical Record & Bill` 出现含 `UB-04`/`itemized`/`<院名>` 的新文件，或该院来信 |
   | 对方 / 理赔员回音 | thread `<主题>` 最后一封变成对方发出 |
-  | 挂号回执 | `POE` 夹出现 `<编号>*-Receipt.pdf` |
+  | 挂号回执 | Chat 群「Certified Mail Task Lists」(`spaces/AAQAe5zotBY`) 里 Claire 回 `sent`/`Mailed`，或 `POE` 夹出现带 USPS 收据的 PDF —— **收据常作为信件 PDF 的第一页，不是单独的 `-Receipt.pdf`，要渲染第一页看，别只看文件名** |
   | 机关书面确认 | 该机关来信，或该案 Activity Log 出现对应行 |
   | 转介落地 | 案卷或邮件出现该科 provider 的预约 / lien |
   **写不出判据 = 还没想清楚在等什么** —— 这本身就要顶到 dashboard 让 Klaus 定。
