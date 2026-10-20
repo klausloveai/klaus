@@ -968,6 +968,10 @@ added automatically as owner — he is in every space.**
 > 按案子所在 tab 定 CM —— Picase@(Jenkins) 案 = `jenkins.l@` + `tiana.d@` + `amos.f@`（不 @ Eeve）。
 > **没有 case notes 也要立刻发** `@CM @CA @Amos new case`，不能停着等 —— 群建好没人被 @ 就等于没分配。笔记来了再原话补发一条。
 
+> ⚠️ **改派（Klaus 2026-10-19）：** 建完案后改 assign 到别的信箱/tab 时，重发新组的 `@CM @CA @Amos new case` 之后，
+> **把之前 @ 错人的那条 new-case 消息删掉**（`gws chat spaces messages delete`，只删 Klaus@ 自己发的那条）。
+> 全套挪动清单见 memory `feedback_case_reassign_checklist`。
+
 5. **PAUSE — ask the user for their case notes.** After the space is created and all members are verified,
    stop and prompt the user:
    > "Chat 空间已建好，请留言你对这个案子了解的信息，我会原话复制粘贴 @ 给该案的 mention 名单。"
