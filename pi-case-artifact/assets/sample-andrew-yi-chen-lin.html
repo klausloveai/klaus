@@ -407,6 +407,41 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 }
 .bars figcaption { font-size: 12px; color: var(--ink-faint); margin-top: 8px; line-height: 1.7; }
 
+
+/* ---------- PI：任务节（已完成表 / 可展开待办 / 预防） ---------- */
+.todos { margin-top: 18px; }
+.todo {
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px;
+  margin-bottom: 8px; box-shadow: var(--shadow-1); transition: box-shadow .3s cubic-bezier(.4,0,.2,1);
+}
+.todo:hover { box-shadow: var(--shadow-2); }
+.todo > summary {
+  list-style: none; cursor: pointer; display: flex; gap: 12px; align-items: baseline;
+  padding: 14px 40px 14px 18px; position: relative;
+}
+.todo > summary::-webkit-details-marker { display: none; }
+.todo > summary::after {
+  content: ""; position: absolute; right: 18px; top: 20px; width: 7px; height: 7px;
+  border-right: 1px solid var(--edge-muted); border-bottom: 1px solid var(--edge-muted);
+  transform: rotate(45deg); transition: transform .2s cubic-bezier(.4,0,.2,1);
+}
+.todo[open] > summary::after { transform: rotate(-135deg); }
+.todo > summary:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
+.todo .n { flex: 0 0 26px; font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--accent-text); text-align: right; }
+.todo .tt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.8; color: var(--ink-muted); }
+.todo .tt b { color: var(--ink); font-weight: 600; }
+.todo .who { display: block; font-size: 12px; color: var(--ink-faint); letter-spacing: .02em; }
+.todo .how { padding: 0 18px 16px 56px; font-size: 14px; line-height: 1.9; color: var(--ink-muted); border-top: 1px solid var(--hairline); }
+@media (max-width: 620px) { .todo .how { padding-left: 18px; } }
+.todo .how p { margin: 12px 0 0; }
+.todo .how ol { margin: 10px 0 0; padding-left: 20px; }
+.todo .how li { margin-bottom: 4px; }
+.todo .how b { color: var(--ink); font-weight: 600; }
+.todo .done-when { color: var(--steady); }
+.todo .ref { font-size: 12.5px; color: var(--ink-faint); }
+.todo.prev .n { color: var(--hold); }
+.done-tbl td.num { color: var(--accent-text); }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
@@ -455,36 +490,6 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
   <section>
     <div class="rule"></div>
     <details class="sec" open>
-      <summary><h2>待办与阻塞<small>What is open, and on whom</small></h2></summary>
-      <p class="lede">这一节由底层数据推出来，页面上不能勾。每条最后一行写着<b>怎么关掉</b>：去 Master Sheet、Chat 或 Drive 改了底层，下次刷新这条就自己消失。</p>
-      <div class="bls">
-        <div class="grp">等所内 · Picase@</div>
-        <div class="it"><span class="n">1</span><div class="tx"><b>Chiro 已到 34 次，碰到上限了。</b>9/17 Amos 定的上限是 30–35 次，约定到了这个数就在群里 @CM。Master 现在是 34 次（截至 10/16），群里还没有人 @。10/9 PM 医生又建议继续做 chiro。什么时候结束，要 CM 定。
-          <span class="meta">来源：Master Chiro 格「2x 7/1(34)-10/16[30-35]」· Chat 9/17、10/10 ｜ 负责：Amos Feng ｜ 关掉：Master Chiro 格写上 discharge 日期，或改上限</span></div></div>
-        <div class="it"><span class="n">2</span><div class="tx"><b>这个案子到底谁是 CM。</b>Master 放在 Picase@(Jenkins) tab，但 Jenkins 在群里一条都没说过。原来跟的 Ryan Wei 已经不在群里。最近 limits、chiro 次数都是 Amos 在定。
-          <span class="meta">来源：Master tab 归属 · Chat 成员与发言记录 ｜ 负责：Klaus ｜ 关掉：Chat 里 @ 一句「本案由 X 接」</span></div></div>
-        <div class="it"><span class="n">3</span><div class="tx"><b>Psych 10/14 看了没有，lien 签了没有。</b>10/1 InterHealth 来信说，开始治疗前要签他们的 Lien Agreement。10/9 确认 10/14 10:30 telemed（John Tsuang）。Master 写着 Psych(1) 10/14，但群里没有就诊确认，也没有 lien 签回的记录。
-          <span class="meta">来源：Chat 10/1、10/9 · Master Treatment 格 ｜ 负责：Tiana Deng ｜ 关掉：签好的 lien 存进 Drive 1#，Master 那格改色</span></div></div>
-        <div class="it"><span class="n">4</span><div class="tx"><b>确认 3P limits 250/500 的出处。</b>intake 记的是 250/500（10/3 更新）。可群里 10/1 Amos 还说对方没披露，当天提交了 policy limits search，10/6 付了 $175。10/2 群里贴了两份附件，之后没有文字说明结果。
-          <span class="meta">来源：intake「3rd Party · Policy Limits」· Chat 10/1、10/2、10/6 ｜ 负责：Amos Feng ｜ 关掉：Chat 里写一句「limits = X，来源 Y」</span></div></div>
-        <div class="it"><span class="n">5</span><div class="tx"><b>车子 total loss 之后还能不能走 total gain / DV。</b>10/1 Amos 问的，Klaus 说第二天去问，之后群里没有下文。
-          <span class="meta">来源：Chat 10/1 ｜ 负责：Klaus ｜ 关掉：Chat 里回结论</span></div></div>
-        <div class="it"><span class="n">6</span><div class="tx"><b>Master 有两格要改。</b>一是 Outstanding Balance 写的 $275，其实是 6/27 当天已经付掉的 ED co-pay，见风险点。二是 PM 列「(4) 8/8-11/7」里有 11/7 这个未来日期，按记录教程铁规矩①，预约应该记成暗黄，不算进次数。
-          <span class="meta">来源：Master · Drive 4#「EROB.jpg」原图 · Chat 10/11 ｜ 负责：Tiana Deng ｜ 关掉：改好这两格</span></div></div>
-        <div class="it"><span class="n">7</span><div class="tx"><b>Drive 案卷搬家。</b>状态已是 Treating，案卷还在 <span class="mono">0. PI Cases / 1. Pending</span>。
-          <span class="meta">来源：Drive 路径 对 Master E 列 ｜ 负责：CM ｜ 关掉：移到 2. Treating</span></div></div>
-        <div class="grp">等外部</div>
-        <div class="it"><span class="n">8</span><div class="tx"><b>Health Net 的代位求偿（Machinify）没有回音。</b>8/27 发出申请，9/30 Tiana 说没动静，10/14 又 snooze 两周。
-          <span class="meta">来源：Chat 9/30、10/14 · Master「Health Ins Lien」｜ 负责：Tiana Deng ｜ 下次跟进：约 10/28 ｜ 关掉：Master 那格写上回函日期和金额</span></div></div>
-        <div class="it"><span class="n">9</span><div class="tx"><b>PM 的 R/B 一份都没到。</b>8/8 初诊、9/1 和 9/19 两针、10/9 复诊，诊所都还没出报告账单。9/19 那一针诊所没写打的哪个部位。
-          <span class="meta">来源：Chat 9/1、9/19、10/10 · Drive 4# 里没有 PM 的 R/B ｜ 负责：Tiana Deng ｜ 关掉：R/B 存进 Drive 4#，Master 改绿</span></div></div>
-      </div>
-    </details>
-  </section>
-
-  <section>
-    <div class="rule"></div>
-    <details class="sec" open>
       <summary><h2>关键期限<small>Deadlines</small></h2></summary>
       <ul class="dls">
         <li class="dl"><div class="dl-head"><span class="dl-title">Health lien 跟进（snooze 到期）</span><span class="dl-when">约 2026-10-28<span class="count" data-days="2026-10-28">—</span></span></div>
@@ -497,6 +502,203 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
     </details>
   </section>
 
+  <section>
+    <div class="rule"></div>
+    <details class="sec" open>
+      <summary><h2>关键日期<small>Timeline</small></h2></summary>
+      <ul class="tl">
+        <li class="mark"><div class="d">2026-06-27</div><div class="t"><b>事故</b>；两小时后去 PIH Whittier ER</div></li>
+        <li><div class="d">2026-06-29</div><div class="t">建案；1P / 3P LOR 发出；coverage clear</div></li>
+        <li><div class="d">2026-06-30</div><div class="t">State Farm 接受责任；Chiro referral 发出</div></li>
+        <li><div class="d">2026-07-01</div><div class="t">Affinity Chiro 首诊</div></li>
+        <li class="mark"><div class="d">2026-07-16</div><div class="t"><b>车辆 total loss 赔付 $23,579.62</b></div></li>
+        <li><div class="d">2026-07-22</div><div class="t">颈、腰 MRI</div></li>
+        <li><div class="d">2026-08-03</div><div class="t">Chiro 建议看 psychiatrist（开车紧张）</div></li>
+        <li><div class="d">2026-08-08</div><div class="t">Precision PM 初诊，建议颈、腰 facet 注射</div></li>
+        <li><div class="d">2026-08-27</div><div class="t">ER R/B 与 health lien 申请发出</div></li>
+        <li class="mark"><div class="d">2026-09-01</div><div class="t"><b>第一针</b>（颈椎 facet）</div></li>
+        <li class="mark"><div class="d">2026-09-19</div><div class="t"><b>第二针</b>（部位未注明）</div></li>
+        <li><div class="d">2026-10-01</div><div class="t">提交 policy limits search；Psych 先 hold</div></li>
+        <li><div class="d">2026-10-09</div><div class="t">PM 复诊，建议继续 chiro</div></li>
+        <li><div class="d">2026-10-14</div><div class="t">Psych telemed 预约（是否就诊待确认）</div></li>
+        <li><div class="d">2026-10-16</div><div class="t">Chiro 第 34 次</div></li>
+        <li class="future"><div class="d">2026-11-07</div><div class="t">PM 复诊</div></li>
+        <li class="future"><div class="d">2028-06-27</div><div class="t">两年时效</div></li>
+      </ul>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec" open>
+      <summary><h2>任务<small>Done · To do · Prevent</small></h2></summary>
+      <p class="lede">分三块：<b>已完成</b>的动作和日期、<b>待办</b>（点开看怎么做）、<b>预防</b>（现在还没出事，但会出事的地方）。页面上不能勾，改了底层，下次刷新就会跟着变。</p>
+
+      <h3>一 · 已完成</h3>
+      <div class="tw"><table class="done-tbl">
+        <thead><tr><th>日期</th><th>完成了什么</th><th>谁</th><th>详情 / 凭据</th></tr></thead>
+        <tbody>
+          <tr><td class="num">6/29</td><td class="k">建案，Day 1 SOP</td><td>Klaus</td><td>Chat 群开好；Day 1 清单列出了姓名、地址要核实</td></tr>
+          <tr><td class="num">6/29</td><td class="k">1P / 3P LOR 发出</td><td>Ryan Wei</td><td>Drive 1#：LOR (1P)、LOR (3P)</td></tr>
+          <tr><td class="num">6/29</td><td class="k">确认 coverage</td><td>Ryan Wei</td><td>Chat「coverage is clear」</td></tr>
+          <tr><td class="num">6/30</td><td class="k">3P 接受 100% 责任</td><td>Ryan Wei</td><td>State Farm claim 75-0H3J-151</td></tr>
+          <tr><td class="num">6/30</td><td class="k">Chiro referral 发给 Affinity，7/1 首诊记入 Master</td><td>Claude · Tiana Deng</td><td>Chat 6/30 发送回执</td></tr>
+          <tr><td class="num">7/8</td><td class="k">Chiro lien 签回</td><td>Tiana Deng</td><td>邮件回传</td></tr>
+          <tr><td class="num">7/16</td><td class="k">车辆 total loss 赔付到位</td><td>Ryan Wei</td><td>$23,579.62 = 贷款方 $19,837.99 + 客户 $3,741.63</td></tr>
+          <tr><td class="num">7/17</td><td class="k">MRI referral 发给 Sun Imaging</td><td>Tiana Deng</td><td>7/22 拍完，7/28 R/B 存进 Drive 4#（Claire）</td></tr>
+          <tr><td class="num">7/30</td><td class="k">PM referral 发给 Precision</td><td>Tiana Deng</td><td>8/8 初诊</td></tr>
+          <tr><td class="num">8/11</td><td class="k">PM lien 签回</td><td>Tiana Deng</td><td>邮件回传</td></tr>
+          <tr><td class="num">8/12</td><td class="k">客户同意注射，回复诊所 proceed</td><td>Tiana Deng · Claire Feng</td><td>9/1、9/19 两针已打</td></tr>
+          <tr><td class="num">8/28</td><td class="k">ER R/B 线上申请、health lien 申请发出</td><td>Tiana Deng</td><td>R/B tracking <span class="mono">771-179625</span>；Machinify 邮件</td></tr>
+          <tr><td class="num">9/16</td><td class="k">付 ER 调取费，R/B 到手</td><td>Claire Feng</td><td>$55（invoice 771-181763 / 771-181764），存进 Drive 4#</td></tr>
+          <tr><td class="num">9/30</td><td class="k">Psych referral 改送 InterHealth</td><td>Claire Feng</td><td>原来的 Boomerang 只接工伤</td></tr>
+          <tr><td class="num">10/1</td><td class="k">提交 policy limits search</td><td>Amos Feng</td><td>Coastal Research；10/6 Klaus 付了 $175</td></tr>
+          <tr><td class="num">10/2</td><td class="k">警方报告存进 Drive</td><td>—</td><td>Drive 2#「police report.pdf」</td></tr>
+          <tr><td class="num">10/9</td><td class="k">Psych 预约确认</td><td>Claire Feng</td><td>10/14 10:30 telemed，John Tsuang</td></tr>
+          <tr><td class="num">10/11</td><td class="k">PM 复诊预约确认</td><td>Claire Feng</td><td>11/7 3:00 PM</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>二 · 待办（点开看怎么做）</h3>
+      <div class="todos">
+        <details class="todo"><summary><span class="n">1</span><span class="tt"><b>Chiro 已到 34 次，碰到 30–35 的上限</b><span class="who">Amos Feng · 现在</span></span></summary>
+          <div class="how">
+            <p class="why">9/17 Amos 定上限 30–35，约定到数就 @CM。10/16 是第 34 次，群里还没人 @。10/9 PM 医生又建议继续 chiro。</p>
+            <ol>
+              <li>在案件 Chat 里 @Amos：「Chiro 已 34 次（上限 30–35），PM 10/9 建议继续，请定结束时间」。</li>
+              <li>Amos 说停：邮件告诉 Affinity 客户下一次结束，要 final R/B。</li>
+              <li>Amos 说继续：Master Chiro 格的 [30-35] 改成新的上限。</li>
+            </ol>
+            <p class="done-when">关掉：Master Chiro 格写上 discharge 日期，或者改了上限。</p>
+            <p class="ref">教程：<a href="https://docs.google.com/document/d/1X0Q0IR_gX0sFITD-KbM1HOL9_Me5PrjFV-TedBvCZvk">PI Master Sheet 记录教程</a> · Chiro 列</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">2</span><span class="tt"><b>定下这个案子由谁负责</b><span class="who">Klaus · 现在</span></span></summary>
+          <div class="how">
+            <p class="why">Master 放在 Jenkins 的 tab，但 Jenkins 在群里没说过话。原来跟的 Ryan 已经不在群里，实际是 Amos 在管。</p>
+            <ol>
+              <li>Klaus 在 Chat 里 @ 一句「本案由 X 负责」。</li>
+              <li>如果不是 Jenkins，就把 Master 那一行挪到对应的 tab。</li>
+            </ol>
+            <p class="done-when">关掉：Chat 里有这句话，Master 所在的 tab 跟负责人一致。</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">3</span><span class="tt"><b>确认 Psych 10/14 看了没有，Lien Agreement 签了没有</b><span class="who">Tiana Deng · 本周</span></span></summary>
+          <div class="how">
+            <p class="why">10/1 InterHealth 来信说，开始治疗前要签他们的 Lien Agreement。Master 写着 Psych(1) 10/14，但群里没有就诊确认，也没有 lien 签回的记录。</p>
+            <ol>
+              <li>先在 picase@ 搜「InterHealth」，看 lien 是不是已经签回了。</li>
+              <li>没签：填 attorney 一栏，<b>Print name 和签名都要有</b>（7/28 PM lien 就是因为少签被退过），然后回传。</li>
+              <li>邮件问诊所 10/14 有没有完成，要这次的报告。</li>
+              <li>按颜色规范更新 Master：看完了是蓝色，等报告是橙色。</li>
+            </ol>
+            <p class="done-when">关掉：签好的 lien 存进 Drive 1#，Master Psych 格改色。</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">4</span><span class="tt"><b>坐实 3P limits 250/500 的出处</b><span class="who">Amos Feng · 本周</span></span></summary>
+          <div class="how">
+            <p class="why">intake 记的是 250/500，但群里 10/1 还说对方没披露，提交了 limits search。10/2 贴了两份附件，没有文字说明结果。客户没有 UM/UIM，所以这个数字就是本案的天花板。</p>
+            <ol>
+              <li>打开 10/2 群里的两份附件，或者登录 Coastal Research 的 dashboard 看查询报告。</li>
+              <li>报告存进 Drive 2#。</li>
+              <li>在 Chat 写一句「3P limits = X，来源：Coastal Research 报告 10/2」。</li>
+            </ol>
+            <p class="done-when">关掉：Chat 里有这句话，Drive 2# 里有报告。</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">5</span><span class="tt"><b>Total loss 之后还能不能走 total gain / DV</b><span class="who">Klaus · 本周</span></span></summary>
+          <div class="how">
+            <p class="why">10/1 Amos 问的，Klaus 说第二天去问，之后群里没有下文。车子是对方按 total loss 赔的，总额 $23,579.62。</p>
+            <ol>
+              <li>Klaus 按 DV 的口径判断能不能做。</li>
+              <li>结论回到 Chat。</li>
+            </ol>
+            <p class="done-when">关掉：Chat 里有结论。</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">6</span><span class="tt"><b>改正 Master 上的两格</b><span class="who">Tiana Deng · 本周</span></span></summary>
+          <div class="how">
+            <p class="why">一是 Outstanding Balance 写着 $275，其实是 6/27 当天已经付掉的 ED co-pay。二是 PM 列「(4) 8/8-11/7」里有 11/7 这个未来日期。</p>
+            <ol>
+              <li>Outstanding Balance 改成「$275 Paid（ED co-pay 6/27，收据在 Drive 4#）」。</li>
+              <li>PM 列只写已经发生的次数和日期。11/7 是预约，按教程用暗黄标。</li>
+              <li>Drive 4# 里的「EROB.jpg」改名为「ER co-pay receipt $275.jpg」。</li>
+            </ol>
+            <p class="done-when">关掉：两格都改好。</p>
+            <p class="ref">教程：<a href="https://docs.google.com/document/d/1X0Q0IR_gX0sFITD-KbM1HOL9_Me5PrjFV-TedBvCZvk">PI Master Sheet 记录教程</a> · 铁规矩①（不写未来日期）· 颜色表</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">7</span><span class="tt"><b>Drive 案卷从 1. Pending 搬到 2. Treating</b><span class="who">负责人 · 随手</span></span></summary>
+          <div class="how">
+            <ol><li>在 <span class="mono">0. PI Cases / 1. Pending</span> 里把整个案卷拖到 <span class="mono">2. Treating</span>。文件 id 不会变，所有链接照样能用。</li></ol>
+            <p class="done-when">关掉：文件夹位置和 Master 状态一致。</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">8</span><span class="tt"><b>跟进 Health Net 的代位求偿（Machinify）</b><span class="who">Tiana Deng · 约 10/28</span></span></summary>
+          <div class="how">
+            <p class="why">8/27 发出申请，9/30 没动静，10/14 又 snooze 两周。</p>
+            <ol>
+              <li>snooze 到期时先再发一封邮件追。</li>
+              <li>还是没回：照 Claire 10/14 说的，等治疗结束、账单收齐后打电话问。</li>
+              <li>拿到回函就把金额和 Ref# 记进 Master。</li>
+            </ol>
+            <p class="done-when">关掉：Master「Health Ins Lien」格写上回函日期和金额。</p>
+          </div></details>
+
+        <details class="todo"><summary><span class="n">9</span><span class="tt"><b>要 PM 的 R/B，并问清 9/19 那针打的是哪里</b><span class="who">Tiana Deng · 本周</span></span></summary>
+          <div class="how">
+            <p class="why">8/8 初诊、9/1 和 9/19 两针、10/9 复诊，一份报告账单都还没到。9/19 那针诊所没写部位。</p>
+            <ol>
+              <li>邮件发 painprecision@gmail.com，列出四个日期，要 R/B。</li>
+              <li>同一封里问 9/19 注射的部位。</li>
+              <li>收到后存进 Drive 4#，Master PM 和注射格改绿。</li>
+            </ol>
+            <p class="done-when">关掉：四次的 R/B 都在 Drive 4#。</p>
+          </div></details>
+      </div>
+
+      <h3>三 · 预防（提前处理，免得到 demand 才出事）</h3>
+      <div class="todos">
+        <details class="todo prev"><summary><span class="n">P1</span><span class="tt"><b>注射金额会被 MRI 压下来</b><span class="who">CM · 收 PM 报告时</span></span></summary>
+          <div class="how">
+            <p class="why">两针按 $15,000 一针估，MRI 却只是 1.5–2 mm 的轻度膨出，没有压迫。adjuster 一定会拿这一点质疑注射的必要性。</p>
+            <ol>
+              <li>收到 PM 报告时，确认里面写了疼痛评分、保守治疗无效、注射前后的对比。</li>
+              <li>缺的话请诊所补一份 medical necessity 说明。</li>
+            </ol></div></details>
+        <details class="todo prev"><summary><span class="n">P2</span><span class="tt"><b>既往事故会被拿来打 causation</b><span class="who">CM · 治疗结束前</span></span></summary>
+          <div class="how">
+            <p class="why">intake 上「Prior Accd &amp; Injured?」填的是 Yes（resolved），细节一个都没有。</p>
+            <ol>
+              <li>电话问客户：哪一年、伤在哪、看过什么医生、有没有和解。</li>
+              <li>如果伤过同一部位，要来当时的记录，demand 里主动把两次伤区分开。</li>
+            </ol></div></details>
+        <details class="todo prev"><summary><span class="n">P3</span><span class="tt"><b>没有 UM/UIM，治疗规模不能超过 3P limits</b><span class="who">CM · 持续</span></span></summary>
+          <div class="how">
+            <p class="why">Root 保单没有 UM/UIM，能拿的全在 State Farm。9/30 Amos 说过「小控一下」。</p>
+            <ol><li>先做完待办 4。每次推新治疗（第三针、新专科）前，先对照 limits 和当前估算再决定。</li></ol></div></details>
+        <details class="todo prev"><summary><span class="n">P4</span><span class="tt"><b>Chiro 结束后别留治疗空档</b><span class="who">CM · Chiro 结束时</span></span></summary>
+          <div class="how">
+            <p class="why">如果 chiro 在 10 月停，到 11/7 PM 复诊之间可能没有任何治疗。对方会说客户已经好了。</p>
+            <ol><li>定 chiro 结束日期时（待办 1），同时确认 PM 和 Psych 的下一次时间能接上。</li></ol></div></details>
+        <details class="todo prev"><summary><span class="n">P5</span><span class="tt"><b>身份和地址没核实，demand 会写错</b><span class="who">CA · demand 起草前</span></span></summary>
+          <div class="how">
+            <p class="why">Day 1 表单的姓名填成了「Shenqi Cai」；地址驾照是 Rowland Heights，表单是 Diamond Bar。</p>
+            <ol><li>以驾照为准核对全名，向客户确认现住址，然后改 intake。</li></ol></div></details>
+        <details class="todo prev"><summary><span class="n">P6</span><span class="tt"><b>误工和杂费的材料现在就要开始收</b><span class="who">CA · 本月</span></span></summary>
+          <div class="how">
+            <p class="why">Drive 4# 的 Loss of Wage 子夹是空的。客户有工作（Giga Computing）；7/31 交过打车收据。</p>
+            <ol>
+              <li>问客户有没有因伤请假。有的话要 employer letter 和请假前后的 pay stub。</li>
+              <li>打车、停车收据统一存一个子夹，demand 时一起主张。</li>
+            </ol></div></details>
+        <details class="todo prev"><summary><span class="n">P7</span><span class="tt"><b>Health lien 金额没出来就没法结案</b><span class="who">CA · 结案前</span></span></summary>
+          <div class="how">
+            <p class="why">Machinify 到现在都没回。没有 final lien 金额，和解之后就分不了钱。</p>
+            <ol><li>demand 发出前就要拿到 itemized lien，不要拖到和解之后。</li></ol></div></details>
+      </div>
+    </details>
+  </section>
   <section>
     <div class="rule"></div>
     <details class="sec">
@@ -601,49 +803,6 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
   <section>
     <div class="rule"></div>
     <details class="sec">
-      <summary><h2>风险点<small>Risks</small></h2></summary>
-      <div class="grid g2">
-        <div class="card"><span class="chip due">要处理</span><h4 style="margin-top:12px">没有 UM/UIM 兜底</h4><p>Root 保单没有 UM/UIM，能拿的全在 State Farm 这一张保单上。250/500 是好消息，但出处要坐实。见待办 4。</p></div>
-        <div class="card"><span class="chip due">要处理</span><h4 style="margin-top:12px">CM 空档</h4><p>名义 CM 没在群里出现过，原 CM 已经离开，事情靠 Amos 顺手在管。Chiro 到上限这种事就是这么漏掉的。见待办 1、2。</p></div>
-        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">注射估价和 MRI 不相称</h4><p>两针按 $15,000 一针估，MRI 却只是轻度膨出、没有压迫。对方 adjuster 会拿 MRI 来压注射的金额。</p></div>
-        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">既往事故</h4><p>intake「Prior Accd &amp; Injured?」填的是 Yes（resolved），什么时候、伤了哪里都没有记录。对方会拿来打 causation。</p></div>
-        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">$275 被当成欠款</h4><p>Drive 里的「EROB.jpg」其实是 6/27 当天的付款成功凭条（ED CO PAY）。这是已经付掉的自付额，应该作为 out-of-pocket 主张。另外，交了 co-pay 说明 ER 用了健保。7/4 群里那句「用了信用卡就没有健保 lien」不对，8/27 发 health lien 申请是对的。</p></div>
-        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">第一天的身份信息</h4><p>6/29 Day 1 SOP 发现：表单上姓名填成了「Shenqi Cai」，地址也跟驾照对不上（驾照是 Rowland Heights，表单是 Diamond Bar）。intake 现在用的是 Diamond Bar，群里没有核实的记录。</p></div>
-        <div class="card"><span class="chip done">已解决</span><h4 style="margin-top:12px">车损</h4><p>7/16 对方按 total loss 赔完，客户没有用自己的保险。</p></div>
-        <div class="card"><span class="chip done">已解决</span><h4 style="margin-top:12px">ER 病历调取</h4><p>线上加传真重复申请被取消过一次，之后只走线上。9/16 付了 $55，拿到了 R/B。</p></div>
-      </div>
-    </details>
-  </section>
-
-  <section>
-    <div class="rule"></div>
-    <details class="sec">
-      <summary><h2>关键日期<small>Timeline</small></h2></summary>
-      <ul class="tl">
-        <li class="mark"><div class="d">2026-06-27</div><div class="t"><b>事故</b>；两小时后去 PIH Whittier ER</div></li>
-        <li><div class="d">2026-06-29</div><div class="t">建案；1P / 3P LOR 发出；coverage clear</div></li>
-        <li><div class="d">2026-06-30</div><div class="t">State Farm 接受责任；Chiro referral 发出</div></li>
-        <li><div class="d">2026-07-01</div><div class="t">Affinity Chiro 首诊</div></li>
-        <li class="mark"><div class="d">2026-07-16</div><div class="t"><b>车辆 total loss 赔付 $23,579.62</b></div></li>
-        <li><div class="d">2026-07-22</div><div class="t">颈、腰 MRI</div></li>
-        <li><div class="d">2026-08-03</div><div class="t">Chiro 建议看 psychiatrist（开车紧张）</div></li>
-        <li><div class="d">2026-08-08</div><div class="t">Precision PM 初诊，建议颈、腰 facet 注射</div></li>
-        <li><div class="d">2026-08-27</div><div class="t">ER R/B 与 health lien 申请发出</div></li>
-        <li class="mark"><div class="d">2026-09-01</div><div class="t"><b>第一针</b>（颈椎 facet）</div></li>
-        <li class="mark"><div class="d">2026-09-19</div><div class="t"><b>第二针</b>（部位未注明）</div></li>
-        <li><div class="d">2026-10-01</div><div class="t">提交 policy limits search；Psych 先 hold</div></li>
-        <li><div class="d">2026-10-09</div><div class="t">PM 复诊，建议继续 chiro</div></li>
-        <li><div class="d">2026-10-14</div><div class="t">Psych telemed 预约（是否就诊待确认）</div></li>
-        <li><div class="d">2026-10-16</div><div class="t">Chiro 第 34 次</div></li>
-        <li class="future"><div class="d">2026-11-07</div><div class="t">PM 复诊</div></li>
-        <li class="future"><div class="d">2028-06-27</div><div class="t">两年时效</div></li>
-      </ul>
-    </details>
-  </section>
-
-  <section>
-    <div class="rule"></div>
-    <details class="sec">
       <summary><h2>文件位置<small>Where things live</small></h2></summary>
       <div class="tw"><table>
         <thead><tr><th>Drive 文件夹</th><th>里面有什么</th></tr></thead>
@@ -720,7 +879,7 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
     var el = document.querySelector('[data-stat="' + k + '"]');
     if (el) el.innerHTML = html;
   }
-  put("open", String(document.querySelectorAll(".bls .it").length) + ' <small>条</small>');
+  put("open", String(document.querySelectorAll(".bls .it, .todos .todo:not(.prev)").length) + ' <small>条</small>');
   var mailRows = document.querySelectorAll("[data-mail]");
   if (mailRows.length) {
     put("mail", String(document.querySelectorAll('[data-mail="pending"],[data-mail="transit"]').length) +
