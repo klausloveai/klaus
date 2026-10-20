@@ -451,6 +451,38 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .ms.g  { background: #d4edbd; }  /* 绿 Complete */
 .ms.o  { background: #fbbc04; }  /* 橙 收 R&B */
 .ms.gr { background: #d9d9d9; }  /* 灰 停止 */
+/* PI：待办双栏 + 起始日 / 时效 */
+.todos { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); align-items: start; }
+.todos .todo { margin-bottom: 0; }
+.todo > summary { padding: 11px 36px 11px 14px; }
+.todo .n { flex-basis: 22px; }
+.todo .tt { font-size: 13.5px; line-height: 1.65; }
+.todo .age { display: block; font-size: 11.5px; color: var(--ink-faint); }
+.fresh { display: inline-block; margin-top: 3px; font-size: 11px; padding: 0 6px; border-radius: 2px; border: 1px solid; }
+.fresh.maybe { color: var(--steady); border-color: var(--steady); background: var(--steady-bg); }
+.fresh.old { color: var(--alarm); border-color: var(--alarm); background: var(--alarm-bg); }
+.todo .how { padding: 0 14px 14px 14px; font-size: 13.5px; }
+.todo .judge { color: var(--ink); background: var(--hold-bg); padding: 6px 10px; border-radius: 2px; }
+/* PI：期限与时间线左右两栏 */
+.split { display: grid; gap: 18px; grid-template-columns: minmax(0,1fr); margin-top: 16px; }
+@media (min-width: 900px) { .split { grid-template-columns: minmax(0,1fr) minmax(0,1fr); } }
+.colh { margin: 0 0 4px; font-size: 14px; }
+.colnote { font-family: var(--f-body); font-size: 12px; color: var(--ink-faint); font-weight: 400; margin-left: 6px; }
+.dl-compact { margin-top: 10px; }
+.dl-compact .dl { padding: 10px 14px; margin-bottom: 6px; }
+.dl-compact .dl-title { font-size: 14px; }
+.dl-compact .dl-when { font-size: 12px; }
+.dl-compact .dl-desc { margin-top: 4px; font-size: 12.5px; line-height: 1.75; }
+.tl-box { max-height: 470px; overflow-y: auto; margin-top: 10px; padding: 12px 14px 4px; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; }
+.tl-box .tl { margin-top: 0; }
+.tl-box .tl li { margin-bottom: 10px; }
+.tl-box .tl .t { font-size: 13px; line-height: 1.7; }
+/* PI：已完成按人计数（脚本从「谁」列数出来） */
+.tally { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tally span { font-size: 12.5px; padding: 2px 10px; border: 1px solid var(--hairline); border-radius: 2px; background: var(--paper); color: var(--ink-muted); }
+.tally b { font-family: var(--f-body); font-variant-numeric: lining-nums tabular-nums; color: var(--ink); font-weight: 600; margin-left: 4px; }
+.tally .none { color: var(--ink-faint); }
+.todo .basis { font-size: 12px; color: var(--ink-faint); border-left: 1px solid var(--accent); padding-left: 8px; }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -580,6 +612,27 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
     if (t) put("next-what", t.textContent);
   }
 
+
+  var ops = document.querySelectorAll("[data-opened]");
+  for (var k = 0; k < ops.length; k++) {
+    var dd2 = -daysUntil(ops[k].getAttribute("data-opened"));
+    ops[k].textContent = dd2 <= 0 ? "今天" : dd2 + " 天前";
+  }
+
+  var tal = document.querySelector("[data-tally]");
+  if (tal) {
+    var cnt = {}, none = 0, rowsT = document.querySelectorAll(".done-tbl tbody tr");
+    for (var r = 0; r < rowsT.length; r++) {
+      var cell = rowsT[r].children[2]; if (!cell) continue;
+      var who = cell.textContent.trim();
+      if (!who || who === "—") { none++; continue; }
+      who.split("·").forEach(function (w) { w = w.trim(); if (w) cnt[w] = (cnt[w] || 0) + 1; });
+    }
+    var keys = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; });
+    var html = keys.map(function (k) { return "<span>" + k + "<b>" + cnt[k] + "</b></span>"; }).join("");
+    if (none) html += '<span class="none">未注明<b>' + none + "</b></span>";
+    tal.innerHTML = '<span>共<b>' + rowsT.length + "</b> 件</span>" + html;
+  }
   var f = document.getElementById("asof");
   if (f) {
     var n = new Date();
