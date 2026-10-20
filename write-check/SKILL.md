@@ -70,7 +70,7 @@ do NOT post; verify on the Ledger instead (see Step 5).**
    Report "deposited <date>, <carrier> check <#>, $<amt>" in the final table's header line.
    - **Dedup/match by CHECK NUMBER and amount, never by name alone** — the firm has repeat and
      near-duplicate clients (the journal itself warns "Jing Wang … NOT the same client as Jingjing Wang";
-     Alejandra Rios and Angel Miner had two $7,594.62 checks on one claim).
+     Alejandra Rios and Angel Miner had two USD 7,594.62 checks on one claim).
    - **Not found in #3618?** Look in #4854 (pre-5/2026 carryover) and Lashine IOLTA-5429. Money in 5429
      is NOT in #3618. **Underfunded or not deposited → STOP and tell Klaus; never draft against
      another client's funds.**
@@ -121,8 +121,8 @@ do NOT post; verify on the Ledger instead (see Step 5).**
 3b. **VERIFY EVERY LINE'S AMOUNT FROM THE SAVED DRAFT — never trust `form_input`'s return.**
    `form_input` reports `Set number input to 450.00` and the form *looks* right, but the value can
    fail to persist into the saved draft row and the line commits as **0.00**. This has now bitten
-   twice: Jingxiang Lin's SimonMed $1,200 (found a session later, repaired via the row's edit pencil)
-   and Jing Wang's **Sun Imaging $450 + Vanguard IPS $450**, which Klaus had to fill in himself
+   twice: Jingxiang Lin's SimonMed USD 1,200 (found a session later, repaired via the row's edit pencil)
+   and Jing Wang's **Sun Imaging USD 450 + Vanguard IPS USD 450**, which Klaus had to fill in himself
    ("sun imaging和vanguard没有加金额进去下次注意", 2026-10-13).
    After clicking **+ New Transaction** on each line, re-read the *Draft Expense Ledger* (not the form)
    and confirm that line's amount and running balance moved:
@@ -202,7 +202,7 @@ is the `Address` row — use the one marked **现居 (current residence)** if se
 
 - Tutorial video Klaus recorded: `Rentec Direct(Issue a check).mp4` (Drive, Accounts &
   Tools folder, id `1T_zYKnurKMpWVeEjjs9CD-3o5MZxHD2a`).
-- 6/16/2026 runs: Jiehui Xie (DOL 10/11/2025) 4 provider checks $9,869.52 (check# 80184-87);
-  Martin Alejandro Guo (DOL 12/18/2025) 4 providers + 1 client = $20,000.00 (=$30k −$10k
+- 6/16/2026 runs: Jiehui Xie (DOL 10/11/2025) 4 provider checks USD 9,869.52 (check# 80184-87);
+  Martin Alejandro Guo (DOL 12/18/2025) 4 providers + 1 client = USD 20,000.00 (=USD 30k −USD 10k
   fee). Both committed by Klaus.
 - Browser tier: rentecdirect is a web app → Claude-in-Chrome, not computer-use.
