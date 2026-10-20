@@ -444,6 +444,14 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 .chip.ret-new { color: #24537F; border-color: #4B7FB0; background: #E2ECF6; }
 .src { margin: 14px 0 0; font-size: 12px; line-height: 1.85; color: var(--ink-faint); }
 .src b { color: var(--ink-muted); font-weight: 600; }
+/* Master 状态色块：照抄 Master 底色（记录教程 v1.2），是数据色不是界面色 */
+.ms { display: inline-block; font-size: 12px; font-weight: 500; color: var(--ink); padding: 0 7px; border-radius: 2px; margin-right: 4px; border: 1px solid rgba(28,25,23,.12); }
+.ms.y  { background: #ffff00; }  /* 亮黄 Action needed */
+.ms.dy { background: #ffe49f; }  /* 暗黄 已安排/等待 */
+.ms.b  { background: #c2e7ff; }  /* 蓝 In progress / 特殊 */
+.ms.g  { background: #d4edbd; }  /* 绿 Complete */
+.ms.o  { background: #fbbc04; }  /* 橙 收 R&B */
+.ms.gr { background: #d9d9d9; }  /* 灰 停止 */
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -500,11 +508,9 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
       <div><dt>负责人</dt><dd>Jenkins Li</dd></div>
     </dl>
     <div class="chips">
-      <a class="chip plain" href="https://drive.google.com/drive/folders/18cwg1Llz85GTdtbjHoOnsmQpeNS3_tn-">Drive 案卷</a>
       <a class="chip plain" href="https://docs.google.com/spreadsheets/d/1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM/edit#gid=775230687&amp;range=A24">Master Sheet</a>
       <a class="chip plain" href="https://mail.google.com/chat/u/0/#chat/space/AAQAVL81pUw">Chat 群</a>
-      <span class="chip done">Liability 100%</span>
-      <span class="chip done">PD total loss 已赔</span>
+      <a class="chip plain" href="https://drive.google.com/drive/folders/18cwg1Llz85GTdtbjHoOnsmQpeNS3_tn-">Drive 案卷</a>
       <a class="chip ret-std" href="https://drive.google.com/file/d/1rtqRyfO2vExvxWOFuMUZSTAMwL5tTQar/view">Retainer · Standard 1/3</a>
     </div>
     <div class="contacts">
@@ -517,8 +523,9 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
         <dl class="pol">
           <div><dt>Policy #</dt><dd class="mono">HQM2LZ</dd></div>
           <div><dt>Period</dt><dd>03/22/2026 – 09/22/2026</dd></div>
-          <div><dt>Coverage</dt><dd><span class="role">Cleared</span></dd></div>
-          <div><dt>Liability</dt><dd><span class="role">Cleared</span></dd></div>
+          <div><dt>LOR</dt><dd><span class="ms g">6/29</span> 理赔员已确认收到</dd></div>
+          <div><dt>Coverage</dt><dd><span class="ms g">Root</span> 承保有效</dd></div>
+          <div><dt>Liability</dt><dd><span class="ms g">Cleared</span> 责任已确认</dd></div>
           <div><dt>UM/UIM</dt><dd><span class="role unk">无</span></dd></div>
           <div><dt>Med Pay</dt><dd>无</dd></div>
           <div><dt>Collision Ded</dt><dd>$1,000</dd></div>
@@ -540,13 +547,15 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
           <div><dt>Insured</dt><dd>Richard Chiehwei Chiang &amp; Ah-Moy</dd></div>
           <div><dt>Driver</dt><dd>Mark Chung-Jen Chiang · 2019 Toyota Camry</dd></div>
           <div><dt>Period</dt><dd>05/14/2026 – 11/14/2026</dd></div>
-          <div><dt>Coverage</dt><dd><span class="role">Cleared</span></dd></div>
-          <div><dt>Liability</dt><dd><span class="role">100% Accepted</span></dd></div>
+          <div><dt>LOR</dt><dd><span class="ms g">6/29</span> 理赔员已确认收到</dd></div>
+          <div><dt>Coverage</dt><dd><span class="ms g">Statefarm</span> 承保有效</dd></div>
+          <div><dt>Liability</dt><dd><span class="ms g">100%</span> 对方全责</dd></div>
           <div><dt>Limits</dt><dd>250/500 <span class="role hold">出处待坐实</span></dd></div>
-          <div><dt>PD</dt><dd>Total loss 已结 · $23,579.62</dd></div>
+          <div><dt>PD</dt><dd><span class="ms g">Total Loss</span> 全损已赔 $23,579.62</dd></div>
         </dl>
       </details>
     </div>
+    <p class="src">LOR、Coverage、Liability、PD 取自 Master G–M 列，色块照抄 Master 底色，含义按《PI Master Sheet 记录教程》。其余保单信息取自 intake。</p>
     <dl class="stats">
       <div><dt>阶段</dt><dd class="txt">Treating</dd></div>
       <div><dt>距事发</dt><dd data-since="2026-06-27">—</dd></div>

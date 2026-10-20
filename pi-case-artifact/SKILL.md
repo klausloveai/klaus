@@ -37,9 +37,12 @@ masthead 里 chips 下方、状态条上方，`{{CONTACTS}}`：左 1P、右 3P �
 卡内保单栏照 intake 架构：1P = Policy # · Period · Coverage · Liability · UM/UIM · Med Pay · Collision Ded · Rental；
 3P = Policy # · Insured · Driver · Period · Coverage · Liability · Limits · PD。limits、UM/UIM 这类**只属于一方的事实放进该方卡里，不放顶部 chips**。
 
+**状态字段照 Master 走**（Klaus 2026-10-20）：1P 卡放 G 1LOR · H 1Coverage · I 1Liability；3P 卡放 J 3LOR · K 3Coverage · L 3Liability；
+M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格显示「Master 原值 + 色块（`.ms.y/.dy/.b/.g/.o/.gr`，照抄 Master 底色）+ 教程里的含义」，
+读取时用 Sheets API 取 `effectiveFormat.backgroundColor`，含义查《PI Master Sheet 记录教程》（Doc `1X0Q0IR…`，第三节逐列表格）。卡片下方一行 `.src` 注明来源。
+
 ## 顶部 chips
-链接：Drive 案卷 · Master Sheet · Chat 群 · **Retainer**（链到 Drive 1# 已签合同 PDF）。
-状态：Liability、PD 结果。**Retainer 着色：Standard = 橙（`.chip.ret-std`）、New = 蓝（`.chip.ret-new`）。**
+**只放四个链接，顺序固定：Master Sheet · Chat 群 · Drive 案卷 · Retainer**（Retainer 链到 Drive 1# 已签合同 PDF）。Liability、PD 等状态不放顶部，进 1P/3P 卡。**Retainer 着色：Standard = 橙（`.chip.ret-std`）、New = 蓝（`.chip.ret-new`）。**
 
 ## 节次（2026-10-20 版）
 关键期限 → 关键日期（时间线，默认展开）→ **任务**（默认展开，三块）→ 案件现状 → 治疗与账单 → Lien 与自付 → 保险与理赔 → 事发经过与财产损失 → 当事人与团队 → 文件位置 → 这一页怎么来的。

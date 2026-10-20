@@ -443,6 +443,14 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .chip.ret-new { color: #24537F; border-color: #4B7FB0; background: #E2ECF6; }
 .src { margin: 14px 0 0; font-size: 12px; line-height: 1.85; color: var(--ink-faint); }
 .src b { color: var(--ink-muted); font-weight: 600; }
+/* Master 状态色块：照抄 Master 底色（记录教程 v1.2），是数据色不是界面色 */
+.ms { display: inline-block; font-size: 12px; font-weight: 500; color: var(--ink); padding: 0 7px; border-radius: 2px; margin-right: 4px; border: 1px solid rgba(28,25,23,.12); }
+.ms.y  { background: #ffff00; }  /* 亮黄 Action needed */
+.ms.dy { background: #ffe49f; }  /* 暗黄 已安排/等待 */
+.ms.b  { background: #c2e7ff; }  /* 蓝 In progress / 特殊 */
+.ms.g  { background: #d4edbd; }  /* 绿 Complete */
+.ms.o  { background: #fbbc04; }  /* 橙 收 R&B */
+.ms.gr { background: #d9d9d9; }  /* 灰 停止 */
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
