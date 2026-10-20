@@ -48,6 +48,9 @@ M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格�
 拉丁字与数字 **Source Sans 3**（与思源黑体同族，等高数字），等宽 **Source Code Pro**，中文正文 Noto Sans SC、中文标题 Noto Serif SC 不变。
 不用 Raleway（老式高低数字）和 Cormorant 斜体。所有数字列加 `lining-nums tabular-nums`。
 
+## 页面最上方 `.topbar`（Klaus 2026-10-20）
+状态条（阶段 · 距事发 · 待办 · 下一期限）和 Case Status 路线图压缩成一条，放在页面最顶上、案名之上；宽屏左右并排，窄屏上下叠。字号和框都比正文小一级。
+
 ## 顶部 chips
 **只放四个链接，顺序固定：Master Sheet · Chat 群 · Drive 案卷 · Retainer**（Retainer 链到 Drive 1# 已签合同 PDF）。Liability、PD 等状态不放顶部，进 1P/3P 卡。**Retainer 着色：Standard = 橙（`.chip.ret-std`）、New = 蓝（`.chip.ret-new`）。**
 

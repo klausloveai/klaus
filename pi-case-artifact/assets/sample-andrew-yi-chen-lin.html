@@ -56,7 +56,7 @@ body {
 .en { font-family: var(--f-body); font-weight: 500; }
 
 /* ---------- masthead ---------- */
-.mast { padding-block: 48px 36px; border-bottom: 1px solid var(--hairline); }
+.mast { padding-block: 22px 32px; border-bottom: 1px solid var(--hairline); }
 .eyebrow {
   font-family: var(--f-body); font-size: 11px; font-weight: 600;
   letter-spacing: .24em; text-transform: uppercase; color: var(--accent-text);
@@ -490,6 +490,23 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 .tally b { font-family: var(--f-body); font-variant-numeric: lining-nums tabular-nums; color: var(--ink); font-weight: 600; margin-left: 4px; }
 .tally .none { color: var(--ink-faint); }
 .todo .basis { font-size: 12px; color: var(--ink-faint); border-left: 1px solid var(--accent); padding-left: 8px; }
+/* PI：状态条 + 路线图压缩后放在页面最上面（Klaus 2026-10-20） */
+.topbar { display: grid; gap: 8px; grid-template-columns: minmax(0,1fr); margin-bottom: 22px; }
+@media (min-width: 900px) { .topbar { grid-template-columns: minmax(0,5fr) minmax(0,7fr); align-items: center; } }
+.topbar .stats { margin: 0; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); }
+.topbar .stats > div { padding: 6px 10px; }
+.topbar .stats dt { font-size: 11px; letter-spacing: .04em; }
+.topbar .stats dd { font-size: 17px; line-height: 1.3; margin-top: 0; }
+.topbar .stats dd.txt { font-size: 13px; padding-top: 2px; }
+.topbar .stats .stat-sub { font-size: 10.5px; line-height: 1.4; }
+.topbar .road { margin: 0; padding: 18px 0 2px; grid-auto-columns: minmax(64px, 1fr); }
+.topbar .road li { padding-top: 14px; }
+.topbar .road li::before { width: 8px; height: 8px; }
+.topbar .road li.done::before { width: 7px; height: 7px; top: 0; }
+.topbar .road li::after { top: 4px; }
+.topbar .road .st { font-size: 11.5px; }
+.topbar .road small { font-size: 10px; }
+.topbar .road .here { top: -16px; font-size: 9px; }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -533,6 +550,24 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 
 <div class="wrap" data-shell="PI-1.0">
   <header class="mast">
+    <div class="topbar">
+      <dl class="stats">
+      <div><dt>阶段</dt><dd class="txt">Treating</dd></div>
+      <div><dt>距事发</dt><dd data-since="2026-06-27">—</dd></div>
+      <div><dt>待办</dt><dd data-stat="open">—</dd></div>
+      <div data-stat-box="mail"><dt>寄件在途</dt><dd data-stat="mail">—</dd></div>
+      <div class="next"><dt>下一期限</dt><dd data-stat="next">—</dd><p class="stat-sub" data-stat="next-what"></p></div>
+      </dl>
+    <ol class="road">
+      <li class="done"><span class="st">Signing</span><small>6/29</small></li>
+      <li class="now"><span class="here">现在</span><span class="st">Treating</span><small>7/1 起</small></li>
+      <li><span class="st">Collecting</span><small>&nbsp;</small></li>
+      <li><span class="st">Drafting</span><small>&nbsp;</small></li>
+      <li><span class="st">Negotiating</span><small>&nbsp;</small></li>
+      <li><span class="st">Reduction</span><small>&nbsp;</small></li>
+      <li><span class="st">Completed</span><small>&nbsp;</small></li>
+    </ol>
+    </div>
     <p class="eyebrow">凌图律所 · PI Case</p>
     <h1>Andrew Yi Chen Lin</h1>
     <p class="sub">Chino Hills，Chino Ave 与 Rock Springs Dr 路口。对方停在 stop sign 前之后起步左转，客户在 Chino Ave 上直行，撞上对方车的左后方；警方认定对方违反 CVC 22107。State Farm 已认 100% 责任，车子按 total loss 赔完；人伤治疗进行中。</p>
@@ -594,22 +629,6 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
       </details>
     </div>
     <p class="src">LOR、Coverage、Liability、PD 取自 Master G–M 列，色块照抄 Master 底色，含义按《PI Master Sheet 记录教程》。其余保单信息取自 intake。</p>
-    <dl class="stats">
-      <div><dt>阶段</dt><dd class="txt">Treating</dd></div>
-      <div><dt>距事发</dt><dd data-since="2026-06-27">—</dd></div>
-      <div><dt>待办</dt><dd data-stat="open">—</dd></div>
-      <div data-stat-box="mail"><dt>寄件在途</dt><dd data-stat="mail">—</dd></div>
-      <div class="next"><dt>下一期限</dt><dd data-stat="next">—</dd><p class="stat-sub" data-stat="next-what"></p></div>
-    </dl>
-    <ol class="road">
-      <li class="done"><span class="st">Signing</span><small>6/29</small></li>
-      <li class="now"><span class="here">现在</span><span class="st">Treating</span><small>7/1 起</small></li>
-      <li><span class="st">Collecting</span><small>&nbsp;</small></li>
-      <li><span class="st">Drafting</span><small>&nbsp;</small></li>
-      <li><span class="st">Negotiating</span><small>&nbsp;</small></li>
-      <li><span class="st">Reduction</span><small>&nbsp;</small></li>
-      <li><span class="st">Completed</span><small>&nbsp;</small></li>
-    </ol>
   </header>
 
   <section>
