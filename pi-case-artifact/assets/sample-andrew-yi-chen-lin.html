@@ -426,6 +426,13 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .adj dd.na { color: var(--ink-faint); font-family: var(--f-body); user-select: auto; }
 .role { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: .04em; padding: 1px 7px; border-radius: 2px; border: 1px solid var(--steady); color: var(--steady); background: var(--steady-bg); }
 .role.unk { border-color: var(--alarm); color: var(--alarm); background: var(--alarm-bg); }
+.ct > summary { list-style: none; cursor: pointer; position: relative; padding-right: 26px; }
+.ct > summary::-webkit-details-marker { display: none; }
+.ct > summary::after { content: ""; position: absolute; right: 4px; top: 8px; width: 7px; height: 7px; border-right: 1px solid var(--edge-muted); border-bottom: 1px solid var(--edge-muted); transform: rotate(45deg); transition: transform .2s cubic-bezier(.4,0,.2,1); }
+.ct[open] > summary::after { transform: rotate(-135deg); }
+.ct:not([open]) > summary { padding-bottom: 0; border-bottom: 0; }
+.ct > summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+.contacts { align-items: start; }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -492,16 +499,16 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
       <span class="chip plain">Retainer Standard 1/3</span>
     </div>
     <div class="contacts">
-      <div class="ct">
-        <div class="ct-h"><span class="side">1P</span><span class="co">Root Insurance</span><span class="cl">Claim <b>48QRVVCA</b></span></div>
+      <details class="ct" open>
+        <summary class="ct-h"><span class="side">1P</span><span class="co">Root Insurance</span><span class="cl">Claim <b>48QRVVCA</b></span></summary>
         <div class="adj">
           <div class="nm">Trey Forehand <span class="role unk">角色未标</span></div>
           <dl><div><dt>Phone</dt><dd>330-777-2157</dd></div><div><dt>Email</dt><dd>trey.forehand@joinroot.com</dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
         </div>
         <p class="ct-note">保单 HQM2LZ · 无 UM/UIM · 无 Med Pay · Collision ded $1,000</p>
-      </div>
-      <div class="ct">
-        <div class="ct-h"><span class="side">3P</span><span class="co">State Farm</span><span class="cl">Claim <b>75-0H3J-151</b></span></div>
+      </details>
+      <details class="ct" open>
+        <summary class="ct-h"><span class="side">3P</span><span class="co">State Farm</span><span class="cl">Claim <b>75-0H3J-151</b></span></summary>
         <div class="adj">
           <div class="nm">Christy Yu <span class="role unk">角色未标</span></div>
           <dl><div><dt>Phone</dt><dd>844-292-8615 x32179</dd></div><div><dt>Email</dt><dd>statefarmclaims@statefarm.com <small>总邮箱</small></dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
@@ -511,9 +518,8 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
           <dl><div><dt>Phone</dt><dd>844-292-8615 x73140</dd></div><div><dt>Email</dt><dd class="na">无记录</dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
         </div>
         <p class="ct-note">保单 646 5401-E14-75 · limits 250/500（出处待坐实）· PD 已按 total loss 结</p>
-      </div>
+      </details>
     </div>
-    <p class="ct-legend">角色：<span class="role">BI</span> <span class="role">PD</span> <span class="role">Med Pay</span> <span class="role">Total Loss</span> <span class="role">Subrogation</span> <span class="role">Supervisor</span> · 两边都没有 supervisor 记录。缺的角色和传真见待办 10。</p>
     <dl class="stats">
       <div><dt>阶段</dt><dd class="txt">Treating</dd></div>
       <div><dt>距事发</dt><dd data-since="2026-06-27">—</dd></div>

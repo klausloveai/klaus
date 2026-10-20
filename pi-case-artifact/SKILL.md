@@ -27,7 +27,7 @@ description: >-
 - 不放 SSN / 驾照号。
 
 ## 顶栏联系卡（Klaus 2026-10-20 定）
-masthead 里 chips 下方、状态条上方，`{{CONTACTS}}`：左 1P、右 3P 各一张卡。卡头 = 保险公司 + Claim #；
+masthead 里 chips 下方、状态条上方，`{{CONTACTS}}`：左 1P、右 3P 各一张卡，每张是 `<details class="ct" open>`，点卡头可收起。**卡下不放角色图例**，角色只标在 adjuster 姓名后。卡头 = 保险公司 + Claim #；
 每位 adjuster 一行：姓名 + **角色标签**（BI / PD / Med Pay / Total Loss / Subrogation / Supervisor，未标的用红色「角色未标」）
 + Phone（含分机）· Email（总邮箱注明「总邮箱」）· Fax（没有写「无记录」）。电话邮箱用纯文本（可全选复制），不用 tel:/mailto:。
 数据取 intake 1st/3rd Party 栏；角色只认 intake 括号里写明的（如 (T/L) (B/I)），不推测。缺的就生成一条「补齐 adjuster 角色/传真/supervisor」待办。
