@@ -302,6 +302,10 @@ Open `Hi Hernán,`; `Best,` 可有可无（两份范本一份有一份没有）�
 `gws gmail users settings sendAs get`, per [[feedback-email-signature-sender]]).
 **Cc 跟着他的原信走，且要裁剪：**
 - 他只发给我一人 → 回信不加任何 Cc（Klaus 2026-08-17 删掉了我自己加的 cassie / claire）。
+  ⚠️ **2026-10-19 Chunpeng Wu 反例**：他 10/15 那封只发给 Klaus，我照这条没加 Cc，Klaus 当场要求
+  **Cc Cassie + Joe，不要 Cindy、Claire、Allison**（这封附了 retainer 补充协议，Cassie 要看）。
+  所以「只发给我一人就不加 Cc」不是铁律：**回信涉及律所层面的事（收费、retainer、要 Cassie 拍板的）
+  就抄 Cassie + Joe**；Cindy / Claire / Allison 在 Hernán 线一律不主动加。拿不准就默认 Cassie + Joe，交 Klaus 删。
 - 他原信抄送了所内多人 → 回信**只保留 Cassie + Joe**，Cindy / Claire 去掉
   （Klaus 2026-09-29 Bo Tao 那封就是这样裁的）。
 - 他在信里明确点名要抄谁 → 照他说的。
