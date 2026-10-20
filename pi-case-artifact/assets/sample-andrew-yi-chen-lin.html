@@ -507,6 +507,17 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 .topbar .road .st { font-size: 11.5px; }
 .topbar .road small { font-size: 10px; }
 .topbar .road .here { top: -16px; font-size: 9px; }
+/* PI：任务节三栏 + 限高滚动（Klaus 2026-10-20 v2） */
+.split3 { display: grid; gap: 18px; grid-template-columns: minmax(0,1fr); margin-top: 16px; }
+@media (min-width: 1000px) { .split3 { grid-template-columns: minmax(0,5fr) minmax(0,4fr) minmax(0,4fr); } }
+.sbox { max-height: 480px; overflow-y: auto; margin-top: 10px; padding: 8px; border: 1px solid var(--hairline); border-radius: 4px; background: var(--ground); }
+.todos-v { grid-template-columns: minmax(0,1fr) !important; margin-top: 10px; }
+.donel { list-style: none; margin: 0; padding: 0; }
+.donel li { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 8px; padding: 8px 8px; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; margin-bottom: 6px; }
+.donel .dd { font-family: var(--f-mono); font-size: 12px; color: var(--accent-text); padding-top: 1px; }
+.donel .dw b { font-size: 13px; font-weight: 600; color: var(--ink); }
+.donel .by { font-size: 11.5px; color: var(--ink-faint); margin-left: 6px; }
+.donel small { display: block; font-size: 12px; line-height: 1.6; color: var(--ink-muted); }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -678,39 +689,11 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
   <section>
     <div class="rule"></div>
     <details class="sec" open>
-      <summary><h2>任务<small>Done · To do · Prevent</small></h2></summary>
-      <p class="lede">分三块：<b>已完成</b>的动作和日期、<b>待办</b>（点开看怎么做）、<b>预防</b>（现在还没出事，但会出事的地方）。页面上不能勾，改了底层，下次刷新就会跟着变。</p>
-
-      <h3>一 · 已完成 <span class="colnote">新的在上</span></h3>
-      <div class="tally" data-tally></div>
-      <div class="tw"><table class="done-tbl">
-        <thead><tr><th>日期</th><th>完成了什么</th><th>谁</th><th>详情 / 凭据</th></tr></thead>
-        <tbody>
-          <tr><td class="num">10/11</td><td class="k">PM 复诊预约确认</td><td>Claire</td><td>11/7 3:00 PM</td></tr>
-          <tr><td class="num">10/9</td><td class="k">Psych 预约确认</td><td>Claire</td><td>10/14 10:30 telemed，John Tsuang</td></tr>
-          <tr><td class="num">10/2</td><td class="k">警方报告存进 Drive</td><td>—</td><td>Drive 2#「police report.pdf」</td></tr>
-          <tr><td class="num">10/1</td><td class="k">提交 policy limits search</td><td>Amos</td><td>Coastal Research；10/6 Klaus 付了 $175</td></tr>
-          <tr><td class="num">9/30</td><td class="k">Psych referral 改送 InterHealth</td><td>Claire</td><td>原来的 Boomerang 只接工伤</td></tr>
-          <tr><td class="num">9/16</td><td class="k">付 ER 调取费，R/B 到手</td><td>—</td><td>$55（invoice 771-181763 / 771-181764），存进 Drive 4#</td></tr>
-          <tr><td class="num">8/28</td><td class="k">ER R/B 线上申请、health lien 申请发出</td><td>Tiana</td><td>R/B tracking <span class="mono">771-179625</span>；Machinify 邮件</td></tr>
-          <tr><td class="num">8/12</td><td class="k">客户同意注射，回复诊所 proceed</td><td>Tiana · Claire</td><td>9/1、9/19 两针已打</td></tr>
-          <tr><td class="num">8/11</td><td class="k">PM lien 签回</td><td>Tiana</td><td>邮件回传</td></tr>
-          <tr><td class="num">7/30</td><td class="k">PM referral 发给 Precision</td><td>Tiana</td><td>8/8 初诊</td></tr>
-          <tr><td class="num">7/17</td><td class="k">MRI referral 发给 Sun Imaging</td><td>Tiana</td><td>7/22 拍完，7/28 R/B 存进 Drive 4#（Claire）</td></tr>
-          <tr><td class="num">7/16</td><td class="k">车辆 total loss 赔付到位</td><td>Ryan</td><td>$23,579.62 = 贷款方 $19,837.99 + 客户 $3,741.63</td></tr>
-          <tr><td class="num">7/8</td><td class="k">Chiro lien 签回</td><td>Tiana</td><td>邮件回传</td></tr>
-          <tr><td class="num">6/30</td><td class="k">Chiro referral 发给 Affinity，7/1 首诊记入 Master</td><td>Claude · Tiana</td><td>Chat 6/30 发送回执</td></tr>
-          <tr><td class="num">6/30</td><td class="k">3P 接受 100% 责任</td><td>Ryan</td><td>State Farm claim 75-0H3J-151</td></tr>
-          <tr><td class="num">6/29</td><td class="k">确认 coverage</td><td>Ryan</td><td>Chat「coverage is clear」</td></tr>
-          <tr><td class="num">6/29</td><td class="k">1P / 3P LOR 发出</td><td>—</td><td>Drive 1#：LOR (1P)、LOR (3P)（Chat 里没写谁发的）</td></tr>
-          <tr><td class="num">6/29</td><td class="k">建案，Day 1 SOP</td><td>Klaus</td><td>Chat 群开好；Day 1 清单列出了姓名、地址要核实</td></tr>
-        </tbody>
-      </table></div>
-
-      <p class="src">「谁」= Chat 里报告这件事的人（比如 Tiana 发「lien signed 已回传」就记 Tiana）；【Claude AI】自动通知记成转发它的人。Chat 里没写是谁做的，就标「—」，不猜。</p>
-
-      <h3>二 · 待办（点开看怎么做）</h3>
-      <div class="todos">
+      <summary><h2>任务<small>To do · Done · Prevent</small></h2></summary>
+      <div class="split3">
+        <div class="col">
+          <h3 class="colh">待办 <span class="colnote">按紧急程度排 · 点开看怎么做</span></h3>
+          <div class="sbox todos todos-v">
         <details class="todo"><summary><span class="n">1</span><span class="tt"><b>Chiro 已到 34 次，碰到 30–35 的上限</b><span class="who">Amos · 现在</span><span class="age">起于 10/16 做到第 34 次 · <span data-opened="2026-10-16"></span></span></span></summary>
           <div class="how">
             <p class="why">9/17 Amos 定上限 30–35，约定到数就 @CM。10/16 是第 34 次，群里还没人 @。10/9 PM 医生又建议继续 chiro。</p>
@@ -722,17 +705,17 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             <p class="done-when">关掉：Master Chiro 格写上 discharge 日期，或者改了上限。</p>
             <p class="ref">教程：<a href="https://docs.google.com/document/d/1X0Q0IR_gX0sFITD-KbM1HOL9_Me5PrjFV-TedBvCZvk">PI Master Sheet 记录教程</a> · Chiro 列</p>
           </div></details>
-
-        <details class="todo"><summary><span class="n">2</span><span class="tt"><b>定下这个案子由谁负责</b><span class="who">Klaus · 现在</span><span class="age">起于 10/16 Picase@ 拆 tab · <span data-opened="2026-10-16"></span></span></span></summary>
+        <details class="todo"><summary><span class="n">4</span><span class="tt"><b>坐实 3P limits 250/500 的出处</b><span class="who">Amos · 本周</span><span class="age">起于 10/1 提交 limits search · <span data-opened="2026-10-01"></span></span><span class="fresh maybe">可能已办</span></span></summary>
           <div class="how">
-            <p class="why">Master 放在 Jenkins 的 tab，但 Jenkins 在群里没说过话。原来跟的 Ryan 已经不在群里，实际是 Amos 在管。</p>
+            <p class="judge">判断：10/2 群里那两份附件很可能就是查询结果。也许只差在 Chat 里补一句话。</p>
+            <p class="why">intake 记的是 250/500，但群里 10/1 还说对方没披露，提交了 limits search。10/2 贴了两份附件，没有文字说明结果。客户没有 UM/UIM，所以这个数字就是本案的天花板。</p>
             <ol>
-              <li>Klaus 在 Chat 里 @ 一句「本案由 X 负责」。</li>
-              <li>如果不是 Jenkins，就把 Master 那一行挪到对应的 tab。</li>
+              <li>打开 10/2 群里的两份附件，或者登录 Coastal Research 的 dashboard 看查询报告。</li>
+              <li>报告存进 Drive 2#。</li>
+              <li>在 Chat 写一句「3P limits = X，来源：Coastal Research 报告 10/2」。</li>
             </ol>
-            <p class="done-when">关掉：Chat 里有这句话，Master 所在的 tab 跟负责人一致。</p>
+            <p class="done-when">关掉：Chat 里有这句话，Drive 2# 里有报告。</p>
           </div></details>
-
         <details class="todo"><summary><span class="n">3</span><span class="tt"><b>确认 Psych 10/14 看了没有，Lien Agreement 签了没有</b><span class="who">Tiana · 本周</span><span class="age">起于 10/1 InterHealth 来信 · <span data-opened="2026-10-01"></span></span><span class="fresh maybe">可能已办</span></span></summary>
           <div class="how">
             <p class="judge">判断：10/14 的预约已经过了。可能已经看完、lien 也签了，只是没回群。先查 picase@，确认后可能直接关掉。</p>
@@ -745,19 +728,47 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             </ol>
             <p class="done-when">关掉：签好的 lien 存进 Drive 1#，Master Psych 格改色。</p>
           </div></details>
-
-        <details class="todo"><summary><span class="n">4</span><span class="tt"><b>坐实 3P limits 250/500 的出处</b><span class="who">Amos · 本周</span><span class="age">起于 10/1 提交 limits search · <span data-opened="2026-10-01"></span></span><span class="fresh maybe">可能已办</span></span></summary>
+        <details class="todo"><summary><span class="n">9</span><span class="tt"><b>要 PM 的 R/B，并问清 9/19 那针打的是哪里</b><span class="who">Tiana · 本周</span><span class="age">起于 8/8 PM 初诊 · <span data-opened="2026-08-08"></span></span><span class="fresh old">拖得久</span></span></summary>
           <div class="how">
-            <p class="judge">判断：10/2 群里那两份附件很可能就是查询结果。也许只差在 Chat 里补一句话。</p>
-            <p class="why">intake 记的是 250/500，但群里 10/1 还说对方没披露，提交了 limits search。10/2 贴了两份附件，没有文字说明结果。客户没有 UM/UIM，所以这个数字就是本案的天花板。</p>
+            <p class="judge">判断：最早的一条：初诊的 R/B 已经两个多月。demand 前必须到齐。</p>
+            <p class="why">8/8 初诊、9/1 和 9/19 两针、10/9 复诊，一份报告账单都还没到。9/19 那针诊所没写部位。</p>
             <ol>
-              <li>打开 10/2 群里的两份附件，或者登录 Coastal Research 的 dashboard 看查询报告。</li>
-              <li>报告存进 Drive 2#。</li>
-              <li>在 Chat 写一句「3P limits = X，来源：Coastal Research 报告 10/2」。</li>
+              <li>邮件发 painprecision@gmail.com，列出四个日期，要 R/B。</li>
+              <li>同一封里问 9/19 注射的部位。</li>
+              <li>收到后存进 Drive 4#，Master PM 和注射格改绿。</li>
             </ol>
-            <p class="done-when">关掉：Chat 里有这句话，Drive 2# 里有报告。</p>
+            <p class="done-when">关掉：四次的 R/B 都在 Drive 4#。</p>
           </div></details>
-
+        <details class="todo"><summary><span class="n">8</span><span class="tt"><b>跟进 Health Net 的代位求偿（Machinify）</b><span class="who">Tiana · 约 10/28</span><span class="age">起于 8/27 发出申请 · <span data-opened="2026-08-27"></span></span><span class="fresh old">拖得久</span></span></summary>
+          <div class="how">
+            <p class="judge">判断：快两个月没回音。结案前必须有金额，不能再只 snooze。</p>
+            <p class="why">8/27 发出申请，9/30 没动静，10/14 又 snooze 两周。</p>
+            <ol>
+              <li>snooze 到期时先再发一封邮件追。</li>
+              <li>还是没回：照 Claire 10/14 说的，等治疗结束、账单收齐后打电话问。</li>
+              <li>拿到回函就把金额和 Ref# 记进 Master。</li>
+            </ol>
+            <p class="done-when">关掉：Master「Health Ins Lien」格写上回函日期和金额。</p>
+          </div></details>
+        <details class="todo"><summary><span class="n">11</span><span class="tt"><b>intake 上的事故描述和报告号要按警方报告改</b><span class="who">Tiana · 本周</span><span class="age">起于 10/2 警方报告入卷 · <span data-opened="2026-10-02"></span></span></span></summary>
+          <div class="how">
+            <p class="why">intake 的 Fact of Loss 写的是对方<b>右转</b>，警方报告写的是对方从左转专用道起步<b>左转</b>。intake 的报告号写 22960H99，事发时间写 1:15 PM；警方报告是 <span class="mono">222601499</span>，13:23。demand 会照 intake 写，所以现在不改，到时候就会写错。</p>
+            <ol>
+              <li>打开 Drive 2#「police report.pdf」第 6 页核对。</li>
+              <li>改 intake：Fact of Loss（右转改左转，并补上「left-turn-only lane、CVC 22107」）、Police Report #、事发时间、地点（Chino Ave &amp; Rock Springs Dr）。</li>
+              <li>如果 22960H99 是别的编号（比如警方给客户的那张 police card 上的号码），在 intake 里注明它是什么，不要直接删掉。</li>
+            </ol>
+            <p class="done-when">关掉：intake 的事故栏与警方报告一致。</p>
+          </div></details>
+        <details class="todo"><summary><span class="n">2</span><span class="tt"><b>定下这个案子由谁负责</b><span class="who">Klaus · 现在</span><span class="age">起于 10/16 Picase@ 拆 tab · <span data-opened="2026-10-16"></span></span></span></summary>
+          <div class="how">
+            <p class="why">Master 放在 Jenkins 的 tab，但 Jenkins 在群里没说过话。原来跟的 Ryan 已经不在群里，实际是 Amos 在管。</p>
+            <ol>
+              <li>Klaus 在 Chat 里 @ 一句「本案由 X 负责」。</li>
+              <li>如果不是 Jenkins，就把 Master 那一行挪到对应的 tab。</li>
+            </ol>
+            <p class="done-when">关掉：Chat 里有这句话，Master 所在的 tab 跟负责人一致。</p>
+          </div></details>
         <details class="todo"><summary><span class="n">5</span><span class="tt"><b>Total loss 之后还能不能走 total gain / DV</b><span class="who">Klaus · 本周</span><span class="age">起于 10/1 Amos 提问 · <span data-opened="2026-10-01"></span></span><span class="fresh maybe">可能已办</span></span></summary>
           <div class="how">
             <p class="judge">判断：你 10/1 说第二天去问，可能已经有答案，只是没回到群里。</p>
@@ -768,7 +779,6 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             </ol>
             <p class="done-when">关掉：Chat 里有结论。</p>
           </div></details>
-
         <details class="todo"><summary><span class="n">6</span><span class="tt"><b>改正 Master 上的两格</b><span class="who">Tiana · 本周</span><span class="age">起于 8/27 存了 $275 凭条 · <span data-opened="2026-08-27"></span></span><span class="fresh old">拖得久</span></span></summary>
           <div class="how">
             <p class="judge">判断：拖了 50 多天。不影响治疗，但 demand 算 out-of-pocket 时会算错。</p>
@@ -781,37 +791,6 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             <p class="done-when">关掉：两格都改好。</p>
             <p class="ref">教程：<a href="https://docs.google.com/document/d/1X0Q0IR_gX0sFITD-KbM1HOL9_Me5PrjFV-TedBvCZvk">PI Master Sheet 记录教程</a> · 铁规矩①（不写未来日期）· 颜色表</p>
           </div></details>
-
-        <details class="todo"><summary><span class="n">7</span><span class="tt"><b>Drive 案卷从 1. Pending 搬到 2. Treating</b><span class="who">负责人 · 随手</span><span class="age">起于 约 7/1 进入 Treating · <span data-opened="2026-07-01"></span></span><span class="fresh old">拖得久</span></span></summary>
-          <div class="how">
-            <p class="judge">判断：拖得最久之一，但影响最小，随手做掉。</p>
-            <ol><li>在 <span class="mono">0. PI Cases / 1. Pending</span> 里把整个案卷拖到 <span class="mono">2. Treating</span>。文件 id 不会变，所有链接照样能用。</li></ol>
-            <p class="done-when">关掉：文件夹位置和 Master 状态一致。</p>
-          </div></details>
-
-        <details class="todo"><summary><span class="n">8</span><span class="tt"><b>跟进 Health Net 的代位求偿（Machinify）</b><span class="who">Tiana · 约 10/28</span><span class="age">起于 8/27 发出申请 · <span data-opened="2026-08-27"></span></span><span class="fresh old">拖得久</span></span></summary>
-          <div class="how">
-            <p class="judge">判断：快两个月没回音。结案前必须有金额，不能再只 snooze。</p>
-            <p class="why">8/27 发出申请，9/30 没动静，10/14 又 snooze 两周。</p>
-            <ol>
-              <li>snooze 到期时先再发一封邮件追。</li>
-              <li>还是没回：照 Claire 10/14 说的，等治疗结束、账单收齐后打电话问。</li>
-              <li>拿到回函就把金额和 Ref# 记进 Master。</li>
-            </ol>
-            <p class="done-when">关掉：Master「Health Ins Lien」格写上回函日期和金额。</p>
-          </div></details>
-
-        <details class="todo"><summary><span class="n">9</span><span class="tt"><b>要 PM 的 R/B，并问清 9/19 那针打的是哪里</b><span class="who">Tiana · 本周</span><span class="age">起于 8/8 PM 初诊 · <span data-opened="2026-08-08"></span></span><span class="fresh old">拖得久</span></span></summary>
-          <div class="how">
-            <p class="judge">判断：最早的一条：初诊的 R/B 已经两个多月。demand 前必须到齐。</p>
-            <p class="why">8/8 初诊、9/1 和 9/19 两针、10/9 复诊，一份报告账单都还没到。9/19 那针诊所没写部位。</p>
-            <ol>
-              <li>邮件发 painprecision@gmail.com，列出四个日期，要 R/B。</li>
-              <li>同一封里问 9/19 注射的部位。</li>
-              <li>收到后存进 Drive 4#，Master PM 和注射格改绿。</li>
-            </ol>
-            <p class="done-when">关掉：四次的 R/B 都在 Drive 4#。</p>
-          </div></details>
         <details class="todo"><summary><span class="n">10</span><span class="tt"><b>补齐 adjuster 的角色、传真和 supervisor</b><span class="who">Tiana · 本周</span><span class="age">起于 6/29 建档时就缺 · <span data-opened="2026-06-29"></span></span><span class="fresh old">拖得久</span></span></summary>
           <div class="how">
             <p class="judge">判断：从建档起就缺，一直没补。CM 每次打电话都要现查。</p>
@@ -823,21 +802,42 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             </ol>
             <p class="done-when">关掉：intake 里每位 adjuster 都标了角色，传真栏有号码或写明「无」。</p>
           </div></details>
-        <details class="todo"><summary><span class="n">11</span><span class="tt"><b>intake 上的事故描述和报告号要按警方报告改</b><span class="who">Tiana · 本周</span><span class="age">起于 10/2 警方报告入卷 · <span data-opened="2026-10-02"></span></span></span></summary>
+        <details class="todo"><summary><span class="n">7</span><span class="tt"><b>Drive 案卷从 1. Pending 搬到 2. Treating</b><span class="who">负责人 · 随手</span><span class="age">起于 约 7/1 进入 Treating · <span data-opened="2026-07-01"></span></span><span class="fresh old">拖得久</span></span></summary>
           <div class="how">
-            <p class="why">intake 的 Fact of Loss 写的是对方<b>右转</b>，警方报告写的是对方从左转专用道起步<b>左转</b>。intake 的报告号写 22960H99，事发时间写 1:15 PM；警方报告是 <span class="mono">222601499</span>，13:23。demand 会照 intake 写，所以现在不改，到时候就会写错。</p>
-            <ol>
-              <li>打开 Drive 2#「police report.pdf」第 6 页核对。</li>
-              <li>改 intake：Fact of Loss（右转改左转，并补上「left-turn-only lane、CVC 22107」）、Police Report #、事发时间、地点（Chino Ave &amp; Rock Springs Dr）。</li>
-              <li>如果 22960H99 是别的编号（比如警方给客户的那张 police card 上的号码），在 intake 里注明它是什么，不要直接删掉。</li>
-            </ol>
-            <p class="done-when">关掉：intake 的事故栏与警方报告一致。</p>
+            <p class="judge">判断：拖得最久之一，但影响最小，随手做掉。</p>
+            <ol><li>在 <span class="mono">0. PI Cases / 1. Pending</span> 里把整个案卷拖到 <span class="mono">2. Treating</span>。文件 id 不会变，所有链接照样能用。</li></ol>
+            <p class="done-when">关掉：文件夹位置和 Master 状态一致。</p>
           </div></details>
-      </div>
-
-      <h3>三 · 预防（提前处理，免得到 demand 才出事）</h3>
-      <p class="src">怎么生成：拿本案的具体数据，对照诉前 PI 案里对方最常用来压价、拒赔的几类理由（影像与治疗不相称、既往伤、限额、治疗空档、身份信息错误、材料缺失、lien 未定、比较过失）。哪一类在本案数据里有对应的事实，就列一条，并写出是哪条数据触发的。没有触发的类别不列。</p>
-      <div class="todos">
+          </div>
+        </div>
+        <div class="col">
+          <h3 class="colh">已完成 <span class="colnote">新的在上</span></h3>
+          <div class="tally" data-tally></div>
+          <div class="sbox"><ul class="donel">
+              <li data-who="Claire"><span class="dd">10/11</span><div class="dw"><b>PM 复诊预约确认</b><span class="by">Claire</span><small>11/7 3:00 PM</small></div></li>
+              <li data-who="Claire"><span class="dd">10/9</span><div class="dw"><b>Psych 预约确认</b><span class="by">Claire</span><small>10/14 10:30 telemed，John Tsuang</small></div></li>
+              <li data-who="—"><span class="dd">10/2</span><div class="dw"><b>警方报告存进 Drive</b><span class="by">—</span><small>Drive 2#「police report.pdf」</small></div></li>
+              <li data-who="Amos"><span class="dd">10/1</span><div class="dw"><b>提交 policy limits search</b><span class="by">Amos</span><small>Coastal Research；10/6 Klaus 付了 $175</small></div></li>
+              <li data-who="Claire"><span class="dd">9/30</span><div class="dw"><b>Psych referral 改送 InterHealth</b><span class="by">Claire</span><small>原来的 Boomerang 只接工伤</small></div></li>
+              <li data-who="—"><span class="dd">9/16</span><div class="dw"><b>付 ER 调取费，R/B 到手</b><span class="by">—</span><small>$55（invoice 771-181763 / 771-181764），存进 Drive 4#</small></div></li>
+              <li data-who="Tiana"><span class="dd">8/28</span><div class="dw"><b>ER R/B 线上申请、health lien 申请发出</b><span class="by">Tiana</span><small>R/B tracking <span class="mono">771-179625</span>；Machinify 邮件</small></div></li>
+              <li data-who="Tiana · Claire"><span class="dd">8/12</span><div class="dw"><b>客户同意注射，回复诊所 proceed</b><span class="by">Tiana · Claire</span><small>9/1、9/19 两针已打</small></div></li>
+              <li data-who="Tiana"><span class="dd">8/11</span><div class="dw"><b>PM lien 签回</b><span class="by">Tiana</span><small>邮件回传</small></div></li>
+              <li data-who="Tiana"><span class="dd">7/30</span><div class="dw"><b>PM referral 发给 Precision</b><span class="by">Tiana</span><small>8/8 初诊</small></div></li>
+              <li data-who="Tiana"><span class="dd">7/17</span><div class="dw"><b>MRI referral 发给 Sun Imaging</b><span class="by">Tiana</span><small>7/22 拍完，7/28 R/B 存进 Drive 4#（Claire）</small></div></li>
+              <li data-who="Ryan"><span class="dd">7/16</span><div class="dw"><b>车辆 total loss 赔付到位</b><span class="by">Ryan</span><small>$23,579.62 = 贷款方 $19,837.99 + 客户 $3,741.63</small></div></li>
+              <li data-who="Tiana"><span class="dd">7/8</span><div class="dw"><b>Chiro lien 签回</b><span class="by">Tiana</span><small>邮件回传</small></div></li>
+              <li data-who="Claude · Tiana"><span class="dd">6/30</span><div class="dw"><b>Chiro referral 发给 Affinity，7/1 首诊记入 Master</b><span class="by">Claude · Tiana</span><small>Chat 6/30 发送回执</small></div></li>
+              <li data-who="Ryan"><span class="dd">6/30</span><div class="dw"><b>3P 接受 100% 责任</b><span class="by">Ryan</span><small>State Farm claim 75-0H3J-151</small></div></li>
+              <li data-who="Ryan"><span class="dd">6/29</span><div class="dw"><b>确认 coverage</b><span class="by">Ryan</span><small>Chat「coverage is clear」</small></div></li>
+              <li data-who="—"><span class="dd">6/29</span><div class="dw"><b>1P / 3P LOR 发出</b><span class="by">—</span><small>Drive 1#：LOR (1P)、LOR (3P)（Chat 里没写谁发的）</small></div></li>
+              <li data-who="Klaus"><span class="dd">6/29</span><div class="dw"><b>建案，Day 1 SOP</b><span class="by">Klaus</span><small>Chat 群开好；Day 1 清单列出了姓名、地址要核实</small></div></li>
+          </ul></div>
+          <p class="src">「谁」= Chat 里报告这件事的人（比如 Tiana 发「lien signed 已回传」就记 Tiana）；【Claude AI】自动通知记成转发它的人。Chat 里没写是谁做的，就标「—」，不猜。</p>
+        </div>
+        <div class="col">
+          <h3 class="colh">预防 <span class="colnote">提前处理</span></h3>
+          <div class="sbox todos todos-v">
         <details class="todo prev"><summary><span class="n">P1</span><span class="tt"><b>注射金额会被 MRI 压下来</b><span class="who">CM · 收 PM 报告时</span></span></summary>
           <div class="how">
             <p class="basis">依据：Chat 7/28 的 MRI 摘要「轻度膨出，无明显受压」+ intake Treatment Cost 注射按 $15,000/针估。规则：影像轻、侵入性治疗贵，adjuster 必挑。</p>
@@ -891,6 +891,9 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
               <li>把警方报告的执法记录仪录像和现场照片要过来（报告写明在 evidence.com），证明对方是从 stop sign 起步直接上主路。</li>
               <li>demand 里引用 CVC 22107 和报告的结论，把重点放在对方没让行。</li>
             </ol></div></details>
+          </div>
+          <p class="src">怎么生成：拿本案的具体数据，对照诉前 PI 案里对方最常用来压价、拒赔的几类理由（影像与治疗不相称、既往伤、限额、治疗空档、身份信息错误、材料缺失、lien 未定、比较过失）。哪一类在本案数据里有对应的事实，就列一条，并写出是哪条数据触发的。没有触发的类别不列。</p>
+        </div>
       </div>
     </details>
   </section>
@@ -1108,10 +1111,9 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 
   var tal = document.querySelector("[data-tally]");
   if (tal) {
-    var cnt = {}, none = 0, rowsT = document.querySelectorAll(".done-tbl tbody tr");
+    var cnt = {}, none = 0, rowsT = document.querySelectorAll("[data-who]");
     for (var r = 0; r < rowsT.length; r++) {
-      var cell = rowsT[r].children[2]; if (!cell) continue;
-      var who = cell.textContent.trim();
+      var who = (rowsT[r].getAttribute("data-who") || "").trim();
       if (!who || who === "—") { none++; continue; }
       who.split("·").forEach(function (w) { w = w.trim(); if (w) cnt[w] = (cnt[w] || 0) + 1; });
     }

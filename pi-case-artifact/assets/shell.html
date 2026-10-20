@@ -506,6 +506,17 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .topbar .road .st { font-size: 11.5px; }
 .topbar .road small { font-size: 10px; }
 .topbar .road .here { top: -16px; font-size: 9px; }
+/* PI：任务节三栏 + 限高滚动（Klaus 2026-10-20 v2） */
+.split3 { display: grid; gap: 18px; grid-template-columns: minmax(0,1fr); margin-top: 16px; }
+@media (min-width: 1000px) { .split3 { grid-template-columns: minmax(0,5fr) minmax(0,4fr) minmax(0,4fr); } }
+.sbox { max-height: 480px; overflow-y: auto; margin-top: 10px; padding: 8px; border: 1px solid var(--hairline); border-radius: 4px; background: var(--ground); }
+.todos-v { grid-template-columns: minmax(0,1fr) !important; margin-top: 10px; }
+.donel { list-style: none; margin: 0; padding: 0; }
+.donel li { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 8px; padding: 8px 8px; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; margin-bottom: 6px; }
+.donel .dd { font-family: var(--f-mono); font-size: 12px; color: var(--accent-text); padding-top: 1px; }
+.donel .dw b { font-size: 13px; font-weight: 600; color: var(--ink); }
+.donel .by { font-size: 11.5px; color: var(--ink-faint); margin-left: 6px; }
+.donel small { display: block; font-size: 12px; line-height: 1.6; color: var(--ink-muted); }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -646,10 +657,9 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 
   var tal = document.querySelector("[data-tally]");
   if (tal) {
-    var cnt = {}, none = 0, rowsT = document.querySelectorAll(".done-tbl tbody tr");
+    var cnt = {}, none = 0, rowsT = document.querySelectorAll("[data-who]");
     for (var r = 0; r < rowsT.length; r++) {
-      var cell = rowsT[r].children[2]; if (!cell) continue;
-      var who = cell.textContent.trim();
+      var who = (rowsT[r].getAttribute("data-who") || "").trim();
       if (!who || who === "—") { none++; continue; }
       who.split("·").forEach(function (w) { w = w.trim(); if (w) cnt[w] = (cnt[w] || 0) + 1; });
     }
