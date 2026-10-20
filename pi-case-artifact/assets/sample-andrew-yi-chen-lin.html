@@ -301,6 +301,7 @@ a:focus-visible { outline: none; color: var(--ink); }
 @media (max-width: 560px) { .docket { gap: 0 24px; } }
 a.chip { text-decoration: none; }
 a.chip:hover { border-color: var(--accent); color: var(--ink); }
+a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 
 /* ---------- v7：状态条（masthead 内，数字由脚本从正文实时算，不手写） ---------- */
 .stats {
@@ -433,6 +434,14 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .ct:not([open]) > summary { padding-bottom: 0; border-bottom: 0; }
 .ct > summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
 .contacts { align-items: start; }
+.pol { margin: 10px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 2px 14px; }
+.pol > div { display: grid; grid-template-columns: 82px 1fr; gap: 8px; min-width: 0; }
+.pol dt { font-size: 11.5px; color: var(--ink-faint); letter-spacing: .04em; line-height: 2; }
+.pol dd { margin: 0; font-size: 12.5px; color: var(--ink); line-height: 2; overflow-wrap: anywhere; }
+.role.hold { border-color: var(--hold); color: var(--hold); background: var(--hold-bg); }
+/* Retainer：Standard 橙、New 蓝（Klaus 2026-10-20） */
+.chip.ret-std { color: #9A4F0C; border-color: #C9772B; background: #FBEBDA; }
+.chip.ret-new { color: #24537F; border-color: #4B7FB0; background: #E2ECF6; }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -494,9 +503,7 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
       <a class="chip plain" href="https://mail.google.com/chat/u/0/#chat/space/AAQAVL81pUw">Chat 群</a>
       <span class="chip done">Liability 100%</span>
       <span class="chip done">PD total loss 已赔</span>
-      <span class="chip wait">3P 250/500 待坐实</span>
-      <span class="chip due">无 UM/UIM</span>
-      <span class="chip plain">Retainer Standard 1/3</span>
+      <a class="chip ret-std" href="https://drive.google.com/file/d/1rtqRyfO2vExvxWOFuMUZSTAMwL5tTQar/view">Retainer · Standard 1/3</a>
     </div>
     <div class="contacts">
       <details class="ct" open>
@@ -505,7 +512,16 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
           <div class="nm">Trey Forehand <span class="role unk">角色未标</span></div>
           <dl><div><dt>Phone</dt><dd>330-777-2157</dd></div><div><dt>Email</dt><dd>trey.forehand@joinroot.com</dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
         </div>
-        <p class="ct-note">保单 HQM2LZ · 无 UM/UIM · 无 Med Pay · Collision ded $1,000</p>
+        <dl class="pol">
+          <div><dt>Policy #</dt><dd class="mono">HQM2LZ</dd></div>
+          <div><dt>Period</dt><dd>03/22/2026 – 09/22/2026</dd></div>
+          <div><dt>Coverage</dt><dd><span class="role">Cleared</span></dd></div>
+          <div><dt>Liability</dt><dd><span class="role">Cleared</span></dd></div>
+          <div><dt>UM/UIM</dt><dd><span class="role unk">无</span></dd></div>
+          <div><dt>Med Pay</dt><dd>无</dd></div>
+          <div><dt>Collision Ded</dt><dd>$1,000</dd></div>
+          <div><dt>Rental</dt><dd>无</dd></div>
+        </dl>
       </details>
       <details class="ct" open>
         <summary class="ct-h"><span class="side">3P</span><span class="co">State Farm</span><span class="cl">Claim <b>75-0H3J-151</b></span></summary>
@@ -517,7 +533,16 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
           <div class="nm">Michael McComb <span class="role">Total Loss</span></div>
           <dl><div><dt>Phone</dt><dd>844-292-8615 x73140</dd></div><div><dt>Email</dt><dd class="na">无记录</dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
         </div>
-        <p class="ct-note">保单 646 5401-E14-75 · limits 250/500（出处待坐实）· PD 已按 total loss 结</p>
+        <dl class="pol">
+          <div><dt>Policy #</dt><dd class="mono">646 5401-E14-75</dd></div>
+          <div><dt>Insured</dt><dd>Richard Chiehwei Chiang &amp; Ah-Moy</dd></div>
+          <div><dt>Driver</dt><dd>Mark Chung-Jen Chiang · 2019 Toyota Camry</dd></div>
+          <div><dt>Period</dt><dd>05/14/2026 – 11/14/2026</dd></div>
+          <div><dt>Coverage</dt><dd><span class="role">Cleared</span></dd></div>
+          <div><dt>Liability</dt><dd><span class="role">100% Accepted</span></dd></div>
+          <div><dt>Limits</dt><dd>250/500 <span class="role hold">出处待坐实</span></dd></div>
+          <div><dt>PD</dt><dd>Total loss 已结 · $23,579.62</dd></div>
+        </dl>
       </details>
     </div>
     <dl class="stats">
