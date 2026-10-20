@@ -54,6 +54,8 @@ M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格�
 **任务节三块**（Klaus 2026-10-20 定，取代旧的「待办与阻塞」+「风险点」）：
 1. **已完成**：表格 日期 · 完成了什么 · 谁 · 详情/凭据（从 Chat 与 Drive 抽，按日期升序）。
 2. **待办**：每条一个 `<details class="todo">`，标题行写事项 + 负责人 · 时限；点开是「为什么 → 怎么做（编号步骤）→ 关掉条件」，相关的官方教程附链接（如 PI Master Sheet 记录教程 Doc `1X0Q0IR…`）。编号连续，供「办 N」点名。
+   「谁」= Chat 里报告该动作的发言人；【Claude AI】通知记转发人；Chat 没写就标「—」，不按角色推测。表下放一行 `.src` 说明。
+   **所内同事一律只写 first name**（Tiana、Claire、Amos…），律师写全称 Shenqi Cai, Esq.，外部 adjuster 写全名。
 3. **预防**：`<details class="todo prev">`，编号 P1…，写「会怎么出事 → 现在先做什么」。不计入状态条的待办数。
 
 模板结构仍在迭代中（以 Andrew 页为准），定稿后再把节次规范写进 `references/`。
