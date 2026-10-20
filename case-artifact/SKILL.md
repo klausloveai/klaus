@@ -87,8 +87,8 @@ Klaus 不手动翻 Drive，他看这一页，所以页面错了等于他的判�
    ```
    再人眼过一遍：有没有 emoji（design system 禁用）、有没有没填的占位符。
 9. **发布**：`Artifact` publish，`icon:"folder"`，一句话 `description`。更新时带 `url`。
-10. **记台账**：Activity Log 一行，`Category` = 起草，`Ref/ID` 里放 **artifact 的 url**，
-   这样三个月后搜得到。
+10. **不记 Activity Log。**（2026-10-19 起，见 CLAUDE.md「收工留痕」）artifact 的建立与更新自带版本历史，
+   页面 url 由 `assets/applied.json` 登记；台账只记别处没有痕迹的事。这一步原先要求「记一行、Ref 放 url」，已作废。
 
 ## 收工增量同步（默认，不等 Klaus 开口）
 
