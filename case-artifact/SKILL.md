@@ -14,6 +14,8 @@ description: >-
 
 # case-artifact — 一案一页
 
+> **PI 车祸案（诉前）不走本 skill** —— 用 `pi-case-artifact`，模板与登记表完全分开（Klaus 2026-10-20）。
+
 Goal: **一屏之内看懂这个案子现在卡在哪。** 不是档案清单，是工作底稿。
 Klaus 不手动翻 Drive，他看这一页，所以页面错了等于他的判断就错了。
 

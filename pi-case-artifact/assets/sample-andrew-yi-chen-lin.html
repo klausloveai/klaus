@@ -1,0 +1,751 @@
+<title>Andrew Yi Chen Lin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@500;600&family=Raleway:wght@300;400;500;600&display=swap">
+
+<style>
+/* Lingtu Law design system v1，墨金变体 — ink ground, parchment type, gold as rule.
+   中文为主：正文黑体 Noto Sans SC，标题宋体 Noto Serif SC，拉丁字与数字落回 Raleway，
+   案号与 Bates 走 JetBrains Mono。Layout: 单栏 1180px；每节以 40px 金色细线起手。 */
+/* 凌图 design system v1 的 token，原值照用：
+   ink #1C1917 / parchment #F2EDE2 / paper #FFFDF8 / gold #C0A260 / deep gold #A8862F /
+   hairline #E6DFD1 / input #DCD3C1 / muted edge #C9BFA9 / row tint #FAF6EC。
+   金色只做 1px 细线、眉标与数字，绝不填面。 */
+:root {
+  --ground: #F2EDE2;
+  --paper: #FFFDF8;
+  --paper-tint: #FAF6EC;
+  --ink: #1C1917;
+  --ink-muted: #5B534B;
+  --ink-faint: #6E655A;
+  --accent: #C0A260;
+  --accent-text: #A8862F;
+  --hairline: #E6DFD1;
+  --edge: #DCD3C1;
+  --edge-muted: #C9BFA9;
+  --alarm: #8C2F1E;
+  --alarm-bg: #F6E8E3;
+  --steady: #2F5440;
+  --steady-bg: #E4EDE7;
+  --hold: #6E5A18;
+  --hold-bg: #F4EDD9;
+  --shadow-1: 0 1px 2px rgba(28,25,23,.04);
+  --shadow-2: 0 2px 8px rgba(28,25,23,.06);
+  color-scheme: light;
+
+  --f-display: "Cormorant Garamond", "Noto Serif SC", Georgia, serif;
+  --f-han:     "Noto Serif SC", "Songti SC", serif;
+  --f-body:    "Raleway", "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
+  --f-mono:    "JetBrains Mono", "Noto Sans SC", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.8;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 0 96px; }
+@media (min-width: 768px)  { .wrap { padding-inline: 36px; } }
+@media (min-width: 1100px) { .wrap { padding-inline: 56px; } }
+/* 英文专名与法律术语：行内不换行，略微压一点字重差 */
+.en { font-family: var(--f-body); font-weight: 500; }
+
+/* ---------- masthead ---------- */
+.mast { padding-block: 48px 36px; border-bottom: 1px solid var(--hairline); }
+.eyebrow {
+  font-family: var(--f-body); font-size: 11px; font-weight: 600;
+  letter-spacing: .24em; text-transform: uppercase; color: var(--accent-text);
+  margin: 0 0 14px;
+}
+h1 {
+  font-family: var(--f-display); font-weight: 500; font-size: clamp(34px, 5.4vw, 52px);
+  line-height: 1.12; letter-spacing: .01em; margin: 0 0 6px; text-wrap: balance;
+}
+h1 i { font-style: italic; }
+.mast .sub {
+  font-family: var(--f-body); font-size: 15px; font-weight: 400;
+  color: var(--ink-muted); margin: 0 0 26px; letter-spacing: .02em; line-height: 1.6;
+}
+.docket { display: flex; flex-wrap: wrap; gap: 0 36px; margin: 0; padding: 0; }
+.docket div { padding-block: 6px; }
+.docket dt {
+  font-family: var(--f-body); font-size: 11px; font-weight: 500; letter-spacing: .06em;
+  color: var(--ink-faint); margin-bottom: 1px; line-height: 1.5;
+}
+.docket dd { margin: 0; font-family: var(--f-mono); font-size: 13px; color: var(--ink); line-height: 1.6; }
+
+/* ---------- section scaffolding ---------- */
+section { margin-top: 72px; }
+@media (min-width: 768px)  { section { margin-top: 96px; } }
+@media (min-width: 1100px) { section { margin-top: 104px; } }
+.rule { width: 40px; height: 1px; background: var(--accent); margin-bottom: 16px; }
+section { margin-top: 56px; }
+@media (min-width: 768px) { section { margin-top: 64px; } }
+@media (min-width: 1100px) { section { margin-top: 68px; } }
+h2 {
+  font-family: var(--f-han); font-weight: 500; font-size: 22px; letter-spacing: .05em;
+  margin: 0; line-height: 1.45;
+}
+h2 small {
+  display: block; font-family: var(--f-display); font-style: italic; font-weight: 400;
+  font-size: 18px; letter-spacing: 0; color: var(--ink-muted); margin-top: 0;
+}
+.lede {
+  font-size: 17px; line-height: 1.9; font-weight: 300;
+  color: var(--ink-muted); max-width: 46em; margin: 22px 0 0;
+}
+.lede b { font-weight: 600; color: var(--ink); }
+h3 {
+  font-family: var(--f-han); font-size: 15px; font-weight: 500; letter-spacing: .06em;
+  color: var(--ink); margin: 34px 0 0;
+}
+
+/* ---------- cards ---------- */
+.card {
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 24px; box-shadow: var(--shadow-1); min-width: 0;
+  transition: box-shadow .3s cubic-bezier(.4,0,.2,1);
+}
+.card:hover { box-shadow: var(--shadow-2); }
+.grid { display: grid; gap: 12px; margin-top: 20px; }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); }
+.card > :first-child { margin-top: 0; }
+.card > :last-child { margin-bottom: 0; }
+.card h4 {
+  font-family: var(--f-han); font-size: 15px; font-weight: 500; margin: 0 0 10px;
+  letter-spacing: .04em; line-height: 1.55; color: var(--ink);
+}
+.card p { margin: 0 0 10px; font-size: 14px; line-height: 1.95; color: var(--ink-muted); }
+.card p:last-child { margin-bottom: 0; }
+.card b { color: var(--ink); font-weight: 600; }
+
+/* ---------- deadline strip ---------- */
+.deadlines { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(176px, 1fr)); margin-top: 24px; }
+.dl {
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 18px 20px; box-shadow: var(--shadow-1); min-width: 0;
+}
+.dl.now { border-color: var(--accent); }
+.dl .when { font-family: var(--f-mono); font-size: 13px; color: var(--ink-muted); }
+.dl .count {
+  font-family: var(--f-body); font-variant-numeric: tabular-nums; font-weight: 500;
+  font-size: 30px; line-height: 1.15; margin: 4px 0 3px; color: var(--ink);
+}
+.dl.now .count { color: var(--accent-text); }
+.dl .count small { font-size: 13px; font-weight: 400; color: var(--ink-faint); margin-left: 4px; }
+.dl .what { font-size: 13px; color: var(--ink-muted); line-height: 1.75; }
+
+/* ---------- chips ---------- */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; border-radius: 2px;
+  padding: 3px 9px; font-size: 12px; font-weight: 500; letter-spacing: .04em;
+  font-family: var(--f-body); white-space: nowrap;
+  border: 1px solid var(--edge); color: var(--ink-muted); background: transparent;
+}
+.chip::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: currentColor; }
+.chip.done { color: var(--steady); border-color: var(--steady); background: var(--steady-bg); }
+.chip.wait { color: var(--hold);   border-color: var(--hold);   background: var(--hold-bg); }
+.chip.due  { color: var(--alarm);  border-color: var(--alarm);  background: var(--alarm-bg); }
+.chip.plain::before { display: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+
+/* ---------- tables ---------- */
+.tw { overflow-x: auto; margin-top: 20px; border: 1px solid var(--hairline); border-radius: 4px; background: var(--paper); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px; }
+th {
+  text-align: left; font-family: var(--f-han); font-size: 12px; font-weight: 500;
+  letter-spacing: .08em; color: var(--ink-faint);
+  padding: 13px 18px; border-bottom: 1px solid var(--hairline); white-space: nowrap;
+  background: var(--paper-tint);
+}
+td { padding: 14px 18px; border-bottom: 1px solid var(--hairline); vertical-align: top; color: var(--ink-muted); line-height: 1.85; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: var(--paper-tint); }
+td.k { color: var(--ink); font-weight: 500; }
+td.num, th.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13px; }
+td.money { font-family: var(--f-body); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; color: var(--ink); }
+th.money { text-align: right; }
+.mono { font-family: var(--f-mono); font-size: 13px; }
+tfoot td { border-top: 1px solid var(--edge); font-weight: 600; color: var(--ink); background: var(--paper-tint); }
+
+/* ---------- blockers ---------- */
+.blockers { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(285px, 1fr)); margin-top: 20px; }
+.bl { background: var(--paper); border: 1px solid var(--hairline); border-left: 1px solid var(--accent); border-radius: 4px; padding: 20px 22px; box-shadow: var(--shadow-1); min-width: 0; }
+.bl .who {
+  font-family: var(--f-han); font-size: 14px; font-weight: 500; letter-spacing: .08em;
+  color: var(--accent-text); margin-bottom: 12px;
+}
+.bl ul { margin: 0; padding-left: 0; list-style: none; }
+.bl li { font-size: 14px; line-height: 1.9; color: var(--ink-muted); padding-block: 9px; border-bottom: 1px solid var(--hairline); }
+.bl li:last-child { border-bottom: 0; padding-bottom: 0; }
+.bl li:first-child { padding-top: 0; }
+.bl li b { color: var(--ink); font-weight: 600; }
+/* 待办编号：三栏共用一套连续编号，Klaus 用号码点事（「办 9」）。金色等宽数字。 */
+.bl li .n {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+  color: var(--accent-text); margin-right: 9px;
+}
+
+/* ---------- blockers as rows（标准写法；上面的 .blockers/.bl 卡片为旧版，勿再新用） ---------- */
+.bls { margin-top: 22px; }
+.bls .grp {
+  font-family: var(--f-han); font-size: 13px; font-weight: 500; letter-spacing: .1em;
+  color: var(--accent-text); padding: 18px 0 10px;
+}
+.bls .grp:first-child { padding-top: 0; }
+/* 每条一个纸面盒子 —— 行的节奏，但与羊皮纸底分开（Klaus 2026-10-14） */
+.bls .it {
+  display: flex; gap: 12px; align-items: baseline;
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 15px 18px; margin-bottom: 8px; box-shadow: var(--shadow-1);
+  transition: box-shadow .3s cubic-bezier(.4,0,.2,1);
+}
+.bls .it:hover { box-shadow: var(--shadow-2); }
+.bls .it:last-child { margin-bottom: 0; }
+.bls .it .n {
+  flex: 0 0 22px; font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+  color: var(--accent-text); text-align: right;
+}
+.bls .it .tx { flex: 1; min-width: 0; font-size: 14px; line-height: 1.9; color: var(--ink-muted); }
+.bls .it .tx b { color: var(--ink); font-weight: 600; }
+
+/* ---------- timeline ---------- */
+.tl { margin-top: 20px; border-left: 1px solid var(--edge); padding-left: 0; list-style: none; }
+.tl li { position: relative; padding: 0 0 0 24px; margin-bottom: 18px; }
+.tl li::before {
+  content: ""; position: absolute; left: -3.5px; top: 11px; width: 6px; height: 6px;
+  border-radius: 999px; background: var(--edge-muted);
+}
+.tl li.mark::before { background: var(--accent); width: 7px; height: 7px; left: -4px; }
+.tl li.future::before { background: transparent; border: 1px solid var(--edge-muted); }
+.tl .d { font-family: var(--f-mono); font-size: 12px; color: var(--accent-text); }
+.tl li.future .d { color: var(--ink-faint); }
+.tl .t { font-size: 14px; color: var(--ink-muted); line-height: 1.85; }
+.tl .t b { color: var(--ink); font-weight: 600; }
+
+/* ---------- misc ---------- */
+.note {
+  border-left: 1px solid var(--accent); background: var(--paper); border-radius: 0 4px 4px 0;
+  padding: 16px 20px; margin-top: 20px; font-size: 14px; line-height: 1.95; color: var(--ink-muted);
+}
+.note b { color: var(--ink); font-weight: 600; }
+.calc {
+  font-family: var(--f-mono); font-size: 12.5px; line-height: 2.2; color: var(--ink-muted);
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 16px 18px; margin-top: 18px; overflow-x: auto; white-space: nowrap;
+}
+.calc b { color: var(--ink); font-weight: 500; }
+/* ---------- section fold（每节可折叠，summary 包 h2） ---------- */
+/* 每节一块面板（Klaus 2026-10-14）：面板用 paper-tint，比羊皮纸底浅一级，
+   正文不再直接压在底色上；面板内的卡片、表格、待办行、期限行仍是纯白 paper，
+   于是「底 → 面板 → 卡片」三级一眼分得开。 */
+.sec {
+  background: var(--paper-tint); border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 22px 24px;
+}
+@media (max-width: 620px) { .sec { padding: 18px 16px; } }
+.sec > summary {
+  list-style: none; cursor: pointer; position: relative; padding-right: 30px;
+}
+.sec > summary::-webkit-details-marker { display: none; }
+.sec > summary h2 { margin: 0; }
+.sec > summary::after {
+  content: ""; position: absolute; right: 4px; top: 10px; width: 8px; height: 8px;
+  border-right: 1px solid var(--edge-muted); border-bottom: 1px solid var(--edge-muted);
+  transform: rotate(45deg); transition: transform .2s cubic-bezier(.4,0,.2,1);
+}
+.sec[open] > summary::after { transform: rotate(-135deg); }
+.sec > summary:hover::after, .sec > summary:focus-visible::after { border-color: var(--accent); }
+.sec > summary:focus-visible { outline: none; }
+.sec > summary:hover h2 { color: var(--accent-text); }
+.sec > *:last-child { margin-bottom: 0; }
+
+/* ---------- deadlines as rows（标准写法；.deadlines 卡片为旧版，勿再新用） ---------- */
+.dls { list-style: none; margin: 24px 0 0; padding: 0; }
+/* 每条一个纸面盒子，与待办行同一套观感（Klaus 2026-10-14） */
+.dls .dl {
+  display: block; background: var(--paper);
+  border: 1px solid var(--hairline); border-radius: 4px;
+  padding: 15px 18px; margin-bottom: 8px; box-shadow: var(--shadow-1);
+  transition: box-shadow .3s cubic-bezier(.4,0,.2,1);
+}
+.dls .dl:hover { box-shadow: var(--shadow-2); }
+.dls .dl.now { border-color: var(--accent); }
+.dls .dl:last-child { margin-bottom: 0; }
+.dl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; }
+.dl-title {
+  font-family: var(--f-han); font-size: 15px; font-weight: 500; letter-spacing: .03em;
+  color: var(--ink); line-height: 1.55;
+}
+.dls .dl.now .dl-title { color: var(--accent-text); }
+.dl-when { margin-left: auto; white-space: nowrap; font-family: var(--f-mono); font-size: 13px; color: var(--ink-faint); }
+.dls .dl-when .count {
+  display: inline; font-family: var(--f-body); font-variant-numeric: tabular-nums;
+  font-weight: 500; font-size: 15px; color: var(--ink); margin: 0 0 0 12px;
+}
+.dls .dl.now .dl-when .count { color: var(--accent-text); }
+.dls .dl-when .count small { font-size: 12px; font-weight: 400; color: var(--ink-faint); margin-left: 3px; }
+.dl-desc { margin: 8px 0 0; font-size: 14px; line-height: 1.85; color: var(--ink-muted); max-width: 64em; }
+.dl-desc b { color: var(--ink); font-weight: 600; }
+@media (max-width: 620px) { .dl-when { margin-left: 0; width: 100%; } }
+.foot { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--hairline); font-size: 12.5px; color: var(--ink-faint); line-height: 2; }
+.foot p { margin: 0 0 8px; }
+a { color: var(--accent-text); text-underline-offset: 3px; }
+a:focus-visible { outline: none; color: var(--ink); }
+@media (max-width: 560px) { .docket { gap: 0 24px; } }
+a.chip { text-decoration: none; }
+a.chip:hover { border-color: var(--accent); color: var(--ink); }
+
+/* ---------- v7：状态条（masthead 内，数字由脚本从正文实时算，不手写） ---------- */
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  margin: 28px 0 0; border: 1px solid var(--hairline); border-radius: 4px;
+  background: var(--paper); box-shadow: var(--shadow-1); overflow: hidden;
+}
+.stats > div { padding: 14px 18px; border-right: 1px solid var(--hairline); min-width: 0; }
+.stats > div:last-child { border-right: 0; }
+.stats dt { font-family: var(--f-han); font-size: 12px; letter-spacing: .08em; color: var(--ink-faint); line-height: 1.5; }
+.stats dd {
+  margin: 2px 0 0; font-family: var(--f-body); font-variant-numeric: tabular-nums;
+  font-size: 26px; font-weight: 500; line-height: 1.25; color: var(--ink);
+}
+.stats dd small { font-size: 12px; font-weight: 400; color: var(--ink-faint); margin-left: 3px; }
+.stats dd.txt { font-family: var(--f-han); font-size: 16px; line-height: 1.6; padding-top: 6px; }
+.stats .next dd { color: var(--accent-text); }
+.stats .stat-sub { margin: 2px 0 0; font-size: 12px; line-height: 1.6; color: var(--ink-muted); }
+@media (max-width: 620px) {
+  .stats > div { border-right: 0; border-bottom: 1px solid var(--hairline); }
+  .stats > div:last-child { border-bottom: 0; }
+}
+
+/* ---------- v7：诉讼路线图（masthead 内，一行轨道；分岔细节写进「案件现状」） ---------- */
+.road {
+  list-style: none; margin: 22px 0 0; padding: 26px 0 6px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(92px, 1fr);
+  overflow-x: auto;
+}
+.road li { position: relative; padding-top: 22px; text-align: center; min-width: 0; }
+/* 连线：从本节点中心画到下一个节点中心，1px */
+.road li::after {
+  content: ""; position: absolute; top: 5px; left: 50%; width: 100%; height: 1px;
+  background: var(--edge);
+}
+.road li:last-child::after { display: none; }
+.road li.done::after { background: var(--accent); }
+/* 节点 */
+.road li::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 11px; height: 11px; border-radius: 999px; z-index: 1;
+  background: var(--ground); border: 1px solid var(--edge-muted);
+}
+.road li.done::before { background: var(--accent-text); border-color: var(--accent-text); width: 9px; height: 9px; top: 1px; }
+.road li.now::before { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ground), 0 0 0 4px var(--accent); }
+.road li.maybe::before { border-style: dashed; }
+.road .st { display: block; font-family: var(--f-han); font-size: 13px; line-height: 1.5; color: var(--ink-muted); padding-inline: 4px; }
+.road li.done .st { color: var(--ink); }
+.road li.now .st { color: var(--accent-text); font-weight: 500; }
+.road li.maybe .st { color: var(--ink-faint); }
+.road small { display: block; font-family: var(--f-mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+.road .here {
+  position: absolute; top: -24px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font-size: 10px; font-weight: 600; letter-spacing: .2em; color: var(--accent-text);
+}
+
+/* ---------- v7：待办行的出处行（来源 · 负责 · 期限） ---------- */
+.bls .it .meta {
+  display: block; margin-top: 3px; font-size: 12px; line-height: 1.7;
+  color: var(--ink-faint); letter-spacing: .02em;
+}
+
+/* ---------- v7：客户材料清单（待补 / 已收） ---------- */
+.chk { list-style: none; margin: 0; padding: 0; }
+.chk li {
+  position: relative; padding: 8px 0 8px 20px; border-bottom: 1px solid var(--hairline);
+  font-size: 14px; line-height: 1.8; color: var(--ink-muted);
+}
+.chk li:last-child { border-bottom: 0; padding-bottom: 0; }
+.chk li:first-child { padding-top: 0; }
+.chk li::before {
+  content: ""; position: absolute; left: 2px; top: 15px; width: 7px; height: 7px; border-radius: 999px;
+}
+.chk li:first-child::before { top: 7px; }
+.chk li.miss::before { border: 1px solid var(--alarm); }
+.chk li.got::before { background: var(--steady); }
+.chk li b { color: var(--ink); font-weight: 600; }
+.chk li .mono { float: right; margin-left: 12px; color: var(--ink-faint); font-size: 12px; }
+
+/* ---------- v7：每周收入堆叠柱（误工案才用；必须配明细表） ----------
+   数据色四个，按此顺序固定分配，不轮换（dataviz 校验通过：明度带 / 彩度 / CVD / 正常视觉 / 对比度）。
+   这是数据标记，不是界面填面 —— 「金色绝不填面」管的是界面，不管柱子。 */
+.bars { margin: 22px 0 0; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 18px 18px 12px; }
+.bars { --s1: #2F6DA8; --s2: #B5862A; --s3: #6A5BA8; --s4: #A4503A; }
+.bars-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--ink-muted); margin-bottom: 14px; }
+.bars-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.bars-legend span::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
+.bars-scroll { overflow-x: auto; padding-top: 22px; }
+.bars-plot { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(28px, 1fr); position: relative; }
+/* 基线：画在柱区底部（标签区 20px 之上），1px */
+.bars-plot::after { content: ""; position: absolute; left: 0; right: 0; bottom: 20px; height: 1px; background: var(--edge); }
+.bars .col { display: flex; flex-direction: column; padding-inline: 3px; position: relative; cursor: default; outline: none; }
+.bars .bar { height: 190px; display: flex; flex-direction: column-reverse; gap: 2px; }
+.bars .bar i { display: block; height: calc(var(--v) / var(--max) * 100%); background: var(--c); }
+.bars .bar i:last-child { border-radius: 4px 4px 0 0; }
+.bars .col:hover .bar i, .bars .col:focus-visible .bar i { filter: brightness(1.1); }
+.bars .col .x { height: 20px; font-family: var(--f-mono); font-size: 10px; line-height: 20px; color: var(--ink-faint); text-align: center; white-space: nowrap; }
+/* 事发周：金色 1px 框 + 眉标，不靠改色 */
+.bars .col.hit .bar { box-shadow: 0 0 0 1px var(--accent); border-radius: 4px 4px 0 0; }
+.bars .col.hit .x { color: var(--accent-text); font-weight: 500; }
+.bars .col.hit::before {
+  content: "事发周"; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; font-weight: 600; letter-spacing: .12em; color: var(--accent-text); white-space: nowrap;
+}
+.bars figcaption { font-size: 12px; color: var(--ink-faint); margin-top: 8px; line-height: 1.7; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap" data-shell="PI-1.0">
+  <header class="mast">
+    <p class="eyebrow">凌图律所 · PI Case</p>
+    <h1>Andrew Yi Chen Lin</h1>
+    <p class="sub">Chino Hills 路口被抢道相撞，State Farm 已认 100% 责任，车子按 total loss 赔完；人伤治疗进行中，Chiro 已到上限，两针打完，Psych 刚开始。</p>
+    <dl class="docket">
+      <div><dt>Client</dt><dd>Andrew Yi Chen Lin</dd></div>
+      <div><dt>Date of Loss</dt><dd>06/27/2026</dd></div>
+      <div><dt>Tortfeasor</dt><dd>Mark Chung-Jen Chiang</dd></div>
+      <div><dt>1P Root Claim</dt><dd>48QRVVCA</dd></div>
+      <div><dt>3P State Farm Claim</dt><dd>75-0H3J-151</dd></div>
+      <div><dt>Team</dt><dd>Picase@</dd></div>
+      <div><dt>负责人</dt><dd>Jenkins Li</dd></div>
+    </dl>
+    <div class="chips">
+      <a class="chip plain" href="https://drive.google.com/drive/folders/18cwg1Llz85GTdtbjHoOnsmQpeNS3_tn-">Drive 案卷</a>
+      <a class="chip plain" href="https://docs.google.com/spreadsheets/d/1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM/edit#gid=775230687&amp;range=A24">Master Sheet</a>
+      <a class="chip plain" href="https://mail.google.com/chat/u/0/#chat/space/AAQAVL81pUw">Chat 群</a>
+      <span class="chip done">Liability 100%</span>
+      <span class="chip done">PD total loss 已赔</span>
+      <span class="chip wait">3P 250/500 待坐实</span>
+      <span class="chip due">无 UM/UIM</span>
+      <span class="chip plain">Retainer Standard 1/3</span>
+    </div>
+    <dl class="stats">
+      <div><dt>阶段</dt><dd class="txt">Treating</dd></div>
+      <div><dt>距事发</dt><dd data-since="2026-06-27">—</dd></div>
+      <div><dt>待办</dt><dd data-stat="open">—</dd></div>
+      <div data-stat-box="mail"><dt>寄件在途</dt><dd data-stat="mail">—</dd></div>
+      <div class="next"><dt>下一期限</dt><dd data-stat="next">—</dd><p class="stat-sub" data-stat="next-what"></p></div>
+    </dl>
+    <ol class="road">
+      <li class="done"><span class="st">Signing</span><small>6/29</small></li>
+      <li class="now"><span class="here">现在</span><span class="st">Treating</span><small>7/1 起</small></li>
+      <li><span class="st">Collecting</span><small>&nbsp;</small></li>
+      <li><span class="st">Drafting</span><small>&nbsp;</small></li>
+      <li><span class="st">Negotiating</span><small>&nbsp;</small></li>
+      <li><span class="st">Reduction</span><small>&nbsp;</small></li>
+      <li><span class="st">Completed</span><small>&nbsp;</small></li>
+    </ol>
+  </header>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec" open>
+      <summary><h2>待办与阻塞<small>What is open, and on whom</small></h2></summary>
+      <p class="lede">这一节由底层数据推出来，页面上不能勾。每条最后一行写着<b>怎么关掉</b>：去 Master Sheet、Chat 或 Drive 改了底层，下次刷新这条就自己消失。</p>
+      <div class="bls">
+        <div class="grp">等所内 · Picase@</div>
+        <div class="it"><span class="n">1</span><div class="tx"><b>Chiro 已到 34 次，碰到上限了。</b>9/17 Amos 定的上限是 30–35 次，约定到了这个数就在群里 @CM。Master 现在是 34 次（截至 10/16），群里还没有人 @。10/9 PM 医生又建议继续做 chiro。什么时候结束，要 CM 定。
+          <span class="meta">来源：Master Chiro 格「2x 7/1(34)-10/16[30-35]」· Chat 9/17、10/10 ｜ 负责：Amos Feng ｜ 关掉：Master Chiro 格写上 discharge 日期，或改上限</span></div></div>
+        <div class="it"><span class="n">2</span><div class="tx"><b>这个案子到底谁是 CM。</b>Master 放在 Picase@(Jenkins) tab，但 Jenkins 在群里一条都没说过。原来跟的 Ryan Wei 已经不在群里。最近 limits、chiro 次数都是 Amos 在定。
+          <span class="meta">来源：Master tab 归属 · Chat 成员与发言记录 ｜ 负责：Klaus ｜ 关掉：Chat 里 @ 一句「本案由 X 接」</span></div></div>
+        <div class="it"><span class="n">3</span><div class="tx"><b>Psych 10/14 看了没有，lien 签了没有。</b>10/1 InterHealth 来信说，开始治疗前要签他们的 Lien Agreement。10/9 确认 10/14 10:30 telemed（John Tsuang）。Master 写着 Psych(1) 10/14，但群里没有就诊确认，也没有 lien 签回的记录。
+          <span class="meta">来源：Chat 10/1、10/9 · Master Treatment 格 ｜ 负责：Tiana Deng ｜ 关掉：签好的 lien 存进 Drive 1#，Master 那格改色</span></div></div>
+        <div class="it"><span class="n">4</span><div class="tx"><b>确认 3P limits 250/500 的出处。</b>intake 记的是 250/500（10/3 更新）。可群里 10/1 Amos 还说对方没披露，当天提交了 policy limits search，10/6 付了 $175。10/2 群里贴了两份附件，之后没有文字说明结果。
+          <span class="meta">来源：intake「3rd Party · Policy Limits」· Chat 10/1、10/2、10/6 ｜ 负责：Amos Feng ｜ 关掉：Chat 里写一句「limits = X，来源 Y」</span></div></div>
+        <div class="it"><span class="n">5</span><div class="tx"><b>车子 total loss 之后还能不能走 total gain / DV。</b>10/1 Amos 问的，Klaus 说第二天去问，之后群里没有下文。
+          <span class="meta">来源：Chat 10/1 ｜ 负责：Klaus ｜ 关掉：Chat 里回结论</span></div></div>
+        <div class="it"><span class="n">6</span><div class="tx"><b>Master 有两格要改。</b>一是 Outstanding Balance 写的 $275，其实是 6/27 当天已经付掉的 ED co-pay，见风险点。二是 PM 列「(4) 8/8-11/7」里有 11/7 这个未来日期，按记录教程铁规矩①，预约应该记成暗黄，不算进次数。
+          <span class="meta">来源：Master · Drive 4#「EROB.jpg」原图 · Chat 10/11 ｜ 负责：Tiana Deng ｜ 关掉：改好这两格</span></div></div>
+        <div class="it"><span class="n">7</span><div class="tx"><b>Drive 案卷搬家。</b>状态已是 Treating，案卷还在 <span class="mono">0. PI Cases / 1. Pending</span>。
+          <span class="meta">来源：Drive 路径 对 Master E 列 ｜ 负责：CM ｜ 关掉：移到 2. Treating</span></div></div>
+        <div class="grp">等外部</div>
+        <div class="it"><span class="n">8</span><div class="tx"><b>Health Net 的代位求偿（Machinify）没有回音。</b>8/27 发出申请，9/30 Tiana 说没动静，10/14 又 snooze 两周。
+          <span class="meta">来源：Chat 9/30、10/14 · Master「Health Ins Lien」｜ 负责：Tiana Deng ｜ 下次跟进：约 10/28 ｜ 关掉：Master 那格写上回函日期和金额</span></div></div>
+        <div class="it"><span class="n">9</span><div class="tx"><b>PM 的 R/B 一份都没到。</b>8/8 初诊、9/1 和 9/19 两针、10/9 复诊，诊所都还没出报告账单。9/19 那一针诊所没写打的哪个部位。
+          <span class="meta">来源：Chat 9/1、9/19、10/10 · Drive 4# 里没有 PM 的 R/B ｜ 负责：Tiana Deng ｜ 关掉：R/B 存进 Drive 4#，Master 改绿</span></div></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec" open>
+      <summary><h2>关键期限<small>Deadlines</small></h2></summary>
+      <ul class="dls">
+        <li class="dl"><div class="dl-head"><span class="dl-title">Health lien 跟进（snooze 到期）</span><span class="dl-when">约 2026-10-28<span class="count" data-days="2026-10-28">—</span></span></div>
+          <p class="dl-desc">10/14 设的两周，见待办 8。</p></li>
+        <li class="dl now"><div class="dl-head"><span class="dl-title">PM 复诊（Dr. Liu）</span><span class="dl-when">2026-11-07 · 3:00 PM<span class="count" data-days="2026-11-07">—</span></span></div>
+          <p class="dl-desc">Precision Pain Care Center，10/11 确认的预约。</p></li>
+        <li class="dl"><div class="dl-head"><span class="dl-title">对 3P 的诉讼时效（CCP §335.1）</span><span class="dl-when">2028-06-27<span class="count" data-days="2028-06-27">—</span></span></div>
+          <p class="dl-desc">客户成年，按 DOL 6/27/2026 起算两年。</p></li>
+      </ul>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>案件现状<small>Where the case stands</small></h2></summary>
+      <p class="lede">责任清楚，State Farm 认了 100%。车子已经由对方按 total loss 赔完。人身伤害这边治疗还在进行：Chiro 快到上限，两针打完了，Psych 刚开始。如果 limits 真是 <b>250/500</b>，限额不是问题；客户自己的 Root 保单<b>没有 UM/UIM</b>，所以没有第二条路。</p>
+      <div class="grid g2">
+        <div class="card"><h4>账单的结构</h4>
+          <p>9/30 的估算合计 <b>$47,813.45</b>，其中已确认的只有 $7,379.45（ER + MRI）。剩下 $40,434 都是估价，两针注射就占了 $30,000。</p></div>
+        <div class="card"><h4>会被压价的地方</h4>
+          <p>MRI 只有 1.5–2 mm 的轻度膨出，没有神经压迫。拿这个去撑 $30,000 的注射，对方一定会质疑 reasonable value。另外 intake 上「既往事故及受伤」填的是 Yes（resolved），细节不明。</p></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>治疗与账单<small>Treatment &amp; specials</small></h2></summary>
+      <div class="tw"><table>
+        <thead><tr><th>机构</th><th>类别</th><th>日期</th><th class="num">次数</th><th class="money">金额</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td class="k">PIH Health Whittier Hospital</td><td>ER</td><td class="num">6/27</td><td class="num">1</td><td class="money">$2,379.45</td><td><span class="chip done">R/B 9/16</span></td></tr>
+          <tr><td class="k">Affinity Healthcare Clinic</td><td>Chiro · 2x/周</td><td class="num">7/1–10/16</td><td class="num">34</td><td class="money">估 $7,743</td><td><span class="chip wait">治疗中 · 上限 30–35</span></td></tr>
+          <tr><td class="k">Sun Imaging, Inc</td><td>MRI · C + L</td><td class="num">7/22</td><td class="num">2</td><td class="money">$5,000.00</td><td><span class="chip done">R/B</span></td></tr>
+          <tr><td class="k">Precision Pain Care Center</td><td>PM</td><td class="num">8/8、10/9</td><td class="num">2</td><td class="money">估 $2,691</td><td><span class="chip wait">R/B 未到 · 11/7 复诊</span></td></tr>
+          <tr><td class="k">Precision Pain Care Center</td><td>注射</td><td class="num">9/1、9/19</td><td class="num">2</td><td class="money">估 $30,000</td><td><span class="chip wait">账单未出</span></td></tr>
+          <tr><td class="k">Inter Health Medical Group</td><td>Psych · telemed</td><td class="num">10/14</td><td class="num">1?</td><td class="money">—</td><td><span class="chip due">待确认 · 待办 3</span></td></tr>
+        </tbody>
+        <tfoot><tr><td>9/30 估算合计</td><td></td><td></td><td></td><td class="money">$47,813.45</td><td></td></tr></tfoot>
+      </table></div>
+      <div class="calc">已确认：2,379.45 + 5,000.00 = <b>7,379.45</b><br>估价：Chiro 29 × $267 = 7,743 · PM 1,033 + 829 × 2 = 2,691 · 注射 2 × 15,000 = 30,000 → <b>40,434</b><br>合计 <b>47,813.45</b>（与 intake Treatment Cost、Chat 9/30 一致，复算无误）</div>
+      <div class="note">Treatment Cost 停在 <b>9/30</b>。之后 Chiro 从 29 次做到 34 次，10/9 又有一次 PM 复诊，Psych 也开始了，这些都还没进估算。照 9/30 的单价，Chiro 多出 5 次就是 +$1,335。<br>9/1 那针是颈椎 facet（C4/5、C5/6）。9/19 那针诊所没写部位，PM 原本的建议是腰、颈 facet 各一。</div>
+      <div class="note"><b>MRI（7/22，Sun Imaging）：</b>C3-4、C4-5 各 1.5 mm 后突出；L3-4 1.5 mm、L4-5 2 mm 后突出。均为轻度膨出，没有明显的神经根或椎管受压。</div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>Lien 与自付<small>What comes out of the settlement</small></h2></summary>
+      <div class="tw"><table>
+        <thead><tr><th>对象</th><th>性质</th><th class="money">金额</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Health Net（Machinify）</td><td>健保代位求偿，ER 那次</td><td class="money">未知</td><td><span class="chip due">没回音 · 待办 8</span></td></tr>
+          <tr><td class="k">客户自付 · PIH ER co-pay</td><td>6/27 借记卡已付，可向对方主张</td><td class="money">$275.00</td><td><span class="chip done">已付 · 有收据</span></td></tr>
+          <tr><td class="k">Affinity Healthcare Clinic</td><td>Lien，7/8 签回</td><td class="money">—</td><td><span class="chip done">已签</span></td></tr>
+          <tr><td class="k">Precision Pain Care Center</td><td>Lien，8/11 签回</td><td class="money">—</td><td><span class="chip done">已签</span></td></tr>
+          <tr><td class="k">Inter Health Medical Group</td><td>Lien Agreement</td><td class="money">—</td><td><span class="chip due">未见签回 · 待办 3</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="note">Sun Imaging 是否走 lien，本页没有核到。客户 7/31 交来的打车去诊所的收据，群里定的是提交给保险公司争取报销，不保证能报。</div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>保险与理赔<small>Claims</small></h2></summary>
+      <div class="tw"><table>
+        <thead><tr><th></th><th>1P · Root Insurance</th><th>3P · State Farm</th></tr></thead>
+        <tbody>
+          <tr><td class="k">保单 / 被保人</td><td><span class="mono">HQM2LZ</span> · Andrew Yi Chen Lin · 3/22–9/22/2026</td><td><span class="mono">646 5401-E14-75</span> · Richard Chiehwei Chiang &amp; Ah-Moy</td></tr>
+          <tr><td class="k">对方司机</td><td>—</td><td>Mark Chung-Jen Chiang · 2019 Toyota Camry</td></tr>
+          <tr><td class="k">Claim #</td><td class="num">48QRVVCA</td><td class="num">75-0H3J-151</td></tr>
+          <tr><td class="k">限额</td><td>Collision ded $1,000 · <b>无 UM/UIM</b> · 无 Med Pay · 无 Rental</td><td>250/500 <span class="chip wait">出处待确认 · 待办 4</span></td></tr>
+          <tr><td class="k">Coverage / Liability</td><td><span class="chip done">Cleared</span></td><td><span class="chip done">100% accepted 6/30</span></td></tr>
+          <tr><td class="k">Adjusters</td><td>Trey Forehand</td><td>Christy Yu（BI）· Michael McComb（T/L）</td></tr>
+          <tr><td class="k">LOR</td><td class="num">6/29/2026</td><td class="num">6/29/2026</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>事发经过与财产损失<small>Incident &amp; property</small></h2></summary>
+      <div class="grid g2">
+        <div class="card"><h4>经过</h4><p>2026-06-27 下午 1:15，Chino Hills，2250 Chino Ave 附近。客户直行，有路权；对方从 stop sign 控制的路口右转上主路。客户车头撞上对方左侧车门和左后方。气囊弹出，车被拖走。客户吃完午饭在回家路上。</p><p>San Bernardino County Sheriff Chino Hills Station 出警，报告号 <span class="mono">22960H99</span>。没有行车记录仪，也没有独立证人。</p></div>
+        <div class="card"><h4>财产损失 · 2025 KIA K4</h4><p>走对方 State Farm 按 <b>total loss</b> 赔付（7/16）：总额 <b>$23,579.62</b>，其中付给贷款方 $19,837.99，付给客户 $3,741.63（两项加起来等于总额）。CCC 报告在 Drive 3#。</p><p>能不能再走 total gain / DV，见待办 5。</p></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>当事人与团队<small>People</small></h2></summary>
+      <div class="tw"><table>
+        <thead><tr><th>角色</th><th>人</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td class="k">客户</td><td>Andrew Yi Chen Lin</td><td>单独驾驶，没有乘客；Giga Computing 的 assembly line assistant；英文不太行，偏好中文</td></tr>
+          <tr><td class="k">CM</td><td>名义上是 Jenkins Li（Master tab）</td><td>原 CM Ryan Wei 已不在群里；近期由 Amos Feng 在跟，见待办 2</td></tr>
+          <tr><td class="k">CA</td><td>Tiana Deng · Claire Feng · May Zhong · Taki Xue</td><td>referral、lien、病历申请</td></tr>
+          <tr><td class="k">介绍人</td><td>Ryan Wei 的同事</td><td>Retainer Standard 1/3</td></tr>
+          <tr><td class="k">主办律师</td><td>Shenqi Cai, Esq.</td><td></td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>风险点<small>Risks</small></h2></summary>
+      <div class="grid g2">
+        <div class="card"><span class="chip due">要处理</span><h4 style="margin-top:12px">没有 UM/UIM 兜底</h4><p>Root 保单没有 UM/UIM，能拿的全在 State Farm 这一张保单上。250/500 是好消息，但出处要坐实。见待办 4。</p></div>
+        <div class="card"><span class="chip due">要处理</span><h4 style="margin-top:12px">CM 空档</h4><p>名义 CM 没在群里出现过，原 CM 已经离开，事情靠 Amos 顺手在管。Chiro 到上限这种事就是这么漏掉的。见待办 1、2。</p></div>
+        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">注射估价和 MRI 不相称</h4><p>两针按 $15,000 一针估，MRI 却只是轻度膨出、没有压迫。对方 adjuster 会拿 MRI 来压注射的金额。</p></div>
+        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">既往事故</h4><p>intake「Prior Accd &amp; Injured?」填的是 Yes（resolved），什么时候、伤了哪里都没有记录。对方会拿来打 causation。</p></div>
+        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">$275 被当成欠款</h4><p>Drive 里的「EROB.jpg」其实是 6/27 当天的付款成功凭条（ED CO PAY）。这是已经付掉的自付额，应该作为 out-of-pocket 主张。另外，交了 co-pay 说明 ER 用了健保。7/4 群里那句「用了信用卡就没有健保 lien」不对，8/27 发 health lien 申请是对的。</p></div>
+        <div class="card"><span class="chip wait">留意</span><h4 style="margin-top:12px">第一天的身份信息</h4><p>6/29 Day 1 SOP 发现：表单上姓名填成了「Shenqi Cai」，地址也跟驾照对不上（驾照是 Rowland Heights，表单是 Diamond Bar）。intake 现在用的是 Diamond Bar，群里没有核实的记录。</p></div>
+        <div class="card"><span class="chip done">已解决</span><h4 style="margin-top:12px">车损</h4><p>7/16 对方按 total loss 赔完，客户没有用自己的保险。</p></div>
+        <div class="card"><span class="chip done">已解决</span><h4 style="margin-top:12px">ER 病历调取</h4><p>线上加传真重复申请被取消过一次，之后只走线上。9/16 付了 $55，拿到了 R/B。</p></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>关键日期<small>Timeline</small></h2></summary>
+      <ul class="tl">
+        <li class="mark"><div class="d">2026-06-27</div><div class="t"><b>事故</b>；两小时后去 PIH Whittier ER</div></li>
+        <li><div class="d">2026-06-29</div><div class="t">建案；1P / 3P LOR 发出；coverage clear</div></li>
+        <li><div class="d">2026-06-30</div><div class="t">State Farm 接受责任；Chiro referral 发出</div></li>
+        <li><div class="d">2026-07-01</div><div class="t">Affinity Chiro 首诊</div></li>
+        <li class="mark"><div class="d">2026-07-16</div><div class="t"><b>车辆 total loss 赔付 $23,579.62</b></div></li>
+        <li><div class="d">2026-07-22</div><div class="t">颈、腰 MRI</div></li>
+        <li><div class="d">2026-08-03</div><div class="t">Chiro 建议看 psychiatrist（开车紧张）</div></li>
+        <li><div class="d">2026-08-08</div><div class="t">Precision PM 初诊，建议颈、腰 facet 注射</div></li>
+        <li><div class="d">2026-08-27</div><div class="t">ER R/B 与 health lien 申请发出</div></li>
+        <li class="mark"><div class="d">2026-09-01</div><div class="t"><b>第一针</b>（颈椎 facet）</div></li>
+        <li class="mark"><div class="d">2026-09-19</div><div class="t"><b>第二针</b>（部位未注明）</div></li>
+        <li><div class="d">2026-10-01</div><div class="t">提交 policy limits search；Psych 先 hold</div></li>
+        <li><div class="d">2026-10-09</div><div class="t">PM 复诊，建议继续 chiro</div></li>
+        <li><div class="d">2026-10-14</div><div class="t">Psych telemed 预约（是否就诊待确认）</div></li>
+        <li><div class="d">2026-10-16</div><div class="t">Chiro 第 34 次</div></li>
+        <li class="future"><div class="d">2026-11-07</div><div class="t">PM 复诊</div></li>
+        <li class="future"><div class="d">2028-06-27</div><div class="t">两年时效</div></li>
+      </ul>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>文件位置<small>Where things live</small></h2></summary>
+      <div class="tw"><table>
+        <thead><tr><th>Drive 文件夹</th><th>里面有什么</th></tr></thead>
+        <tbody>
+          <tr><td class="k">1# Legal Documents</td><td>retainer、1P / 3P LOR、Root 保单、PIH 的 HIPAA</td></tr>
+          <tr><td class="k">2# Accident Info</td><td>警方报告（10/2 补进）、现场照片与视频、双方保险卡和驾照、1P dec page</td></tr>
+          <tr><td class="k">3# Property Damage Claim</td><td>CCC total loss 报告</td></tr>
+          <tr><td class="k">4# Bodily Injury Claim</td><td>ER R/B 与付款凭条、MRI R/B、健保卡、Referral 子夹（含 PM Rec 和 Psychiatrist Ref）；Loss of Wage 子夹是空的</td></tr>
+          <tr><td class="k">5# Demand · 6# Settlement</td><td>空</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <details class="sec">
+      <summary><h2>这一页怎么来的<small>Sources</small></h2></summary>
+      <p class="lede">本页是<b>只读的视图</b>。要改内容，去改底层：状态改 Master Sheet，动作在案件 Chat 群里说，文件放进 Drive 案卷。下次刷新时页面跟着变。</p>
+      <div class="tw"><table>
+        <thead><tr><th>来源</th><th>读了什么</th></tr></thead>
+        <tbody>
+          <tr><td class="k"><a href="https://docs.google.com/spreadsheets/d/1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM/edit#gid=775230687&amp;range=A24">PI Master Sheet · Picase@(Jenkins) 第 24 行</a></td><td>状态、LOR、coverage、各治疗列、lien、欠款</td></tr>
+          <tr><td class="k"><a href="https://drive.google.com/file/d/18SA0sIT19G-fbKb3MoLrm0jiAHIQ7cCm/view">Intake sheet</a></td><td>事故、双方保单、adjuster、Treatment Cost（9/30）</td></tr>
+          <tr><td class="k"><a href="https://mail.google.com/chat/u/0/#chat/space/AAQAVL81pUw">Chat 群 Andrew Yi Chen Lin-6/27/2026(Z)</a></td><td>全部 206 条（6/29 – 10/14）</td></tr>
+          <tr><td class="k"><a href="https://drive.google.com/drive/folders/18cwg1Llz85GTdtbjHoOnsmQpeNS3_tn-">Drive 案卷</a></td><td>全部子夹清单；「EROB.jpg」看了原图</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><b>没读的：</b>picase@ 和 claims@ 邮箱（待办 3、4、8、9 可能已经在邮件里有进展）；10/2 群里贴的两份附件；各家 R/B 的正文只读了 Chat 里的摘要。</div>
+    </details>
+  </section>
+
+
+  <footer class="foot">
+    <p>本页为律所内部工作底稿，不构成法律意见。金额、日期与编号均取自 Master Sheet、intake、案件 Chat 与 Drive 案卷原件；未经核实的事实不列入本页。本页只读，要改请改底层。</p>
+    <p>凌图律师事务所 &middot; PI 诉前案件页 · 样板 v0.3 &middot; Picase@ &middot; 主办律师：Shenqi Cai, Esq.。<span id="asof"></span></p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var MS = 86400000;
+  function todayUTC() {
+    var n = new Date();
+    return Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function daysUntil(iso) {
+    var p = iso.split("-");
+    var t = Date.UTC(+p[0], +p[1] - 1, +p[2]);
+    return Math.round((t - todayUTC()) / MS);
+  }
+  var nodes = document.querySelectorAll("[data-days]");
+  for (var i = 0; i < nodes.length; i++) {
+    var el = nodes[i];
+    var d = daysUntil(el.getAttribute("data-days"));
+    var label, unit;
+    if (d > 0)        { label = String(d); unit = "天"; }
+    else if (d === 0) { label = "今天";    unit = ""; }
+    else              { label = String(-d); unit = "天前"; }
+    el.innerHTML = label + (unit ? ' <small>' + unit + '</small>' : "");
+    if (d < 0) {
+      var card = el.closest(".dl");
+      if (card) { card.classList.remove("now"); card.style.opacity = ".55"; }
+    }
+  }
+  /* v7 状态条：全部从正文实时数，不手写 —— 正文改了，条子自动跟着对 */
+  var since = document.querySelector("[data-since]");
+  if (since) {
+    var ds = -daysUntil(since.getAttribute("data-since"));
+    since.innerHTML = ds + ' <small>天</small>';
+  }
+  function put(k, html) {
+    var el = document.querySelector('[data-stat="' + k + '"]');
+    if (el) el.innerHTML = html;
+  }
+  put("open", String(document.querySelectorAll(".bls .it").length) + ' <small>条</small>');
+  var mailRows = document.querySelectorAll("[data-mail]");
+  if (mailRows.length) {
+    put("mail", String(document.querySelectorAll('[data-mail="pending"],[data-mail="transit"]').length) +
+        ' <small>/ ' + mailRows.length + ' 封</small>');
+  } else {
+    var mb = document.querySelector('[data-stat-box="mail"]');
+    if (mb) mb.parentNode.removeChild(mb);
+  }
+  var best = null, bestD = Infinity;
+  var dls = document.querySelectorAll(".dls [data-days]");
+  for (var j = 0; j < dls.length; j++) {
+    var dd = daysUntil(dls[j].getAttribute("data-days"));
+    if (dd >= 0 && dd < bestD) { bestD = dd; best = dls[j]; }
+  }
+  if (best) {
+    put("next", bestD === 0 ? "今天" : bestD + ' <small>天</small>');
+    var row = best.closest(".dl"), t = row && row.querySelector(".dl-title");
+    if (t) put("next-what", t.textContent);
+  }
+
+  var f = document.getElementById("asof");
+  if (f) {
+    var n = new Date();
+    f.textContent = "数据截至 " + n.getFullYear() + " 年 " + (n.getMonth() + 1) +
+                    " 月 " + n.getDate() + " 日。";
+  }
+})();
+</script>

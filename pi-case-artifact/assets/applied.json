@@ -1,0 +1,11 @@
+{
+  "_comment": "PI 车祸案（诉前）案件页登记。与 case-artifact（狗咬/诉讼）完全分开：那边的 shell 改动、reskin.py 不碰这里。",
+  "shell_current": "PI-1.0",
+  "artifacts": {
+    "https://claude.ai/artifact/KLoUUFYzu2xep5P2FFdFMZ": {
+      "case": "Andrew Yi Chen Lin-6-27-2026",
+      "shell": "PI-1.0",
+      "updated": "2026-10-20"
+    }
+  }
+}
