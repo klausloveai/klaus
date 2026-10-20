@@ -223,6 +223,14 @@ Klaus 删光蓝字 = 一封干净可发的信。
 8. 收尾签名一律从 `gws gmail users settings sendAs get` 取，**绝不手打、绝不从旧邮件抽**
    （见 [[gmail-signature-source]]）。
 9. 他打招呼用 **`Hi Hernan,`**（不带重音）。
+10. **一个 thread 只回这个 thread 的事 —— 蓝/黄/红三色都一样。**（Klaus 2026-10-19，Jiayu Ma）
+    同一个案子常有几条并行 thread（discovery 一条、demand/998 一条、调卷一条）。
+    我在 discovery thread 的回信里放了一条红字，问 998 的接受期限是 11/18 还是 11/23
+    —— 那是 demand thread 的事，Klaus 当场拿掉，并要求「不是这个 email 的事就不要在这个 email 里问」；
+    挂号信已寄出那条也一样，回到 demand thread 去说。
+    判据：**这条内容的「出处」在哪条 thread（他在哪封信里交办的、对方文书是在哪封信里送的），就回在哪条。**
+    他在 A thread 顺口提到 B 的事，确认可以在 A 里写一句蓝字，但要问的问题和要交的附件仍回 B。
+    一次起草两封时，交付时分别报两个草稿号和各自 thread。见 memory `feedback_reply_routing_and_followup.md` ③。
 
 ---
 
