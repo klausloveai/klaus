@@ -164,6 +164,14 @@ Klaus 2026-10-19 定（Lina Lu）。两条：
 2. **first-class 不办挂号，但每个信封拍两张照存档**：① 文书摊在信封旁（看得清每份标题与收件人）；
    ② 装好封口、贴好邮票的信封。照片存进案卷送达文件旁，作为 just-in-case 的寄出凭证。
    法律上 POS 本身就是证据（CCP §1013(a) 投邮即完成），照片是第二层。
+3. **信封不手写，打印标签**（Klaus 2026-10-20 认可版式）：两格半张标签纸（8.5" × 5.5"，一张两个）。
+   ```
+   python3 scripts/mail_labels.py "<打印文件夹>/LABELS.pdf" "Arlene Luna|152 East Kirkwall Road|Azusa, California 91702" "Rosalba Luna|152 East Kirkwall Road|Azusa, California 91702"
+   ```
+   寄件人默认律所地址（粗体所名）；收件人 20pt；左下 FIRST-CLASS MAIL。打印选 **100% / Actual size**，
+   先用白纸试印对光核位置。上下格对应哪个信封要在文件名里写明。
+4. **邮资**：大信封（flat）First-Class 上限 13 oz；超过就不能按 First-Class 寄。页数多时建议柜台称重并留收据
+   （收据的日期 + 邮局地点也是投邮凭证）。
 
 ---
 
