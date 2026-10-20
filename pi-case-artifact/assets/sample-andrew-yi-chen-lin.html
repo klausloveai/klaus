@@ -442,6 +442,8 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 /* Retainer：Standard 橙、New 蓝（Klaus 2026-10-20） */
 .chip.ret-std { color: #9A4F0C; border-color: #C9772B; background: #FBEBDA; }
 .chip.ret-new { color: #24537F; border-color: #4B7FB0; background: #E2ECF6; }
+.src { margin: 14px 0 0; font-size: 12px; line-height: 1.85; color: var(--ink-faint); }
+.src b { color: var(--ink-muted); font-weight: 600; }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -487,7 +489,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
   <header class="mast">
     <p class="eyebrow">凌图律所 · PI Case</p>
     <h1>Andrew Yi Chen Lin</h1>
-    <p class="sub">Chino Hills 路口被抢道相撞，State Farm 已认 100% 责任，车子按 total loss 赔完；人伤治疗进行中，Chiro 已到上限，两针打完，Psych 刚开始。</p>
+    <p class="sub">Chino Hills，Chino Ave 与 Rock Springs Dr 路口。对方停在 stop sign 前之后起步左转，客户在 Chino Ave 上直行，撞上对方车的左后方；警方认定对方违反 CVC 22107。State Farm 已认 100% 责任，车子按 total loss 赔完；人伤治疗进行中。</p>
     <dl class="docket">
       <div><dt>Client</dt><dd>Andrew Yi Chen Lin</dd></div>
       <div><dt>Date of Loss</dt><dd>06/27/2026</dd></div>
@@ -575,6 +577,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
         <li class="dl"><div class="dl-head"><span class="dl-title">对 3P 的诉讼时效（CCP §335.1）</span><span class="dl-when">2028-06-27<span class="count" data-days="2028-06-27">—</span></span></div>
           <p class="dl-desc">客户成年，按 DOL 6/27/2026 起算两年。</p></li>
       </ul>
+      <p class="src">来源：Master Sheet 和 intake 都<b>没有期限栏</b>，所以这里的条目是从三处挑出来的：① Chat 里的预约确认和 snooze 设置（10/11、10/14）；② 法定时效，用 DOL 推算；③ 案件 Chat 里提到的其它截止日。以后 intake 加一个「期限」栏，这一节就可以直接读那一栏。</p>
     </details>
   </section>
 
@@ -583,7 +586,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
     <details class="sec" open>
       <summary><h2>关键日期<small>Timeline</small></h2></summary>
       <ul class="tl">
-        <li class="mark"><div class="d">2026-06-27</div><div class="t"><b>事故</b>；两小时后去 PIH Whittier ER</div></li>
+        <li class="mark"><div class="d">2026-06-27</div><div class="t"><b>事故</b>（约 13:23，对方左转抢道）；当天去 PIH Whittier ER</div></li>
         <li><div class="d">2026-06-29</div><div class="t">建案；1P / 3P LOR 发出；coverage clear</div></li>
         <li><div class="d">2026-06-30</div><div class="t">State Farm 接受责任；Chiro referral 发出</div></li>
         <li><div class="d">2026-07-01</div><div class="t">Affinity Chiro 首诊</div></li>
@@ -601,6 +604,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
         <li class="future"><div class="d">2026-11-07</div><div class="t">PM 复诊</div></li>
         <li class="future"><div class="d">2028-06-27</div><div class="t">两年时效</div></li>
       </ul>
+      <p class="src">来源：事故数据来自警方报告；建案、LOR、referral、lien、赔付这些节点来自案件 Chat 的消息日期；就诊日期来自 Master 各治疗列；文件入卷的日期来自 Drive 的上传时间。</p>
     </details>
   </section>
 
@@ -741,6 +745,16 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             </ol>
             <p class="done-when">关掉：intake 里每位 adjuster 都标了角色，传真栏有号码或写明「无」。</p>
           </div></details>
+        <details class="todo"><summary><span class="n">11</span><span class="tt"><b>intake 上的事故描述和报告号要按警方报告改</b><span class="who">Tiana Deng · 本周</span></span></summary>
+          <div class="how">
+            <p class="why">intake 的 Fact of Loss 写的是对方<b>右转</b>，警方报告写的是对方从左转专用道起步<b>左转</b>。intake 的报告号写 22960H99，事发时间写 1:15 PM；警方报告是 <span class="mono">222601499</span>，13:23。demand 会照 intake 写，所以现在不改，到时候就会写错。</p>
+            <ol>
+              <li>打开 Drive 2#「police report.pdf」第 6 页核对。</li>
+              <li>改 intake：Fact of Loss（右转改左转，并补上「left-turn-only lane、CVC 22107」）、Police Report #、事发时间、地点（Chino Ave &amp; Rock Springs Dr）。</li>
+              <li>如果 22960H99 是别的编号（比如警方给客户的那张 police card 上的号码），在 intake 里注明它是什么，不要直接删掉。</li>
+            </ol>
+            <p class="done-when">关掉：intake 的事故栏与警方报告一致。</p>
+          </div></details>
       </div>
 
       <h3>三 · 预防（提前处理，免得到 demand 才出事）</h3>
@@ -782,6 +796,14 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
           <div class="how">
             <p class="why">Machinify 到现在都没回。没有 final lien 金额，和解之后就分不了钱。</p>
             <ol><li>demand 发出前就要拿到 itemized lien，不要拖到和解之后。</li></ol></div></details>
+        <details class="todo prev"><summary><span class="n">P8</span><span class="tt"><b>客户车速 45–50 mph 会被拿来主张比较过失</b><span class="who">CM · demand 起草前</span></span></summary>
+          <div class="how">
+            <p class="why">警方报告里写客户车速约 45–50 mph，并且客户「到接近路口才看到 V-1」。对方可以说客户超速或者没注意路况，要求分担责任。现在 State Farm 是认了 100% 责任，但到谈判时可能会改口。</p>
+            <ol>
+              <li>查清这段 Chino Ave 的限速是多少，警方报告第 2 页的 coding 页有一栏可以对照。</li>
+              <li>把警方报告的执法记录仪录像和现场照片要过来（报告写明在 evidence.com），证明对方是从 stop sign 起步直接上主路。</li>
+              <li>demand 里引用 CVC 22107 和报告的结论，把重点放在对方没让行。</li>
+            </ol></div></details>
       </div>
     </details>
   </section>
@@ -863,7 +885,11 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
     <details class="sec">
       <summary><h2>事发经过与财产损失<small>Incident &amp; property</small></h2></summary>
       <div class="grid g2">
-        <div class="card"><h4>经过</h4><p>2026-06-27 下午 1:15，Chino Hills，2250 Chino Ave 附近。客户直行，有路权；对方从 stop sign 控制的路口右转上主路。客户车头撞上对方左侧车门和左后方。气囊弹出，车被拖走。客户吃完午饭在回家路上。</p><p>San Bernardino County Sheriff Chino Hills Station 出警，报告号 <span class="mono">22960H99</span>。没有行车记录仪，也没有独立证人。</p></div>
+        <div class="card"><h4>经过（以警方报告为准）</h4>
+          <p>2026-06-27 约 13:23，Chino Hills，<b>Chino Ave 与 Rock Springs Dr 路口</b>。客户（V-2）在 Chino Ave 北行 number one lane 直行，<b>车速约 45–50 mph</b>。对方 Mark Chung-Jen Chiang（V-1）在 Rock Springs Dr 的<b>左转专用道</b>停在 stop sign 前，左右看过之后起步驶上 Chino Ave，准备<b>左转</b>，没有看到左侧来的客户。客户看到对方进入路口，向左打方向想躲开，没躲开，车头撞上对方车左后侧。</p>
+          <p>警方认定的原因：对方违反 <b>CVC 22107（unsafe turn）</b>。撞击点大约在 Rock Springs Dr 南侧路缘延长线以北 17 英尺、Chino Ave 东侧路缘延长线以西 19 英尺。现场有照片，警员佩戴的 Axon 执法记录仪有录像，都已上传到 evidence.com。</p>
+          <p>客户车的气囊弹出，车被 Pepe's Towing（Ontario）拖走。客户当时吃完午饭开车回家，车上没有行车记录仪，也没有独立证人。</p>
+          <p class="src">来源：警方报告 Chino Hills PD <span class="mono">222601499</span>（Officer Chau Sokly F6893，6/30 审核），Drive 2#「police report.pdf」第 6 页 Narrative · intake「Fact of Loss」</p></div>
         <div class="card"><h4>财产损失 · 2025 KIA K4</h4><p>走对方 State Farm 按 <b>total loss</b> 赔付（7/16）：总额 <b>$23,579.62</b>，其中付给贷款方 $19,837.99，付给客户 $3,741.63（两项加起来等于总额）。CCC 报告在 Drive 3#。</p><p>能不能再走 total gain / DV，见待办 5。</p></div>
       </div>
     </details>
@@ -914,7 +940,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
           <tr><td class="k"><a href="https://docs.google.com/spreadsheets/d/1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM/edit#gid=775230687&amp;range=A24">PI Master Sheet · Picase@(Jenkins) 第 24 行</a></td><td>状态、LOR、coverage、各治疗列、lien、欠款</td></tr>
           <tr><td class="k"><a href="https://drive.google.com/file/d/18SA0sIT19G-fbKb3MoLrm0jiAHIQ7cCm/view">Intake sheet</a></td><td>事故、双方保单、adjuster、Treatment Cost（9/30）</td></tr>
           <tr><td class="k"><a href="https://mail.google.com/chat/u/0/#chat/space/AAQAVL81pUw">Chat 群 Andrew Yi Chen Lin-6/27/2026(Z)</a></td><td>全部 206 条（6/29 – 10/14）</td></tr>
-          <tr><td class="k"><a href="https://drive.google.com/drive/folders/18cwg1Llz85GTdtbjHoOnsmQpeNS3_tn-">Drive 案卷</a></td><td>全部子夹清单；「EROB.jpg」看了原图</td></tr>
+          <tr><td class="k"><a href="https://drive.google.com/drive/folders/18cwg1Llz85GTdtbjHoOnsmQpeNS3_tn-">Drive 案卷</a></td><td>全部子夹清单；「EROB.jpg」看了原图；警方报告（扫描件，读了第 2、6 页）</td></tr>
         </tbody>
       </table></div>
       <div class="note"><b>没读的：</b>picase@ 和 claims@ 邮箱（待办 3、4、8、9 可能已经在邮件里有进展）；10/2 群里贴的两份附件；各家 R/B 的正文只读了 Chat 里的摘要。</div>

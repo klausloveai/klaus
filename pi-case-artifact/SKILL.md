@@ -19,6 +19,8 @@ description: >-
 - 登记：`assets/applied.json`（案名 → url）
 
 ## 页面原则
+- **事故经过以警方报告为准**（Drive 2# 的 police report，扫描件要渲染成图片读 Narrative 页），intake 的 Fact of Loss 只作参考；两者不一致时页面按报告写，并生成「改 intake」待办。Andrew 案就是 intake 写右转、报告写左转（CVC 22107）。
+- **期限节与时间线节底部各放一行 `.src` 来源说明**：期限 = Chat 里的预约与 snooze + DOL 推算的法定时效（Master/intake 目前没有期限栏）；时间线 = 警方报告 + Chat 消息日期 + Master 治疗列 + Drive 上传时间。
 - 页面是**视图**：待办由底层推出，每条写「怎么关掉」（改 Master / Chat 里说 / 文件进 Drive）。页面上不能改。
 - 数据源：Master Sheet 该行（按表头名取列）· intake（含 Treatment Cost）· 案件 Chat 全部消息 · Drive 案卷树。
 - 没核过的不写；负面结论写明查了什么、没查什么（邮箱默认未读要写出来）。
