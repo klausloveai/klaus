@@ -41,6 +41,10 @@ masthead 里 chips 下方、状态条上方，`{{CONTACTS}}`：左 1P、右 3P �
 M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格显示「Master 原值 + 色块（`.ms.y/.dy/.b/.g/.o/.gr`，照抄 Master 底色）+ 教程里的含义」，
 读取时用 Sheets API 取 `effectiveFormat.backgroundColor`，含义查《PI Master Sheet 记录教程》（Doc `1X0Q0IR…`，第三节逐列表格）。卡片下方一行 `.src` 注明来源。
 
+## 字体（Klaus 2026-10-20 选 B）
+拉丁字与数字 **Source Sans 3**（与思源黑体同族，等高数字），等宽 **Source Code Pro**，中文正文 Noto Sans SC、中文标题 Noto Serif SC 不变。
+不用 Raleway（老式高低数字）和 Cormorant 斜体。所有数字列加 `lining-nums tabular-nums`。
+
 ## 顶部 chips
 **只放四个链接，顺序固定：Master Sheet · Chat 群 · Drive 案卷 · Retainer**（Retainer 链到 Drive 1# 已签合同 PDF）。Liability、PD 等状态不放顶部，进 1P/3P 卡。**Retainer 着色：Standard = 橙（`.chip.ret-std`）、New = 蓝（`.chip.ret-new`）。**
 
