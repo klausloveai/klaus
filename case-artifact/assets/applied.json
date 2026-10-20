@@ -51,6 +51,11 @@
       "case": "Ruijie Yan UIM Claim (PI 诉前样板)",
       "shell": "7.0",
       "updated": "2026-10-19"
+    },
+    "https://claude.ai/artifact/9Mm3xFXPn4eGRosmgCbvhz": {
+      "case": "Weicheng Hu-Xinxin Lyu-6-1-2026 (PI 诉前多当事人样板)",
+      "shell": "7.0",
+      "updated": "2026-10-19"
     }
   }
 }
