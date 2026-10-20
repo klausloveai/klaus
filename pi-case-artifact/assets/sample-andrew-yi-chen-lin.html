@@ -408,6 +408,28 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .bars figcaption { font-size: 12px; color: var(--ink-faint); margin-top: 8px; line-height: 1.7; }
 
 
+/* ---------- PI：顶栏 1P / 3P 联系卡 ---------- */
+.contacts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 24px; }
+.ct { background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 16px 18px; box-shadow: var(--shadow-1); min-width: 0; }
+.ct-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding-bottom: 10px; border-bottom: 1px solid var(--hairline); }
+.ct-h .side { font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--accent-text); letter-spacing: .08em; }
+.ct-h .co { font-family: var(--f-body); font-size: 16px; font-weight: 600; color: var(--ink); }
+.ct-h .cl { margin-left: auto; font-family: var(--f-mono); font-size: 12.5px; color: var(--ink-faint); }
+.ct-h .cl b { color: var(--ink); font-weight: 500; }
+.adj { padding: 12px 0; border-bottom: 1px solid var(--hairline); }
+.adj .nm { font-size: 14.5px; font-weight: 600; color: var(--ink); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.adj dl { margin: 6px 0 0; display: grid; gap: 2px; }
+.adj dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 8px; }
+.adj dt { font-size: 11.5px; color: var(--ink-faint); letter-spacing: .04em; line-height: 1.9; }
+.adj dd { margin: 0; font-family: var(--f-mono); font-size: 12.5px; color: var(--ink); line-height: 1.9; overflow-wrap: anywhere; user-select: all; }
+.adj dd small { font-family: var(--f-body); font-size: 11px; color: var(--ink-faint); margin-left: 4px; }
+.adj dd.na { color: var(--ink-faint); font-family: var(--f-body); user-select: auto; }
+.role { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: .04em; padding: 1px 7px; border-radius: 2px; border: 1px solid var(--steady); color: var(--steady); background: var(--steady-bg); }
+.role.unk { border-color: var(--alarm); color: var(--alarm); background: var(--alarm-bg); }
+.ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
+.ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
+.ct-legend .role { margin-right: 2px; }
+
 /* ---------- PI：任务节（已完成表 / 可展开待办 / 预防） ---------- */
 .todos { margin-top: 18px; }
 .todo {
@@ -469,6 +491,29 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
       <span class="chip due">无 UM/UIM</span>
       <span class="chip plain">Retainer Standard 1/3</span>
     </div>
+    <div class="contacts">
+      <div class="ct">
+        <div class="ct-h"><span class="side">1P</span><span class="co">Root Insurance</span><span class="cl">Claim <b>48QRVVCA</b></span></div>
+        <div class="adj">
+          <div class="nm">Trey Forehand <span class="role unk">角色未标</span></div>
+          <dl><div><dt>Phone</dt><dd>330-777-2157</dd></div><div><dt>Email</dt><dd>trey.forehand@joinroot.com</dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
+        </div>
+        <p class="ct-note">保单 HQM2LZ · 无 UM/UIM · 无 Med Pay · Collision ded $1,000</p>
+      </div>
+      <div class="ct">
+        <div class="ct-h"><span class="side">3P</span><span class="co">State Farm</span><span class="cl">Claim <b>75-0H3J-151</b></span></div>
+        <div class="adj">
+          <div class="nm">Christy Yu <span class="role unk">角色未标</span></div>
+          <dl><div><dt>Phone</dt><dd>844-292-8615 x32179</dd></div><div><dt>Email</dt><dd>statefarmclaims@statefarm.com <small>总邮箱</small></dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
+        </div>
+        <div class="adj">
+          <div class="nm">Michael McComb <span class="role">Total Loss</span></div>
+          <dl><div><dt>Phone</dt><dd>844-292-8615 x73140</dd></div><div><dt>Email</dt><dd class="na">无记录</dd></div><div><dt>Fax</dt><dd class="na">无记录</dd></div></dl>
+        </div>
+        <p class="ct-note">保单 646 5401-E14-75 · limits 250/500（出处待坐实）· PD 已按 total loss 结</p>
+      </div>
+    </div>
+    <p class="ct-legend">角色：<span class="role">BI</span> <span class="role">PD</span> <span class="role">Med Pay</span> <span class="role">Total Loss</span> <span class="role">Subrogation</span> <span class="role">Supervisor</span> · 两边都没有 supervisor 记录。缺的角色和传真见待办 10。</p>
     <dl class="stats">
       <div><dt>阶段</dt><dd class="txt">Treating</dd></div>
       <div><dt>距事发</dt><dd data-since="2026-06-27">—</dd></div>
@@ -655,6 +700,16 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
             </ol>
             <p class="done-when">关掉：四次的 R/B 都在 Drive 4#。</p>
           </div></details>
+        <details class="todo"><summary><span class="n">10</span><span class="tt"><b>补齐 adjuster 的角色、传真和 supervisor</b><span class="who">Tiana Deng · 本周</span></span></summary>
+          <div class="how">
+            <p class="why">顶栏联系卡里，Trey Forehand（1P）和 Christy Yu（3P）都没写负责什么。两边都没有传真号，也没有 supervisor。Christy Yu 的邮箱只是 State Farm 的总邮箱。10/1 Amos 跟一位 3P 理赔员谈过 limits，但没写是谁。</p>
+            <ol>
+              <li>在 picase@ 搜两边的 claim #，从 adjuster 的邮件签名里抄下角色、直线、个人邮箱和传真。</li>
+              <li>签名里没有的，打电话问清楚：「Are you handling BI, PD or total loss? What's your fax and your supervisor's name?」</li>
+              <li>写进 intake 的 1st / 3rd Party 栏，adjuster 名字后面括号注明角色，写法照 intake 现有的「(T/L)」「(B/I)」。</li>
+            </ol>
+            <p class="done-when">关掉：intake 里每位 adjuster 都标了角色，传真栏有号码或写明「无」。</p>
+          </div></details>
       </div>
 
       <h3>三 · 预防（提前处理，免得到 demand 才出事）</h3>
@@ -765,7 +820,7 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
           <tr><td class="k">Claim #</td><td class="num">48QRVVCA</td><td class="num">75-0H3J-151</td></tr>
           <tr><td class="k">限额</td><td>Collision ded $1,000 · <b>无 UM/UIM</b> · 无 Med Pay · 无 Rental</td><td>250/500 <span class="chip wait">出处待确认 · 待办 4</span></td></tr>
           <tr><td class="k">Coverage / Liability</td><td><span class="chip done">Cleared</span></td><td><span class="chip done">100% accepted 6/30</span></td></tr>
-          <tr><td class="k">Adjusters</td><td>Trey Forehand</td><td>Christy Yu（BI）· Michael McComb（T/L）</td></tr>
+          <tr><td class="k">Adjusters</td><td>Trey Forehand</td><td>Christy Yu（intake 未标角色；此前本页写作 BI，<b>已更正</b>）· Michael McComb（T/L）</td></tr>
           <tr><td class="k">LOR</td><td class="num">6/29/2026</td><td class="num">6/29/2026</td></tr>
         </tbody>
       </table></div>

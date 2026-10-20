@@ -408,6 +408,28 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .bars figcaption { font-size: 12px; color: var(--ink-faint); margin-top: 8px; line-height: 1.7; }
 
 
+/* ---------- PI：顶栏 1P / 3P 联系卡 ---------- */
+.contacts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 24px; }
+.ct { background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 16px 18px; box-shadow: var(--shadow-1); min-width: 0; }
+.ct-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding-bottom: 10px; border-bottom: 1px solid var(--hairline); }
+.ct-h .side { font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--accent-text); letter-spacing: .08em; }
+.ct-h .co { font-family: var(--f-body); font-size: 16px; font-weight: 600; color: var(--ink); }
+.ct-h .cl { margin-left: auto; font-family: var(--f-mono); font-size: 12.5px; color: var(--ink-faint); }
+.ct-h .cl b { color: var(--ink); font-weight: 500; }
+.adj { padding: 12px 0; border-bottom: 1px solid var(--hairline); }
+.adj .nm { font-size: 14.5px; font-weight: 600; color: var(--ink); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.adj dl { margin: 6px 0 0; display: grid; gap: 2px; }
+.adj dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 8px; }
+.adj dt { font-size: 11.5px; color: var(--ink-faint); letter-spacing: .04em; line-height: 1.9; }
+.adj dd { margin: 0; font-family: var(--f-mono); font-size: 12.5px; color: var(--ink); line-height: 1.9; overflow-wrap: anywhere; user-select: all; }
+.adj dd small { font-family: var(--f-body); font-size: 11px; color: var(--ink-faint); margin-left: 4px; }
+.adj dd.na { color: var(--ink-faint); font-family: var(--f-body); user-select: auto; }
+.role { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: .04em; padding: 1px 7px; border-radius: 2px; border: 1px solid var(--steady); color: var(--steady); background: var(--steady-bg); }
+.role.unk { border-color: var(--alarm); color: var(--alarm); background: var(--alarm-bg); }
+.ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
+.ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
+.ct-legend .role { margin-right: 2px; }
+
 /* ---------- PI：任务节（已完成表 / 可展开待办 / 预防） ---------- */
 .todos { margin-top: 18px; }
 .todo {
@@ -456,6 +478,7 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
     <div class="chips">
 {{CHIPS}}
     </div>
+{{CONTACTS}}
     <dl class="stats">
       <div><dt>阶段</dt><dd class="txt">{{STAGE}}</dd></div>
       <div><dt>距事发</dt><dd data-since="{{DOL_ISO}}">—</dd></div>
