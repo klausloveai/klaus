@@ -25,12 +25,12 @@
     "https://claude.ai/artifact/B9XriLiTGUNaT8tuS8zZWN": {
       "case": "Mudong Huang v. Chelsea Pinpin",
       "shell": "unknown",
-      "updated": "2026-10-16"
+      "updated": "2026-10-19"
     },
     "https://claude.ai/artifact/WgfrzfD1278EpPU6TUowt5": {
       "case": "Lina Lu v. Arlene Luna",
       "shell": "unknown",
-      "updated": "2026-10-15"
+      "updated": "2026-10-19"
     },
     "https://claude.ai/artifact/EMDDupXY69umDWR1tXeiCr": {
       "case": "Jiayu Ma v. Tesla",
@@ -60,6 +60,11 @@
     "https://claude.ai/artifact/KLoUUFYzu2xep5P2FFdFMZ": {
       "case": "Andrew Yi Chen Lin-6-27-2026 (PI 诉前样板)",
       "shell": "7.0",
+      "updated": "2026-10-19"
+    },
+    "https://claude.ai/artifact/Vm9PNu1dT1kEH2tyhGi4Rk": {
+      "case": "Gaoyang Qin v. Mahler",
+      "shell": "unknown",
       "updated": "2026-10-19"
     }
   }
