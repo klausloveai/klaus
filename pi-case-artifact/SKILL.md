@@ -34,6 +34,9 @@ masthead 里 chips 下方、状态条上方，`{{CONTACTS}}`：左 1P、右 3P �
 + Phone（含分机）· Email（总邮箱注明「总邮箱」）· Fax（没有写「无记录」）。电话邮箱用纯文本（可全选复制），不用 tel:/mailto:。
 数据取 intake 1st/3rd Party 栏；角色只认 intake 括号里写明的（如 (T/L) (B/I)），不推测。缺的就生成一条「补齐 adjuster 角色/传真/supervisor」待办。
 
+**1P 与 3P 两张卡永远等高**（短的一张自动拉伸到和长的一样）。主视图只放 1P、3P 两张；
+案子还有其他 party（第二辆 3P 车、UM 保险公司等）时，在两张卡下方加 `<details class="ct-more"><summary>其他 party（N）</summary><div class="contacts">…同样的卡…</div></details>`，默认收起；没有就不放。
+
 卡内保单栏照 intake 架构：1P = Policy # · Period · Coverage · Liability · UM/UIM · Med Pay · Collision Ded · Rental；
 3P = Policy # · Insured · Driver · Period · Coverage · Liability · Limits · PD。limits、UM/UIM 这类**只属于一方的事实放进该方卡里，不放顶部 chips**。
 

@@ -433,7 +433,13 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 .ct[open] > summary::after { transform: rotate(-135deg); }
 .ct:not([open]) > summary { padding-bottom: 0; border-bottom: 0; }
 .ct > summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
-.contacts { align-items: start; }
+.contacts { align-items: stretch; }
+.contacts > .ct { height: 100%; }
+/* 第三方以外的其他 party（第二个 3P、UM 保险公司等）收在卡片下方，默认收起 */
+.ct-more { margin-top: 10px; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 10px 14px; }
+.ct-more > summary { cursor: pointer; font-size: 13px; color: var(--ink-muted); list-style: none; }
+.ct-more > summary::-webkit-details-marker { display: none; }
+.ct-more .contacts { margin-top: 10px; }
 .pol { margin: 10px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 2px 14px; }
 .pol > div { display: grid; grid-template-columns: 82px 1fr; gap: 8px; min-width: 0; }
 .pol dt { font-size: 11.5px; color: var(--ink-faint); letter-spacing: .04em; line-height: 2; }
