@@ -25,7 +25,7 @@ description: >-
 - 数据源：Master Sheet 该行（按表头名取列）· intake（含 Treatment Cost）· 案件 Chat 全部消息 · Drive 案卷树。
 - 没核过的不写；负面结论写明查了什么、没查什么（邮箱默认未读要写出来）。
 - 金额每一笔自己复算；跨源对不上的写进待办或风险点。
-- 顶栏 docket：Client · DOL · Tortfeasor · 1P/3P Claim # · **Team** · **负责人**；眉标「凌图律所 · PI Case」。
+- 顶栏 docket：Client · DOL · Tortfeasor · 1P/3P Claim # · **Team** · **Case Manager** · **Case Assistant**；眉标「凌图律所 · PI Case」。
 - 不放 SSN / 驾照号。
 
 ## 顶栏联系卡（Klaus 2026-10-20 定）
@@ -65,7 +65,7 @@ M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格�
 
 **不设「保险与理赔」「事发经过与财产损失」「当事人与团队」三节**（Klaus 2026-10-21），内容都在顶部：
 - 保单、claim #、limits、coverage、liability、adjuster、LOR → 1P/3P 卡；PD 细节（车型、赔付拆分、CCC、total gain）→ 实际理赔那一方卡的 PD 行。
-- 团队 → docket 加 CA、Attorney 两格。
+- 团队 → docket 只放 **Team · Case Manager · Case Assistant** 三格（各一人，first name）；其他同事不列，律师所有案子固定，不列。
 - 事发经过（警方报告版，带来源）+ 客户背景 → chips 下方一个默认收起的 `<details class="ct-more facts">事发经过 · 客户</details>`。
 
 ## 顶部 chips
