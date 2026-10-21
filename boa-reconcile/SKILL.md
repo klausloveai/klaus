@@ -111,6 +111,17 @@ PENDING 区末尾空行 append 完整行(标注 "ADDED from bank check image")�
 4. Reconciled 视图扫漏网(被勾过但 journal 无日期的存款)。
 5. Activity Log 一行收工；差异清单(不勾的+原因)必须完整报给 Klaus。
 
+## 脚本（scripts/，暂存目录会被清，别再每次重写）
+- `python3 -I scripts/fetch_internal.py <out.json>` —— 拉 `Internal !A1:FZ320` 带底色
+- `python3 -I scripts/match_internal.py <internal.json> <items.json>` —— items: `[{"ck","client","amt","kind":"C"|"P"}]`，C=客户款只看 J 列；打印每个同额格子 + 颜色（API 省略 0 通道，颜色默认值必须是 0）
+- `python3 -I scripts/green_cells.py J5 DF15 ...` —— 批量涂绿，之后再跑一次 fetch+match 复查
+- Sheets API 多 range 读取时 `sheets` 按**表索引顺序**返回，不按传入顺序——按 `properties.title` 对齐，别 zip。
+
+## 看清支票小字（2026-10-19）
+modal 里的支票图太小。注入全局 CSS 把 `#checks-accordionPanel0 img` 设成 `position:fixed;left:0;top:0;width:1200px`（内置浏览器用 `100vw`）再截图。
+**别用往 body 追加覆盖层**——弹窗重渲染会把它冲掉；CSS 规则不会被冲掉。读完记得删掉 `<style id="__bigcss">`。
+内置浏览器的 zoom 只裁不放大，必须靠这个。
+
 ## 已知悬案速查(报告时别当新发现)
 - 80277 Yan Li→Kaisheng Yang $3,570.70 vs 表 $3,570.79：等 Klaus 的 $0.09 补票。
 - Junke Li $1,000 MedPay：1P 直付、subrogation waived、**永不入账**(Chat 8/6 确认)；trust 按
