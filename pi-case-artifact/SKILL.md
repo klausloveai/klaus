@@ -37,7 +37,10 @@ masthead 里 chips 下方、状态条上方，`{{CONTACTS}}`：左 1P、右 3P �
 **1P 与 3P 两张卡永远等高**（短的一张自动拉伸到和长的一样）。主视图只放 1P、3P 两张；
 案子还有其他 party（第二辆 3P 车、UM 保险公司等）时，在两张卡下方加 `<details class="ct-more"><summary>其他 party（N）</summary><div class="contacts">…同样的卡…</div></details>`，默认收起；没有就不放。
 
-卡内保单栏照 intake 架构：1P = Policy # · Period · Coverage · Liability · UM/UIM · Med Pay · Collision Ded · Rental；
+**1P/3P 卡内一律英文**（含状态含义：Acknowledged / Cleared / Accepted / No / Not on file / general inbox / Source unconfirmed），**顺序照 intake 从上到下**：
+1P：LOR · Coverage · Liability · Policy # · Policyholder · Driver · Vehicle → adjusters → Dec Page · Collision Ded · Rental · Med Pay · UM/UIM · Policy Period · SR-1；
+3P：LOR · Coverage · Liability · Policy # · Policyholder · Driver · Vehicle → adjusters → Policy Limits · Policy Period · Property Damage（若由 3P 赔）。
+（旧说明：）卡内保单栏照 intake 架构：1P = Policy # · Period · Coverage · Liability · UM/UIM · Med Pay · Collision Ded · Rental；
 3P = Policy # · Insured · Driver · Period · Coverage · Liability · Limits · PD。limits、UM/UIM 这类**只属于一方的事实放进该方卡里，不放顶部 chips**。
 
 **状态字段照 Master 走**（Klaus 2026-10-20）：1P 卡放 G 1LOR · H 1Coverage · I 1Liability；3P 卡放 J 3LOR · K 3Coverage · L 3Liability；
