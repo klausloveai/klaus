@@ -51,6 +51,16 @@ M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格�
 ## 页面最上方 `.topbar`（Klaus 2026-10-20）
 状态条（阶段 · 距事发 · 待办 · 下一期限）和 Case Status 路线图压缩成一条，放在页面最顶上、案名之上；宽屏左右并排，窄屏上下叠。字号和框都比正文小一级。
 
+## 治疗与账单（Klaus 2026-10-21）
+列固定为 **Facility · Area · Start · Visits · Last updated · Amount · Status**（英文表头）。
+- Area 用英文分清：Emergency (ER) / Urgent Care / Chiropractic / Radiology · MRI / Pain Management / **Injections**（与 PM 分开一行）/ Surgery Center / Psychiatry / Orthopedics / PT …
+- Start = Master 格里的首诊日；Visits 下方小字 = last updated（Master 第二个日期），有已约的未来就诊写「下次 x/x」。
+- Status = Master 该格底色色块 + 一句状态。
+- 每行 `<details class="txrow">`，点开是报告摘要：就诊 / 部位 / **Impression 原意** / 关键原文 → 黄底一段「分析」（对 demand 的影响、和别的来源对不上的地方）→ 小字来源。报告是扫描件读不到字的，写明「用 Chat 摘要，未逐字读」。
+
+## adjuster 角色写法
+姓名后接灰色小字，不加框：「· Bodily Injury Adjuster」「· Property Damage Adjuster」「· Medical Payments Adjuster」「· Total Loss Adjuster」「· Subrogation Adjuster」「· Claims Supervisor」；intake 没写的用红字「· Role not specified」。
+
 ## 顶部 chips
 **只放四个链接，顺序固定：Master Sheet · Chat 群 · Drive 案卷 · Retainer**（Retainer 链到 Drive 1# 已签合同 PDF）。Liability、PD 等状态不放顶部，进 1P/3P 卡。**Retainer 着色：Standard = 橙（`.chip.ret-std`）、New = 蓝（`.chip.ret-new`）。**
 
