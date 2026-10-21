@@ -25,7 +25,7 @@ description: >-
 - 数据源：Master Sheet 该行（按表头名取列）· intake（含 Treatment Cost）· 案件 Chat 全部消息 · Drive 案卷树。
 - 没核过的不写；负面结论写明查了什么、没查什么（邮箱默认未读要写出来）。
 - 金额每一笔自己复算；跨源对不上的写进待办或风险点。
-- 顶栏 docket：Client · DOL · Tortfeasor · 1P/3P Claim # · **Team** · **Case Manager** · **Case Assistant**；眉标「凌图律所 · PI Case」。
+- **标题 = intake 案名格式**：`<Client>-M-D-YYYY`（如 Andrew Yi Chen Lin-6-27-2026），DOL 部分用细体灰色；docket 只放 **Team · Case Manager · Case Assistant**（Client、DOL、Tortfeasor、Claim # 不放 docket：DOL 在标题，对方司机和 claim # 在 1P/3P 卡里）；眉标「凌图律所 · PI Case」。
 - 不放 SSN / 驾照号。
 
 ## 顶栏联系卡（Klaus 2026-10-20 定）
