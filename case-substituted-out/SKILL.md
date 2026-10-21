@@ -180,21 +180,45 @@ cards, the property damage file, and all medical records and bills **in our poss
 to Klaus explicitly. "all medical records and bills in this office's possession" is literally true
 with zero records, but he should know the package has no medicals before it leaves.
 
-Mirror the package into a **`Case Sub` folder inside the case folder** (server-side `files.copy`,
+Build the package as a **`Case Transfer` folder inside the case folder** (server-side `files.copy`,
 so the copies are byte-identical) and put the letters there too, for Klaus to verify in Drive
-before anything is sent.
+before anything is sent. `scripts/package_file.py` is now optional — use it only to check the zip
+size locally; the deliverable is the Drive folder.
 
-### 25 MB is the ENCODED size
+- **More than one client → one subfolder per client**, `<Client> - Complete File`. Shared documents
+  (incident file, agency records, letters, pleadings, the joint retainer) go in every subfolder; each
+  client's medical records, bills, injury photos and own correspondence go only in that client's.
+  Each client is entitled to *their* file, and a combined folder hands one client the other's medicals.
+- **Deduplicate by MD5, not by name.** Intake uploads and renamed copies are often byte-identical;
+  keep the renamed one, drop the rest.
+- **Strip internal annotations from filenames** on the copies (e.g. `⚠️谨慎采用 - `). The original in
+  the case folder keeps its name.
+- **Index per client** — a PDF table (folder / file / MB) placed inside each client subfolder. It is
+  the "list of everything sent" the attorney asks to keep in the case folder.
+- **Before packaging, sweep the agency correspondence for the whole life of the matter**, not since
+  your last check. Peiyun Zhou (2026-10): the County had closed CPRA 26-6025 on 10/13 and released 27
+  records that nobody had downloaded; the portal links expire after a month. Download them, file them,
+  and include them. [[feedback_negative_claims_need_premise]]
+- `files.copy` on ~200 files runs past the 2-minute shell limit and the Drive API intermittently
+  returns no id. Run it in the background and make it **resumable** (reuse folders by name, skip
+  files whose name + MD5 already exist), then re-walk the tree to confirm the count and that no folder
+  name is duplicated.
 
-Gmail's limit applies after base64, which inflates by 4/3. A 15.4 MB zip becomes ~20.5 MB on the
-wire. Compute `raw × 4/3 + letters` and compare against 25 MB:
+### Delivery: always a Dropbox link, never Google Drive sharing (Klaus 2026-10-20)
 
-- **Under** → attach the zip directly. Letter enclosure line reads `Client file (electronic copy)`.
-- **Over** → Klaus puts the folder on Dropbox and gives you the link. Enclosure line reads
-  `Client file (secure link)` and the link goes in the **email body, not the letter**.
+Klaus reviews the `Case Transfer` folder in Drive, downloads it as a zip, uploads it to **Dropbox**,
+and generates a public download link. That link goes in the **email body, not the letter**, and the
+letter's enclosure line reads `Client file (download link)`. The recipient downloads directly.
 
-Keep the wording of the letter and the actual delivery method in sync — they are easy to desync
-when the size verdict flips late.
+Do **not** share Drive folders with successor counsel, a client's correspondent, or a referral firm,
+and do not attach the file even when it is small. Drive sharing to outside addresses runs into
+non-Google accounts, the Workspace external-sharing settings and per-file download limits. This
+applies to every outgoing file transfer — substitutions **and** case transfers/referrals
+([[case-referral]]).
+
+Your job ends at a verified `Case Transfer` folder plus the transmittal draft with a
+`[DROPBOX LINK]` placeholder; Klaus supplies the link. Keep the letter's enclosure line and the
+email in sync.
 
 ## Step 8 — Draft the emails 🚩 Gate 2
 
@@ -204,7 +228,7 @@ Three emails, each from the case mailbox unless Klaus says otherwise:
 | --- | --- | --- |
 | 3P carrier (and 1P if one exists) | `<Client> / Insured: <name> — Claim No. <#> — Sub Out Letter and Notice of Attorney's Lien` | that carrier's lien notice |
 | Each treating provider | `<Client> (DOL <date>) — Notice of Substitution of Attorney` | provider notice |
-| Successor counsel | `RE: <their subject>` — thread onto their own email | successor letter + **copies of the carrier lien notices** + the client file |
+| Successor counsel | `RE: <their subject>` — thread onto their own email | successor letter + **copies of the carrier lien notices**; the client file goes as Klaus's Dropbox link in the body |
 
 **Attach the carrier lien notices to successor counsel.** Successor counsel — not the adjuster —
 is who will negotiate the settlement and direct how the draft is cut. Putting the actual notice in
@@ -227,7 +251,7 @@ After the go:
 1. Send. Cc the case mailbox if Klaus asks.
 2. **Activity Log** — one append-only row to `1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA`,
    `Activity Log!A:J`, Category `律师指示`. Pack the Ref/ID column: successor firm + attorney +
-   their email/phone, the sent Gmail message id, the carrier claim number, and the `Case Sub`
+   their email/phone, the sent Gmail message id, the carrier claim number, and the `Case Transfer`
    Drive folder id. That column is the only handle three months out.
 3. **Chat** — post to the case space as **Klaus@** (never picase@/piteam@ directory).
    [[feedback_chat_use_klaus]] Draft it in Klaus's own plain-text voice — short lines, no markdown,

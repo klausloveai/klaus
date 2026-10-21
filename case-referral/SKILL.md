@@ -80,7 +80,9 @@ python3 ~/.claude/skills/case-referral/scripts/combine_photos.py "Scene Photos.p
 ```
 - Scene / vehicle-damage photos → **one** `Scene Photos.pdf`. Never attach loose jpgs.
 - **Police card / accident report stays its own attachment** — it is a document, not a photo.
-- Video (dashcam etc.) attaches separately; mind Gmail's 25 MB cap.
+- Anything too large to attach (dashcam video, the full file once the case is accepted) goes into a
+  `Case Transfer` folder in the case folder → Klaus zips it to **Dropbox** → public link in the email
+  body. Never share Drive folders with an outside firm (Klaus 2026-10-20; see [[case-substituted-out]]).
 - **Never attach** driver licenses, SSNs, insurance cards or the raw intake sheet — PII that the
   receiving firm gets only after they take the case.
 
