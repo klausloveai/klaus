@@ -556,7 +556,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 }
 /* PI：治疗表（Facility · Area · Start · Visits·Last updated · Amount · Status），行可展开看报告摘要 */
 .txtable { margin-top: 16px; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 4px 12px 8px; overflow-x: auto; }
-.txhead, .txrow > summary { display: grid; grid-template-columns: minmax(150px,1.6fr) minmax(110px,1.1fr) 54px minmax(110px,1fr) 96px minmax(120px,1.1fr); gap: 10px; align-items: baseline; min-width: 720px; }
+.txhead, .txrow > summary { display: grid; grid-template-columns: minmax(150px,1.6fr) minmax(100px,1fr) 52px 56px minmax(100px,1fr) 96px minmax(140px,1.2fr); gap: 10px; align-items: baseline; min-width: 780px; }
 .txhead { font-size: 11.5px; color: var(--ink-faint); letter-spacing: .04em; padding: 8px 4px; border-bottom: 1px solid var(--hairline); }
 .txrow { border-bottom: 1px solid var(--hairline); }
 .txrow > summary { list-style: none; cursor: pointer; padding: 9px 4px; font-size: 13.5px; }
@@ -566,7 +566,8 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 .txrow .a { color: var(--ink-muted); }
 .txrow .d { font-family: var(--f-mono); font-size: 12.5px; color: var(--ink-muted); }
 .txrow .v { font-variant-numeric: lining-nums tabular-nums; color: var(--ink); }
-.txrow .v small { display: block; font-size: 11.5px; color: var(--ink-faint); }
+.txrow .lu { font-size: 12.5px; color: var(--ink-muted); font-variant-numeric: lining-nums tabular-nums; }
+.txrow .st, .txhead .sth { padding-left: 22px; }
 .txhead .m, .txrow .m, .txfoot .m { text-align: right; font-variant-numeric: lining-nums tabular-nums; }
 .txrow .m { color: var(--ink); }
 .txrow .st { font-size: 12.5px; color: var(--ink-muted); }
@@ -575,7 +576,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 .txrow .how p { margin: 8px 0 0; }
 .txrow .how b { color: var(--ink); font-weight: 600; }
 .txrow .how .an { color: var(--ink); background: var(--hold-bg); padding: 6px 10px; border-radius: 2px; }
-.txfoot { display: grid; grid-template-columns: 1fr 96px minmax(120px,1.1fr); gap: 10px; padding: 9px 4px 4px; font-weight: 600; font-size: 13.5px; min-width: 720px; }
+.txfoot { display: grid; grid-template-columns: 1fr 96px minmax(140px,1.2fr); gap: 10px; padding: 9px 4px 4px; font-weight: 600; font-size: 13.5px; min-width: 780px; }
 .arole { font-size: 12.5px; font-weight: 400; color: var(--ink-muted); }
 .arole.unk { color: var(--alarm); }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
@@ -992,8 +993,8 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
     <details class="sec">
       <summary><h2>治疗与账单<small>Treatment &amp; specials</small></h2></summary>
       <div class="txtable">
-        <div class="txhead"><span>Facility</span><span>Area</span><span>Start</span><span>Visits · Last updated</span><span class="m">Amount</span><span>Status</span></div>
-        <details class="txrow"><summary><span class="f">PIH Health Whittier Hospital</span><span class="a">Emergency (ER)</span><span class="d">6/27</span><span class="v">1<small>6/27</small></span><span class="m">$2,379.45</span><span class="st"><span class="ms g"></span>R/B 齐 · 9/16</span></summary>
+        <div class="txhead"><span>Facility</span><span>Area</span><span>Start</span><span>Visits</span><span>Last updated</span><span class="m">Amount</span><span class="sth">Status</span></div>
+        <details class="txrow"><summary><span class="f">PIH Health Whittier Hospital</span><span class="a">Emergency</span><span class="d">6/27</span><span class="v">1</span><span class="lu">6/27</span><span class="m">$2,379.45</span><span class="st"><span class="ms g"></span>R/B 齐 · 9/16</span></summary>
           <div class="how">
             <p><b>就诊</b>：6/27 15:58 到院，17:02 出院（事故后约 2.5 小时）。主诉 MVA，双侧颈痛、双腕痛；系安全带，自述车速约 45 mph。</p>
             <p><b>检查</b>：神经检查正常，颈椎中线无压痛。<b>没有拍片</b>，原文：基于临床检查和 low pretest probability，imaging is not indicated。</p>
@@ -1001,14 +1002,14 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             <p class="an">分析：对方会引用「没拍片、low pretest probability」来说伤情轻。另外两处要留意：客户在 ER 自述「hit the passenger side」，警方报告是撞到对方左后（驾驶侧）；ER 登记的语言是 English only，跟 Chat 里说他英文不太行对不上。</p>
             <p class="src">来源：Drive 4#「ER R.pdf」（25 页）· 「ER B.pdf」</p>
           </div></details>
-        <details class="txrow"><summary><span class="f">Affinity Healthcare Clinic</span><span class="a">Chiropractic</span><span class="d">7/1</span><span class="v">34<small>10/16</small></span><span class="m">估 $7,743</span><span class="st"><span class="ms b"></span>治疗中 · 上限 30–35</span></summary>
+        <details class="txrow"><summary><span class="f">Affinity Healthcare Clinic</span><span class="a">Chiropractic</span><span class="d">7/1</span><span class="v">34</span><span class="lu">10/16</span><span class="m">估 $7,743</span><span class="st"><span class="ms b"></span>治疗中 · 上限 30–35</span></summary>
           <div class="how">
             <p><b>频率</b>：每周 2 次。9/17 Amos 定上限 30–35 次，10/16 已到 34 次（见待办 1）。</p>
             <p><b>转介</b>：8/3 Chiro 医生 Cherngder Yu, D.C. 以「开车紧张」转介 psychiatrist。10/9 PM 医生建议继续 chiro。</p>
             <p class="an">分析：结束日期要和 11/7 PM 复诊对齐，避免空档。Chiro 的 R/B 要等 discharge 后才会出，Drive 里目前没有。</p>
             <p class="src">来源：Master Chiro 格 · Chat 8/3、9/17、10/10 · intake Treatment Cost（9/30 按 29 次 × $267 估价）</p>
           </div></details>
-        <details class="txrow"><summary><span class="f">Sun Imaging, Inc</span><span class="a">Radiology · MRI</span><span class="d">7/22</span><span class="v">2 部位<small>7/22</small></span><span class="m">$5,000.00</span><span class="st"><span class="ms g"></span>R/B 齐</span></summary>
+        <details class="txrow"><summary><span class="f">Sun Imaging, Inc</span><span class="a">MRI</span><span class="d">7/22</span><span class="v">2 部位</span><span class="lu">7/22</span><span class="m">$5,000.00</span><span class="st"><span class="ms g"></span>R/B 齐</span></summary>
           <div class="how">
             <p><b>部位</b>：Cervical + Lumbar spine，无造影（CPT 72141 / 72148，各 $2,500）。读片 Sim C. Hoffman, M.D.，7/27 签发。</p>
             <p><b>Impression · 颈椎</b>：C3-4 1.5 mm 后突出伴轻度椎间盘脱水；C4-5 1.5 mm 后突出伴极轻度脱水。两处都压到蛛网膜下腔前缘，神经孔通畅，小关节正常。</p>
@@ -1016,14 +1017,14 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             <p class="an">分析：四个节段有客观影像改变，可以支撑软组织以外的伤情；但都是 2 mm 以内、没有神经压迫。拿它支撑两针 facet 注射偏薄，要靠 PM 报告补上 medical necessity（预防 P1）。小关节骨性肥大属退行性改变，对方可能拿来说是旧伤。</p>
             <p class="src">来源：Drive 4#「C MRI R」「L MRI R」「MRI B」</p>
           </div></details>
-        <details class="txrow"><summary><span class="f">Precision Pain Care Center</span><span class="a">Pain Management</span><span class="d">8/8</span><span class="v">2<small>10/9 · 下次 11/7</small></span><span class="m">估 $2,691</span><span class="st"><span class="ms dy"></span>已约 11/7</span></summary>
+        <details class="txrow"><summary><span class="f">Precision Pain Care Center</span><span class="a">Pain Management</span><span class="d">8/8</span><span class="v">2</span><span class="lu">10/9 · 下次 11/7</span><span class="m">估 $2,691</span><span class="st"><span class="ms dy"></span>已约 11/7</span></summary>
           <div class="how">
             <p><b>医生</b>：Dr. Tony Liu。8/8 初诊建议：双侧 L4/5、L5/S1 腰椎 facet 注射，双侧 C4/5、C5/6 颈椎 facet 注射（透视引导）。</p>
             <p><b>10/9 复诊</b>：建议继续 chiro；报告账单未到。下次复诊 11/7 3:00 PM。</p>
             <p class="an">分析：PM 的四次就诊（含两针）一份 R/B 都还没有（待办 9）。Master PM 格写的「(4) 8/8-11/7」把未来的 11/7 算进去了，要改（待办 6）。</p>
             <p class="src">来源：Chat 8/12 PM Recommendation 摘要（原件是扫描件，未逐字读）· Chat 10/10、10/11</p>
           </div></details>
-        <details class="txrow"><summary><span class="f">Precision Pain Care Center</span><span class="a">Injections</span><span class="d">9/1</span><span class="v">2<small>9/19</small></span><span class="m">估 $30,000</span><span class="st"><span class="ms o"></span>已打 · 收 R/B</span></summary>
+        <details class="txrow"><summary><span class="f">Precision Pain Care Center</span><span class="a">Injections</span><span class="d">9/1</span><span class="v">2</span><span class="lu">9/19</span><span class="m">估 $30,000</span><span class="st"><span class="ms o"></span>已打 · 收 R/B</span></summary>
           <div class="how">
             <p><b>第一针 9/1</b>：颈椎 facet，双侧 C4/5、C5/6。</p>
             <p><b>第二针 9/19</b>：诊所没写部位，按 PM 建议推测是腰椎 facet，待确认。</p>
@@ -1031,8 +1032,9 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
             <p class="an">分析：这是本案金额最大的一项，占全部估算的六成多。对方一定会拿 MRI 程度来压（预防 P1）。</p>
             <p class="src">来源：Master 注射格 · Chat 9/1、9/19、9/30</p>
           </div></details>
-        <details class="txrow"><summary><span class="f">Inter Health Medical Group</span><span class="a">Psychiatry · telemed</span><span class="d">10/14</span><span class="v">1?<small>10/14</small></span><span class="m">—</span><span class="st"><span class="ms o"></span>待确认</span></summary>
+        <details class="txrow"><summary><span class="f">Inter Health Medical Group</span><span class="a">Psychiatry</span><span class="d">10/14</span><span class="v">1?</span><span class="lu">10/14</span><span class="m">—</span><span class="st"><span class="ms o"></span>待确认</span></summary>
           <div class="how">
+            <p><b>形式</b>：Telemed（线上视频问诊）。</p>
             <p><b>来由</b>：8/3 Chiro 转介（开车紧张）。原先送的 Boomerang 只接工伤，9/30 改送 InterHealth。10/1 对方说开始治疗前要签 Lien Agreement；10/9 确认 10/14 10:30 telemed，医生 John Tsuang。</p>
             <p class="an">分析：有没有看、lien 签没签，群里都没有确认（待办 3）。如果确实看了，这是本案唯一一项心理伤害的证据，对 pain &amp; suffering 有加分。</p>
             <p class="src">来源：Chat 8/3–10/9 · Master Treatment 格</p>

@@ -555,7 +555,7 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 }
 /* PI：治疗表（Facility · Area · Start · Visits·Last updated · Amount · Status），行可展开看报告摘要 */
 .txtable { margin-top: 16px; background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 4px 12px 8px; overflow-x: auto; }
-.txhead, .txrow > summary { display: grid; grid-template-columns: minmax(150px,1.6fr) minmax(110px,1.1fr) 54px minmax(110px,1fr) 96px minmax(120px,1.1fr); gap: 10px; align-items: baseline; min-width: 720px; }
+.txhead, .txrow > summary { display: grid; grid-template-columns: minmax(150px,1.6fr) minmax(100px,1fr) 52px 56px minmax(100px,1fr) 96px minmax(140px,1.2fr); gap: 10px; align-items: baseline; min-width: 780px; }
 .txhead { font-size: 11.5px; color: var(--ink-faint); letter-spacing: .04em; padding: 8px 4px; border-bottom: 1px solid var(--hairline); }
 .txrow { border-bottom: 1px solid var(--hairline); }
 .txrow > summary { list-style: none; cursor: pointer; padding: 9px 4px; font-size: 13.5px; }
@@ -565,7 +565,8 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .txrow .a { color: var(--ink-muted); }
 .txrow .d { font-family: var(--f-mono); font-size: 12.5px; color: var(--ink-muted); }
 .txrow .v { font-variant-numeric: lining-nums tabular-nums; color: var(--ink); }
-.txrow .v small { display: block; font-size: 11.5px; color: var(--ink-faint); }
+.txrow .lu { font-size: 12.5px; color: var(--ink-muted); font-variant-numeric: lining-nums tabular-nums; }
+.txrow .st, .txhead .sth { padding-left: 22px; }
 .txhead .m, .txrow .m, .txfoot .m { text-align: right; font-variant-numeric: lining-nums tabular-nums; }
 .txrow .m { color: var(--ink); }
 .txrow .st { font-size: 12.5px; color: var(--ink-muted); }
@@ -574,7 +575,7 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .txrow .how p { margin: 8px 0 0; }
 .txrow .how b { color: var(--ink); font-weight: 600; }
 .txrow .how .an { color: var(--ink); background: var(--hold-bg); padding: 6px 10px; border-radius: 2px; }
-.txfoot { display: grid; grid-template-columns: 1fr 96px minmax(120px,1.1fr); gap: 10px; padding: 9px 4px 4px; font-weight: 600; font-size: 13.5px; min-width: 720px; }
+.txfoot { display: grid; grid-template-columns: 1fr 96px minmax(140px,1.2fr); gap: 10px; padding: 9px 4px 4px; font-weight: 600; font-size: 13.5px; min-width: 780px; }
 .arole { font-size: 12.5px; font-weight: 400; color: var(--ink-muted); }
 .arole.unk { color: var(--alarm); }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
