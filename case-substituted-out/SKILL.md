@@ -10,8 +10,8 @@ description: |
   team mailbox and forwarded to klaus@). The skill locates the case in Drive, verifies the client
   and the signature, confirms whether a 1P claim actually exists, fills the firm's three Notice
   of Attorney Lien templates (1P carrier / 3P carrier / successor counsel) plus a provider notice,
-  packages the client file (excluding internal documents), sizes the delivery against the 25 MB
-  email limit, drafts every email from the case mailbox (or klaus@ if told), and on explicit
+  packages the client file into a `Case Transfer` folder in the case folder (one subfolder per
+  client, internal documents excluded) for Klaus to zip and send as a Dropbox link, drafts every email from the case mailbox (or klaus@ if told), and on explicit
   approval sends them, then logs the substitution to the Activity Log and posts to the case Chat
   space. It DRAFTS by default — it never sends without an explicit go. This is the OUT direction
   only (we lose the case); it does not handle taking a case IN from another firm.
