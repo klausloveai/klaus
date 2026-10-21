@@ -52,6 +52,8 @@ config.json shape (see also references/):
   "party_role": "Respondent",
   "party_name": "STATE FARM MUTUAL AUTOMOBILE INSURANCE COMPANY",
   "declarant": "Klaus Liu",
+  "service_methods": ["email"],               // keep ONLY these, each marked X; others deleted
+                                             //   personal | mail | overnight | fax | email
   "documents": [                             // "out" auto-derived from src basename
     {"src": "/abs/Zhiping Liu - Objection to Deposition.pdf",
      "footer_title": "CLAIMANT'S OBJECTION TO RESPONDENT'S NOTICE OF TAKING DEPOSITION OF ZHIPING LIU"}
@@ -175,6 +177,35 @@ def out_name(src):
     return f"{base} (with POS).pdf"
 
 
+# Service-method paragraphs in the template, keyed by the config name.
+# Klaus 2026-10-21: keep ONLY the methods actually used, each marked X; delete the rest
+# entirely (no empty "______By personal service." boxes left on the served POS).
+SERVICE_METHODS = {
+    "personal":  "By personal service",
+    "mail":      "By United States mail",
+    "overnight": "By overnight delivery",
+    "fax":       "By fax transmission",
+    "email":     "By electronic mail",
+}
+
+
+def apply_service_methods(d, selected):
+    selected = set(selected or ["email"])
+    unknown = selected - set(SERVICE_METHODS)
+    if unknown:
+        raise SystemExit(f"unknown service_methods: {sorted(unknown)} (use {sorted(SERVICE_METHODS)})")
+    for p in list(d.paragraphs):
+        key = next((k for k, lab in SERVICE_METHODS.items() if lab in p.text), None)
+        if key is None:
+            continue
+        if key not in selected:
+            p._p.getparent().remove(p._p)
+            continue
+        runs = p.runs
+        if runs and runs[0].text.strip() in ("", "X"):
+            runs[0].text = "     X"           # checked box, same width as the template's
+
+
 def build_one(cfg, doc, served):
     d = Document(cfg["template"])
     tokens = {
@@ -198,6 +229,7 @@ def build_one(cfg, doc, served):
         for k, v in tokens.items():
             para_replace(p, k, v)
         strip_highlight(p)
+    apply_service_methods(d, cfg.get("service_methods", ["email"]))
     # Service-list cells: left-align so a wrapped counsel/e-service line is not
     # stretched by justification into ugly inter-word gaps.
     from docx.enum.text import WD_ALIGN_PARAGRAPH

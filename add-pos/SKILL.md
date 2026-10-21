@@ -155,6 +155,19 @@ Answer's caption `Email:` line and typically also as a standing line in their fi
 signature. Do not cite a particular email's date as "the designation date" — that line is
 boilerplate on every message they send, not an event.
 
+## Only the service method actually used stays on the POS
+
+Klaus 2026-10-21 (Jiayu Ma): the served POS lists **only the method(s) checked**, each marked
+`X`. Every unchecked method paragraph (personal / U.S. mail / overnight / fax / email) is
+**deleted outright** — no empty `______By personal service.` boxes left on the page.
+One method checked → one paragraph; two checked (e.g. email + certified mail) → two.
+
+Set it in config: `"service_methods": ["email"]` (default) — values `personal`, `mail`,
+`overnight`, `fax`, `email`. `build_pos.py` → `apply_service_methods()` removes the rest and
+marks the kept ones `X`. This is the firm's own Drive template (`2. Template / 2. Service &
+Proofs`), not an attorney-drafted POS. A POS Hernán drafts into his own document keeps his
+wording and is filled in place by `fill_inplace_pos.py` instead.
+
 ## Every served production gets a POS — no exceptions
 
 Klaus 2026-10-21 (Jiayu Ma, supplemental production MA 000210–000237): 「下次记住都得」.
