@@ -155,6 +155,21 @@ Answer's caption `Email:` line and typically also as a standing line in their fi
 signature. Do not cite a particular email's date as "the designation date" — that line is
 boilerplate on every message they send, not an event.
 
+## Every served production gets a POS — no exceptions
+
+Klaus 2026-10-21 (Jiayu Ma, supplemental production MA 000210–000237): 「下次记住都得」.
+Anything served on the other side — responses, **document productions, supplemental
+productions**, native files — must carry a signed POS dated the serve day.
+
+- Served **together with responses** → the responses' POS must list the production by Bates
+  range in its documents-served recital (10/16: "...DOCUMENTS PRODUCED, MA 000178 THROUGH
+  MA 000209; and the scene photograph in its original digital format").
+- Served **alone** (supplemental production) → build a POS from the template and append it
+  after the last Bates page; the produced pages stay byte-identical to the approved draft
+  (verify MD5 of pages 1–N against the approved version before drafting the email).
+- Why: the POS is the only proof of when and how it was served — it fixes the 45-day
+  motion-to-compel clock and answers any "never received" claim.
+
 ## FIRST: does the document already contain a POS?
 
 Before anything else, check each uploaded PDF for an embedded Proof of Service:
