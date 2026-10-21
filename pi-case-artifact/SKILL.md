@@ -51,7 +51,7 @@ M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格�
 拉丁字与数字 **Source Sans 3**（与思源黑体同族，等高数字），等宽 **Source Code Pro**，中文正文 Noto Sans SC、中文标题 Noto Serif SC 不变。
 不用 Raleway（老式高低数字）和 Cormorant 斜体。所有数字列加 `lining-nums tabular-nums`。
 
-## 页面最上方 `.topbar`（Klaus 2026-10-20）
+## 页面最上方 `.topbar`（Klaus 2026-10-20；2026-10-21 精修：全部无衬线、标签英文 Stage / Since DOL / Open to-dos / Next deadline，路线图 NOW；眉标 Lingtu Law · PI Case；docket 标签大写小字、值用正文粗体；事发块标题 Fact of Loss · Client）
 状态条（阶段 · 距事发 · 待办 · 下一期限）和 Case Status 路线图压缩成一条，放在页面最顶上、案名之上；宽屏左右并排，窄屏上下叠。字号和框都比正文小一级。
 
 ## 治疗与账单（Klaus 2026-10-21）

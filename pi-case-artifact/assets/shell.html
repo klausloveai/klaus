@@ -584,6 +584,25 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .facts-body p { margin: 10px 0 0; }
 .facts-body b { color: var(--ink); font-weight: 600; }
 h1 .dol { font-weight: 400; color: var(--ink-muted); }
+/* PI：顶部排版精修（Klaus 2026-10-21）：顶栏与 docket 全部无衬线，标签英文 */
+.topbar .stats dt, .topbar .stats dd.txt, .topbar .road .st { font-family: var(--f-body); }
+.topbar .stats dt { text-transform: uppercase; letter-spacing: .08em; font-size: 10.5px; color: var(--ink-faint); }
+.topbar .stats dd { font-family: var(--f-body); font-weight: 600; }
+.topbar .stats dd small { font-weight: 400; font-size: 11px; }
+.topbar .stats dd.txt { font-size: 15px; font-weight: 600; padding-top: 1px; }
+.topbar .road .st { font-size: 12px; }
+.topbar .road li.now .st { font-weight: 600; }
+.topbar .road .here { font-family: var(--f-body); letter-spacing: .14em; }
+.eyebrow { letter-spacing: .18em; margin-bottom: 8px; }
+h1 { font-size: clamp(28px, 3.8vw, 38px); letter-spacing: 0; margin-bottom: 8px; }
+h1 .dol { font-size: .72em; }
+.mast .sub { font-size: 14.5px; line-height: 1.75; max-width: 62em; margin-bottom: 18px; }
+.docket { gap: 0 32px; }
+.docket dt { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; }
+.docket dd { font-family: var(--f-body); font-size: 15px; font-weight: 600; }
+.chips { margin-top: 14px; }
+.facts > summary::after { content: "  ▸"; color: var(--ink-faint); }
+.facts[open] > summary::after { content: "  ▾"; }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -629,11 +648,11 @@ h1 .dol { font-weight: 400; color: var(--ink-muted); }
   <header class="mast">
     <div class="topbar">
       <dl class="stats">
-      <div><dt>阶段</dt><dd class="txt">{{STAGE}}</dd></div>
-      <div><dt>距事发</dt><dd data-since="{{DOL_ISO}}">—</dd></div>
-      <div><dt>待办</dt><dd data-stat="open">—</dd></div>
-      <div data-stat-box="mail"><dt>寄件在途</dt><dd data-stat="mail">—</dd></div>
-      <div class="next"><dt>下一期限</dt><dd data-stat="next">—</dd><p class="stat-sub" data-stat="next-what"></p></div>
+      <div><dt>Stage</dt><dd class="txt">{{STAGE}}</dd></div>
+      <div><dt>Since DOL</dt><dd data-since="{{DOL_ISO}}">—</dd></div>
+      <div><dt>Open to-dos</dt><dd data-stat="open">—</dd></div>
+      <div data-stat-box="mail"><dt>Mail in transit</dt><dd data-stat="mail">—</dd></div>
+      <div class="next"><dt>Next deadline</dt><dd data-stat="next">—</dd><p class="stat-sub" data-stat="next-what"></p></div>
       </dl>
 {{ROAD}}
     </div>
@@ -688,13 +707,13 @@ h1 .dol { font-weight: 400; color: var(--ink-muted); }
   var since = document.querySelector("[data-since]");
   if (since) {
     var ds = -daysUntil(since.getAttribute("data-since"));
-    since.innerHTML = ds + ' <small>天</small>';
+    since.innerHTML = ds + ' <small>days</small>';
   }
   function put(k, html) {
     var el = document.querySelector('[data-stat="' + k + '"]');
     if (el) el.innerHTML = html;
   }
-  put("open", String(document.querySelectorAll(".bls .it, .todos .todo:not(.prev), .trow:not(.prev)").length) + ' <small>条</small>');
+  put("open", String(document.querySelectorAll(".bls .it, .todos .todo:not(.prev), .trow:not(.prev)").length) + '');
   var mailRows = document.querySelectorAll("[data-mail]");
   if (mailRows.length) {
     put("mail", String(document.querySelectorAll('[data-mail="pending"],[data-mail="transit"]').length) +
@@ -710,7 +729,7 @@ h1 .dol { font-weight: 400; color: var(--ink-muted); }
     if (dd >= 0 && dd < bestD) { bestD = dd; best = dls[j]; }
   }
   if (best) {
-    put("next", bestD === 0 ? "今天" : bestD + ' <small>天</small>');
+    put("next", bestD === 0 ? "Today" : bestD + ' <small>days</small>');
     var row = best.closest(".dl"), t = row && row.querySelector(".dl-title");
     if (t) put("next-what", t.textContent);
   }
