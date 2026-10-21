@@ -54,6 +54,7 @@ M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格�
 ## 治疗与账单（Klaus 2026-10-21）
 列固定为 **Facility · Area · Start · Visits · Last updated · Amount · Status**（英文表头，七列各自独立，Visits 与 Last updated 分两列，Status 与 Amount 之间留空隙）。
 - Area 用英文，不加括号补充：Emergency / Urgent Care / Chiropractic / **影像按实际做的写：MRI、X-ray、X-ray + MRI** / Pain Management / **Injections**（与 PM 分开一行）/ Surgery Center / Psychiatry / Orthopedics / PT …；Telemed 之类的形式写进展开内容，不写在 Area。
+- 影像一次检查拍多个部位 = **1 次 visit**；部位用英文写在 Area 下方小字（Cervical + Lumbar，或 C + L）。
 - **影像按就诊次数算 Visits**：同一天拍几个部位 = 1 次；部位用英文小字写在 Area 下面（Cervical · Lumbar · Thoracic · Brain · Right Shoulder …）。
 - Start = Master 格里的首诊日；Last updated = Master 第二个日期，有已约的未来就诊写「x/x · 下次 x/x」。
 - Status = Master 该格底色色块 + 一句状态。
