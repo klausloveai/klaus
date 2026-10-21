@@ -299,6 +299,12 @@ signature from a cursive font or by cropping it out of another filed document.
    right-indent to every paragraph as a band-aid for a template whose text ran into the
    right rule; the template was fixed properly, so that code was deleted. If a generated
    POS ever looks off-centre, fix the **template**, not the script.)
+   **Signature placement (2026-10-21, Jiayu Ma):** Klaus's signature is a floating VML image
+   in the template with `wrap type="none"` (was `through`, which let the image push text
+   lines around) and `margin-top:21.5pt`, so the ink sits ON the declarant's signature
+   underline (ink bottom ≈ 620pt vs rule 622.8pt on the rendered page). If it ever floats
+   above or drops below the line, adjust that one `margin-top` in the template's
+   `word/document.xml` and re-upload to the same file id — never offset it in code.
 7. **Draft, then gate on "send".** The email is created as a Gmail DRAFT only. Do NOT send,
    serve, or create the calendar until the user explicitly says "send"/"发". After sending,
    set the calendar and invite Hernán + Cassie.
