@@ -5,5 +5,6 @@
  {"pattern": "Wei Zhang v\\.? Yan Zhang|26NNCV05107", "label_id": "Label_15", "note": "Wei Zhang v. Yan Zhang（Joe 线）"},
  {"pattern": "5042140380", "label_id": "Label_8754352487615821831", "note": "Bristol West claim # = Chao Zheng"},
  {"pattern": "052480PI", "label_id": "Label_4283864447399238367", "note": "Vanguard report # = Chunpeng Wu"},
- {"pattern": "Patient Gaoyang Qin|Dear Gaoyang", "label_id": "Label_3", "note": "PACPC 心理评估 = Gaoyang Qin"}
+ {"pattern": "Patient Gaoyang Qin|Dear Gaoyang", "label_id": "Label_3", "note": "PACPC 心理评估 = Gaoyang Qin"},
+ {"pattern": "26ATCA842575927|MWZY319129|reservclaims", "label_id": "Label_5980763080143242915", "note": "Lina Lu — Old Republic / Reserv (Amazon) claim #, DOL 07/09/2026"}
 ]
