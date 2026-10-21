@@ -580,6 +580,10 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
 .arole { font-size: 12.5px; font-weight: 400; color: var(--ink-muted); }
 .arole.unk { color: var(--alarm); }
 .txrow .a small { display: block; font-size: 11.5px; color: var(--ink-faint); }
+.facts { margin-top: 18px; }
+.facts-body { font-size: 13.5px; line-height: 1.9; color: var(--ink-muted); max-width: 72em; }
+.facts-body p { margin: 10px 0 0; }
+.facts-body b { color: var(--ink); font-weight: 600; }
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -652,6 +656,8 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
       <div><dt>3P State Farm Claim</dt><dd>75-0H3J-151</dd></div>
       <div><dt>Team</dt><dd>Picase@</dd></div>
       <div><dt>负责人</dt><dd>Jenkins</dd></div>
+      <div><dt>CA</dt><dd>Tiana · Claire · May · Taki</dd></div>
+      <div><dt>Attorney</dt><dd>Shenqi Cai, Esq.</dd></div>
     </dl>
     <div class="chips">
       <a class="chip plain" href="https://docs.google.com/spreadsheets/d/1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM/edit#gid=775230687&amp;range=A24">Master Sheet</a>
@@ -659,6 +665,16 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
       <a class="chip plain" href="https://drive.google.com/drive/folders/18cwg1Llz85GTdtbjHoOnsmQpeNS3_tn-">Drive 案卷</a>
       <a class="chip ret-std" href="https://drive.google.com/file/d/1rtqRyfO2vExvxWOFuMUZSTAMwL5tTQar/view">Retainer · Standard 1/3</a>
     </div>
+    <details class="ct-more facts">
+      <summary>事发经过 · 客户 <span class="colnote">点开</span></summary>
+      <div class="facts-body">
+          <p>2026-06-27 约 13:23，Chino Hills，<b>Chino Ave 与 Rock Springs Dr 路口</b>。客户（V-2）在 Chino Ave 北行 number one lane 直行，<b>车速约 45–50 mph</b>。对方 Mark Chung-Jen Chiang（V-1）在 Rock Springs Dr 的<b>左转专用道</b>停在 stop sign 前，左右看过之后起步驶上 Chino Ave，准备<b>左转</b>，没有看到左侧来的客户。客户看到对方进入路口，向左打方向想躲开，没躲开，车头撞上对方车左后侧。</p>
+          <p>警方认定的原因：对方违反 <b>CVC 22107（unsafe turn）</b>。撞击点大约在 Rock Springs Dr 南侧路缘延长线以北 17 英尺、Chino Ave 东侧路缘延长线以西 19 英尺。现场有照片，警员佩戴的 Axon 执法记录仪有录像，都已上传到 evidence.com。</p>
+          <p>客户车的气囊弹出，车被 Pepe's Towing（Ontario）拖走。客户当时吃完午饭开车回家，车上没有行车记录仪，也没有独立证人。</p>
+          <p class="src">来源：警方报告 Chino Hills PD <span class="mono">222601499</span>（Officer Chau Sokly F6893，6/30 审核），Drive 2#「police report.pdf」第 6 页 Narrative · intake「Fact of Loss」</p>
+          <p><b>客户</b>：单独驾驶，车上没有乘客。Giga Computing 的 assembly line assistant。Chat 里说他英文不太好、偏好中文，但 ER 登记的是 English only。介绍人是 Ryan 的同事，Retainer 为 Standard 1/3。原 CM Ryan 已不在群里，见待办 2。</p>
+      </div>
+    </details>
     <div class="contacts">
       <details class="ct" open>
         <summary class="ct-h"><span class="side">1P</span><span class="co">Root Insurance</span><span class="cl">Claim <b>48QRVVCA</b></span></summary>
@@ -697,7 +713,7 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
           <div><dt>Coverage</dt><dd><span class="ms g">Statefarm</span> 承保有效</dd></div>
           <div><dt>Liability</dt><dd><span class="ms g">100%</span> 对方全责</dd></div>
           <div><dt>Limits</dt><dd>250/500 <span class="role hold">出处待坐实</span></dd></div>
-          <div><dt>PD</dt><dd><span class="ms g">Total Loss</span> 全损已赔 $23,579.62</dd></div>
+          <div><dt>PD</dt><dd><span class="ms g">Total Loss</span> 2025 KIA K4 全损已赔 $23,579.62（贷款方 $19,837.99 + 客户 $3,741.63，7/16）· CCC 报告在 Drive 3# · total gain 见待办 5</dd></div>
         </dl>
       </details>
     </div>
@@ -1063,38 +1079,6 @@ a.chip.ret-std:hover, a.chip.ret-new:hover { filter: brightness(.95); }
         </tbody>
       </table></div>
       <div class="note">Sun Imaging 是否走 lien，本页没有核到。客户 7/31 交来的打车去诊所的收据，群里定的是提交给保险公司争取报销，不保证能报。</div>
-    </details>
-  </section>
-
-  <section>
-    <div class="rule"></div>
-    <details class="sec">
-      <summary><h2>事发经过与财产损失<small>Incident &amp; property</small></h2></summary>
-      <div class="grid g2">
-        <div class="card"><h4>经过（以警方报告为准）</h4>
-          <p>2026-06-27 约 13:23，Chino Hills，<b>Chino Ave 与 Rock Springs Dr 路口</b>。客户（V-2）在 Chino Ave 北行 number one lane 直行，<b>车速约 45–50 mph</b>。对方 Mark Chung-Jen Chiang（V-1）在 Rock Springs Dr 的<b>左转专用道</b>停在 stop sign 前，左右看过之后起步驶上 Chino Ave，准备<b>左转</b>，没有看到左侧来的客户。客户看到对方进入路口，向左打方向想躲开，没躲开，车头撞上对方车左后侧。</p>
-          <p>警方认定的原因：对方违反 <b>CVC 22107（unsafe turn）</b>。撞击点大约在 Rock Springs Dr 南侧路缘延长线以北 17 英尺、Chino Ave 东侧路缘延长线以西 19 英尺。现场有照片，警员佩戴的 Axon 执法记录仪有录像，都已上传到 evidence.com。</p>
-          <p>客户车的气囊弹出，车被 Pepe's Towing（Ontario）拖走。客户当时吃完午饭开车回家，车上没有行车记录仪，也没有独立证人。</p>
-          <p class="src">来源：警方报告 Chino Hills PD <span class="mono">222601499</span>（Officer Chau Sokly F6893，6/30 审核），Drive 2#「police report.pdf」第 6 页 Narrative · intake「Fact of Loss」</p></div>
-        <div class="card"><h4>财产损失 · 2025 KIA K4</h4><p>走对方 State Farm 按 <b>total loss</b> 赔付（7/16）：总额 <b>$23,579.62</b>，其中付给贷款方 $19,837.99，付给客户 $3,741.63（两项加起来等于总额）。CCC 报告在 Drive 3#。</p><p>能不能再走 total gain / DV，见待办 5。</p></div>
-      </div>
-    </details>
-  </section>
-
-  <section>
-    <div class="rule"></div>
-    <details class="sec">
-      <summary><h2>当事人与团队<small>People</small></h2></summary>
-      <div class="tw"><table>
-        <thead><tr><th>角色</th><th>人</th><th>备注</th></tr></thead>
-        <tbody>
-          <tr><td class="k">客户</td><td>Andrew Yi Chen Lin</td><td>单独驾驶，没有乘客；Giga Computing 的 assembly line assistant；英文不太行，偏好中文</td></tr>
-          <tr><td class="k">CM</td><td>名义上是 Jenkins（Master tab）</td><td>原 CM Ryan 已不在群里；近期由 Amos 在跟，见待办 2</td></tr>
-          <tr><td class="k">CA</td><td>Tiana · Claire · May · Taki</td><td>referral、lien、病历申请</td></tr>
-          <tr><td class="k">介绍人</td><td>Ryan 的同事</td><td>Retainer Standard 1/3</td></tr>
-          <tr><td class="k">主办律师</td><td>Shenqi Cai, Esq.</td><td></td></tr>
-        </tbody>
-      </table></div>
     </details>
   </section>
 

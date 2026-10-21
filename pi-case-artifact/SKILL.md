@@ -63,13 +63,16 @@ M Property Damage 放进实际理赔的那一方（Andrew 案 = 3P）。每格�
 ## adjuster 角色写法
 姓名后接灰色小字，不加框：「· Bodily Injury Adjuster」「· Property Damage Adjuster」「· Medical Payments Adjuster」「· Total Loss Adjuster」「· Subrogation Adjuster」「· Claims Supervisor」；intake 没写的用红字「· Role not specified」。
 
-**不设「保险与理赔」节**（Klaus 2026-10-21）：保单、claim #、limits、coverage、liability、adjuster、LOR 全在顶部 1P/3P 卡里，不重复。
+**不设「保险与理赔」「事发经过与财产损失」「当事人与团队」三节**（Klaus 2026-10-21），内容都在顶部：
+- 保单、claim #、limits、coverage、liability、adjuster、LOR → 1P/3P 卡；PD 细节（车型、赔付拆分、CCC、total gain）→ 实际理赔那一方卡的 PD 行。
+- 团队 → docket 加 CA、Attorney 两格。
+- 事发经过（警方报告版，带来源）+ 客户背景 → chips 下方一个默认收起的 `<details class="ct-more facts">事发经过 · 客户</details>`。
 
 ## 顶部 chips
 **只放四个链接，顺序固定：Master Sheet · Chat 群 · Drive 案卷 · Retainer**（Retainer 链到 Drive 1# 已签合同 PDF）。Liability、PD 等状态不放顶部，进 1P/3P 卡。**Retainer 着色：Standard = 橙（`.chip.ret-std`）、New = 蓝（`.chip.ret-new`）。**
 
 ## 节次（2026-10-20 版）
-**期限与时间线**（一节两栏：左关键期限精简行+较多 memo，右时间线新的在上、限高滚动）→ **任务**（默认展开，三块）→ 案件现状 → 治疗与账单 → Lien 与自付 → 事发经过与财产损失 → 当事人与团队 → 文件位置 → 这一页怎么来的。
+**期限与时间线**（一节两栏：左关键期限精简行+较多 memo，右时间线新的在上、限高滚动）→ **任务**（默认展开，三块）→ 案件现状 → 治疗与账单 → Lien 与自付 → 文件位置 → 这一页怎么来的。
 
 **任务节三块**（Klaus 2026-10-20 定，取代旧的「待办与阻塞」+「风险点」）。
 **版式 A（Klaus 2026-10-21 定）：一张表 + 三个页签**（待办 N · 已完成 N · 预防 N），同一时间只显示一个页签，默认「待办」，浏览器记住上次停在哪个页签。
