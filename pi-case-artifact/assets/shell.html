@@ -517,6 +517,42 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
 .donel .dw b { font-size: 13px; font-weight: 600; color: var(--ink); }
 .donel .by { font-size: 11.5px; color: var(--ink-faint); margin-left: 6px; }
 .donel small { display: block; font-size: 12px; line-height: 1.6; color: var(--ink-muted); }
+/* PI：任务节 = 一张表 + 三个页签（Klaus 2026-10-21 选 A） */
+.tabs { display: flex; gap: 6px; margin-top: 16px; border-bottom: 1px solid var(--hairline); }
+.tabs button { font: inherit; font-size: 13.5px; color: var(--ink-muted); background: transparent; border: 1px solid transparent; border-bottom: 0; border-radius: 4px 4px 0 0; padding: 6px 14px; cursor: pointer; margin-bottom: -1px; }
+.tabs button b { font-variant-numeric: lining-nums tabular-nums; font-weight: 600; margin-left: 3px; color: var(--ink); }
+.tabs button[aria-selected="true"] { background: var(--paper); border-color: var(--hairline); color: var(--ink); }
+.tabs button:focus-visible { outline: 1px solid var(--accent); }
+.tpanel { background: var(--paper); border: 1px solid var(--hairline); border-top: 0; border-radius: 0 0 4px 4px; padding: 6px 12px 10px; }
+.thead, .trow > summary, .drow { display: grid; grid-template-columns: 30px minmax(0,1fr) 72px 70px 78px; gap: 8px; align-items: baseline; }
+.thead.d3, .drow { grid-template-columns: 44px minmax(0,1fr) 96px; }
+.thead { font-size: 11.5px; color: var(--ink-faint); padding: 6px 4px; border-bottom: 1px solid var(--hairline); letter-spacing: .04em; }
+.trow { border-bottom: 1px solid var(--hairline); }
+.trow > summary { list-style: none; cursor: pointer; padding: 7px 4px; font-size: 13.5px; }
+.trow > summary::-webkit-details-marker { display: none; }
+.trow > summary:hover { background: var(--paper-tint); }
+.trow[open] > summary { background: var(--paper-tint); }
+.trow .n { font-family: var(--f-mono); font-size: 12px; color: var(--accent-text); }
+.trow.prev .n { color: var(--hold); }
+.trow .ti, .drow .ti { color: var(--ink); min-width: 0; }
+.trow .tw2, .drow .tw2 { font-size: 12.5px; color: var(--ink-muted); }
+.trow .ta { font-size: 12px; color: var(--ink-faint); font-variant-numeric: lining-nums tabular-nums; }
+.trow .when { font-size: 11.5px; color: var(--ink-faint); }
+.trow .how { padding: 2px 8px 12px 42px; font-size: 13px; line-height: 1.85; color: var(--ink-muted); }
+.trow .how p { margin: 8px 0 0; }
+.trow .how ol { margin: 6px 0 0; padding-left: 18px; }
+.trow .origin { font-size: 12px; color: var(--ink-faint); }
+.drow { padding: 7px 4px; border-bottom: 1px solid var(--hairline); font-size: 13.5px; }
+.drow .dd { font-family: var(--f-mono); font-size: 12px; color: var(--accent-text); }
+.drow .ti small { display: block; font-size: 12px; color: var(--ink-faint); line-height: 1.6; }
+@media (max-width: 620px) {
+  .thead { display: none; }
+  .trow > summary { grid-template-columns: 26px minmax(0,1fr) auto; }
+  .trow .ta, .trow .tc { grid-column: 2 / 4; }
+  .trow .how { padding-left: 8px; }
+  .drow { grid-template-columns: 40px minmax(0,1fr); }
+  .drow .tw2 { grid-column: 2; }
+}
 .ct-note { margin: 10px 0 0; font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 .ct-legend { margin: 10px 0 0; font-size: 12px; color: var(--ink-faint); line-height: 2; }
 .ct-legend .role { margin-right: 2px; }
@@ -627,7 +663,7 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
     var el = document.querySelector('[data-stat="' + k + '"]');
     if (el) el.innerHTML = html;
   }
-  put("open", String(document.querySelectorAll(".bls .it, .todos .todo:not(.prev)").length) + ' <small>条</small>');
+  put("open", String(document.querySelectorAll(".bls .it, .todos .todo:not(.prev), .trow:not(.prev)").length) + ' <small>条</small>');
   var mailRows = document.querySelectorAll("[data-mail]");
   if (mailRows.length) {
     put("mail", String(document.querySelectorAll('[data-mail="pending"],[data-mail="transit"]').length) +
@@ -668,6 +704,16 @@ a.chip:hover { border-color: var(--accent); color: var(--ink); }
     if (none) html += '<span class="none">未注明<b>' + none + "</b></span>";
     tal.innerHTML = '<span>共<b>' + rowsT.length + "</b> 件</span>" + html;
   }
+
+  var tabs = document.querySelectorAll(".tabs [data-tab]");
+  function showTab(name) {
+    for (var q = 0; q < tabs.length; q++) tabs[q].setAttribute("aria-selected", tabs[q].getAttribute("data-tab") === name ? "true" : "false");
+    var ps = document.querySelectorAll("[data-panel]");
+    for (var q2 = 0; q2 < ps.length; q2++) ps[q2].hidden = ps[q2].getAttribute("data-panel") !== name;
+    try { localStorage.setItem("pi-task-tab", name); } catch (e) {}
+  }
+  for (var q3 = 0; q3 < tabs.length; q3++) tabs[q3].addEventListener("click", function () { showTab(this.getAttribute("data-tab")); });
+  try { var saved = localStorage.getItem("pi-task-tab"); if (saved) showTab(saved); } catch (e) {}
   var f = document.getElementById("asof");
   if (f) {
     var n = new Date();
