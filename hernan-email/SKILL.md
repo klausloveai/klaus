@@ -312,7 +312,7 @@ Open `Hi Hernán,`; `Best,` 可有可无（两份范本一份有一份没有）�
 
 ## Step 5 — Deliver
 
-Show Klaus: 中文摘要 + 任务清单(标好路由/🆕)+ the drafted reply in a copy-paste block.
+Show Klaus: 中文摘要 + 任务清单(标好路由/🆕)+ the drafted reply **in the global review format** (`~/.claude/draft-review-format.md`): each English paragraph in a `>` quote with its 🔵🟡🔴 marker, then a `〔译〕` Chinese line; changed paragraphs tagged （已改）; end with one line asking for "发".
 
 ## Guardrails
 - **DRAFT ONLY — never send.** Klaus sends every outbound email himself ([[hernan-email-tone]]).
