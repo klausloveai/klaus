@@ -221,7 +221,7 @@ copy that came back is <b>9589 0710 5270 2931 6710 35</b>, postmarked the same d
 7. **Cc：他群发给所内多人时，回信只 Cc Cassie + Joe —— 不加 Allison、Cindy、Claire。**
    （Klaus 2026-10-19 Jiayu Ma 明确：「service list 不要加 Allison，也不要 Cindy，也不要 Claire」；
    与 9/29 Bo Tao、10/16 Jiayu Ma demand thread 他亲手裁的结果一致，三次同一结论，定为默认。）
-   他只发给我一人 → 不加 Cc。下面是此前的旧口径，仅留作背景：
+   **他只发给我一人 → 也照样 Cc Cassie + Joe**（Klaus 2026-10-21 Yi Cong：「这个 respond 应该 CC Cassie and Joe 的，我发现你总是只 respond to Hernán，不要这样」）。**结论：回 Hernán 的每一封，一律 Cc Cassie + Joe，别的人不加，起草时就带上。** 下面是此前的旧口径，仅留作背景：
    ~~**Cc：默认 reply-all 照他的原收件人名单，不要自己裁。**~~
    两次实测不一致 —— Bo Tao（9/29）Klaus 裁到 Cassie + Joe；Yi Cong（同日）**四人全留**
    （Cassie / Cindy / Claire / Joe）。**没有固定规则，要看案子谁在跟。**
@@ -299,7 +299,7 @@ Never dry (`"I will work on it."`); never pure apology → extract the lesson in
 Open `Hi Hernán,`; `Best,` 可有可无（两份范本一份有一份没有），之后接 Klaus's preset signature (fetch via
 `gws gmail users settings sendAs get`, per [[feedback-email-signature-sender]]).
 **Cc 跟着他的原信走，且要裁剪：**
-- 他只发给我一人 → 回信不加任何 Cc（Klaus 2026-08-17 删掉了我自己加的 cassie / claire）。
+- ~~他只发给我一人 → 回信不加任何 Cc~~（2026-10-21 作废：**每封都 Cc Cassie + Joe**，见上方规则 7）。
   ⚠️ **2026-10-19 Chunpeng Wu 反例**：他 10/15 那封只发给 Klaus，我照这条没加 Cc，Klaus 当场要求
   **Cc Cassie + Joe，不要 Cindy、Claire、Allison**（这封附了 retainer 补充协议，Cassie 要看）。
   所以「只发给我一人就不加 Cc」不是铁律：**回信涉及律所层面的事（收费、retainer、要 Cassie 拍板的）
