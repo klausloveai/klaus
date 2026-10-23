@@ -60,14 +60,14 @@ do NOT post; verify on the Ledger instead (see Step 5).**
 - Resizing the window renumbers pixel coordinates — **prefer element `ref` clicks** (from
   read_page/find) over pixel coords for buttons like Add Vendor / Post Expenses.
 
-## ⚠️ Cutting checks here does NOT close the case — `case-settles` still has to run
-Everything downstream of the checks — Disbursement Sheet, Account Journal, archive to 6#, Pending→Completed,
-team email, label close-out, marketing, PI Master — lives in `case-settles`. Three cases in October had their
-checks cut here and nothing else (Hongrui Ma/Tsz Shuen Chau 10/8, Shengjun Lu/Xinyi Lu 10/19, Xingwen Bai 10/20);
-each was found later by the BoA reconciliation as a cleared check with no journal row, and their Pending tabs sat
-there looking finished. **When the checks are posted, say so and hand off: "checks cut — run `/case-settles` on
-the signed packet".** If the signed DIS isn't in hand yet, record that as the open item rather than leaving the
-case half-done in silence.
+## After posting: `case-settles` runs once the checks are PRINTED
+Posting in Rentec is not the close-out. Klaus's order is **post → print → `/case-settles` on the signed packet**
+(Klaus 2026-10-23: 结案我还没做 case settle，因为支票还没打印出来). So between posting and printing it is normal
+for a case to have Rentec lines, sometimes even Internal / journal rows from a bank-recon backfill, while its
+Pending tab still sits there marked ✅ — that is a case waiting on the printer, not a broken pipeline.
+What IS a gap: checks **printed and handed out** with nothing downstream (Hongrui Ma / Tsz Shuen Chau, printed
+10/8, found only at the 10/14 audit). When you finish posting, end with "checks posted — print, then run
+`/case-settles`" so the next step has a name.
 
 ## Steps
 
