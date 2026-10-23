@@ -36,7 +36,7 @@ scanner to "ready to deposit", run once per check.
 - **`_STATE.md`** — same folder. The live state file; append a block after every batch.
 - **Pending Disbursed Sheet** — gsheet `1b_vPr9WD7P9arR6DTTJRxeWs0apk8DTiTgc2iAzIrR0`. Templates: `Template of 1/3` **sheetId 0**, `Template of 50/50` **sheetId 1179762877**. Index tab `🔍 Search` **sheetId 2016288373**.
 - **Case Disbursements** — Drive folder **`1wIM0orXM7t4ogE6RgQIUAEYYU6pSRj2v`** (one folder per client, multi-client joined with `:`).
-- **PI Master Sheet** — gsheet `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`, tabs `Claims@` / `Piteam@` / `Picase@` / `Klaus@`. Columns: **A DOL · B Client Name · C Retainer · E Case Status · G 1LOR · H 1Coverage · I 1Liability · J 3LOR · K 3Coverage · L 3Liability · M Property Damage**.
+- **PI Master Sheet** — gsheet `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`, client tabs `Claims@` / `Piteam@` / `Picase@(Amos)` / `Picase@(Jenkins)` / `Picase@(Eeve)` / `Klaus@`. ⚠️ `Picase@` was split into three on 2026-10-16 — a batchGet naming the old single tab fails. Status here lags; see Step 5. Columns: **A DOL · B Client Name · C Retainer · E Case Status · G 1LOR · H 1Coverage · I 1Liability · J 3LOR · K 3Coverage · L 3Liability · M Property Damage**.
 - Google Chat case spaces are named `<Client>-<DOL>(<X>)` where X = owning CM group (A/J/R/K). Always Klaus@ identity.
 
 ---
@@ -48,7 +48,11 @@ reliably subsets** of the same-timestamp full PDF — on 2026-08-24 the 21-page 
 an OUTGOING disbursement packet while the 9-page fragment Klaus attached was a completely
 different set of incoming checks.
 
-1. `ls ~/Downloads | grep <timestamp>` and print the page count of each sibling.
+0. **Copy every attached file into the scratchpad first, and work only from the copy.** A `(dragged)` file is a
+   temporary drag copy and can vanish mid-run — on 2026-10-20 one disappeared between being read and being
+   split, leaving a recorded check with no archivable PDF.
+1. `ls ~/Downloads | grep <timestamp>`, then hash **each page's embedded image** of every sibling. Same-timestamp
+   files have held entirely different documents (2026-10-16: four distinct pages across two "same" files).
 2. **Read the file Klaus actually attached.** Only reach for a larger sibling to check whether it holds
    *additional* checks, and say so when you do.
 3. Scans are often **mixed** — incoming checks on some pages, outgoing disbursement checks on others.
@@ -62,7 +66,9 @@ claimant, coverage type (3P BI / UM / UIM / MedPay), payee line, memo.
 **Dedup by CHECK NUMBER, never by client name.** One client can have several unrelated
 deposits (Stephen Li: a Tesla $1k MedPay and a Kemper $30k BI — a name match nearly skipped
 the new one). Search the journal for the check number *and* for the claim number, which
-surfaces co-claimants on the same claim.
+surfaces co-claimants on the same claim. **Match the check number against column D as a whole field, never as a
+substring of the joined row** — short IOLTA numbers false-positive inside long carrier numbers (`80490` sits
+inside `1646804903`, 2026-10-15).
 
 ### A new check number is not proof of new money — test for a REISSUE
 
@@ -169,34 +175,35 @@ An existing message **cannot** have an attachment patched in — delete it
 `messages create` has thrown a spurious 401 ("no native root CA certificates found"); retry
 before treating it as an auth problem.
 
-## Step 5 — File it: has this case finished collecting money?
+## Step 5 — File it: is this case still waiting on more money?
 
-This is the only judgement call in the skill. Read the client's row on the **PI Master Sheet**.
+**The PI Master Sheet status lags — it is not updated in real time. Decide from the case's Google Chat
+space** (Klaus, 2026-10-22). Read the recent messages there and answer one question: *after this check, is
+another recovery still expected on this case?*
 
-| Situation | Where the check goes |
+| What the case Chat says | Where the check goes |
 |---|---|
-| MedPay only, 3P not received yet | case folder's own **`6#` settlement subfolder** — do NOT create a Case Disbursements folder |
-| 3P received **and** no higher UM/UIM on our side | **Case Disbursements / `<Client>`** — create it if absent, even if MedPay is still outstanding |
-| 3P received but a UIM claim is still open | case folder's `6#` subfolder — not done collecting |
+| 3P settled, nothing else outstanding | **Case Disbursements / `<case>`** — create it if absent |
+| 3P settled, **MedPay still to come** | **Case Disbursements** too — an outstanding MedPay does NOT hold it back |
+| 3P settled **and a UIM claim will be made** | case folder's **`6#`** subfolder — no Case Disbursements folder |
+| **MedPay on its own**, 3P not settled | case folder's **`6#`** subfolder |
 
-Reading column **H (1Coverage)**:
+So only two situations keep a check out of Case Disbursements: **a UIM claim still to come**, and **a
+standalone MedPay**. Everything else gets the folder.
 
-- **Blank, with 1LOR and 1Liability also blank** → no 1P claim was ever opened → no UIM to wait
-  for → decidable. (Xuezhi Hu, 2026-10-08.)
-- **A dollar figure** → that is the UM/UIM limit; compare it to the 3P limit just collected.
-  UIM pays only the excess, so limit ≤ 3P limit means no UIM recovery.
-- **The word "Cleared"** → coverage was verified but the limit was never written down.
-  **NOT decidable — stop and ask Klaus.** The intake sheet does not carry auto policy limits
-  either (probed 2026-10-06), so there is nowhere else to look.
+Column H (1Coverage) is no longer the test. A dollar figure there is still useful corroboration — if the
+UM limit is at or below the 3P limit just collected, no UIM recovery is possible regardless of what anyone
+says (Hongyu Luo, 2026-10-19: $20,000 UM vs $30,000 3P) — but "Cleared" means nothing and must not stall a
+batch, and an explicit marker in the Master Sheet such as "11/10 Uber UM" or status 🔔Collecting is a reason
+to look harder at the Chat, not a decision by itself.
 
-> To make this step mechanical, column H must carry the UM/UIM limit as a number instead of
-> "Cleared". Worth raising with Klaus whenever it blocks a batch.
+When the Chat is silent or ambiguous on the UIM question, say so and ask Klaus rather than guessing.
 
 **Also sweep the case folder's `6#` subfolder** (`6#Settlement Documents` or
-`6#Folder-Signed Releases&Checks&Invoice&Disbursements`): any earlier check scans already
-sitting there get **copied** into the new Case Disbursements folder, renamed to the Step 3
-convention, so the disbursement folder holds every check for the case. Leave the original in
-place. Releases and invoices stay where they are — checks only.
+`6#Folder-Signed Releases&Checks&Invoice&Disbursements`): any earlier check scans already sitting there get
+**copied** into the new Case Disbursements folder, renamed to the Step 3 convention, so the disbursement
+folder holds every check for the case. Leave the original in place. Releases and invoices stay where they are
+— checks only.
 
 ### Folder naming — ONE folder per CASE, every client's name on it
 
@@ -284,3 +291,4 @@ and require an exact match per page.
   deposit $26,756.76 vs her tab's 3P $30,000, the $3,243.24 difference being exactly the
   Medicare line, i.e. withheld at source and must not be paid again.
 - Back up `Account-Journal.xlsx` before every write; verify after every write.
+- **Run Python as `python3.14`.** Homebrew moved bare `python3` to 3.15 (2026-10-19), which lacks openpyxl and pypdf.
