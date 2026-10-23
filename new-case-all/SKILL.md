@@ -68,7 +68,7 @@ Klaus 笔记来了再**原话**补发一条（同样 @ 三人）。规则详见 
 | Amos | 搜「Hermès」→ 显示「Yu Feng(Hermès/冯经理…)」 |
 | 该案 CM | Picase@(Jenkins) → Jenkins |
 | 该案 CA | Picase@(Jenkins) → Tiana（显示名带「请假ing」也照拉） |
-| Eeve | **暂时也拉**，以后慢慢不拉（Klaus 原话）|
+| ~~Eeve~~ | **已离职（2026-10-22），不再拉** |
 | Klaus 个人微信 | 搜「Klaus Liu」→ 在「我的客户」下 |
 
 不拉 Taki / Joe（老群残留）。群主 = Klaus（企微）。

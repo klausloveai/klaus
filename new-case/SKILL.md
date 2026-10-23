@@ -808,7 +808,7 @@ added automatically as owner — he is in every space.**
 |---|---|---|
 | **Claims@** | `taki.x@lingtulaw.com` *(Amos already in BASE)* | Amos |
 | **Piteam@** | `jerry.p@lingtulaw.com` + `angelina.m@lingtulaw.com` + `kiko.w@lingtulaw.com` | Jerry |
-| **Picase@** | `jenkins.l@lingtulaw.com` + `eeve.l@lingtulaw.com` + `tiana.d@lingtulaw.com` | Jenkins |
+| **Picase@** | `jenkins.l@lingtulaw.com` + `tiana.d@lingtulaw.com` *(eeve.l@ 已离职 2026-10-22)* | Jenkins |
 
 > ⚠️ **Rewritten 2026-10-08 (Klaus) — this REPLACES the 9/18 roster.** Klaus's words:
 > `claims@ = amos + taki + eeve` · `piteam@ = amos + jerry + angelina + kiko` ·
@@ -891,7 +891,7 @@ added automatically as owner — he is in every space.**
    |---|---|---|
    | **Claims@** | Cassie · Claire · Amos · Taki · Klaus | **5** |
    | **Piteam@** | Cassie · Claire · Amos · Jerry · Angelina · Kiko · Klaus | **7** |
-   | **Picase@** | Cassie · Claire · Amos · Jenkins · Eeve · Tiana · Klaus | **7** |
+   | **Picase@** | Cassie · Claire · Amos · Jenkins · Tiana · Klaus | **6** |
 
    If the count is short, add the missing members with another `members create` call.
 
@@ -940,7 +940,7 @@ added automatically as owner — he is in every space.**
    |---|---|
    | **Claims@** | `amos.f@` + `taki.x@` |
    | **Piteam@** | `jerry.p@` + `angelina.m@` + `kiko.w@` + `amos.f@` |
-   | **Picase@** | `jenkins.l@` + `eeve.l@` + `tiana.d@` + `amos.f@` |
+   | **Picase@** | `jenkins.l@` + `tiana.d@` + `amos.f@` |
 
    > ⚠️ **Changed 2026-10-08.** Two changes from the 9/17 rule:
    > 1. **The whole group gets @'d, not one support person.** The old list named only one CA per
