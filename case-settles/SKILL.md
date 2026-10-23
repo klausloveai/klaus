@@ -82,6 +82,10 @@ check in FRONT, save as `<Client>-Disbursements.pdf`, then run this pipeline. Do
 0a-5. Render the first 3–4 pages of each finished packet and eyeball them before moving on.
 Then run Phase 0 below once per client. **Funded clients proceed; an unfunded one stops at gate 1 even if
 its sibling in the same scan is fine** — never run a batch as all-or-nothing.
+⚠️ **A client held at a gate still gets 0a-4 done the same day.** Build and file its `<Client>-Disbursements.pdf`
+into `Case Disbursements/<Client>/` before you stop. On 2026-10-19 the Shengjun Lu / Xinyi Lu half of a batch was
+held at the funding gate and never filed; Downloads was then cleared, and two days later a backfill run could not
+find the signed DIS anywhere and had to stop too. Holding the *money steps* is the gate — holding the *paper* is a loss.
 
 ## Phase 0 — Read and verify (before touching anything)
 1. From the PDF: client(s), DOL, total settlement, attorney fee, case cost, client recovery, each
