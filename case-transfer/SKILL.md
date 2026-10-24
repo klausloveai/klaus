@@ -165,6 +165,8 @@ writing on. One message, reply-all plus the receiver.
 | 17 | Look inside the destination folders before writing `dest_rules`. CB Kitchen's `Receipts` held another case's files; its own receipts were in `Case Cost`. | CB Kitchen |
 | 18 | Non-ASCII display names (Hernán) in To/Cc: build the draft with `EmailMessage` + `headerregistry.Address`; `MIMEText` with raw string headers fails with "Invalid Cc header". | CB Kitchen |
 | 19 | When two versions of a document exist, keep the one that was **sent** (check each attachment's message To/Date), and replace any DRAFT of it in Drive on the same file id. | CB Kitchen |
+| 20 | Don't copy dates or "not in writing" claims from an earlier handoff. CB Kitchen's day-1 email dated Hernán's instruction 9/29 (UTC); it was 9/28 Pacific ("today's CMC"). It also called a pause agreement unwritten; the thread had "Agreed." Convert every Gmail `Date` to Pacific and search the thread before calling anything unwritten. | CB Kitchen |
+| 21 | Adding the receiver to an active thread: the reply's last line in the transfer-complete email must match ("No other thread is active" contradicts the Phase 5 reply). Draft both, review together, send together. | CB Kitchen |
 
 ## Guardrails
 - DRAFT-ONLY. Every email goes to Klaus as a bilingual preview and waits for "发".
