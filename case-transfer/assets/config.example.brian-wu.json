@@ -1,0 +1,21 @@
+{
+  "case_title": "Brian C. Wu v. Azucanela LLC, LASC Case No. 26STLC05561",
+  "label_name": "⚖️Hernan Cases/CL-Brian Wu v. Azucanela LLC",
+  "label_id": "Label_2581322858093206735",
+  "keyword_query": "Azucanela OR 26STLC05561 OR \"Brian Wu\" OR \"Brian C. Wu\" OR 401efoothill OR saffronsummitgroup",
+  "case_folder_id": "16GawQ928rnM5ONFTgnM9xueU57zpHFoY",
+  "corr_folder_id": "1tlkZhauKBhQw7Y18p4Vz8KcxlS1ub9ch",
+  "firm_domain": "lingtulaw.com",
+  "exclude_ids": ["1a160c3ff8132476","1a13fecebde00f49","1a1377149040704c","1a0ee9f33c0b9fc0","1a0fae7fbac4bf0b","1a06117b45043337","19fedddcc987237d","1a0265b00356c85d","19fbe0dbf66eecce"],
+  "exclude_reasons": "other case's handoff; Hernán compensation; 2 multi-case Otter summaries; 2 One Legal monthly statements; 2 multi-case memos; calendar notification",
+  "active_ids": {"1a06e7db680b63d6": "1HzRJjYwNxL2dB5rPBzodDmtVlcMA9llY", "1a122b0818e5f335": "1_4qrIp9cWYm011vvgKp4Vm1M9lDWzOZv"},
+  "existing_pdfs": {"1a0daa5515dbce35": "1mCEdBHcFX_iSNPR34i9pZhuv88Ff-zIQ"},
+  "notes": {"1a06e7db680b63d6": "ACTIVE — internal thread with the attorney; his latest instructions are here."},
+  "skip_rules": [".ics", "letter header"],
+  "dest_rules": [
+    {"match": ["PM 401 E Foothill","SSG June 2026","Lease Listing Agreement","Lease Invoice","Broker Fee"], "folder_id": "1m-skR696Y63lmG1Yjo8lF6-FKlSNrOQw", "folder_name": "4. Contract & Evidence"},
+    {"match": ["Credit Card Sale","Order Receipt","Invoice_"], "folder_id": "1PBrUenYhBbkoXRohNbOe15xFVDdsdhh8", "folder_name": "Receipts"},
+    {"match": ["Asset_Search_Proposal"], "folder_id": "181vM8RcZcaJkGVd7dAOreDAF9UkTXa8U", "folder_name": "0. Attorney Work Product"},
+    {"match": ["Notice of Right to Reclaim","Demand for Mediation"], "folder_id": "1tlkZhauKBhQw7Y18p4Vz8KcxlS1ub9ch", "folder_name": "5. Correspondence & Demand"}
+  ]
+}
