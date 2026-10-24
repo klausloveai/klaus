@@ -216,5 +216,5 @@ def build_index(C,W):
     log("Email Index",sid)
 
 if __name__=="__main__":
-    step,cfg,W=sys.argv[1],sys.argv[2],sys.argv[3]; os.makedirs(W,exist_ok=True); C=json.load(open(cfg))
+    step,cfg,W=sys.argv[1],os.path.abspath(sys.argv[2]),os.path.abspath(sys.argv[3]); os.makedirs(W,exist_ok=True); C=json.load(open(cfg))
     {"inventory":inventory,"audit":audit,"archive":archive,"index":build_index}[step](C,W)

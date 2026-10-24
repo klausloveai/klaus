@@ -1,0 +1,109 @@
+{
+ "case_title": "Luis Miguel Mariona Zelaya v. CB Kitchen and Bathroom, Inc., LASC Case No. 26CHCV01306",
+ "label_name": "⚖️Hernan Cases/LB-Saihui Tan/CB Kitchen and Bathroom",
+ "label_id": "Label_3403499162978877023",
+ "keyword_query": "26CHCV01306 OR Zelaya OR \"CB Kitchen\" OR Mariona OR Saihui OR kdkkitchen OR Saihuitan667788 OR \"Lucerne Home\"",
+ "case_folder_id": "1uC8D9dl4I4vwbyXeESEmhmCkEPHJeBNS",
+ "corr_folder_id": "1pwZS4UPqmsoZwpdTrXrXk-VcWWtOChRk",
+ "firm_domain": "lingtulaw.com",
+ "exclude_ids": [
+  "1a1377149040704c",
+  "1a0ee9f33c0b9fc0",
+  "1a0fae7fbac4bf0b",
+  "1a0cd2cee9862f22",
+  "1a0265b00356c85d",
+  "19fedddcc987237d",
+  "19f5d4c4cf8d716a",
+  "19f5cd711d5f866c",
+  "19f5bd7936f2c7ec",
+  "19f5bd6f110db600",
+  "19f5bd2dbf766a06"
+ ],
+ "exclude_reasons": "2 Otter multi-case meeting summaries; 1 One Legal monthly statement (all cases); 1 Claude artifact notification; 2 multi-case memos (8/21 outstanding tasks, 8/11 CMM memo); 5 superseded 7/13 calendar invitations",
+ "active_ids": {
+  "1a0ab9880558733f": "1wa0FpmYzBSDEQmmD-qyii73gd_0DGaVU",
+  "1a160cfb017368cf": "",
+  "1a160c3ff8132476": ""
+ },
+ "existing_pdfs": {
+  "19f5cd5e23ca0b07": "1EJ4LCu9wl6L6JOgcUWRs-3M105p6xE-B",
+  "1a0d9c7e3a95bc2f": "1r5Jke3_Vp4rPoWo16hS4ZSj3ARjdd5wV",
+  "1a07e77e8f7ce333": "1R3PQS54613cHzZazXX38ZUnsl_qkQFra",
+  "1a04023d9c1f407a": "1mS1pV7kmWsMTNQYZwXL2hT5_7LdwjxL9",
+  "1a0e9b510ad4eb64": "1is4U-GK7eweY76bCCjtyOckCKSXrb5aa"
+ },
+ "notes": {
+  "1a0ab9880558733f": "ACTIVE — Hernán's last instructions (9/29): tell client OPC never made a settlement demand (admitted at 9/28 CMC) and trial is 11/13/2028. Allison is not on this thread; see transfer memo.",
+  "1a160cfb017368cf": "ACTIVE — 10/21 handoff to Hernán + Allison. Allison reports to Hernán after the 10/26 extended discovery deadline.",
+  "1a160c3ff8132476": "ACTIVE — 10/21 handoff to Allison. Its cost section is incomplete: client paid a $1,000 cost deposit 9/9 (see transfer memo).",
+  "1a11d6a258fa2643": "Only source for the 10/26/2026 extended deadline for plaintiff's discovery responses (Hernán's calendar invite). No written extension on file.",
+  "1a11e1266c02e364": "Despite the subject, this is OPC asking for Hernán's phone EXTENSION number — not an extension of time.",
+  "1a0d45e5da9a57d5": "Multi-case (CB Kitchen, Yi Cong, Mudong Huang). CB Kitchen part: discovery served 9/8, originally due 10/12.",
+  "1a0d9c7e3a95bc2f": "Hernán's 9/25 seven-task list. Paused 9/29 pending the $20,000 Stage Two retainer."
+ },
+ "skip_rules": [
+  ".ics",
+  "letter header",
+  "image.png",
+  "image0",
+  "Outlook-"
+ ],
+ "dest_rules": [
+  {
+   "match": [
+    "Paystub",
+    "Payroll",
+    "Bank Records",
+    "Check",
+    "lease",
+    "W-4",
+    "W4",
+    "Declaration"
+   ],
+   "folder_id": "1pIT8zXpp7X0A7coQNE-rnqyF8EtNBF-c",
+   "folder_name": "4. Payroll & Employment Records"
+  },
+  {
+   "match": [
+    "Credit Card Sale",
+    "Order Receipt",
+    "Invoice_",
+    "Transaction"
+   ],
+   "folder_id": "1m8wJ2WpAqyIWMe0OgCPjHXQsuGF7Iusw",
+   "folder_name": "Receipts"
+  },
+  {
+   "match": [
+    "Minute_Order",
+    "Minute Order",
+    "Certificate_of_Service",
+    "Amended",
+    "FAC",
+    "CMS",
+    "Case Management"
+   ],
+   "folder_id": "1L0v9ggschD--i6tbvwCJrLCN0sRUvlRS",
+   "folder_name": "2. Pleadings"
+  },
+  {
+   "match": [
+    "Interrogatories",
+    "Requests for Admission",
+    "Demand for Production",
+    "DISC-00"
+   ],
+   "folder_id": "1LnVetagwOzID-Wm1VrE858qMcbAqypwz",
+   "folder_name": "3. Discovery"
+  },
+  {
+   "match": [
+    "Memorandum",
+    "Memo",
+    "Statement of Attorney Time"
+   ],
+   "folder_id": "1VqEYBBXUcDpf_Oav7JEjudczEExfkJVW",
+   "folder_name": "0. Attorney Work Product"
+  }
+ ]
+}

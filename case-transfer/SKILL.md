@@ -12,10 +12,15 @@ description: |
   DRAFT-ONLY for every email; Klaus approves each send.
 ---
 
-# case-transfer 1.0
+# case-transfer 1.1
 
 **Built from:** Brian C. Wu v. Azucanela LLC, Klaus → Allison Pan, 2026-10-21 to 10-23.
 The worked example's real IDs are in `assets/config.example.brian-wu.json`.
+**1.1:** Zelaya v. CB Kitchen, Klaus → Allison Pan, 2026-10-23 (a transfer picked up after a day-1 handoff
+email had already gone out). Config: `assets/config.example.cb-kitchen.json`.
+
+**Dry run** = `inventory` + `audit` only. Both are read-only (audit writes attachments to the local workdir).
+Stop at Gate 1.
 Refine this file after every transfer: add what went wrong to **Lessons** and bump the version.
 
 ## What "done" means
@@ -153,6 +158,13 @@ writing on. One message, reply-all plus the receiver.
 | 10 | Draft text for Klaus to paste only when he is editing in the Gmail UI; otherwise rebuild the API draft — never both at once. | Brian Wu |
 | 11 | Who-said-what from WeCom/WhatsApp: record the actual speaker (Wilson, not "the client"). | Brian Wu |
 | 12 | `/handoff` (conversation handoff) is a separate, user-invoked skill. It does not check case completeness. | Brian Wu |
+| 13 | `archive` changes directory to `~`. Pass the workdir as an **absolute path** (the script now does `abspath` itself). | CB Kitchen |
+| 14 | "Already in Drive under another name" must be checked **by text, not by name**. Of 10 assumed duplicates, 4 differed; one (DISC-002) showed the served version had lost the attorney's street address. | CB Kitchen |
+| 15 | Thread PDFs made before the transfer: **move** them into `Email Archive` (`addParents` + `removeParents`; shared drives allow one parent) and list them in `existing_pdfs`, or `archive` exports duplicates. | CB Kitchen |
+| 16 | Read every earlier handoff email in full (they may be HTML-only) and fix its errors in the final email. CB Kitchen's day-1 email said the client was never billed for costs; the client had Zelled $1,000. | CB Kitchen |
+| 17 | Look inside the destination folders before writing `dest_rules`. CB Kitchen's `Receipts` held another case's files; its own receipts were in `Case Cost`. | CB Kitchen |
+| 18 | Non-ASCII display names (Hernán) in To/Cc: build the draft with `EmailMessage` + `headerregistry.Address`; `MIMEText` with raw string headers fails with "Invalid Cc header". | CB Kitchen |
+| 19 | When two versions of a document exist, keep the one that was **sent** (check each attachment's message To/Date), and replace any DRAFT of it in Drive on the same file id. | CB Kitchen |
 
 ## Guardrails
 - DRAFT-ONLY. Every email goes to Klaus as a bilingual preview and waits for "发".
