@@ -274,6 +274,12 @@ for u in <the five member ids>; do
 done
 ```
 
+Then set Klaus's own notification for the new space to **For you** (Klaus 2026-10-23, every new case;
+needs scope `chat.users.spacesettings` — see new-case Step 11 / 2b):
+```bash
+gws chat users spaces spaceNotificationSetting patch --params "{\"name\":\"users/me/${SP}/spaceNotificationSetting\",\"updateMask\":\"notification_setting\"}" --json '{"notificationSetting":"FOR_YOU"}'
+```
+
 Post one 简体中文 setup summary to the space at the end (client + DOL + location, both
 clients if joint, folder path, and the open items awaiting Hernán).
 

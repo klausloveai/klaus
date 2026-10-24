@@ -895,6 +895,18 @@ added automatically as owner — he is in every space.**
 
    If the count is short, add the missing members with another `members create` call.
 
+2b. **Set Klaus's notification for this space to "For you" — ALWAYS, right after creating it**
+   (Klaus 2026-10-23: 「创建 chat 第一时间把 notification 调成 For you，only mention 我才能看到，所有新案子都这样」).
+   This is Klaus@'s own per-user setting (`users/me`), so it does not affect anyone else in the space:
+   ```bash
+   gws chat users spaces spaceNotificationSetting patch \
+     --params '{"name":"users/me/spaces/XXXX/spaceNotificationSetting","updateMask":"notification_setting"}' \
+     --json '{"notificationSetting":"FOR_YOU"}'
+   ```
+   Verify with `... spaceNotificationSetting get` → `"notificationSetting": "FOR_YOU"`.
+   Needs scope `chat.users.spacesettings` on Klaus@ (added 2026-10-23 via `bash ~/gws_chat_login.sh`).
+   If it returns 403 insufficient scopes, say so in the summary — never skip silently.
+
 3. **Promote to Manager — ALWAYS. Amos, Claire and the assigned CM get the Manager role.** (On a Claims@ case the CM *is* Amos, so the list is just Amos + Claire.)
    Everyone else stays a plain Member. Do this after the members are verified, before posting.
 
@@ -1022,7 +1034,7 @@ added automatically as owner — he is in every space.**
 
 ### Auth note (Chat scopes)
 All Chat calls use the **default `gws` (Klaus@ account)** — never picase@/piteam@ config dir.
-Klaus@ needs `chat.spaces`, `chat.messages`, `chat.memberships`. The interactive
+Klaus@ needs `chat.spaces`, `chat.messages`, `chat.memberships`, `chat.users.spacesettings` (the last one for step 2b). **Use `bash ~/gws_chat_login.sh` — it carries the full current scope list and re-exports `credentials.json`.** The interactive
 `gws auth login` scope **picker omits Chat**, and `--full` / `--services` do not include it.
 Re-authenticate with explicit scope URLs (which bypass the picker), e.g. run a small script:
 ```
