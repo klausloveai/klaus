@@ -54,6 +54,12 @@ config.json shape (see also references/):
   "declarant": "Klaus Liu",
   "service_methods": ["email"],               // keep ONLY these, each marked X; others deleted
                                              //   personal | mail | overnight | fax | email
+  "counsel_method": "email",                  // how the counsel row above was served (default: the only
+                                             //   method, or "email" when several are used)
+  "additional_parties": [                    // more Service List rows, e.g. in pro per parties by mail
+    {"lines": ["Arlene Luna", "152 East Kirkwall Road", "Azusa, California 91702"],
+     "role": "Defendant, in pro per", "name": "ARLENE LUNA", "method": "mail"}
+  ],
   "documents": [                             // "out" auto-derived from src basename
     {"src": "/abs/Zhiping Liu - Objection to Deposition.pdf",
      "footer_title": "CLAIMANT'S OBJECTION TO RESPONDENT'S NOTICE OF TAKING DEPOSITION OF ZHIPING LIU"}
@@ -206,6 +212,59 @@ def apply_service_methods(d, selected):
             runs[0].text = "     X"           # checked box, same width as the template's
 
 
+METHOD_LABEL = {"personal": "by personal service", "mail": "by United States mail",
+                "overnight": "by overnight delivery", "fax": "by fax transmission",
+                "email": "by electronic mail"}
+
+
+def add_service_list_methods(d, cfg):
+    """Klaus 2026-10-26 (Lina Lu): every Service List row states HOW that party was served,
+    e.g. "(by electronic mail)" / "(by United States mail)". The checked boxes on page 1 only
+    say which methods were used overall; with mixed service the reader must be able to tell
+    who got what (it changes the extension: CCP 1013(a) +5 days vs 1010.6 +2 court days)."""
+    import copy
+    from docx.text.paragraph import Paragraph
+    from docx.table import _Row
+    methods = cfg.get("service_methods", ["email"])
+    cm = cfg.get("counsel_method") or (methods[0] if len(methods) == 1 else "email")
+    t = d.tables[0]
+    proto = copy.deepcopy(t.rows[0]._tr)
+    left = t.rows[0].cells[0]
+    last = [p for p in left.paragraphs if p.text.strip()][-1]
+    new = copy.deepcopy(last._p); last._p.addnext(new)
+    np_ = Paragraph(new, left)
+    np_.runs[0].text = "(%s)" % METHOD_LABEL[cm]
+    for r in np_.runs[1:]:
+        r._element.getparent().remove(r._element)
+    for r in np_.runs:
+        r.bold = False
+    for extra in cfg.get("additional_parties", []):
+        if extra["method"] not in methods:
+            raise SystemExit("additional party %s served by %s, which is not in service_methods"
+                             % (extra["name"], extra["method"]))
+        tr = copy.deepcopy(proto); t._tbl.append(tr)
+        lc, rc = _Row(tr, t).cells
+        lines = list(extra["lines"]) + ["(%s)" % METHOD_LABEL[extra["method"]]]
+        ps = [p for p in lc.paragraphs]
+        for p in ps[len(lines):]:
+            p._p.getparent().remove(p._p)
+        while len(lc.paragraphs) < len(lines):
+            lc._tc.append(copy.deepcopy(lc.paragraphs[-1]._p))
+        for p, txt in zip(lc.paragraphs, lines):
+            p.runs[0].text = txt
+            for r in p.runs[1:]:
+                r._element.getparent().remove(r._element)
+            p.runs[0].bold = False
+        rps = rc.paragraphs
+        rps[0].runs[0].text = extra["role"] + ":"
+        for r in rps[0].runs[1:]:
+            r.text = ""
+        named = [p for p in rps if p.text.strip()][-1]
+        named.runs[0].text = extra["name"]
+        for r in named.runs[1:]:
+            r._element.getparent().remove(r._element)
+
+
 def build_one(cfg, doc, served):
     d = Document(cfg["template"])
     tokens = {
@@ -230,6 +289,7 @@ def build_one(cfg, doc, served):
             para_replace(p, k, v)
         strip_highlight(p)
     apply_service_methods(d, cfg.get("service_methods", ["email"]))
+    add_service_list_methods(d, cfg)
     # Service-list cells: left-align so a wrapped counsel/e-service line is not
     # stretched by justification into ugly inter-word gaps.
     from docx.enum.text import WD_ALIGN_PARAGRAPH

@@ -168,6 +168,19 @@ marks the kept ones `X`. This is the firm's own Drive template (`2. Template / 2
 Proofs`), not an attorney-drafted POS. A POS Hernán drafts into his own document keeps his
 wording and is filled in place by `fill_inplace_pos.py` instead.
 
+## Every Service List row says how that party was served
+
+Klaus 2026-10-26 (Lina Lu): the checked boxes on page 1 say which methods were used **overall**;
+they do not say who got what. So **every Service List row ends with its own method line** —
+`(by electronic mail)`, `(by United States mail)`, etc. — even when only one method is used.
+With mixed service (counsel e-served, in pro per parties mailed) this is what tells the reader
+which extension applies (CCP §1013(a) +5 calendar days vs §1010.6 +2 court days).
+
+Config: `"counsel_method"` for the counsel row (defaults to the single method, else `email`), and
+`"additional_parties"` for more rows (`lines`, `role`, `name`, `method`). `build_pos.py` →
+`add_service_list_methods()` writes the method line and refuses a party whose method is not in
+`service_methods`.
+
 ## Every served production gets a POS — no exceptions
 
 Klaus 2026-10-21 (Jiayu Ma, supplemental production MA 000210–000237): 「下次记住都得」.

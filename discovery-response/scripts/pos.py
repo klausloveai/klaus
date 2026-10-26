@@ -160,7 +160,14 @@ def build(doc, protos, *, served, date="____________, 2026", method="email",
     `method` is one key or a tuple of keys (mixed service, e.g. ("mail", "email") when
     in pro per parties are mailed and counsel is e-served). `parties` is a list of
     (left_lines, right_lines) rows for the service list; when omitted, one row is built
-    from `counsel` / `party_role` / `party_name` as before."""
+    from `counsel` / `party_role` / `party_name` as before.
+
+    Klaus 2026-10-26: EVERY service-list row must end with how that party was served,
+    e.g. "(by electronic mail)" / "(by United States mail)" -- put it as the last left line."""
+    rows = parties or [(counsel, None)]
+    for left_lines, _ in rows:
+        if not (left_lines and str(left_lines[-1]).startswith("(by ")):
+            raise SystemExit("service list row %r has no '(by ...)' method line" % (left_lines[:1],))
     used = {method} if isinstance(method, str) else set(method)
     page_break(doc, protos)
     _emit(doc, protos, "head", "PROOF OF SERVICE")
