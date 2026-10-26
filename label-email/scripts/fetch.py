@@ -2,8 +2,9 @@
 """Pull the threads to triage and write one JSON row per thread, numbered in
 Gmail display order (newest first), so Klaus can call them by number.
 
-Default scope is Klaus's "inbox": what the badge beside Inbox counts, i.e.
-unread conversations in the Primary tab. Pass --query for anything else.
+Default scope is Klaus's "inbox": unread conversations in the Primary and
+Updates tabs (Updates added 2026-10-26 at his request). Pass --query for
+anything else.
 
   fetch.py --out /path/inbox.json
   fetch.py --query 'in:inbox newer_than:7d' --out ...
@@ -19,7 +20,7 @@ import sys
 sys.path.insert(0, __import__("os").path.dirname(__file__))
 import gmail  # noqa: E402
 
-DEFAULT_Q = "in:inbox category:primary is:unread"
+DEFAULT_Q = "in:inbox is:unread (category:primary OR category:updates)"
 STAR_SUFFIX = ("_STAR", "_CIRCLE", "_BANG", "_GUILLEMET", "_INFO", "_QUESTION")
 QUOTE_CUT = re.compile(r"\n(On .{5,120}wrote:|From: |-----Original|_{8,}|发件人[:：])")
 

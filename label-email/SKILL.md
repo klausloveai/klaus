@@ -25,11 +25,16 @@ W=<scratchpad 目录>          # 中间文件放这里，不放 Downloads
 
 ## 口径：Klaus 说的「inbox」是哪些邮件
 
-**= Gmail 左栏 Inbox 角标那个数 = Primary 标签里的未读对话**，查询 `in:inbox category:primary is:unread`。
-带 INBOX label 的全部对话有 ~1,900 个，那是"whole inbox" —— **他不明说就不碰**。
+**= Primary 和 Updates 两个标签里的未读对话**，查询 `in:inbox is:unread (category:primary OR category:updates)`。
+（2026-10-26 Klaus 要求把 Updates 也纳入；之前只算 Primary，也就是左栏 Inbox 角标那个数。）
+带 INBOX label 的全部对话有 ~1,900 个，那是"whole inbox" —— **他不明说就不碰**；Promotions / Forums 也不碰。
 他点名别的范围（"最近 7 天所有的"、"整个 inbox"、"Promotions 里的"）→ 用 `--query` 换。
 
-角标有几分钟延迟，和实际数差 1–2 个正常；**开头报一次实际数**。
+开头报一次实际数，**Primary 和 Updates 分开报**（角标只数 Primary，差几个正常）。
+
+Updates 里多是系统通知（One Legal、RingCentral、银行、日历提醒）。打 label 照常；移出 inbox 时，
+**例行通知、对方已确认无后续的 = Step 3 第 2 类「已了结」**。但先看正文再判：送达**失败**、法院**退件**、
+IOLTA（#3618）的任何通知、对方 adjuster 来电留言 —— 这些都不是例行，留着并在清单末尾 ⚠️ 提醒。
 
 ## Step 1 — 拉取 + 编号
 
@@ -107,6 +112,7 @@ python3 -I $D/apply.py $W/plan.json            # plan 里只放 "label" 键
 - **带星的** —— 星 = 待办，归档还是留着由 Klaus 用口令决定（[[gmail-star-status-convention]]）。脚本会硬拒。
 - 有明确要他做的事（交办、要 serve / file / 回复 / advise、要他付款、要他翻译）。
 - 拿不准的 —— 留着，在清单里写"拿不准，因为…"。宁可多留一封，不可错移一封。
+- **跟案子无关的**（营销、订阅、账单、产品通知、安装链接）—— 留在 inbox 等 Klaus 自己看了删（[[feedback-unread-triage]]），不替他移走；清单里归成一行带过。
 
 **要不要先 dry run：**
 - Klaus 的话里**明说了**"移出 / remove / 清掉"→ 直接执行，然后给清单。
