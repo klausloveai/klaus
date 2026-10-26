@@ -64,16 +64,19 @@ def frog(d):
     q("2.4", "No.")
     q("2.5", ("sub", "(a)\t415 West Duarte Road, Unit 3, Arcadia, California 91007."),
              ("sub", "(b)\t20 Genoa Street, Apartment A, Arcadia, California 91006 (the address shown on "
-                     "Responding Party's driver license); " + tbc("ALL OTHER ADDRESSES SINCE JULY 2021") + "."),
-             ("sub", "(c)\t415 West Duarte Road: November 1, 2025 to the present. 20 Genoa Street: "
-                     + tbc("DATES") + "."))
+                     "Responding Party's driver license)."),
+             ("sub", "(c)\t415 West Duarte Road: November 1, 2025 to the present. 20 Genoa Street: 2018 to "
+                     "October 2025 " + tbc("MONTH IN 2018") + "."))
     q("2.6", ("sub", "(a)\tResponding Party is self-employed as an independent contractor delivering packages "
                      "through the Amazon Flex program operated by Amazon Logistics, Inc., "
                      + tbc("AMAZON LOGISTICS ADDRESS AND TELEPHONE") + "."),
-             ("sub", "(b)\tAmazon Flex delivery partner (independent contractor), package delivery, from "
-                     + tbc("START DATE") + " to the present. "
-                     + flag("The February 25, 2026 car-crash intake lists her occupation as 'Housewife.' If Flex began "
-                            "after that date, say so; it also bears on 8.1 and RFP 7.") + " " + tbc("ANY OTHER EMPLOYMENT OR SELF-EMPLOYMENT SINCE JULY 2021") + "."))
+             ("sub", "(b)\t(1) Amazon Flex delivery partner (independent contractor), package delivery, from "
+                     "approximately July 2025 to the present. (2) Uber Eats delivery partner (independent "
+                     "contractor), Uber Technologies, Inc., food delivery, for a little over one year before July 2025 "
+                     + tbc("START MONTH; ANY WORK BETWEEN JULY 2021 AND THEN") + ". "
+                     + flag("Client (voice, October 25): Flex since about July 2025, Uber Eats for a year-plus before "
+                            "that. Our February 25, 2026 car-crash intake lists her occupation as 'Housewife' -- that "
+                            "intake entry looks wrong; worth correcting in the PI file before the car-crash demand.")))
     q("2.7", ("sub", "(a)\t" + tbc("NAME AND CITY OF VOCATIONAL SECONDARY SCHOOL, CHINA") + "."),
              ("sub", "(b)\t" + tbc("DATES ATTENDED") + "."),
              ("sub", "(c)\tVocational secondary school diploma (China). Responding Party did not attend high "
@@ -107,7 +110,7 @@ def frog(d):
                   "secondary to other insurance. (g) Not applicable. (h) Amazon Logistics, Inc. and Homeland "
                   "Insurance Company of New York."),
           "Responding Party has not received Medicare or Medi-Cal benefits since the INCIDENT "
-          + tbc("CLIENT TO CONFIRM NO MEDI-CAL OR MEDICARE") + ".",
+          + ".",
           flag("Old Republic (Reserv, claim 26ATCA842575927) business auto policy: listed nowhere above "
                "because it denied MedPay on August 21, 2026 and you closed that line on September 2. "
                "4.1 asks for policies under which she 'might be insured.' Add it, or leave it out?"))
@@ -136,7 +139,8 @@ def frog(d):
                   "bill separately; Responding Party has not received a separate physician bill "
                   + tbc() + "."),
           ("sub", "2.\t(a) Thomas Yu, M.D., Allied Pacific IPA, " + tbc("OFFICE ADDRESS") + ", (626) 288-0300. "
-                  "(b) " + tbc("TYPE OF VISIT") + ". (c) July 28, 2026. (d) " + tbc("CHARGES OR COPAY") + "."),
+                  "(b) Office visit for difficulty sleeping since the INCIDENT; prescription of a sleep aid. (c) July 28, 2026. "
+                  "(d) " + tbc("CHARGES OR COPAY") + "."),
           ("sub", "3.\t(a) " + BHIPS + ". (b) Plastic surgery consultation and evaluation of the left ankle scar, "
                   "with photographs and chart review. (c) September 16, 2026. (d) $3,500.00."),
           flag("Lahijani's invoice and treatment plan are addressed to Lingtu Law Firm and the visit "
@@ -145,9 +149,11 @@ def frog(d):
                "and the 6.4 exclusion for experts? The same choice drives 6.7 and RFP 4, 10 and 11."))
     q("6.5", "Yes.",
           ("sub", "(a)\tAmoxicillin-clavulanate 875 milligrams / 125 milligrams oral tablets, one tablet twice a "
-                  "day, quantity 14; Tdap vaccine administered at the hospital. " + tbc("ANY OTHER MEDICATION, INCLUDING OVER-THE-COUNTER") + "."),
-          ("sub", "(b)\tElvis Santillan, PA, USC Arcadia Hospital, " + USC.split(", ", 1)[1] + "."),
-          ("sub", "(c)\tJuly 9, 2026, for seven days."),
+                  "day, quantity 14; Tdap vaccine administered at the hospital; and a sleep aid prescribed by Thomas Yu, M.D. "
+                  "on July 28, 2026 " + tbc("NAME OF SLEEP MEDICATION, DATES TAKEN, COST") + "."),
+          ("sub", "(b)\tElvis Santillan, PA, USC Arcadia Hospital, " + USC.split(", ", 1)[1] + " (antibiotic); Thomas Yu, "
+                  "M.D. (sleep aid)."),
+          ("sub", "(c)\tAntibiotic: July 9, 2026, for seven days. Sleep aid: from July 28, 2026 " + tbc("END DATE") + "."),
           ("sub", "(d)\t$3.00 (Sunny Bay Pharmacy, July 9, 2026)."))
     q("6.6", tbc("NURSING / TRANSPORTATION EXPENSES CLAIMED: WHO, WHAT, DATES, AMOUNTS") + " If none, the answer "
              "will be: No.")
@@ -200,9 +206,10 @@ def frog(d):
                "2026) shows she was still in treatment when the dog bit her (chiropractic to July 3, pain management "
                "June 30 and July 14) and that the car-crash intake lists fear of driving and recurring nightmares. "
                "The nightmares overlap the emotional distress claimed in 6.2 and 6.3. The defense will find this "
-               "through the L.A. Care records. Draft discloses it."))
+               "through the L.A. Care records. Draft discloses it. Note also: the July 28, 2026 PCP visit was for sleep "
+               "problems (client voice, October 25), the same complaint as the pre-existing nightmares."))
     q("10.3", "No.")
-    q("11.1", "Yes. " + tbc("ANY OTHER CLAIM IN THE PAST TEN YEARS"),
+    q("11.1", "Yes.",
           ("sub", "1.\tMotor vehicle collision: (a) February 25, 2026, approximately 7:51 a.m., Golden Springs Drive at "
                   "Willow Green Road, Diamond Bar, California. (b) Isis Sabrea Curiel, 24120 Willow Creek Road, Diamond "
                   "Bar, California 91765, insured by State Farm (claim number 7597D933B); and Responding Party's own "
@@ -579,7 +586,7 @@ def build(kind, d):
                   (["Colin H. Walshok", "Shealie E. Brew", "Wingert Grebing Brubaker & Walshok LLP",
                     "1230 Columbia Street, Suite 400", "San Diego, California 92101-3370",
                     "cwalshok@wingertlaw.com", "sbrew@wingertlaw.com", "lsherwood@wingertlaw.com",
-                    "cstone@wingertlaw.com", "ddaluz@wingertlaw.com", "(by electronic mail)"],
+                    "cstone@wingertlaw.com", "(by electronic mail)"],
                    ["//Attorneys for Defendants://", "",
                     "**RICHARD REYES and ZORAIDA TORRES, as Trustees of the TORRES REYES FAMILY TRUST**"]),
               ])
