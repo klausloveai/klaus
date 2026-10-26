@@ -20,7 +20,7 @@ The worked example's real IDs are in `assets/config.example.brian-wu.json`.
 **1.1:** Zelaya v. CB Kitchen, Klaus → Allison Pan, 2026-10-23 (a transfer picked up after a day-1 handoff
 email had already gone out). Config: `assets/config.example.cb-kitchen.json`.
 
-**1.3:** Xicheng Li v. United Airlines, Klaus → Allison Pan, 2026-10-25 (lessons 28–31).
+**1.3:** Xicheng Li v. United Airlines, Klaus → Allison Pan, 2026-10-25 (lessons 28–37): Gate 1 opens with a case snapshot and self-contained in-flight items; Gate 3 shows a recipient table; Phase 7 drafts the client WeChat notice and lists snoozed threads.
 
 **1.2:** readiness check, related cases, in-flight handover, Activity Log + WhatsApp in the inventory,
 receiver calendar, client notice, sender clean-up (from the CB Kitchen follow-up and the Guolin Zhao /
@@ -88,6 +88,8 @@ python3 ~/.claude/skills/case-transfer/scripts/transfer_tools.py inventory <conf
   is history. **Klaus decides** which active threads get touched (Brian Wu: he chose not to
   reply on the 10/9 client thread).
 - Read the active threads **to the last message**. Facts come from the last one.
+- **Drive shows work done outside the sender's mailbox.** List case-folder files newer than the last case email and not attached to any email (Xicheng Li: Stine lien and InterHealth psych records came through Claire). Attribute each to a person to ask.
+- **Don't trust the `All Cases` roster's Line/Stage columns** (Xicheng Li was listed as Dog Bite / Prep Complaint). Take stage from the docket, the Case Log and the last attorney email.
 - **Gmail is not the whole record.** Also read the case's rows in the Activity Log
   (`1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA` → `Activity Log`) and its Case Log. Hernán gives
   many instructions on WhatsApp ("keep following up with the clerk", "the CMC is in November") and
@@ -96,7 +98,7 @@ python3 ~/.claude/skills/case-transfer/scripts/transfer_tools.py inventory <conf
 - **List everything in flight**: open One Legal orders (service, filings under review) with order
   number, status and last update; pending court actions; anything waiting on a callback.
 
-**Gate 1 → show Klaus:** thread counts, the exclude list with reasons, the proposed active list,
+**Gate 1 → show Klaus.** Open with a **3-line case snapshot** (what happened and when — DOL with time zone, direction of travel or place; stage; attorney), because the sender may not remember the basics (Xicheng Li: Klaus asked "DOL 到底是哪一天" mid-transfer). Every in-flight or active item must be **self-contained**: who the other party is, what exactly they owe or we owe, the reference number, the due date ("Sedgwick 答复" and "Hernán 第 1 条电话" meant nothing without that). Then: thread counts, the exclude list with reasons, the proposed active list,
 the in-flight list, and **one decision: is the client told about the handover, and how** (WeCom
 group / WeChat — both need Klaus's hands). CB Kitchen skipped this by default and the client was
 never told.
@@ -181,7 +183,7 @@ writing on. One message, reply-all plus the receiver.
     notify the receiver). "Serve attempted" and "new message" notices are time-sensitive — forward
     the same day.
 
-**Gate 3 → bilingual preview** (`~/.claude/draft-review-format.md`), then wait for "发".
+**Gate 3 → recipient table first** (To / Cc / Bcc for every draft, read back from the drafts), flagging anyone on the attorney's original message who was dropped; **then the bilingual preview** (`~/.claude/draft-review-format.md`), then wait for "发".
 
 ### Phase 7 — Wrap
 - Case Log: one row — transferred to whom, effective date, what was archived, active threads,
@@ -198,6 +200,8 @@ writing on. One message, reply-all plus the receiver.
   - Case artifact (`~/.claude/skills/case-artifact/assets/applied.json`): if the case has one,
     update the handler and the dates on the same URL.
   - `All Cases` roster row (line, stage): fix only if Klaus still uses that sheet.
+- **Snoozed threads**: list every case thread snoozed in the sender's mailbox and until when. The API cannot unsnooze; tell the sender to Unsnooze, or it reappears in his inbox after the transfer.
+- **Client notice draft**: write the WeChat message to the client (Chinese, plain text, full-width punctuation, a blank line between paragraphs): who now handles the case, the attorney is unchanged, what is in progress, the receiver's email and direct line (leave blank if unknown, never guess), and the standing instruction (do not talk to the other side / sign anything).
 - **Tell Klaus what only he can do**, as a list: add the receiver to the client's WeCom group;
   tell the client (if decided at Gate 1); ask the attorney to add the receiver to his calendar
   events; forward One Legal notifications for open orders; anything needing his login or CAPTCHA.
@@ -238,6 +242,13 @@ writing on. One message, reply-all plus the receiver.
 | 29 | A header read that prints only From/Cc hides the To line. Hernán's 10/21 emails were addressed to six people **including the receiver**, and our replies went to him alone. In inventory, list the full To/Cc of the last attorney message on each active thread and note whether the receiver is already on it. | Xicheng Li |
 | 30 | Not every case folder has `5. Correspondence & Demand` (the aviation/PI template's 5 is `Cost & Receipt`). Ask where Email Archive goes; Xicheng Li used `2. Legal Documents`. | Xicheng Li |
 | 31 | Adding the receiver to an external party's thread (adjuster): write **inside the thread but internal only** (To receiver, Cc attorney + partners), quoting the last service email with its attachments. Never put the adjuster on a handover note. | Xicheng Li |
+
+| 32 | Open Gate 1 with a 3-line case snapshot (DOL + time zone, what happened, stage). The sender asked what the DOL was in the middle of the transfer. | Xicheng Li |
+| 33 | In-flight items in Gate 1 must say who, what is owed, reference number and due date. "Sedgwick's reply" and "Hernán's item 1 call" had to be explained. | Xicheng Li |
+| 34 | Before asking for "发", show a To/Cc/Bcc table read back from the drafts and flag who was dropped from the attorney's original list (Cindy, Claire). Klaus asked for it. | Xicheng Li |
+| 35 | Draft the client WeChat notice in Phase 7 without being asked; leave the receiver's phone blank if not on file. | Xicheng Li |
+| 36 | A thread snoozed in the sender's mailbox reappears after the transfer and the API cannot unsnooze it. List snoozed case threads in Phase 7. | Xicheng Li |
+| 37 | Another person's work (treatment referrals, liens) appears only as Drive files. Compare Drive file dates against the last email and name who to ask. | Xicheng Li |
 
 ## Guardrails
 - DRAFT-ONLY. Every email goes to Klaus as a bilingual preview and waits for "发".
