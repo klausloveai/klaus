@@ -3,7 +3,7 @@
 
 Klaus's standing template. Three parts, in this order:
   page 1  PROOF OF SERVICE heading, employment recital, documents served, and the
-          five service methods -- ALL FIVE are listed; only the one used is marked X.
+          service methods -- ONLY the methods used, each marked X (Klaus 2026-10-26; was all five).
   page 2  declaration under penalty of perjury, ///, execution line, signature,
           and the bracketed [Service List on following page.] line.
   page 3  SERVICE LIST: case name, court and case number, then a BORDERED
@@ -173,9 +173,10 @@ def build(doc, protos, *, served, date="____________, 2026", method="email",
     _emit(doc, protos, "body", "\t**%s**" % served)
     _emit(doc, protos, "body",
           "\tI served the documents on the person(s) in the Service List below, as follows:")
+    # Klaus 2026-10-26: list only the methods actually used (all X); unchecked methods are dropped.
     for key, name, text in METHODS:
-        mark = "   X   " if key in used else "______"
-        _emit(doc, protos, "sub", "▪\t%s**%s**%s" % (mark, name, text))
+        if key in used:
+            _emit(doc, protos, "sub", "▪\t   X   **%s**%s" % (name, text))
 
     _emit(doc, protos, "body", "")
     _emit(doc, protos, "body",
