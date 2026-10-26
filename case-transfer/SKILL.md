@@ -8,16 +8,21 @@ description: |
   thread and attachment, files what was never filed (MD5-checked), exports closed threads to PDF
   with an index, builds a Parties & Service List, brings the receiver into only the threads that
   are still active, writes an English Case Transfer Memo, and drafts one transfer-complete email
-  to the receiver copying the team. Version 1.0, built from Brian Wu v. Azucanela (2026-10-21/23).
-  DRAFT-ONLY for every email; Klaus approves each send.
+  to the receiver copying the team. Starts with a readiness check (is now a good point to hand
+  over, and which related cases must move with it). Version 1.2 — built from Brian Wu v. Azucanela
+  and Zelaya v. CB Kitchen (2026-10-21/25). DRAFT-ONLY for every email; Klaus approves each send.
 ---
 
-# case-transfer 1.1
+# case-transfer 1.2
 
 **Built from:** Brian C. Wu v. Azucanela LLC, Klaus → Allison Pan, 2026-10-21 to 10-23.
 The worked example's real IDs are in `assets/config.example.brian-wu.json`.
 **1.1:** Zelaya v. CB Kitchen, Klaus → Allison Pan, 2026-10-23 (a transfer picked up after a day-1 handoff
 email had already gone out). Config: `assets/config.example.cb-kitchen.json`.
+
+**1.2:** readiness check, related cases, in-flight handover, Activity Log + WhatsApp in the inventory,
+receiver calendar, client notice, sender clean-up (from the CB Kitchen follow-up and the Guolin Zhao /
+Weicong Lin assessment, 2026-10-25).
 
 **Dry run** = `inventory` + `audit` only. Both are read-only (audit writes attachments to the local workdir).
 Stop at Gate 1.
@@ -39,6 +44,29 @@ Brian Wu did it backwards: a handoff email went out on day 1, the archive was bu
 and the day-1 email's to-do list (an extension stipulation) was already obsolete. It took a
 second "transfer complete" email to fix. **Do not send anything to the receiver until Phase 5.**
 
+### Phase −1 — Is now a good time? (read-only, before anything else)
+Answer one question for Klaus: **transfer now, wait until a milestone, or transfer now with carve-outs.**
+Read: the case's calendar entries for the next 30 days, its open `控制台 Tasks`, its last ~10
+Activity Log rows, and the last message of every thread from the past two weeks.
+
+| Check | Good point | Bad point |
+|---|---|---|
+| Hard deadlines in the next 2–3 weeks | none, or only the other side's | ours, and the sender holds the context |
+| In-flight actions (service orders, filings under review, ex parte) | none, or nothing time-critical | something can fail before the receiver is up to speed |
+| Attorney availability | attorney reachable | attorney away while a deadline lands (Hernán out 10/21–11/03) |
+| Stage | waiting (on service, records, the other side) | mid-negotiation, mid-filing |
+| Receiver's load | a few cases | several already handed over the same week |
+
+- **Related cases move together, in one session.** Check for a CM-015 Notice of Related Case and for
+  shared defendants or addresses. Guolin Zhao (26NWCV02260) and Weicong Lin (26NWCV03394) share all
+  three defendants and the same failed service address — one person must decide service for both.
+  One memo per case, each pointing to the other; write the shared decision once.
+- **Never a candidate:** Klaus's own PI auto litigation cases (Jiayu Ma, Sai Choi Lau, Chao Zheng,
+  presumed Chunpeng Wu) — memory `klaus-keeps-pi-auto-litigation`.
+- If the answer is "wait", name the milestone and the date it lands (e.g. "after the amended CM-110
+  is filed, 11/6"), and say the trigger is the milestone, not the date.
+- If the answer is "now with carve-outs", list each carve-out: what, who finishes it, by when.
+
 ### Phase 0 — Inputs (ask Klaus only for what you cannot find)
 Case name · receiver (name + email) · attorney of record · Drive case folder id · Gmail case
 label name + id · Case Log sheet id · `5. Correspondence & Demand` folder id.
@@ -58,8 +86,18 @@ python3 ~/.claude/skills/case-transfer/scripts/transfer_tools.py inventory <conf
   is history. **Klaus decides** which active threads get touched (Brian Wu: he chose not to
   reply on the 10/9 client thread).
 - Read the active threads **to the last message**. Facts come from the last one.
+- **Gmail is not the whole record.** Also read the case's rows in the Activity Log
+  (`1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA` → `Activity Log`) and its Case Log. Hernán gives
+  many instructions on WhatsApp ("keep following up with the clerk", "the CMC is in November") and
+  they exist only there. When the WhatsApp tools are connected, export the case's messages from the
+  "Lingtu Law" group to the case folder as well, recording the actual speaker (Lesson 11).
+- **List everything in flight**: open One Legal orders (service, filings under review) with order
+  number, status and last update; pending court actions; anything waiting on a callback.
 
-**Gate 1 → show Klaus:** thread counts, the exclude list with reasons, the proposed active list.
+**Gate 1 → show Klaus:** thread counts, the exclude list with reasons, the proposed active list,
+the in-flight list, and **one decision: is the client told about the handover, and how** (WeCom
+group / WeChat — both need Klaus's hands). CB Kitchen skipped this by default and the client was
+never told.
 
 ### Phase 2 — Attachments (read-only audit, then file)
 ```bash
@@ -125,9 +163,21 @@ writing on. One message, reply-all plus the receiver.
   superseded) · 4 Email threads still active · 5 Issues that matter · 6 Other open items ·
   7 Where everything is (folder-by-folder, with links) · 8 Working notes (contact traps,
   attorney's preferred channel, e-service limits).
+  - **If anything is in flight, add "3a. In flight right now"** after section 3: item · order/transaction
+    number · status and last update (Pacific time) · next check · **who finishes it** (sender carve-out
+    or receiver).
+  - **Say what is not in the file** (section 6): other people's mailboxes (Cindy's fee records, the
+    attorney's own emails), phone calls never logged, personal WeChat, paper mail. Name who to ask.
 - **Email**: To receiver, Cc attorney + Cassie + Joe (ask Klaus about others). Short: transfer
   complete; the memo is the one reference; **the three most immediate items**; anything in an
-  earlier email that is now obsolete; "nothing else is active." Attach the memo.
+  earlier email that is now obsolete; "nothing else is active." Link the memo (Lesson 4).
+  - **Every date in the next 30 days, with a line asking the receiver to put them on their own
+    calendar.** The receiver is not on events the attorney created — CB Kitchen's 10/26 deadline
+    was on Hernán's calendar and not on Allison's. Ask the attorney to add the receiver to his events.
+  - **Open One Legal orders**: list the order numbers and say that Klaus will forward their
+    notifications (Klaus 2026-10-25: he forwards them by hand; orders the receiver places later
+    notify the receiver). "Serve attempted" and "new message" notices are time-sensitive — forward
+    the same day.
 
 **Gate 3 → bilingual preview** (`~/.claude/draft-review-format.md`), then wait for "发".
 
@@ -138,9 +188,17 @@ writing on. One message, reply-all plus the receiver.
   row**, never edit.
 - **Relabel every touched thread and count**: messages carrying the label = messages in thread.
 - Downloads: compare by MD5 against Drive, move matches to Trash.
-- Tell Klaus what only he can do (add receiver to the WeCom group, account settings such as
-  One Legal, anything needing his login or CAPTCHA). **Calendar belongs to the receiver** —
-  do not create events for the sender.
+- **Sender's leftovers** — CB Kitchen left four stale tasks (d29–d32, from 8/31) on Klaus's board:
+  - `0. Tracking Sheet` → `控制台 Tasks`: close or mark every open task for the case
+    "transferred to <receiver> <date>".
+  - Klaus's calendar: list his own events for the case that are superseded (CB Kitchen had two
+    10/12 entries) and delete them only with his OK. Never create events on the sender's calendar.
+  - Case artifact (`~/.claude/skills/case-artifact/assets/applied.json`): if the case has one,
+    update the handler and the dates on the same URL.
+  - `All Cases` roster row (line, stage): fix only if Klaus still uses that sheet.
+- **Tell Klaus what only he can do**, as a list: add the receiver to the client's WeCom group;
+  tell the client (if decided at Gate 1); ask the attorney to add the receiver to his calendar
+  events; forward One Legal notifications for open orders; anything needing his login or CAPTCHA.
 
 ## Rules that bit us (Lessons — add to this list every time)
 
@@ -167,6 +225,12 @@ writing on. One message, reply-all plus the receiver.
 | 19 | When two versions of a document exist, keep the one that was **sent** (check each attachment's message To/Date), and replace any DRAFT of it in Drive on the same file id. | CB Kitchen |
 | 20 | Don't copy dates or "not in writing" claims from an earlier handoff. CB Kitchen's day-1 email dated Hernán's instruction 9/29 (UTC); it was 9/28 Pacific ("today's CMC"). It also called a pause agreement unwritten; the thread had "Agreed." Convert every Gmail `Date` to Pacific and search the thread before calling anything unwritten. | CB Kitchen |
 | 21 | Adding the receiver to an active thread: the reply's last line in the transfer-complete email must match ("No other thread is active" contradicts the Phase 5 reply). Draft both, review together, send together. | CB Kitchen |
+| 22 | The receiver was not on the attorney's calendar event for the next deadline (CB Kitchen, 10/26). List every 30-day date in the email, ask the receiver to calendar them, ask the attorney to add the receiver. | CB Kitchen |
+| 23 | The client was never told the case changed hands. Make it a Gate 1 decision. | CB Kitchen |
+| 24 | Stale tasks for the case stayed on the sender's control-tower board for weeks (d29–d32). Close them in Phase 7. | CB Kitchen |
+| 25 | Related cases (CM-015) must move together: Guolin Zhao and Weicong Lin share defendants and one service problem. | Guolin Zhao / Weicong Lin |
+| 26 | Attorney instructions given on WhatsApp live only in the Activity Log. Inventory reads the Activity Log and, when connected, exports WhatsApp. | Guolin Zhao |
+| 27 | Don't hand over in the middle of an in-flight cluster while the attorney is away (Guolin Zhao: rush service due 11/2, amended CM-110 due 11/6, Hernán out to 11/3). Wait for the milestone, or hand over with written carve-outs. | Guolin Zhao |
 
 ## Guardrails
 - DRAFT-ONLY. Every email goes to Klaus as a bilingual preview and waits for "发".
