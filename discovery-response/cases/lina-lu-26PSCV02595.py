@@ -71,7 +71,9 @@ def frog(d):
                      "through the Amazon Flex program operated by Amazon Logistics, Inc., "
                      + tbc("AMAZON LOGISTICS ADDRESS AND TELEPHONE") + "."),
              ("sub", "(b)\tAmazon Flex delivery partner (independent contractor), package delivery, from "
-                     + tbc("START DATE") + " to the present. " + tbc("ANY OTHER EMPLOYMENT OR SELF-EMPLOYMENT SINCE JULY 2021") + "."))
+                     + tbc("START DATE") + " to the present. "
+                     + flag("The February 25, 2026 car-crash intake lists her occupation as 'Housewife.' If Flex began "
+                            "after that date, say so; it also bears on 8.1 and RFP 7.") + " " + tbc("ANY OTHER EMPLOYMENT OR SELF-EMPLOYMENT SINCE JULY 2021") + "."))
     q("2.7", ("sub", "(a)\t" + tbc("NAME AND CITY OF VOCATIONAL SECONDARY SCHOOL, CHINA") + "."),
              ("sub", "(b)\t" + tbc("DATES ATTENDED") + "."),
              ("sub", "(c)\tVocational secondary school diploma (China). Responding Party did not attend high "
@@ -182,16 +184,40 @@ def frog(d):
              "September 16, 2026; and the lien statement of Katch, on behalf of L.A. Care Health Plan, dated "
              "August 21, 2026. Responding Party's counsel has each document.")
     q("10.1", "No.")
-    q("10.2", "No.")
+    q("10.2", "Yes. Before the INCIDENT Responding Party was injured in a motor vehicle collision on February 25, 2026 "
+              "(see the response to interrogatory 11.1) and was treated for neck and back pain, a contusion of the left "
+              "hand, pain in the right arm, headaches, dizziness, nausea, fear of driving and recurring nightmares.",
+          ("sub", "(a)\tThe conditions listed above. " + tbc("WHICH WERE STILL PRESENT ON JULY 9, 2026") + "."),
+          ("sub", "(b)\t" + tbc("WHETHER THE INCIDENT AGGRAVATED ANY OF THEM, ESPECIALLY THE NIGHTMARES") + "."),
+          ("sub", "(c)\tPomona Valley Hospital Medical Center, 1798 North Garey Avenue, Pomona, California 91767, "
+                  "(909) 865-9500, emergency department, February 25, 2026; Care Ambulance Service, Inc., February 25, "
+                  "2026; Prestige Integrative Health Center, 5553 Rosemead Boulevard, Temple City, California 91780, "
+                  "(626) 286-5800, chiropractic, February 26, 2026 to July 3, 2026; Sun Imaging, Inc., 7715 Garvey "
+                  "Avenue, Rosemead, California 91770, (626) 280-0431, magnetic resonance imaging, April 28, 2026; "
+                  "Vanguard Interventional Pain Specialists, 707 South Garfield Avenue, Suite 304, Alhambra, California "
+                  "91801, (626) 281-7246, pain management, June 30, 2026 and July 14, 2026."),
+          flag("Client answered 10.2 'no' on October 15, but our own PI file (Lina Lu / Zesen Wang, DOL February 25, "
+               "2026) shows she was still in treatment when the dog bit her (chiropractic to July 3, pain management "
+               "June 30 and July 14) and that the car-crash intake lists fear of driving and recurring nightmares. "
+               "The nightmares overlap the emotional distress claimed in 6.2 and 6.3. The defense will find this "
+               "through the L.A. Care records. Draft discloses it."))
     q("10.3", "No.")
-    q("11.1", "Yes, arising from this INCIDENT only. " + tbc("ANY CLAIM FOR ANY OTHER INJURY IN THE PAST TEN YEARS"),
-          ("sub", "1.\tOccupational accident claim: (a) July 9, 2026, 152 East Kirkwall Road, Azusa, California. "
+    q("11.1", "Yes. " + tbc("ANY OTHER CLAIM IN THE PAST TEN YEARS"),
+          ("sub", "1.\tMotor vehicle collision: (a) February 25, 2026, approximately 7:51 a.m., Golden Springs Drive at "
+                  "Willow Green Road, Diamond Bar, California. (b) Isis Sabrea Curiel, 24120 Willow Creek Road, Diamond "
+                  "Bar, California 91765, insured by State Farm (claim number 7597D933B); and Responding Party's own "
+                  "insurer, Tesla Insurance (claim number CL-81-93JHZT-4). (c) None; no action has been filed. "
+                  "(d) Lingtu Law Office, Law Office of Shenqi Cai, APC, 13191 Crossroads Parkway North, Suite 295, "
+                  "City of Industry, California 91746, (626) 479-2207. (e) Neck and back pain, contusion of the left "
+                  "hand, pain in the right arm, headaches, dizziness, nausea, fear of driving and recurring nightmares. "
+                  "(f) Pending. (g) Not applicable."),
+          ("sub", "2.\tOccupational accident claim: (a) July 9, 2026, 152 East Kirkwall Road, Azusa, California. "
                   "(b) Homeland Insurance Company of New York, through Intact Insurance, Occupational Accident "
                   "Claims, 188 Inverness Drive West, Suite 600, Englewood, Colorado 80112. (c) None. "
                   "(d) Hern\u00e1n S. Sim\u00f3, Lingtu Law Office. (e) Claim number 0AB504616; open."),
-          ("sub", "2.\tClaim to USAA under the policy insuring Richard Reyes: (a) same INCIDENT. (b) USAA, "
+          ("sub", "3.\tClaim to USAA under the policy insuring Richard Reyes: (a) same INCIDENT. (b) USAA, "
                   "claim number 015775868-810. (c) This action. (d) Hern\u00e1n S. Sim\u00f3. (e) Open."),
-          flag("11.1 reads 'except for this action.' The two claims above arise from the same INCIDENT. Disclose "
+          flag("11.1 reads 'except for this action.' Claims 2 and 3 above arise from the same INCIDENT. Disclose "
                "them (draft), or answer 'No' as to other incidents only? Old Republic / Reserv (claim "
                "26ATCA842575927) is omitted for the reason given at 4.1."))
     q("11.2", "No. The occupational accident claim identified in response to interrogatory 11.1 is not a claim "
@@ -214,18 +240,23 @@ def frog(d):
     q("12.2", O_WP() + " " + SWO1 + " No.")
     q("12.3", O_WP() + " " + SWO1 + " No.")
     q("12.4", "Yes.",
-          ("sub", "(a)\t" + tbc("NUMBER OF PHOTOGRAPHS AND VIDEOS, FROM CLIENT'S ORIGINAL FILES") + "."),
-          ("sub", "(b)\tResponding Party's left ankle injury and scar; the premises at 152 East Kirkwall Road; the "
-                  "dog; and the delivered package at the front door, photographed through the Amazon Flex "
-                  "application as proof of delivery."),
-          ("sub", "(c)\tJuly 9, 2026, and on later dates showing the healing wound and scar " + tbc("DATES") + "."),
-          ("sub", "(d)\tResponding Party, " + COUNSEL_CONTACT + "; Saul Lahijani, M.D. took photographs on "
+          ("sub", "(a)\tEight images: three photographs of the premises, four photographs of the injury, and one "
+                  "screenshot of the Amazon Flex delivery record."),
+          ("sub", "(b)\tThe house at 152 East Kirkwall Road; the wrought-iron front gate; the street in front of the "
+                  "house with an Azusa Police Department vehicle; Responding Party's left ankle wound and scar; and the "
+                  "Amazon Flex record showing package 5662, addressed to Arlene Luna, delivered to the front door or "
+                  "porch at 8:39 a.m."),
+          ("sub", "(c)\tThe premises photographs and the delivery record on July 9, 2026; the injury photographs on "
+                  "July 9, 2026 and on later dates through September 8, 2026."),
+          ("sub", "(d)\tResponding Party, " + COUNSEL_CONTACT + ". Saul Lahijani, M.D. also took photographs on "
                   "September 16, 2026."),
-          ("sub", "(e)\tResponding Party and her counsel; Amazon Logistics, Inc. has the proof-of-delivery "
-                  "photograph; Beverly Hills Institute of Plastic Surgery has its own photographs."))
+          ("sub", "(e)\tResponding Party and her counsel; Amazon Logistics, Inc. holds its own delivery record and any "
+                  "proof-of-delivery photograph; Beverly Hills Institute of Plastic Surgery holds its photographs."),
+          flag("8:39 a.m. appears here because the delivery record is a photograph concerning the INCIDENT. It fixes "
+               "the time in a verified answer before the client's timeline is back. Keep, or describe the record "
+               "without the time?"))
     q("12.5", "Yes. Responding Party drew a diagram of the premises showing the house, the garage, the walkway, "
-              "the lawn, the front gate and the direction from which the dog came, on " + tbc("DATE")
-              + ". Responding Party's counsel has the original.")
+              "the lawn, the front gate and the direction from which the dog came, on August 13, 2026. Responding Party's counsel has a copy.")
     q("12.6", "Yes.",
           ("sub", "1.\t(a) Azusa Police Department dispatch; Officers Cristian Castro, number 1224, and Torres, "
                   "number 1234, responded. (b) July 9, 2026; computer-aided dispatch call detail report, "
@@ -548,7 +579,7 @@ def build(kind, d):
                   (["Colin H. Walshok", "Shealie E. Brew", "Wingert Grebing Brubaker & Walshok LLP",
                     "1230 Columbia Street, Suite 400", "San Diego, California 92101-3370",
                     "cwalshok@wingertlaw.com", "sbrew@wingertlaw.com", "lsherwood@wingertlaw.com",
-                    "cstone@wingertlaw.com", "(by electronic mail)"],
+                    "cstone@wingertlaw.com", "ddaluz@wingertlaw.com", "(by electronic mail)"],
                    ["//Attorneys for Defendants://", "",
                     "**RICHARD REYES and ZORAIDA TORRES, as Trustees of the TORRES REYES FAMILY TRUST**"]),
               ])
