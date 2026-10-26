@@ -1,66 +1,66 @@
 {
-  "_comment": "哪个案子页面刷到了 shell 的哪一版。查这里不用打开任何页面。刷完就更新这里。 大版本只刷了样式的记 \"X.Y-css\"（正文缺新节，下次动该页时补）。",
-  "shell_current": "7.0",
-  "artifacts": {
-    "https://claude.ai/artifact/VVhtG1bgrt13gS2VyVaBTZ": {
-      "case": "Chao Zheng v. Jasa Transportation",
-      "shell": "6.3",
-      "updated": "2026-10-23"
-    },
-    "https://claude.ai/artifact/SYxju1a4DPr7iYjsxmDVPw": {
-      "case": "Yi Cong v. Edpao",
-      "shell": "unknown",
-      "updated": "2026-10-23"
-    },
-    "https://claude.ai/artifact/G9SJC8GxMimBmx7sR9YqzP": {
-      "case": "Taichun Qin 案件卷宗",
-      "shell": "unknown",
-      "updated": "2026-10-13"
-    },
-    "https://claude.ai/artifact/Tjqm52Q8U6Mo6ZcwzfYWiE": {
-      "case": "Chunpeng Wu v. Tesla Insurance Company",
-      "shell": "6.3",
-      "updated": "2026-10-23"
-    },
-    "https://claude.ai/artifact/B9XriLiTGUNaT8tuS8zZWN": {
-      "case": "Mudong Huang v. Chelsea Pinpin",
-      "shell": "unknown",
-      "updated": "2026-10-25"
-    },
-    "https://claude.ai/artifact/WgfrzfD1278EpPU6TUowt5": {
-      "case": "Lina Lu v. Arlene Luna",
-      "shell": "unknown",
-      "updated": "2026-10-26"
-    },
-    "https://claude.ai/artifact/EMDDupXY69umDWR1tXeiCr": {
-      "case": "Jiayu Ma v. Tesla",
-      "shell": "unknown",
-      "updated": "2026-10-21"
-    },
-    "https://claude.ai/artifact/KTGf6js77FuutaYqDoshxb": {
-      "case": "Bo Tao v. Eutimeo Beas",
-      "shell": "unknown",
-      "updated": "2026-10-23"
-    },
-    "https://claude.ai/artifact/44Jo7FwvtBHhASX31DQrPm": {
-      "case": "Weicong Lin v. Velazquez",
-      "shell": "7.0",
-      "updated": "2026-10-23"
-    },
-    "https://claude.ai/artifact/Vm9PNu1dT1kEH2tyhGi4Rk": {
-      "case": "Gaoyang Qin v. Mahler",
-      "shell": "unknown",
-      "updated": "2026-10-20"
-    },
-    "https://claude.ai/artifact/VedUS7MSprHtRq7i3pWkJp": {
-      "case": "Sai Choi Lau",
-      "shell": "unknown",
-      "updated": "2026-10-22"
-    },
-    "https://claude.ai/artifact/HRPsdn7tYuo41jkHCr5L6S": {
-      "case": "Guolin Zhao v. Velazquez",
-      "shell": "unknown",
-      "updated": "2026-10-23"
-    }
+ "_comment": "哪个案子页面刷到了 shell 的哪一版。查这里不用打开任何页面。刷完就更新这里。 大版本只刷了样式的记 \"X.Y-css\"（正文缺新节，下次动该页时补）。",
+ "shell_current": "7.0",
+ "artifacts": {
+  "https://claude.ai/artifact/VVhtG1bgrt13gS2VyVaBTZ": {
+   "case": "Chao Zheng v. Jasa Transportation",
+   "shell": "6.3",
+   "updated": "2026-10-23"
+  },
+  "https://claude.ai/artifact/SYxju1a4DPr7iYjsxmDVPw": {
+   "case": "Yi Cong v. Edpao",
+   "shell": "unknown",
+   "updated": "2026-10-23"
+  },
+  "https://claude.ai/artifact/G9SJC8GxMimBmx7sR9YqzP": {
+   "case": "Taichun Qin 案件卷宗",
+   "shell": "unknown",
+   "updated": "2026-10-13"
+  },
+  "https://claude.ai/artifact/Tjqm52Q8U6Mo6ZcwzfYWiE": {
+   "case": "Chunpeng Wu v. Tesla Insurance Company",
+   "shell": "6.3",
+   "updated": "2026-10-23"
+  },
+  "https://claude.ai/artifact/B9XriLiTGUNaT8tuS8zZWN": {
+   "case": "Mudong Huang v. Chelsea Pinpin",
+   "shell": "unknown",
+   "updated": "2026-10-25"
+  },
+  "https://claude.ai/artifact/WgfrzfD1278EpPU6TUowt5": {
+   "case": "Lina Lu v. Arlene Luna",
+   "shell": "unknown",
+   "updated": "2026-10-26"
+  },
+  "https://claude.ai/artifact/EMDDupXY69umDWR1tXeiCr": {
+   "case": "Jiayu Ma v. Tesla",
+   "shell": "unknown",
+   "updated": "2026-10-21"
+  },
+  "https://claude.ai/artifact/KTGf6js77FuutaYqDoshxb": {
+   "case": "Bo Tao v. Eutimeo Beas",
+   "shell": "unknown",
+   "updated": "2026-10-26"
+  },
+  "https://claude.ai/artifact/44Jo7FwvtBHhASX31DQrPm": {
+   "case": "Weicong Lin v. Velazquez",
+   "shell": "7.0",
+   "updated": "2026-10-23"
+  },
+  "https://claude.ai/artifact/Vm9PNu1dT1kEH2tyhGi4Rk": {
+   "case": "Gaoyang Qin v. Mahler",
+   "shell": "unknown",
+   "updated": "2026-10-20"
+  },
+  "https://claude.ai/artifact/VedUS7MSprHtRq7i3pWkJp": {
+   "case": "Sai Choi Lau",
+   "shell": "unknown",
+   "updated": "2026-10-22"
+  },
+  "https://claude.ai/artifact/HRPsdn7tYuo41jkHCr5L6S": {
+   "case": "Guolin Zhao v. Velazquez",
+   "shell": "unknown",
+   "updated": "2026-10-23"
   }
+ }
 }
