@@ -13,12 +13,14 @@ description: |
   and Zelaya v. CB Kitchen (2026-10-21/25). DRAFT-ONLY for every email; Klaus approves each send.
 ---
 
-# case-transfer 1.2
+# case-transfer 1.3
 
 **Built from:** Brian C. Wu v. Azucanela LLC, Klaus → Allison Pan, 2026-10-21 to 10-23.
 The worked example's real IDs are in `assets/config.example.brian-wu.json`.
 **1.1:** Zelaya v. CB Kitchen, Klaus → Allison Pan, 2026-10-23 (a transfer picked up after a day-1 handoff
 email had already gone out). Config: `assets/config.example.cb-kitchen.json`.
+
+**1.3:** Xicheng Li v. United Airlines, Klaus → Allison Pan, 2026-10-25 (lessons 28–31).
 
 **1.2:** readiness check, related cases, in-flight handover, Activity Log + WhatsApp in the inventory,
 receiver calendar, client notice, sender clean-up (from the CB Kitchen follow-up and the Guolin Zhao /
@@ -231,6 +233,11 @@ writing on. One message, reply-all plus the receiver.
 | 25 | Related cases (CM-015) must move together: Guolin Zhao and Weicong Lin share defendants and one service problem. | Guolin Zhao / Weicong Lin |
 | 26 | Attorney instructions given on WhatsApp live only in the Activity Log. Inventory reads the Activity Log and, when connected, exports WhatsApp. | Guolin Zhao |
 | 27 | Don't hand over in the middle of an in-flight cluster while the attorney is away (Guolin Zhao: rush service due 11/2, amended CM-110 due 11/6, Hernán out to 11/3). Wait for the milestone, or hand over with written carve-outs. | Guolin Zhao |
+
+| 28 | Manual `gws drive files create --upload` silently fails on a path outside the current directory (scratchpad, /tmp). Copy the file into the working directory and pass a **relative** path; check the returned md5Checksum. | Xicheng Li |
+| 29 | A header read that prints only From/Cc hides the To line. Hernán's 10/21 emails were addressed to six people **including the receiver**, and our replies went to him alone. In inventory, list the full To/Cc of the last attorney message on each active thread and note whether the receiver is already on it. | Xicheng Li |
+| 30 | Not every case folder has `5. Correspondence & Demand` (the aviation/PI template's 5 is `Cost & Receipt`). Ask where Email Archive goes; Xicheng Li used `2. Legal Documents`. | Xicheng Li |
+| 31 | Adding the receiver to an external party's thread (adjuster): write **inside the thread but internal only** (To receiver, Cc attorney + partners), quoting the last service email with its attachments. Never put the adjuster on a handover note. | Xicheng Li |
 
 ## Guardrails
 - DRAFT-ONLY. Every email goes to Klaus as a bilingual preview and waits for "发".
