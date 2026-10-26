@@ -149,23 +149,32 @@ def _bordered(table):
     tblPr.append(borders)
 
 
+ADDRESS = ("13191 Crossroads Parkway North, Suite 295, City of Industry, California 91746")
+
+
 def build(doc, protos, *, served, date="____________, 2026", method="email",
-          declarant="Klaus Liu", case_name, court_line, counsel, party_role, party_name,
-          page_break):
-    """Append the three-part proof of service. `counsel` is a list of lines."""
+          declarant="Klaus Liu", case_name, court_line, counsel=None, party_role=None,
+          party_name=None, page_break, parties=None, address=ADDRESS):
+    """Append the three-part proof of service.
+
+    `method` is one key or a tuple of keys (mixed service, e.g. ("mail", "email") when
+    in pro per parties are mailed and counsel is e-served). `parties` is a list of
+    (left_lines, right_lines) rows for the service list; when omitted, one row is built
+    from `counsel` / `party_role` / `party_name` as before."""
+    used = {method} if isinstance(method, str) else set(method)
     page_break(doc, protos)
     _emit(doc, protos, "head", "PROOF OF SERVICE")
     _emit(doc, protos, "head", "STATE OF CALIFORNIA, COUNTY OF LOS ANGELES")
     _emit(doc, protos, "body",
           "\tI am employed in the County of Los Angeles, State of California. At the time of "
           "service, I was over the age of 18 and not a party to this action; my business address "
-          "is 13191 Crossroads Pkwy N, #295, City of Industry, CA 91746.")
+          "is %s." % address)
     _emit(doc, protos, "body", "\tOn **%s**, I served the following documents:" % date)
     _emit(doc, protos, "body", "\t**%s**" % served)
     _emit(doc, protos, "body",
           "\tI served the documents on the person(s) in the Service List below, as follows:")
     for key, name, text in METHODS:
-        mark = "   X   " if key == method else "______"
+        mark = "   X   " if key in used else "______"
         _emit(doc, protos, "sub", "▪\t%s**%s**%s" % (mark, name, text))
 
     _emit(doc, protos, "body", "")
@@ -183,11 +192,12 @@ def build(doc, protos, *, served, date="____________, 2026", method="email",
     _emit(doc, protos, "body", case_name, align=A.CENTER)
     _emit(doc, protos, "body", court_line, align=A.CENTER)
 
-    t = doc.add_table(rows=1, cols=2)
+    if parties is None:
+        parties = [(counsel, ["//Attorneys for %s://" % party_role, "", "**%s**" % party_name])]
+    t = doc.add_table(rows=len(parties), cols=2)
     _bordered(t)
     sect = doc.element.body.find(W + "sectPr")
     sect.addprevious(t._tbl)
-    left, right = t.rows[0].cells
     proto = copy.deepcopy(protos["body"])
 
     from docx.text.paragraph import Paragraph
@@ -201,5 +211,6 @@ def build(doc, protos, *, served, date="____________, 2026", method="email",
                 el.find(W + "pPr").remove(jc)
             cell._tc.append(el)
             rich(Paragraph(el, cell), txt)
-    fill_cell(left, counsel)
-    fill_cell(right, ["//Attorneys for %s://" % party_role, "", "**%s**" % party_name])
+    for row, (lcol, rcol) in zip(t.rows, parties):
+        fill_cell(row.cells[0], lcol)
+        fill_cell(row.cells[1], rcol)
