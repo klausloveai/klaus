@@ -168,7 +168,7 @@ check is usually payable to **both parents as guardians** — both must endorse 
     **full-resolution original stays in Drive** and is what subfolder 6 keeps.
 26. Label the draft with the case's Gmail label in that mailbox. Label missing there but present in
     klaus@ → that case was run out of klaus@; **ask Klaus which mailbox**, don't create a new label.
-27. **Send it** — `drafts send` (no approval needed as of 2026-08-21), then **re-apply the case label**:
+27. **Send it** — `drafts send` (no approval needed as of 2026-08-21; Klaus again 2026-10-27: "这个skill不需要我授权批准 默认过" — do NOT stop to list the drafts and ask "发?" first), then **re-apply the case label**:
     sending DROPS it and the sent message comes back `['SENT']` only. Verify To/Subject/labels after sending.
     Report what went out. If the case had an unresolved discrepancy, raise that in chat — but still send.
 27b. **Retire the case label and star the thread — same step in all three mailboxes.**
@@ -180,9 +180,9 @@ check is usually payable to **both parents as guardians** — both must endorse 
       it verbatim. As of 2026-10-15:
       | mailbox | parent label | colour |
       |---|---|---|
-      | `Claims@` | `✅2026-Completed Cases` (+ `✅Completed Cases-2025` for last year) | `#16a765` / `#ffffff` |
+      | `Claims@` | `✅2026 Completed Case` (renamed by 10/27; was `✅2026-Completed Cases`) (+ `✅Completed Cases-2025`) | `#16a765` / `#ffffff` |
       | `Piteam@` | `✅2026 Completed Case` | `#42d692` / `#094228` |
-      | `Picase@` | unverified — its gws token has been `invalid_grant` since 10/9 | unverified |
+      | `Picase@` | `✅2026 Completed Case` (token works again 10/27; first child Ziru Wang) | `#16a765` / `#ffffff` (no prior child; used the Claims@ green) |
       Klaus has not asked for the three to be unified; **match the mailbox you are in**, and if a mailbox
       has no such parent yet, ask rather than inventing one.
     · **Rename the case label in place** with `labels.patch`: `<whatever parent>/<Client>` →
@@ -202,7 +202,9 @@ check is usually payable to **both parents as guardians** — both must endorse 
 ## Phase 6 — Marketing material  (PI auto only)
 28. Resolve the `人伤` **shortcut** (`1YjOq97wy58uhV_5QMaoOIQ0te5oHShrj`) to its target
     (`1M1yRLjQyfHUnYlCOOCAD1kOzERJ9l9-W`) and write into the target.
-29. Extract **only the carrier's settlement check** page(s) → `<Clients>-<M:D:YYYY>.pdf`. Never the
+29. Extract **only the carrier's settlement check** page(s) — GEICO's "Detailed Payment Summary" stub prints the
+    claimant's masked Tax ID/SSN; crop to the check itself (bottom ~34% of the page) rather than shipping the stub.
+    → `<Clients>-<M:D:YYYY>.pdf`. Never the
     client-recovery check (prints the client's home address), the fee/lien breakdown, or lien letters.
     ⚠️ **When the check arrives as a BofA "Transaction details" page, crop the check off it — never ship
     the page.** Those pages print the whole deposit the check landed in: Hongrui Ma / Tsz Shuen Chau's
@@ -231,6 +233,10 @@ check is usually payable to **both parents as guardians** — both must endorse 
     · Anything that is **not** inside the packet — a signed Release, a W-9, a records invoice, a second
       revision of a lien release — gets copied into the right case subfolder FIRST. Losing it means
       asking the provider or the carrier for it again.
+    · **DocuSign / e-signed originals** (the DIS `<Client>-Disbursement_Letter.pdf`, an e-signed lien reduction) usually sit
+      in the staging folder while the packet holds a printed-and-rescanned copy. Not byte-identical → copy the
+      electronic original into subfolder 6 as `… signed <date> (DocuSign original).pdf` before trashing.
+      A superseded carrier check (stop-payment / reissue) goes to subfolder 6 too, keeping its `(SUPERSEDED - …)` name.
     · Then **trash the folder** (`trashed: true`), never a hard delete, so Drive's 30-day net still holds it.
     Do this per client, not per batch — a sibling held at the funding gate keeps its folder.
 34. Append **one** Activity Log row (Category `会计` or `起草`, Source `Drive`, Ref = check #s +
