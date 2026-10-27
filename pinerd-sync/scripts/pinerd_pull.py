@@ -18,14 +18,22 @@ import concurrent.futures as cf
 
 SID="1sbSGUq0Bu3khRoxKLk9wdi0CvDyaeJnF50EehvvS1p4"   # PI Nerd — Knowledge Base (Master Index)
 
-def gws(args, params, body=None):
+def gws(args, params, body=None, tries=8):
+    """Call gws; on Gmail per-minute quota errors (403 rateLimitExceeded / 429) back off and retry.
+    Without this a burst of fetches silently returns {} and those emails are DROPPED from the sync."""
+    import time,random
     cmd=["gws"]+args+["--params",json.dumps(params)]
     if body is not None: cmd+=["--json",json.dumps(body)]
-    p=subprocess.run(cmd,capture_output=True,text=True)
-    s=p.stdout; i=s.find("{")
-    if i<0: return {}
-    try: return json.loads(s[i:])
-    except Exception: return {}
+    for n in range(tries):
+        p=subprocess.run(cmd,capture_output=True,text=True)
+        s=p.stdout; i=s.find("{")
+        try: r=json.loads(s[i:]) if i>=0 else {}
+        except Exception: r={}
+        err=(r.get("error") or {}) if isinstance(r,dict) else {}
+        if err and (err.get("code") in (403,429) and "uota" in str(err.get("message",""))+str(err.get("reason","")) or err.get("code")==429 or "rateLimit" in str(err)):
+            time.sleep(min(65,5*(2**n))+random.random()*3); continue
+        return {} if err else r
+    return {}
 
 def sheet_get(rng,fmt="FORMATTED_VALUE"):
     return gws(["sheets","spreadsheets","values","get"],
@@ -117,7 +125,10 @@ def main():
     if not msgs:
         json.dump([],open(os.path.join(a.workdir,"threads.json"),"w")); open(os.path.join(a.workdir,"digest.txt"),"w").write("")
         print("nothing new"); return
-    with cf.ThreadPoolExecutor(8) as ex: rows=list(ex.map(fetch,msgs))
+    with cf.ThreadPoolExecutor(4) as ex: rows=list(ex.map(fetch,msgs))
+    bad=[m["id"] for m in rows if not m.get("topic") and not m.get("subject")]
+    if bad:
+        raise SystemExit(f"ABORTING: {len(bad)} of {len(rows)} emails could not be fetched (quota?) — re-run; nothing was written. ids: {bad[:5]}")
     known=known_topic_ids()
     groups=collections.defaultdict(list)
     for m in rows: groups[m["topic"] or norm(m["subject"])].append(m)
