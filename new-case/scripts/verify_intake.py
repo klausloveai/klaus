@@ -158,6 +158,28 @@ def main():
                 else:
                     warns += 1
 
+    # 高亮闸门（2026-10-27：填表脚本漏了 c.fill 那行，三单出品全无黄色，值检查没拦住）
+    # 值为 Pending 的格子必须是黄色；Coverage/Liability Status、Accd Diagram 按约定不标黄
+    NO_YELLOW = {"coverage status", "liability status", "accd diagram"}
+    yellow_total = 0
+    unlit = []
+    for lab_col, val_col, section in SECTIONS:
+        for r in range(1, 75):
+            c = ws[f"{val_col}{r}"]
+            if c.fill.fill_type == "solid" and str(c.fill.fgColor.rgb) in ("FFFF00", "00FFFF00", "FFFFFF00"):
+                yellow_total += 1
+            label = ws[f"{lab_col}{r}"].value
+            if not label or norm(label).split("\n")[0].strip() in NO_YELLOW:
+                continue
+            if str(c.value).strip().lower() == "pending" and c.fill.fill_type != "solid":
+                unlit.append(f"{val_col}{r}")
+    if unlit:
+        print(f"\n=== 高亮 ===\n❌ ERROR 这些格子值是 Pending 却没标黄：{', '.join(unlit)}")
+        errors += 1
+    if yellow_total == 0:
+        print("\n=== 高亮 ===\n❌ ERROR 整张表一个黄色格子都没有 —— 填表脚本的 fill 没执行")
+        errors += 1
+
     print(f"\n{'='*60}\n自检完成：{errors} 个 ERROR，{warns} 个 WARN")
     if errors:
         print("❌ 有 ERROR，必须修正后重跑。")
