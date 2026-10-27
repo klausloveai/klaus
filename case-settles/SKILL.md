@@ -204,7 +204,7 @@ check is usually payable to **both parents as guardians** — both must endorse 
     (`1M1yRLjQyfHUnYlCOOCAD1kOzERJ9l9-W`) and write into the target.
 29. Extract **only the carrier's settlement check** page(s) — GEICO's "Detailed Payment Summary" stub prints the
     claimant's masked Tax ID/SSN; crop to the check itself (bottom ~34% of the page) rather than shipping the stub.
-    → `<Clients>-<M:D:YYYY>.pdf`. Never the
+    Output → `<Clients>-<M:D:YYYY>.pdf`. Never the
     client-recovery check (prints the client's home address), the fee/lien breakdown, or lien letters.
     ⚠️ **When the check arrives as a BofA "Transaction details" page, crop the check off it — never ship
     the page.** Those pages print the whole deposit the check landed in: Hongrui Ma / Tsz Shuen Chau's
