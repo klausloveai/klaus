@@ -905,7 +905,13 @@ added automatically as owner — he is in every space.**
    ```
    Verify with `... spaceNotificationSetting get` → `"notificationSetting": "FOR_YOU"`.
    Needs scope `chat.users.spacesettings` on Klaus@ (added 2026-10-23 via `bash ~/gws_chat_login.sh`).
-   If it returns 403 insufficient scopes, say so in the summary — never skip silently.
+   **If it returns 403 insufficient scopes → do it in the built-in browser in the same run. Reporting
+   the 403 is NOT completing the step** (Klaus 2026-10-27: 「这个说过好几次了怎么没有履行」— three cases
+   in a row were left on "Main conversations" because the 403 was only reported):
+   navigate `https://chat.google.com/u/1/room/<SPACE_ID>` (klaus@ = `u/1`) → click the space name (≈ x300,y75)
+   → menu item **Notifications** → radio **For you** → **Save** → reopen the menu and confirm the item reads
+   `Notifications · For you`. ⚠️ The menu shifts after opening — screenshot before every click; **Mute** sits
+   right above Notifications (mis-click once → hit Undo on the toast).
 
 3. **Promote to Manager — ALWAYS. Amos, Claire and the assigned CM get the Manager role.** (On a Claims@ case the CM *is* Amos, so the list is just Amos + Claire.)
    Everyone else stays a plain Member. Do this after the members are verified, before posting.
