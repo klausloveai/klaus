@@ -40,6 +40,27 @@ The receiver can run the case from Drive alone:
 4. One **Parties & Service List** says who is who.
 5. The team got **one** transfer-complete email. Nobody got a pile of forwards.
 
+## Klaus's four checks (2026-10-26 — every transfer, every case)
+Learned from the first three transfers (Brian Wu, CB Kitchen, Xicheng Li). Gate 1 is organised
+around these four, in this order:
+1. **Emails — who must see Allison.** Every still-active thread gets the receiver Cc'd (Phase 5
+   rule: quote + re-attach). Then introduce the receiver to everyone outside the firm who will
+   write to us again: opposing counsel (or a pro per party — by mail if no email), providers,
+   lien/funding companies, carriers and WC adjusters, other counsel (e.g. the client's WC
+   attorney). A thread owned by another staff member (Claire's appointment threads) → that person
+   introduces the receiver in her own thread; Klaus does not reply there. Client → Klaus adds the
+   receiver to the WeChat / WeCom group; the receiver introduces herself.
+2. **Calendar — make it current, then add the receiver.** Re-check every date against its source
+   (extensions, continued hearings, recomputed deadlines). Fix stale events, add missing ones
+   (service deadlines, jury fees, SOL), delete junk, then add the receiver as a guest on each
+   event the sender owns; ask the attorney to add her to his.
+3. **Treatment — first-hand, per provider.** Name, address, phone, email, contact person; visit
+   dates and count; what records and bills we hold (Drive path) and what is still missing; lien or
+   not, and who funds it. Read the records themselves, not the summary — the records can settle
+   questions the summary leaves open (Weicong Lin: the ER MAR showed no rabies PEP).
+4. **To-do — what remains.** One list per case: item · owner · due date · source.
+Related cases (Weicong Lin + Guolin Zhao) go through the four checks together.
+
 ## Order of work — inventory first, email last
 
 Brian Wu did it backwards: a handoff email went out on day 1, the archive was built on day 3,
@@ -172,6 +193,7 @@ writing on. One message, reply-all plus the receiver.
     or receiver).
   - **Say what is not in the file** (section 6): other people's mailboxes (Cindy's fee records, the
     attorney's own emails), phone calls never logged, personal WeChat, paper mail. Name who to ask.
+- **Email layout (Klaus 2026-10-26/27): tables, not paragraphs.** Seven sections: 1 Case at a glance · 2 Action items (# | Action | When | Notes) — questions for the attorney become receiver action items, and anything Claude found in records is marked "verify before raising" · 3 Treatment, records and bills (per provider: dates, records, bills, missing; leave out unrelated providers) · 4 Case costs advanced (date | cost | paid to | amount, from the actual receipts, plus "not billed yet" and "not confirmed") · 5 Dates · 6 Open orders with current status · 7 Where everything is. Attach any form the receiver must get signed. Inline styles only; screenshot it with headless Chrome before showing Klaus.
 - **Email**: To receiver, Cc attorney + Cassie + Joe (ask Klaus about others). Short: transfer
   complete; the memo is the one reference; **the three most immediate items**; anything in an
   earlier email that is now obsolete; "nothing else is active." Link the memo (Lesson 4).
