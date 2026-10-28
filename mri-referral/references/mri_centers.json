@@ -1,0 +1,14 @@
+[
+  {"family": "Sun Imaging", "search": "Sun Imaging MRI", "email_match": ["sunimaging"],
+   "referral_email": "sunimagingrh@gmail.com (Rowland Heights); sunimagingpi@gmail.com / sunimaginginc@gmail.com (other sites, lien/records)",
+   "language": "Chinese-owned; Chinese service not separately verified", "note": "Firm's #1 MRI by volume. RH site 19115 Colima Rd Ste B7, next to Affinity (19031 Colima Rd)."},
+  {"family": "Prime MRI", "search": "Prime MRI San Gabriel", "email_match": ["primemri"],
+   "referral_email": "primemri.sg@gmail.com", "language": "?", "note": "1400 S San Gabriel Blvd, San Gabriel"},
+  {"family": "Shin Imaging / Providence Rezolut", "search": "Shin Imaging", "email_match": ["shin-imaging", "rezolut"],
+   "referral_email": "schedulingla@shin-imaging.com; scheduling@providencerezolutimaging.com; scheduling.cl@rezolut.com",
+   "language": "Korean-owned; Chinese not expected", "note": "Fullerton, Buena Park, LA Koreatown, Chino Hills, Irvine"},
+  {"family": "SimonMed", "search": "SimonMed Imaging", "email_match": ["simonmed"],
+   "referral_email": "pischedulesd@simonmed.com", "language": "English", "note": "large chain; mostly OC / Riverside / Westside"},
+  {"family": "Expert MRI", "search": "Expert MRI", "email_match": ["expertmri"],
+   "referral_email": "referrals2@expertmri.com", "language": "?", "note": "Northern CA / out-of-area cases"}
+]
