@@ -38,7 +38,7 @@ LIT_WORDS = re.compile(r"complaint|discovery|interrogator|request for production
 # (Hernán's footer cites "18 U.S.C. §§ 2510-2523", which once matched a case.)
 BOILER = re.compile(r"CONFIDENTIALITY NOTICE|Please be advised that I do not accept|"
                     r"NOTICE REGARDING SERVICE|Sincerely,|Best regards,|Thank you,\s*$", re.I)
-NOT_REF = re.compile(r"\d{1,5}|\d{3}-\d{3}-\d{4}|\d{5}(-\d{4})?|\d{4}-\d{4}|"
+NOT_REF = re.compile(r"\d{4}-\d{1,2}-\d{1,2}|\d{1,2}-\d{1,2}-\d{2,4}|\d{1,5}|\d{3}-\d{3}-\d{4}|\d{5}(-\d{4})?|\d{4}-\d{4}|"
                      r"\(?\d{3}\)?-?\d{3}-?\d{4}")
 MIN_HISTORY_HITS = 2
 REF_TOKEN = re.compile(r"(?<![\w-])(?=[\w-]*\d)[A-Z0-9][A-Z0-9-]{5,}(?![\w-])", re.I)
