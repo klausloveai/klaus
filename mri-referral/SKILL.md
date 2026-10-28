@@ -144,7 +144,8 @@ The center replies on the referral thread (e.g. "scheduled … Wednesday, 11/04/
 Do all of these in one pass, no need to ask:
 1. **Gmail**: re-apply the case label to the thread (the reply arrives unlabelled).
 2. **PI Master Sheet MRI column**: rewrite to the appointment date, the column's convention —
-   `11/04(C/L) Sun Imaging RH`. If a CA wrote the cell, keep her text and append ` → 11/04 <Center>`.
+   `11/04(C/L) Sun Imaging RH`. **Fill = amber 暗黄 `#ffe49f`**（已确认预约、等待发生；Klaus 2026-10-28）。
+   Referral sent but not yet booked stays bright yellow `#ffff00`. If a CA wrote the cell, keep her text and append ` → 11/04 <Center>`.
 3. **Intake sheet** (`<Client>-<DOL> Intake Sheet`, native gsheet in the case folder), tab `Sheet 1`,
    **Treatments block, the `MRI` group (col Q labels / col R values)**: R=center name, Address,
    Phone (digits only, like the Chiro block), Email, and **Note** =
