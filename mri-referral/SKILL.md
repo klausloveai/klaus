@@ -150,7 +150,9 @@ Do all of these in one pass, no need to ask:
    **Treatments block, the `MRI` group (col Q labels / col R values)**: R=center name, Address,
    Phone (digits only, like the Chiro block), Email, and **Note** =
    `MRI C/L w/o contrast (<clinic> / <doctor> <M/D> Ref); referral sent <M/D>; appt <MM/DD/YYYY h:mm AM>`.
-   Find rows by label text, not fixed row numbers. If tab `Treatment Cost` lists the MRI under
+   Find rows by label text, not fixed row numbers. **Values are NOT bold** (Klaus 2026-10-28): write them, then
+   `repeatCell` with `userEnteredFormat.textFormat.bold=false` on the written cells — the block's
+   cells inherit bold otherwise. If tab `Treatment Cost` lists the MRI under
    "Recommendation (未做)", append `→ <Center>，已约 <M/D h:mm AM>` to that line.
 4. **Case Chat**: `【Claude AI】 MRI appointment confirmed✅` / `<Center>` / `<Weekday> MM/DD/YYYY h:mm AM — MRI <body parts>`.
 5. **Calendar + todo**: move the "confirm booked" event to the appointment slot (Free); close the
