@@ -34,6 +34,12 @@ python3 -I $D/inventory.py --out $W/inv.json --revisions # 量少、想连版本
 不限日期**查一遍（2026-10-24 漏过一张 3 月就已归档的发票，就是因为只比了近期索引）。
 `✓` = Drive 里已有一模一样的字节；`·` = 没找到。**只认 MD5，不认文件名**——同名不同内容正是要抓的错。
 
+## Step 1b — 先看别的 session 是不是刚清过
+
+`search_session_transcripts(query="移废纸篓")` / `query="Downloads 从"` 看最近 1–2 天有没有别的 session 跑过本 skill。
+有的话读它的交付清单：**它已经判过的不再重判，它问 Klaus 还没得到回答的问题合并进本轮「要你确认」**，
+本轮只处理它之后新出现的文件。两个 session 同时清会互相打架（2026-10-28 Chunpeng Wu 的 session 头一天刚清过）。
+
 ## Step 2 — 逐件判断（你来做，脚本做不了）
 
 对每个文件（同一文件夹的可以成组判断）问三件事：
