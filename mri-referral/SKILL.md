@@ -139,6 +139,24 @@ Locked wording from Sai Choi Lau — swap only the slots:
 3. If the case has a case artifact (`~/.claude/skills/case-artifact/assets/applied.json`), update its
    treatment section + timeline in the same wrap-up.
 
+## Step 6 — Center confirms the appointment (Klaus 2026-10-28：「收到这个信息需要更新 master sheet，intake sheet，还有 post 在 chat」)
+The center replies on the referral thread (e.g. "scheduled … Wednesday, 11/04/2026, at 9:30 AM").
+Do all of these in one pass, no need to ask:
+1. **Gmail**: re-apply the case label to the thread (the reply arrives unlabelled).
+2. **PI Master Sheet MRI column**: rewrite to the appointment date, the column's convention —
+   `11/04(C/L) Sun Imaging RH`. If a CA wrote the cell, keep her text and append ` → 11/04 <Center>`.
+3. **Intake sheet** (`<Client>-<DOL> Intake Sheet`, native gsheet in the case folder), tab `Sheet 1`,
+   **Treatments block, the `MRI` group (col Q labels / col R values)**: R=center name, Address,
+   Phone (digits only, like the Chiro block), Email, and **Note** =
+   `MRI C/L w/o contrast (<clinic> / <doctor> <M/D> Ref); referral sent <M/D>; appt <MM/DD/YYYY h:mm AM>`.
+   Find rows by label text, not fixed row numbers. If tab `Treatment Cost` lists the MRI under
+   "Recommendation (未做)", append `→ <Center>，已约 <M/D h:mm AM>` to that line.
+4. **Case Chat**: `【Claude AI】 MRI appointment confirmed✅` / `<Center>` / `<Weekday> MM/DD/YYYY h:mm AM — MRI <body parts>`.
+5. **Calendar + todo**: move the "confirm booked" event to the appointment slot (Free); close the
+   todo and add one for the appointment day: confirm the client went, then request report + bill.
+6. Case artifact (if any): treatment row + timeline. Offer Klaus a short WeChat reminder 文案 (time /
+   address / phone / bring ID / call to reschedule).
+
 ## Guardrails
 - Draft-only until Klaus says "发" for this draft; one live draft per center.
 - Notes on alternatives are factual only; the client still chooses (keep the Google/Yelp line).
