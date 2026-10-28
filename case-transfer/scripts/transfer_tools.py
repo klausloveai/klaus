@@ -195,7 +195,12 @@ def archive(C,W):
             name=f"{d0} - {re.sub(r'[\\\\/:*?\"<>|]+','-',subj)[:90].strip()}.pdf"
             doc=f'''<!doctype html><meta charset=utf-8><style>@page{{size:letter;margin:.7in}}body{{font-family:Arial,sans-serif;font-size:10pt}}h1{{font-size:13pt;margin:0 0 2px}}.sub{{font-size:9pt;color:#444;margin-bottom:12px}}.msg{{border-top:2px solid #000;padding-top:6px;margin-top:14px}}.n{{font-size:8.5pt;color:#555}}table{{border-collapse:collapse;font-size:9pt;margin-bottom:6px}}td{{padding:1px 6px 1px 0;vertical-align:top}}.k{{font-weight:bold;width:80px}}pre{{white-space:pre-wrap;font-family:Arial,sans-serif;font-size:10pt;margin:0}}</style><h1>{html.escape(subj)}</h1><div class=sub>{html.escape(C["case_title"])} · Exported from klaus@lingtulaw.com, Gmail thread {tid}, on {time.strftime("%m/%d/%Y")} · {len(ms)} message(s) · quoted history and footer notices trimmed</div>{"".join(parts)}'''
             hp=f"{W}/x_{tid}.html"; pp=f"{W}/x_{tid}.pdf"; open(hp,"w").write(doc)
-            subprocess.run(["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome","--headless","--disable-gpu","--no-pdf-header-footer",f"--print-to-pdf={pp}","file://"+hp],capture_output=True)
+            for _try in range(3):  # Chrome headless can hang on a single page; never block the run
+                try:
+                    subprocess.run(["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome","--headless=new" if _try else "--headless","--disable-gpu","--no-pdf-header-footer",f"--print-to-pdf={pp}","file://"+hp],capture_output=True,timeout=90)
+                    if os.path.exists(pp) and os.path.getsize(pp)>0: break
+                except subprocess.TimeoutExpired:
+                    subprocess.run(["pkill","-f",f"print-to-pdf={pp}"]); log("PDF render timeout, retry",_try+1,tid)
             pdf,ok=upload(pp,name,ARCH,"application/pdf"); log("PDF","✓" if ok else "✗ MD5",name[:90])
         index.append(dict(id=tid,first=d0,last=dl,subj=subj,n=len(ms),ext=sorted(ext),atts=sorted(set(atts)),status="Active" if tid in active else "History",pdf=pdf))
     json.dump(dict(arch=ARCH,att=ATT,index=index),open(f"{W}/index.json","w"),ensure_ascii=False,indent=1)
