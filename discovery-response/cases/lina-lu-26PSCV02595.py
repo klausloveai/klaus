@@ -66,19 +66,19 @@ def frog(d):
              ("sub", "(b)\t20 Genoa Street, Apartment A, Arcadia, California 91006 (the address shown on "
                      "Responding Party's driver license)."),
              ("sub", "(c)\t415 West Duarte Road: November 1, 2025 to the present. 20 Genoa Street: 2018 to "
-                     "October 2025 " + tbc("MONTH IN 2018") + "."))
+                     "October 2025."))
     q("2.6", ("sub", "(a)\tResponding Party is self-employed as an independent contractor delivering packages "
                      "through the Amazon Flex program operated by Amazon Logistics, Inc., "
                      + tbc("AMAZON LOGISTICS ADDRESS AND TELEPHONE") + "."),
              ("sub", "(b)\t(1) Amazon Flex delivery partner (independent contractor), package delivery, from "
                      "approximately July 2025 to the present. (2) Uber Eats delivery partner (independent "
-                     "contractor), Uber Technologies, Inc., food delivery, for a little over one year before July 2025 "
-                     + tbc("START MONTH; ANY WORK BETWEEN JULY 2021 AND THEN") + ". "
+                     "contractor), Uber Technologies, Inc., food delivery, for a little over one year before July 2025. "
+                     "Responding Party had no other employment since July 2021. "
                      + flag("Client (voice, October 25): Flex since about July 2025, Uber Eats for a year-plus before "
                             "that. Our February 25, 2026 car-crash intake lists her occupation as 'Housewife' -- that "
                             "intake entry looks wrong; worth correcting in the PI file before the car-crash demand.")))
-    q("2.7", ("sub", "(a)\t" + tbc("NAME AND CITY OF VOCATIONAL SECONDARY SCHOOL, CHINA") + "."),
-             ("sub", "(b)\t" + tbc("DATES ATTENDED") + "."),
+    q("2.7", ("sub", "(a)\tDaqing Petroleum School, Daqing, Heilongjiang Province, People's Republic of China."),
+             ("sub", "(b)\t1994 to 1997."),
              ("sub", "(c)\tVocational secondary school diploma (China). Responding Party did not attend high "
                      "school in the United States and holds no other degree."))
     q("2.8", "No.")
@@ -129,8 +129,7 @@ def frog(d):
           ("sub", "(b)\tResponding Party describes each of these complaints as continuing without improvement "
                   "since the INCIDENT " + tbc("SAME / BETTER / WORSE, PER COMPLAINT") + "."),
           ("sub", "(c)\tThe scar is constant. The fear and shortness of breath occur whenever she encounters a "
-                  "dog or a situation similar to the INCIDENT. The sleep disturbance occurs at night "
-                  + tbc("FREQUENCY") + "."))
+                  "dog or a situation similar to the INCIDENT. The sleep disturbance occurs nearly every night."))
     q("6.4", "Yes.",
           ("sub", "1.\t(a) " + USC + ". (b) Emergency department examination and treatment: wound irrigation, "
                   "tetanus, diphtheria and pertussis (Tdap) vaccination, and a prescription for oral "
@@ -155,8 +154,7 @@ def frog(d):
                   "M.D. (sleep aid)."),
           ("sub", "(c)\tAntibiotic: July 9, 2026, for seven days. Sleep aid: from July 28, 2026 " + tbc("END DATE") + "."),
           ("sub", "(d)\t$3.00 (Sunny Bay Pharmacy, July 9, 2026)."))
-    q("6.6", tbc("NURSING / TRANSPORTATION EXPENSES CLAIMED: WHO, WHAT, DATES, AMOUNTS") + " If none, the answer "
-             "will be: No.")
+    q("6.6", "No.")
     q("6.7", "Yes.",
           ("sub", "(a)\t" + BHIPS + "."),
           ("sub", "(b)\tThe scar and fat necrosis of the outer left ankle."),
@@ -175,15 +173,21 @@ def frog(d):
     q("7.2", "Not applicable.")
     q("7.3", "Not applicable.")
     q("8.1", "No.",
-          flag("Client: no days off, no lost earnings, but deliveries take longer since the bite, and her "
-               "husband drives her route and accompanies her while she works. 'No' waives lost earnings and "
-               "earning capacity (8.2 through 8.8 go unanswered). Confirm 'No.' Do not ask the client about the "
-               "husband driving in writing."))
+          flag("Client: no days off and no lost earnings of her own. Updated October 28: her husband, also an "
+               "Uber driver earning about $200 to $300 a day, rode along with her for about two weeks after the "
+               "bite, after which she worked alone again. That is his loss, not hers, so 8.1 can stay 'No'; "
+               "whether to claim the value of his help is the 9.1 decision. 'No' here waives her own lost "
+               "earnings and earning capacity (8.2 through 8.8 go unanswered). Confirm 'No.'"))
     for n in range(2, 9):
         q("8.%d" % n, "Not applicable.")
-    q("9.1", tbc("OTHER DAMAGES (OUT-OF-POCKET COSTS OTHER THAN MEDICAL)") + " If none, the answer will be: "
-             "No, other than the general damages for pain, suffering and emotional distress described in "
-             "the responses to interrogatories 6.2 and 6.3.")
+    q("9.1", "No, other than the general damages for pain, suffering and emotional distress described in "
+             "the responses to interrogatories 6.2 and 6.3.",
+          flag("Client (October 28): the $50 emergency copayment is her only out-of-pocket cost. (Our file "
+               "also has a $3.00 pharmacy receipt for July 9; 6.5 and 9.2 follow the receipt.) Her husband rode "
+               "along for about two weeks at a cost to him of about $200 to $300 a day (14 days x $200 = $2,800; "
+               "14 days x $300 = $4,200; we have no record of the actual days he lost). Claim it here as the "
+               "reasonable value of his assistance, or leave it out? If claimed, we need proof of his Uber "
+               "earnings."))
     q("9.2", "Yes. The itemized bill of USC Arcadia Hospital; Responding Party's receipt for her $50.00 emergency "
              "copayment to USC Arcadia Hospital on July 9, 2026; the Sunny Bay Pharmacy receipt for $3.00 dated "
              "July 9, 2026; the invoice and treatment plan of Beverly Hills Institute of Plastic Surgery dated "
@@ -194,7 +198,7 @@ def frog(d):
               "(see the response to interrogatory 11.1) and was treated for neck and back pain, a contusion of the left "
               "hand, pain in the right arm, headaches, dizziness, nausea, fear of driving and recurring nightmares.",
           ("sub", "(a)\tThe conditions listed above. " + tbc("WHICH WERE STILL PRESENT ON JULY 9, 2026") + "."),
-          ("sub", "(b)\t" + tbc("WHETHER THE INCIDENT AGGRAVATED ANY OF THEM, ESPECIALLY THE NIGHTMARES") + "."),
+          ("sub", "(b)\tSince the INCIDENT Responding Party has had nightmares and does not sleep soundly."),
           ("sub", "(c)\tPomona Valley Hospital Medical Center, 1798 North Garey Avenue, Pomona, California 91767, "
                   "(909) 865-9500, emergency department, February 25, 2026; Care Ambulance Service, Inc., February 25, "
                   "2026; Prestige Integrative Health Center, 5553 Rosemead Boulevard, Temple City, California 91780, "
@@ -207,7 +211,10 @@ def frog(d):
                "June 30 and July 14) and that the car-crash intake lists fear of driving and recurring nightmares. "
                "The nightmares overlap the emotional distress claimed in 6.2 and 6.3. The defense will find this "
                "through the L.A. Care records. Draft discloses it. Note also: the July 28, 2026 PCP visit was for sleep "
-               "problems (client voice, October 25), the same complaint as the pre-existing nightmares."))
+               "problems (client voice, October 25), the same complaint as the pre-existing nightmares. Client "
+               "(October 28): the car-crash symptoms 'were all treated' and the nightmares and poor sleep came after "
+               "the bite. She did not say which car-crash conditions were still present on July 9, so (a) stays open; "
+               "the pain management visit of July 14 is after the bite."))
     q("10.3", "No.")
     q("11.1", "Yes.",
           ("sub", "1.\tMotor vehicle collision: (a) February 25, 2026, approximately 7:51 a.m., Golden Springs Drive at "
@@ -239,7 +246,7 @@ def frog(d):
                   + "; and the Azusa Police Department dispatcher who received Responding Party's 911 call."),
           ("sub", "(d)\tEach person named above; Fuguo Wang, Responding Party's husband, " + COUNSEL_CONTACT
                   + "; Fei Li, identified on the Animal Bite Reporting Form as the person who reported the bite, "
-                  "(626) 262-3246 " + tbc("RELATIONSHIP AND ADDRESS; IS THIS THE FRIEND WHO CALLED FOR HER?")
+                  "a friend of Responding Party, (626) 262-3246 " + tbc("ADDRESS")
                   + "; M. Valdez, number 14, " + IVHS + ", who submitted the Animal Bite Reporting Form; "
                   "the agent of Amazon's Incident Response Team who signed as Mountassir, Amazon Logistics, Inc.; "
                   "and Richard Reyes and Zoraida Torres, as Trustees of the Torres Reyes Family Trust, through "
@@ -258,7 +265,9 @@ def frog(d):
           ("sub", "(d)\tResponding Party, " + COUNSEL_CONTACT + ". Saul Lahijani, M.D. also took photographs on "
                   "September 16, 2026."),
           ("sub", "(e)\tResponding Party and her counsel; Amazon Logistics, Inc. holds its own delivery record and any "
-                  "proof-of-delivery photograph; Beverly Hills Institute of Plastic Surgery holds its photographs."),
+                  "proof-of-delivery photograph; Beverly Hills Institute of Plastic Surgery holds its photographs. The "
+                  "proof-of-delivery photograph was taken and uploaded through the Amazon Flex application and is not "
+                  "saved on Responding Party's telephone."),
           flag("8:39 a.m. appears here because the delivery record is a photograph concerning the INCIDENT. It fixes "
                "the time in a verified answer before the client's timeline is back. Keep, or describe the record "
                "without the time?"))
@@ -348,8 +357,8 @@ def rfa_resp(d):
     dd = ["Admit that Responding Party was able to walk, with difficulty and with pain, numbness and bleeding "
           "from her left ankle, out of the front gate after the young female carried the dog into the house. "
           "Except as expressly admitted, Responding Party denies this request. She did not leave the area "
-          "immediately; she telephoned 911 and spoke with Azusa Police Department officers about the bite "
-          + tbc("WHETHER SHE WAITED AT THE SCENE FOR THE OFFICERS") + "."]
+          "immediately; she returned to her car, telephoned 911, and waited at the scene, where she spoke with "
+          "Azusa Police Department officers about the bite."]
     e = [INQ + " Responding Party has no personal knowledge of the dog's history. Her inquiry, which is "
          "continuing, includes: (1) a public records request to the Azusa Police Department (PDRR2026-67), "
          "which responded on October 1, 2026 that no written report was prepared for this INCIDENT; (2) a "
@@ -360,7 +369,13 @@ def rfa_resp(d):
          "Public Health dated August 13, 2026, to which no records have been produced; and (4) interrogatories "
          "and requests for admission served on the Luna defendants concerning the dog's history, to which "
          "responses are not yet due."]
-    f = ["Deny. " + tbc("CLIENT TO CONFIRM EXPLICITLY THAT NO ONE WARNED HER BEFORE THE BITE (ROUND-2 ITEM C5)")]
+    f = ["Deny. Responding Party had taken one step inside the front gate when the young female may have "
+         "said something in a low voice; Responding Party did not hear or understand what was said. No one told "
+         "Responding Party that a dog was loose or that she should leave the premises.",
+         flag("Client (October 28): 'the girl seemed to say something quietly but I didn't catch it; I was "
+              "hurrying to put the package down and was bitten.' Not a clean 'no one said anything.' The draft "
+              "discloses the low-voice remark so the deposition cannot surprise us; a bare 'Deny' is the "
+              "alternative. Same choice for G and 17.1 F.")]
     g = ["Deny."]
     return {"A": a, "B": b, "C": c, "D": dd, "E": e, "F": f, "G": g}
 
@@ -396,7 +411,7 @@ def rfa_171(d):
         "Party's counsel has a copy); USC Arcadia Hospital emergency department record of July 9, 2026 (USC "
         "Arcadia Hospital; Responding Party's counsel)")
     blk("D", "Responding Party walked out of the front gate with difficulty, pain, numbness and bleeding after the "
-             "dog was carried inside, and remained in the area to report the bite " + tbc() + ".",
+             "dog was carried inside, and returned to her car, telephoned 911, and waited at the scene for the officers.",
         ME + "; Officers Castro and Torres, " + APD,
         "Azusa Police Department call detail report, incident 26-23363")
     blk("E", "See the response to Request for Admission E, which sets out the inquiry made.",
@@ -406,7 +421,9 @@ def rfa_171(d):
         "Azusa Police Department responses to request PDRR2026-67; City of Azusa response to request "
         "CPR2026-348 dated October 16, 2026; Responding Party's requests to the County dated August 13, 2026 and "
         "follow-up letters dated October 20, 2026 (Responding Party's counsel has each)")
-    blk("F", "No one told Responding Party before the bite that a dog was loose or that she should leave. The young "
+    blk("F", "No one told Responding Party before the bite that a dog was loose or that she should leave. As she "
+             "stepped inside the gate the young female may have said something in a low voice, which Responding "
+             "Party did not hear or understand. The young "
              "female agreed that the package could be left at the door; after the bite she said \"sorry\" and "
              "carried the dog into the house.",
         ME + "; the young female described in response to interrogatory 12.1",
@@ -471,8 +488,14 @@ def rfp_resp():
               "withholding her Amazon Flex earnings statements from January 1, 2025 to October 2, 2026, which "
               "are held by Amazon Logistics, Inc. and in the Amazon Flex application.",
               flag("Object and withhold (draft), or produce? If 8.1 changes to 'Yes,' this objection fails.")],
-        "8": [tbc("WHETHER THE FLEX APP SHOWS PAY FOR THE JULY 9 BLOCK; FLEX PAYS PER BLOCK, NOT PER PACKAGE")
-              + " If no document shows pay for this single delivery: " + UNABLE_NOW % "Amazon Logistics, Inc."],
+        "8": ["Responding Party is unable to comply with this request because no document showing compensation "
+              "for the single delivery to 152 East Kirkwall Road has ever existed: the Amazon Flex program pays a "
+              "fixed amount for a block of hours, not per package or per delivery. Responding Party has conducted a "
+              "diligent search and a reasonable inquiry. She will produce the Amazon Flex record of her pay for the "
+              "July 9, 2026 block " + tbc("CLIENT TO SEND SCREENSHOT OF JULY 9 BLOCK PAY") + ".",
+              flag("Producing the block-pay screenshot is voluntary (it is not the document requested). Produce it, "
+                   "or stop at the inability statement? Note RFP 7: if we object and withhold her Flex earnings "
+                   "there, producing one block's pay here narrows that objection.")],
         "9": [tbc("JULY 9, 2026 ITINERARY FROM THE FLEX APP"),
               flag("The July 9 route will show the time of each stop and whether she kept delivering after 8:39 "
                    "a.m. Review it before deciding how to answer; it decides the bite-time question as well.")],
