@@ -138,7 +138,7 @@ Phases 4 and 6 but **not** in Phases 1–2. When only one claimant is funded or 
 - Prefix `✅ ` and the disburse date per block (`A1`/`C1` for the first claimant, `A19`/`C19` for the
   second), so a half-done tab reads correctly.
 - Hold the team email too, then send **one** email covering both claimants when the tab closes.
-A minor's half has its own gate on top of funding: the compromise route must be settled, and the carrier
+A minor's half has its own gate on top of funding: **if the minor's settlement is $5,000 or more** the compromise route must be settled (Klaus 2026-10-28: under $5k needs no court — pay the parent, e.g. ck 80499 "Shengjun Lu as Parent of Xinyi Lu", and don't raise it), and the carrier
 check is usually payable to **both parents as guardians** — both must endorse before it can be deposited.
 
 ## Phase 4 — Pending → Completed
