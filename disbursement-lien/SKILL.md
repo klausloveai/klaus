@@ -91,7 +91,9 @@ python3 scripts/disb.py run case.json --out <dir> --lien all|none|"A,B" --dis si
 ```
 
 What the script guarantees (don't redo by hand):
-- Letterhead and body contact = Klaus direct **(626) 479-2207, Fax (626) 479-2207** (VoiceFax).
+- Letterhead and body contact = Klaus direct **(626) 479-2207, Fax (626) 479-2207** (VoiceFax) on
+  lien letters. **Disbursement letter: keep the template header as is — phone only, no Fax line**
+  (Klaus 2026-10-28).
   **626-240-2046 never appears** (claims@ fax-to-email); 614-6666 (personal cell) is removed.
   Header edits are text-only inside existing runs; header paragraphs are never added or removed.
 - Lien letter: date centred; signature/Date columns aligned at 4.5" even for long payee names;

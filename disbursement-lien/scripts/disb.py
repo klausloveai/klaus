@@ -64,10 +64,8 @@ def fix_header(h):
     h = re.sub(r'(<w:t[^>]*>)614(</w:t>)', r'\g<1>479\g<2>', h)
     h = re.sub(r'(<w:t[^>]*>)6666(</w:t>)', r'\g<1>2207\g<2>', h)
     h = h.replace("Fax: (626) 240-2046", f"Fax: {PHONE}")
-    plain = re.sub(r'<[^>]+>', '', h)
-    if "2207" in plain and "Fax" not in plain:   # disbursement template: phone line only
-        h = re.sub(r'<w:t[^>]*>2207</w:t>',
-                   f'<w:t xml:space="preserve">2207    Fax: {PHONE}</w:t>', h)
+    # Disbursement template has a phone line only: keep it as the template has it, no Fax added
+    # (Klaus 2026-10-28: "for disbursement, no need include fax, stick with template").
     plain = re.sub(r'<[^>]+>', '', h)
     assert "240-2046" not in plain and "614" not in plain, "header still carries a forbidden number"
     return h
