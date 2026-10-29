@@ -88,6 +88,14 @@ D..EK 找金额==支票额的格。歧义时以**支票收款人**定列(如同�
 客户 recovery 必须落 J 列。找不到行/金额 → 不动不勾，报告（常见原因：案子没录 Internal——
 Xiaohua Yu 型;或差额——80277 型）。列结构见 accounting-agent skill(U-Z=保险公司,AA+=providers)。
 
+## Cleared date = BoA 入账日（支票和存款都要记，Klaus 2026-10-28）
+BoA 交易表第 0 列 Posting date **就是 cleared date**。每勾一笔 Reconcile，同时在 Account Journal 该行写：
+**M Cleared Date = Posting date**（`datetime` + number_format `M/D/YYYY`）· **N Statement Month = `YYYY-MM`**。
+- **支票也要写**（以前只写存款，支票空着等月结 —— 10/28 前勾掉的 63 张已按 BoA 入账日补齐）。
+- 列支票清单时就把 `posting date | check# | amount` 一起抓下来，写 journal 时按支票号唯一匹配（只认有 G 列出账的行；重号 80275 这类要人工看）。
+- 写前 assert M 原本为空；已有日期且不同 → 不覆盖，报告。
+- `case-settles` 记账时仍然不写日期（那时还没兑现）——日期只在这里、勾 Reconcile 时写。
+
 ## Journal 更新(openpyxl)
 表头 row9: Date|Payor/Payee|Method|Check#|Purpose|Deposit|Disbursement|RunningBal|Client。
 JULY/AUGUST PENDING 区的预登 deposit 行 Date 为空；对上银行后填 `datetime(Y,M,D)` +
@@ -104,7 +112,7 @@ PENDING 区末尾空行 append 完整行(标注 "ADDED from bank check image")�
 ## 流程顺序(每月/每次)
 1. `date` 读真实日期。BoA 设 filter(目标月+Non-reconciled) → 列全量(View more 到底,去重)。
 2. 支票 lane：Rentec 反查全部支票号 → 逐张 View/Edit 读影像核 payee/memo → Internal fresh
-   lookup 匹配 → pre-flight → 改绿 → 复查 → BoA 勾 → 重设 filter 服务器端确认。
+   lookup 匹配 → pre-flight → 改绿 → 复查 → BoA 勾 → **journal 写 M=入账日 / N=月份** → 重设 filter 服务器端确认。
 3. 存款 lane：逐笔开 thumbnails 读组成 → journal 三重匹配(check#+金额+client) → 差异报告
    (缺行即补,金额不符只报不改) → journal 填日期/补行 → Pending sheet 绿/建 tab → 组成精确
    加总后 BoA 勾 → Reconciled 视图复查。
