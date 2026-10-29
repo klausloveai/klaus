@@ -39,7 +39,7 @@ APD = "Azusa Police Department, 725 North Alameda Avenue, Azusa, California 9170
 USC = "USC Arcadia Hospital, 300 West Huntington Drive, Arcadia, California 91007, (626) 898-8000"
 BHIPS = ("Saul Lahijani, M.D., Beverly Hills Institute of Plastic Surgery, 8654 Wilshire Boulevard, "
          "Beverly Hills, California 90211, (310) 550-6886")
-IVHS = "Inland Valley Humane Society, (909) 623-9777, " + tbc("STREET ADDRESS")
+IVHS = "Inland Valley Humane Society, 500 Humane Way, Pomona, California 91766, (909) 623-9777"
 COUNSEL_CONTACT = "who may be contacted only through Responding Party's counsel of record"
 BATES = "«[BATES RANGE TO BE INSERTED]»"
 
@@ -68,8 +68,7 @@ def frog(d):
              ("sub", "(c)\t415 West Duarte Road: November 1, 2025 to the present. 20 Genoa Street: 2018 to "
                      "October 2025."))
     q("2.6", ("sub", "(a)\tResponding Party is self-employed as an independent contractor delivering packages "
-                     "through the Amazon Flex program operated by Amazon Logistics, Inc., "
-                     + tbc("AMAZON LOGISTICS ADDRESS AND TELEPHONE") + "."),
+                     "through the Amazon Flex program operated by Amazon Logistics, Inc., 410 Terry Avenue North, Seattle, Washington 98109, represented in this action by Brockman Quayle Bennett, 12481 High Bluff Drive, Suite 301, San Diego, California 92130, (858) 788-3900."),
              ("sub", "(b)\t(1) Amazon Flex delivery partner (independent contractor), package delivery, from "
                      "approximately July 2025 to the present. (2) Uber Eats delivery partner (independent "
                      "contractor), Uber Technologies, Inc., food delivery, for a little over one year before July 2025. "
@@ -96,7 +95,7 @@ def frog(d):
     q("2.13", "No.")
     q("4.1", "Yes. Responding Party identifies the following:",
           ("sub", "1.\t(a) Health insurance (medical expense coverage). (b) L.A. Care Health Plan, L.A. Care Covered "
-                  "(Covered California), Silver 94 HMO, " + tbc("L.A. CARE ADDRESS") + ". (c) Lina Lu, "
+                  "(Covered California), Silver 94 HMO, 1200 West 7th Street, Los Angeles, California 90017. (c) Lina Lu, "
                   "415 West Duarte Road, Unit 3, Arcadia, California 91007. (d) Member identification "
                   "number 623871067, effective May 1, 2026. (e) Responding Party does not know the limits. "
                   "(f) Responding Party is not aware of any reservation of rights. (g) Not applicable. "
@@ -105,7 +104,7 @@ def frog(d):
                   "benefits to independent contractors delivering for Amazon Logistics, Inc. (b) Homeland "
                   "Insurance Company of New York, administered by Intact Insurance, Occupational Accident "
                   "Claims, 188 Inverness Drive West, Suite 600, Englewood, Colorado 80112. (c) Amazon "
-                  "Logistics, Inc. " + tbc("ADDRESS AND TELEPHONE") + ". (d) Policy number 216-002-630 "
+                  "Logistics, Inc., 410 Terry Avenue North, Seattle, Washington 98109, represented in this action by Brockman Quayle Bennett, 12481 High Bluff Drive, Suite 301, San Diego, California 92130, (858) 788-3900. (d) Policy number 216-002-630 "
                   "(claim number 0AB504616). (e) Responding Party does not know the limits. (f) By letter "
                   "dated August 27, 2026, Intact Insurance stated that Responding Party is potentially "
                   "covered, subject to the terms and conditions of the policy, and that the policy is "
@@ -139,7 +138,7 @@ def frog(d):
                   "service; $254.00 Tdap vaccine). The hospital's bill states that the emergency physicians "
                   "bill separately; Responding Party has not received a separate physician bill "
                   + tbc() + "."),
-          ("sub", "2.\t(a) Thomas Yu, M.D., Allied Pacific IPA, " + tbc("OFFICE ADDRESS") + ", (626) 288-0300. "
+          ("sub", "2.\t(a) Thomas Yu, M.D., Allied Pacific IPA, 1448 South San Gabriel Boulevard, San Gabriel, California 91776, (626) 288-0300. "
                   "(b) Office visit for difficulty sleeping since the INCIDENT; prescription of a sleep aid. (c) July 28, 2026. "
                   "(d) " + tbc("CHARGES OR COPAY") + "."),
           ("sub", "3.\t(a) " + BHIPS + ". (b) Plastic surgery consultation and evaluation of the left ankle scar, "
@@ -299,7 +298,7 @@ def frog(d):
                   "Health Program, (213) 288-7060. (d) Inland Valley Humane Society; the Department of Public "
                   "Health; Responding Party's counsel has a copy."),
           ("sub", "3.\t(a) Responding Party, through the Amazon Flex application. (b) July 2026; incident "
-                  "report to Amazon " + tbc("DATE; REFERENCE FLX2026153035") + ". (c) Amazon Logistics, Inc. "
+                  "report to Amazon on or before July 11, 2026, Amazon claim number FLX2026153035. (c) Amazon Logistics, Inc. "
                   "(d) Amazon Logistics, Inc."))
     q("12.7", "No.")
     q("13.2", "No. Neither Responding Party nor anyone acting on her behalf has conducted surveillance of any "
@@ -629,6 +628,10 @@ def build(kind, d):
                     "cstone@wingertlaw.com", "(by electronic mail)"],
                    ["//Attorneys for Defendants://", "",
                     "**RICHARD REYES and ZORAIDA TORRES, as Trustees of the TORRES REYES FAMILY TRUST**"]),
+                  (["Matthew E. Bennett", "Samuel S. Beidokhti", "Brockman Quayle Bennett",
+                    "12481 High Bluff Drive, Suite 301", "San Diego, California 92130",
+                    "mbennett@bqblaw.com", "sbeidokhti@bqblaw.com", "(by electronic mail)"],
+                   ["//Attorneys for Defendant://", "", "**AMAZON LOGISTICS, INC.**"]),
               ])
     short = {"frog": "Form Interrogatories", "rfa": "Requests for Admission", "rfp": "Requests for Production"}[kind]
     path = os.path.join(OUT, "Lina Lu - Responses to %s (%s, Set One) - DRAFT.docx" % (short, dname))
