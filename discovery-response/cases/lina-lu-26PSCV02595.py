@@ -75,8 +75,10 @@ def frog(d):
                      "contractor), Uber Technologies, Inc., food delivery, for a little over one year before July 2025. "
                      "Responding Party had no other employment since July 2021. "
                      + flag("Client (voice, October 25): Flex since about July 2025, Uber Eats for a year-plus before "
-                            "that. Our February 25, 2026 car-crash intake lists her occupation as 'Housewife' -- that "
-                            "intake entry looks wrong; worth correcting in the PI file before the car-crash demand.")))
+                            "that. Our February 25, 2026 car-crash intake lists her occupation as 'Housewife,' but the "
+                            "Vanguard pain management note of June 30, 2026 records 'She is employed. Delivery' and that "
+                            "she 'had to take 2 months off work' after the collision. The intake entry is wrong; correct "
+                            "it in the PI file before the car-crash demand.")))
     q("2.7", ("sub", "(a)\tDaqing Petroleum School, Daqing, Heilongjiang Province, People's Republic of China."),
              ("sub", "(b)\t1994 to 1997."),
              ("sub", "(c)\tVocational secondary school diploma (China). Responding Party did not attend high "
@@ -198,7 +200,11 @@ def frog(d):
     q("10.2", "Yes. Before the INCIDENT Responding Party was injured in a motor vehicle collision on February 25, 2026 "
               "(see the response to interrogatory 11.1) and was treated for neck and back pain, a contusion of the left "
               "hand, pain in the right arm, headaches, dizziness, nausea, fear of driving and recurring nightmares.",
-          ("sub", "(a)\tThe conditions listed above. " + tbc("WHICH WERE STILL PRESENT ON JULY 9, 2026") + "."),
+          ("sub", "(a)\tOn July 9, 2026 Responding Party still had intermittent low back pain, right hip pain, and "
+                  "occasional neck stiffness and right-arm numbness, for which she was under pain management care; "
+                  "her neck pain and right elbow pain had resolved by about late June 2026. Her treatment records of "
+                  "June 30, July 3 and July 14, 2026 record no headaches, dizziness, nausea, fear of driving or sleep "
+                  "complaints."),
           ("sub", "(b)\tSince the INCIDENT Responding Party has had nightmares and does not sleep soundly."),
           ("sub", "(c)\tPomona Valley Hospital Medical Center, 1798 North Garey Avenue, Pomona, California 91767, "
                   "(909) 865-9500, emergency department, February 25, 2026; Care Ambulance Service, Inc., February 25, "
@@ -214,9 +220,15 @@ def frog(d):
                "through the L.A. Care records. Draft discloses it. Note also: the July 28, 2026 PCP visit was for sleep "
                "problems (client voice, October 25), the same complaint as the pre-existing nightmares. Client "
                "(voice, October 25, 22:48): 'after that car accident I had no symptoms' and the nightmares began after "
-               "the July 9 bite. That conflicts with our own file: chiropractic to July 3, pain management June 30 "
-               "and July 14, and recurring nightmares on the February intake. (a) stays open until she is asked "
-               "about those visits; do not adopt 'no symptoms' as written."))
+               "the bite. (a) is answered from the car-crash records instead (Drive, Lina Lu/Zesen Wang 2/25/2026, "
+               "folder 4): Prestige chiropractic discharged her July 3 as 'better' with intermittent back tightness, "
+               "neck stiffness and right-arm numbness, referred to pain management; Vanguard June 30: low back 6/10 "
+               "daily, elbow and neck intermittent; Vanguard July 14 (five days after the bite): neck and elbow pain "
+               "resolved, low back episodes every two weeks, right hip 6/10, naproxen, epidural or PRP if worse. "
+               "Sleep: the only record is the February 26 chiropractic intake ('driving-related anxiety and "
+               "fragmented sleep patterns due to acute pain'); nothing after that. That helps 6.2/6.3. Against us: "
+               "the July 14 note, five days after the bite, says nothing about the ankle or sleep and records "
+               "'patient appears normal.'"))
     q("10.3", "No.")
     q("11.1", "Yes.",
           ("sub", "1.\tMotor vehicle collision: (a) February 25, 2026, approximately 7:51 a.m., Golden Springs Drive at "
