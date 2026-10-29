@@ -369,9 +369,14 @@ def rfa_resp(d):
               "D or 17.1 until the client's timeline comes back (round-2 form, due October 28).")]
     dd = ["Admit that Responding Party was able to walk, with difficulty and with pain, numbness and bleeding "
           "from her left ankle, out of the front gate after the young female carried the dog into the house. "
-          "Except as expressly admitted, Responding Party denies this request. She did not leave the area "
-          "immediately; she returned to her car, telephoned 911, and waited at the scene, where she spoke with "
-          "Azusa Police Department officers about the bite."]
+          "Except as expressly admitted, Responding Party denies this request. " + tbc("WHETHER SHE DROVE AWAY AND "
+          "RETURNED BEFORE THE 911 CALL") + " She telephoned 911 from her car in front of the residence and spoke "
+          "with Azusa Police Department officers at the scene.",
+          flag("Conflict: round 1 (October 15) says 'after the bite I drove away by myself'; voice (October 25) says "
+               "she sat in her car at their door, called 911, and the officers came to the scene. Both can be true "
+               "only if she left and came back. The CAD has the 911 call at 9:34 a.m., about 55 minutes after the "
+               "8:39 a.m. delivery photo, which round 1 says she was uploading when bitten. Do not deny D until the "
+               "client explains the gap; a denial later disproved risks costs of proof (section 2033.420).")]
     e = [INQ + " Responding Party has no personal knowledge of the dog's history. Her inquiry, which is "
          "continuing, includes: (1) a public records request to the Azusa Police Department (PDRR2026-67), "
          "which responded on October 1, 2026 that no written report was prepared for this INCIDENT; (2) a "
@@ -427,7 +432,8 @@ def rfa_171(d):
         "Party's counsel has a copy); USC Arcadia Hospital emergency department record of July 9, 2026 (USC "
         "Arcadia Hospital; Responding Party's counsel)")
     blk("D", "Responding Party walked out of the front gate with difficulty, pain, numbness and bleeding after the "
-             "dog was carried inside, and returned to her car, telephoned 911, and waited at the scene for the officers.",
+             "dog was carried inside; she later telephoned 911 from her car in front of the residence and spoke with the "
+             "officers at the scene " + tbc("WHAT SHE DID BETWEEN THE BITE AND THE 911 CALL") + ".",
         ME + "; Officers Castro and Torres, " + APD,
         "Azusa Police Department call detail report, incident 26-23363")
     blk("E", "See the response to Request for Admission E, which sets out the inquiry made.",
