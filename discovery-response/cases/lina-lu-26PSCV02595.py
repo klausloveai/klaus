@@ -182,12 +182,13 @@ def frog(d):
         q("8.%d" % n, "Not applicable.")
     q("9.1", "No, other than the general damages for pain, suffering and emotional distress described in "
              "the responses to interrogatories 6.2 and 6.3.",
-          flag("Client (October 28): the $50 emergency copayment is her only out-of-pocket cost. (Our file "
-               "also has a $3.00 pharmacy receipt for July 9; 6.5 and 9.2 follow the receipt.) Her husband rode "
+          flag("Client (voice, October 25, 22:47): no other out-of-pocket costs beyond the $50 emergency "
+               "copayment and the $3 pharmacy charge, which match the receipts in 6.5 and 9.2. Her husband rode "
                "along for about two weeks at a cost to him of about $200 to $300 a day (14 days x $200 = $2,800; "
                "14 days x $300 = $4,200; we have no record of the actual days he lost). Claim it here as the "
                "reasonable value of his assistance, or leave it out? If claimed, we need proof of his Uber "
-               "earnings."))
+               "earnings. She says he has no pay stubs (paid only when he drives); his Uber earnings history would be the "
+               "proof."))
     q("9.2", "Yes. The itemized bill of USC Arcadia Hospital; Responding Party's receipt for her $50.00 emergency "
              "copayment to USC Arcadia Hospital on July 9, 2026; the Sunny Bay Pharmacy receipt for $3.00 dated "
              "July 9, 2026; the invoice and treatment plan of Beverly Hills Institute of Plastic Surgery dated "
@@ -212,9 +213,10 @@ def frog(d):
                "The nightmares overlap the emotional distress claimed in 6.2 and 6.3. The defense will find this "
                "through the L.A. Care records. Draft discloses it. Note also: the July 28, 2026 PCP visit was for sleep "
                "problems (client voice, October 25), the same complaint as the pre-existing nightmares. Client "
-               "(October 28): the car-crash symptoms 'were all treated' and the nightmares and poor sleep came after "
-               "the bite. She did not say which car-crash conditions were still present on July 9, so (a) stays open; "
-               "the pain management visit of July 14 is after the bite."))
+               "(voice, October 25, 22:48): 'after that car accident I had no symptoms' and the nightmares began after "
+               "the July 9 bite. That conflicts with our own file: chiropractic to July 3, pain management June 30 "
+               "and July 14, and recurring nightmares on the February intake. (a) stays open until she is asked "
+               "about those visits; do not adopt 'no symptoms' as written."))
     q("10.3", "No.")
     q("11.1", "Yes.",
           ("sub", "1.\tMotor vehicle collision: (a) February 25, 2026, approximately 7:51 a.m., Golden Springs Drive at "
@@ -369,11 +371,14 @@ def rfa_resp(d):
          "Public Health dated August 13, 2026, to which no records have been produced; and (4) interrogatories "
          "and requests for admission served on the Luna defendants concerning the dog's history, to which "
          "responses are not yet due."]
-    f = ["Deny. Responding Party had taken one step inside the front gate when the young female may have "
-         "said something in a low voice; Responding Party did not hear or understand what was said. No one told "
-         "Responding Party that a dog was loose or that she should leave the premises.",
-         flag("Client (October 28): 'the girl seemed to say something quietly but I didn't catch it; I was "
-              "hurrying to put the package down and was bitten.' Not a clean 'no one said anything.' The draft "
+    f = ["Deny. Responding Party had taken one step inside the front gate. The young female was at the side "
+         "door of the garage, some distance away, and may have said something in a very low voice; Responding "
+         "Party did not hear or understand what was said. Responding Party asked whether she could leave the "
+         "package there, and the young female answered \"OK.\" No one told Responding Party that a dog was loose "
+         "or that she should leave the premises.",
+         flag("Client (voice, October 25, 22:44): the girl at the garage side door said something very quietly "
+              "that she did not catch; she asked 'can I leave it here?', the girl said 'OK', she put the package "
+              "down and was bitten. Not a clean 'no one said anything.' The draft "
               "discloses the low-voice remark so the deposition cannot surprise us; a bare 'Deny' is the "
               "alternative. Same choice for G and 17.1 F.")]
     g = ["Deny."]
