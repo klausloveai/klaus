@@ -153,6 +153,15 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
    Re-check the same way at the start of any later turn that touches this batch — a line verified
    earlier can still be empty now, and these drafts sit around for days before Klaus posts.
 
+   ⚠️ **Save before you leave the line: Tab out of Amount and wait ~3 s ("All changes saved.") BEFORE
+   clicking + New Transaction or another row's edit pencil.** 2026-10-29 Li Liu Sun: every line where
+   New Transaction was clicked straight after typing the amount came back 0.00 with no memo after reload
+   (4 of 6), and a repair whose next click was the following row's pencil was lost again. Lines where a
+   screenshot or JS read happened in between survived. And when the page has scrolled, a ref click on
+   Memo can leave focus on a DIV so the typing goes nowhere: focus by name instead —
+   `document.querySelector('input[name="transaction[lineItems][0][memo]"]').focus()` (same for `[amount]`),
+   then type, then read both values back by JS before Tab.
+
    ⚠️ **Never type into the top form while an existing row is loaded in it.** Clicking a row's edit
    pencil loads that row into the same form; typing a payee there overwrites that saved line instead of
    starting a new one. After any edit-pencil repair, click **+ New Transaction** (or reload) before
