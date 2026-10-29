@@ -111,3 +111,15 @@ SUM-100 / CM-010 仍用 `Judicial Council forms (Hernán pre-filled)/` 里那两
 - 查 docket：`cap.sb-court.org`，按案号免登录，但 **reCAPTCHA 必须 Klaus 点**，
   内置浏览器加载不出，要走 Claude in Chrome。见 `[[sb-court-access-portal]]`。
 - 案号前缀 `CIVSB`。
+
+---
+
+## ⚠️ 2026-10-28 更正：Ontario 的 PI 案被法院改派到 Rancho Cucamonga 区
+
+Chao Zheng（I-10 / Ontario 事发）按上文填 CoA = `Civil Division of the San Bernardino`、One Legal branch = `San Bernardino-Justice`，
+**书记员受理时改派 Rancho Cucamonga District**：案号 **CIVRS2609730**（前缀 `CIVRS`），
+conformed 盖章「Rancho Cucamonga District」，传票法院地址被改成 **8303 Haven Avenue, Rancho Cucamonga, CA 91730**。
+同为 Ontario 的 Yi Cong（狗咬）当初是 `CIVSB2619725`（San Bernardino 区）—— **同城不同结果，区由书记员定，不是我们定。**
+
+**怎么用：** 立案后以法院盖章版的区名/地址为准，后续 subsequent filing（jury fee、POS 等）在 One Legal 选对应分院；
+送达用的就是法院签发、地址已改的那份传票。下次 Ontario 案可考虑直接填 Rancho Cucamonga 区 —— 先问 Klaus。
