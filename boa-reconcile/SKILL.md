@@ -123,12 +123,11 @@ modal 里的支票图太小。注入全局 CSS 把 `#checks-accordionPanel0 img`
 内置浏览器的 zoom 只裁不放大，必须靠这个。
 
 ## 已知悬案速查(报告时别当新发现)
-- 80277 Yan Li→Kaisheng Yang $3,570.70 vs 表 $3,570.79：等 Klaus 的 $0.09 补票。
-- Junke Li $1,000 MedPay：1P 直付、subrogation waived、**永不入账**(Chat 8/6 确认)；trust 按
-  $4,500 分了 $3,500 的钱——处理方向等 Klaus 裁定。
-- Xiaohua Yu UIM $10,000 (AIG 1646181779)：journal 预登未清；她的 disbursement 未录 Internal。
-- Xiuying Wang(tab, DOL 2/12) vs Xueying Wang(Hudson 支票, DOL 6/2)：拼写疑点待 Klaus。
+- Xiuying Wang(tab, DOL 2/12) vs Xueying Wang(Hudson 支票, DOL 6/2)：拼写疑点 —— **案子未结（Klaus 10/28）**，结案出账时再核。
 - 80275 重号两张(Hong Li $3,210 + Axis $705)——月结对 Journal 时别绊住。
+- 旧 #4854 支票号 800092 / 800093 / 800094 仍无解释，出现在对账单上立刻报。
+- 80366：Rentec ledger 上也不存在（前后 80365/80367 = King Chung Leung 8/27），多半是删掉的草稿；若当时打印过再作废，journal 要补一行 VOID。
+- ✅ 已结（Klaus 10/28 确认，勿再报）：80277 Yan Li $0.09 补票 · Junke Li $1,000 MedPay（Internal r48 G=H） · Xiaohua Yu UIM $10,000（Internal r45，9/1 出账）。
 
 ## 相关
 [[accounting-agent]](per-case 记账+月结 mirror 的 SOP 本体) · [[write-check]](Rentec 开票) ·
