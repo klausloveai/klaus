@@ -74,8 +74,10 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
 0. **Funding check FIRST — was the settlement check deposited, and when?** (Klaus, 2026-10-13:
    "在这个 skill 前多做一个就是查找是否 deposit 支票，什么时候存入".) Before drafting anything,
    open `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`
-   and search for the client. On a **Deposit** row, **column A IS the deposit date** (check rows leave
-   A blank until the bank clears them), col D = the carrier's check #, col F = amount, col I = client.
+   and search for the client. On a **Deposit** row, col D = the carrier's check #, col F = amount, col I = client,
+   and the deposit date is in **column M (cleared date)**. Column A is often blank, or holds the check or
+   mobile-capture date, so **never call a deposit missing because A is empty: read M** (Klaus caught this 2026-10-28:
+   five deposits flagged "no date" all had M = 10/14 or 7/22). Only M blank means no record of the check clearing.
    Report "deposited <date>, <carrier> check <#>, $<amt>" in the final table's header line.
    - **Dedup/match by CHECK NUMBER and amount, never by name alone** — the firm has repeat and
      near-duplicate clients (the journal itself warns "Jing Wang … NOT the same client as Jingjing Wang";
