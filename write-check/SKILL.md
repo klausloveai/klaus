@@ -119,7 +119,13 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
      (verify it reads 7000 / 7010). If it shows **0000 Uncategorized**, fix it: click the
      Category dropdown, type the code (`7000`/`7010`), click the filtered result.
    - Click **+ New Transaction** for the next payee.
-3. **Missing vendor?** If the Payee search shows only "Add …", create it first:
+3. **Missing vendor?** Before deciding a vendor is missing, search the vendor list **after it has fully
+   loaded** (wait ~2 s, check `document.body.innerText.length` > 20k) and search **both the W-9 entity
+   name and the d/b/a / brand** (`Aveva` AND `One Health`; `Pham` AND `Prime Health`), case-insensitive.
+   2026-10-30 created two duplicates this way (Blikian — list read before load; AVEVA MEDICAL AESTHETICS —
+   searched only the brand). The Payee type-ahead on expense.php is the final check: if it already
+   offers a match, use that and don't create another.
+   If the Payee search shows only "Add …", create it first:
    Settings → Financial → Vendors & Payees → **Add Vendor**. Fill Company, address
    (`form_input` the location + City/State/Zip), and **Category**. For a provider: 1099
    Non-Employee, Tax ID = EIN if on a HCFA (else blank), category **7000**. For the
