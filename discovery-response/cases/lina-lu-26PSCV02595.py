@@ -534,9 +534,16 @@ def rfp_resp():
     return {
         "1": [COMPLY + " " + BATES + ".", REDACT],
         "2": [COMPLY + " " + BATES + ".", REDACT],
-        "3": ["Responding Party will comply with this request in part by producing the lien statement of Katch, on "
-              "behalf of L.A. Care Health Plan, dated August 21, 2026 " + BATES + ". " + UNABLE_NOW % "L.A. Care "
-              "Health Plan" + " " + tbc("CLIENT TO CHECK HER UNOPENED MAIL FOR L.A. CARE EXPLANATION OF BENEFITS")],
+        "3": [COMPLY + " Responding Party produces the L.A. Care Covered Explanation of Benefits dated August 4, 2026, "
+              "which reports claim number 26201E000625 for the USC Arcadia Hospital emergency department visit of July 9, "
+              "2026 (billed $1,898.00; allowed $196.51; paid by L.A. Care $146.51; copayment $50.00), and the lien "
+              "statement of Katch, on behalf of L.A. Care Health Plan, dated August 21, 2026 " + BATES + ". " + NO_WITHHOLD,
+              flag("The August 4 EOB also lists claim 26166E018378, Care Ambulance Service, February 25, 2026 (the car "
+                   "crash; billed $2,491.00, L.A. Care paid $2,430.60, copay $30.00). It is not responsive to RFP 3. "
+                   "Produce the whole EOB (the car crash is already disclosed in 10.2 and 11.1) or redact that claim "
+                   "and log it? Also for damages: the plan allowed $196.51 against $1,898.00 billed for the ER visit, "
+                   "so under Howell the recoverable ER past medical is the $196.51 paid, not the bill. The September 3 "
+                   "EOB lists no claim lines (summary only) and is not being produced.")],
         "4": [COMPLY + " Responding Party produces the invoice of Beverly Hills Institute of Plastic Surgery dated "
               "September 16, 2026, her receipt for the $50.00 copayment to USC Arcadia Hospital, and the Sunny Bay "
               "Pharmacy receipt dated July 9, 2026 " + BATES + ". " + tbc("THOMAS YU, M.D. STATEMENT FOR JULY 28, 2026"),
