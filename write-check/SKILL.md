@@ -34,6 +34,12 @@ do NOT post; verify on the Ledger instead (see Step 5).**
 - **The client** (if the client recovery check is wanted) → **AMOUNT TO CLIENT** from the
   disbursement letter. Payee = the client. Category **7010 Client Compensation**, memo
   `Case Settlement, DOL-<MM/DD/YYYY>`, **address from the case intake sheet**.
+- **Medi-Cal (DHCS) lien** → the final amount from DHCS's lien letter. Payee = vendor
+  **`Department of Health Care Services Personal Injury Branch, MS 4720`** (Klaus renamed it 2026-10-30;
+  mailing address `P.O. Box 997421, Sacramento, CA 95899-7421`), category **7000**. **Memo format
+  (Klaus 2026-10-30): `DHCS#<account number>, <Client>`** — e.g. `DHCS#C93989433A-001, Angel Michelle Miner`.
+  The account number comes from the DHCS letter ("DHCS Account Number"); DHCS will not credit a check
+  without it. No DOL in this memo.
 - **Reconciliation check:** sum(all checks) must equal `Total Settlement − Attorney Fee`
   (= providers' reduced total + amount to client). State it; flag if it doesn't tie.
 - Default bank account: **1001 Lingtu Law - IOLTA Account** (`bank_id=111793`). Constants
