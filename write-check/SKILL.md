@@ -100,8 +100,10 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
 2. **Per payee** (provider or client), on the blank draft line:
    - **Payee name = the name on the signed lien reduction letter** (its `PAYMENT REMIT TO` block) —
      the clinic name the team actually knows (Klaus, 2026-10-30: "核对 lien reduction letter 的名字就行").
-     Cross-check it against the W-9: it must match **line 2 (DBA)** when the W-9 has one, or **line 1
-     (legal name)** when it doesn't. Letter says something the W-9 doesn't → stop and ask Klaus.
+     Cross-check it against the W-9: the letter's name must appear on the W-9 as **either line 1 (legal
+     name) or line 2 (DBA)** — whichever the letter uses is the one the team knows (Pham Chiropractic
+     Corporation's letter uses line 1 even though its W-9 lists DBA Prime Health Center; One Health
+     Medical's uses line 2). Letter name on neither line → stop and ask Klaus.
      Rentec keeps **one vendor per EIN**, named that same way; the W-9's line-1 legal name goes into the
      vendor's notes / 1099 name, because the year-end 1099 must carry **legal name + EIN** (IRS matches on
      those — a DBA alone can come back as a name/TIN mismatch). Example: One Health Medical's W-9 is
