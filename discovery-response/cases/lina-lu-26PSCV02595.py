@@ -265,16 +265,19 @@ def frog(d):
     q("12.1",
           ("sub", "(a)\tResponding Party; a young female, whose name is unknown to Responding Party, who was at the "
                   "residence at 152 East Kirkwall Road, Azusa, California 91702, at the time of the INCIDENT and "
-                  "carried the dog into the house afterward; the young female's mother and brother, whose names are unknown to "
-                  "Responding Party, who came to the residence after the bite and before the police arrived; Fuguo Wang, "
-                  "Responding Party's husband, " + COUNSEL_CONTACT + ", who arrived as the police arrived; and "
+                  "carried the dog into the house afterward; the young female's mother, who appeared to be 40 to 50 years old, and "
+                  "brother, who appeared to be about 20, whose names are unknown to Responding Party, who came to the "
+                  "residence after the bite and before the police arrived; Fuguo Wang, Responding Party's husband, "
+                  + COUNSEL_CONTACT + ", whom Responding Party called and who arrived as the police arrived; and "
                   "Defendants Arlene Luna and Rosalba Luna, " + LUNA_ADDR + ", (626) 224-5809, to the extent either "
                   "was present."),
           ("sub", "(b)\tResponding Party, the young female, and the young female's mother and brother, described above."),
           ("sub", "(c)\tOfficer Cristian Castro, badge number 1224, and Officer Torres, badge number 1234, " + APD
-                  + "; the Azusa Police Department dispatcher who received Responding Party's 911 call; and Fei Li, a friend of "
-                  "Responding Party, (626) 262-3246, who interpreted by telephone between Responding Party and the young "
-                  "female's mother and brother."),
+                  + "; the Azusa Police Department dispatcher who received Responding Party's 911 call; the Chinese-language "
+                  "telephone interpreter through whom the officers spoke with Responding Party, whose name is unknown to "
+                  "Responding Party; and Fei Li, a friend of "
+                  "Responding Party, Arcadia, California, (626) 262-3246, who interpreted by telephone between Responding Party "
+                  "and the young female's mother and brother."),
           ("sub", "(d)\tEach person named above; Fuguo Wang, Responding Party's husband, " + COUNSEL_CONTACT
                   + "; Fei Li, identified on the Animal Bite Reporting Form as the person who reported the bite, "
                   "a friend of Responding Party, Arcadia, California (street address unknown to Responding Party), (626) 262-3246"
@@ -357,7 +360,7 @@ def rfa_items(d):
 INQ = ("After a reasonable inquiry concerning the matter, the information known or readily obtainable by "
        "Responding Party is insufficient to enable her to admit or deny this request.")
 
-CALL = "Client (phone call with Klaus, October 29): she was bitten just after she put the package down and took the delivery photograph. She went back to her car, saw the wound bleeding, FIRST CONTACTED OUR OFFICE (Klaus), then called 911, and waited in the car without treating the wound. While she waited, the girl's mother and brother came home and spoke to her in English; she called her friend Li Fei, who interpreted by phone (per Li Fei, the family said they have a dog and that she did not understand English). The officers spoke with her through a phone, said it was not a criminal matter, gave her a card, told her she could leave, and went to talk to the family. Her husband arrived as the officers did and rinsed the wound with water from the car's first-aid kit. She then drove her husband's car, picked up Li Fei, and went to USC Arcadia Hospital; her husband drove her car away. "
+CALL = "Client (phone call with Klaus, October 29): she was bitten just after she put the package down and took the delivery photograph. She went back to her car, saw the wound bleeding, FIRST CONTACTED OUR OFFICE (Klaus), then called 911, and waited in the car without treating the wound. While she waited, the girl's mother and brother came home and spoke to her in English; she called her friend Li Fei, who interpreted by phone (per Li Fei, the family said they have a dog and that she did not understand English). The officers spoke with her through a Chinese-language telephone interpreter, said it was not a criminal matter, gave her a card, told her she could leave, and went to talk to the family. Her husband arrived as the officers did and rinsed the wound with water from the car's first-aid kit. She then drove her husband's car, picked up Li Fei, and went to USC Arcadia Hospital; her husband drove her car away. "
 
 def rfa_resp(d):
     arl = d == "ARLENE LUNA"
@@ -381,7 +384,9 @@ def rfa_resp(d):
          "is unable to admit or deny this request: she does not know whether %s was inside the house. "
          % (who, who) + INQ,
          flag("Client (October 29 call): the girl was about 13 to 15, at the garage side door, no adult nearby; "
-              "the girl's mother and brother came home only after the bite. Draft is a partial admission. Still "
+              "the girl's mother (about 40 to 50) and brother (about 20) came home only after the bite. The mother may "
+              "well be Arlene or Rosalba Luna; that does not change B, which asks about the moment of the bite. "
+              "Draft is a partial admission. Still "
               "open: the CAD (her 911 report) and her Prop 22 claim form say 'the dog owner' was on the porch; she "
               "does not remember who filled in the claim form. Ages of Arlene and Rosalba are not in our file; if "
               "either could be the 13-to-15-year-old, this answer must change.")]
