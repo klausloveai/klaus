@@ -252,11 +252,16 @@ def frog(d):
     q("12.1",
           ("sub", "(a)\tResponding Party; a young female, whose name is unknown to Responding Party, who was at the "
                   "residence at 152 East Kirkwall Road, Azusa, California 91702, at the time of the INCIDENT and "
-                  "carried the dog into the house afterward; and Defendants Arlene Luna and Rosalba Luna, "
-                  + LUNA_ADDR + ", (626) 224-5809, to the extent either was present."),
-          ("sub", "(b)\tResponding Party and the young female described above."),
+                  "carried the dog into the house afterward; the young female's mother and brother, whose names are unknown to "
+                  "Responding Party, who came to the residence after the bite and before the police arrived; Fuguo Wang, "
+                  "Responding Party's husband, " + COUNSEL_CONTACT + ", who arrived as the police arrived; and "
+                  "Defendants Arlene Luna and Rosalba Luna, " + LUNA_ADDR + ", (626) 224-5809, to the extent either "
+                  "was present."),
+          ("sub", "(b)\tResponding Party, the young female, and the young female's mother and brother, described above."),
           ("sub", "(c)\tOfficer Cristian Castro, badge number 1224, and Officer Torres, badge number 1234, " + APD
-                  + "; and the Azusa Police Department dispatcher who received Responding Party's 911 call."),
+                  + "; the Azusa Police Department dispatcher who received Responding Party's 911 call; and Fei Li, a friend of "
+                  "Responding Party, (626) 262-3246, who interpreted by telephone between Responding Party and the young "
+                  "female's mother and brother."),
           ("sub", "(d)\tEach person named above; Fuguo Wang, Responding Party's husband, " + COUNSEL_CONTACT
                   + "; Fei Li, identified on the Animal Bite Reporting Form as the person who reported the bite, "
                   "a friend of Responding Party, (626) 262-3246 " + tbc("ADDRESS")
@@ -282,7 +287,8 @@ def frog(d):
                   "proof-of-delivery photograph was taken and uploaded through the Amazon Flex application and is not "
                   "saved on Responding Party's telephone."),
           flag("8:39 a.m. appears here because the delivery record is a photograph concerning the INCIDENT. It fixes "
-               "the time in a verified answer before the client's timeline is back. Keep, or describe the record "
+               "the time in a verified answer. The client confirmed on October 29 that the bite came right after the photo, "
+               "so 8:39 is consistent with her account and with RFA C. Keep, or describe the record "
                "without the time?"))
     q("12.5", "Yes. Responding Party drew a diagram of the premises showing the house, the garage, the walkway, "
               "the lawn, the front gate and the direction from which the dog came, on August 13, 2026. Responding Party's counsel has a copy.")
@@ -338,6 +344,8 @@ def rfa_items(d):
 INQ = ("After a reasonable inquiry concerning the matter, the information known or readily obtainable by "
        "Responding Party is insufficient to enable her to admit or deny this request.")
 
+CALL = "Client (phone call with Klaus, October 29): she was bitten just after she put the package down and took the delivery photograph. She went back to her car, saw the wound bleeding, FIRST CONTACTED OUR OFFICE (Klaus), then called 911, and waited in the car without treating the wound. While she waited, the girl's mother and brother came home and spoke to her in English; she called her friend Li Fei, who interpreted by phone (per Li Fei, the family said they have a dog and that she did not understand English). The officers spoke with her through a phone, said it was not a criminal matter, gave her a card, told her she could leave, and went to talk to the family. Her husband arrived as the officers did and rinsed the wound with water from the car's first-aid kit. She then drove her husband's car, picked up Li Fei, and went to USC Arcadia Hospital; her husband drove her car away. "
+
 def rfa_resp(d):
     arl = d == "ARLENE LUNA"
     who = "Arlene Luna" if arl else "Rosalba Luna"
@@ -362,21 +370,25 @@ def rfa_resp(d):
               "on the porch. If both Lunas are adults, the client's account supports ADMITTING B for each.")]
     c = ["Admit that the records of USC Arcadia Hospital reflect her arrival at the emergency department at "
          "10:43 a.m. on July 9, 2026, more than one hour after the dog bit her. Except as expressly admitted, "
-         "Responding Party denies this request. Immediately after the bite she reported it by telephoning 911 "
-         + tbc("TIME OF BITE AND OF EACH STEP BETWEEN THE BITE AND ARRIVAL AT THE HOSPITAL") + ".",
-         flag("Bite time is unresolved: FAC paragraph 11, the IVHS bite report, the triage note and the Flex "
-              "proof-of-delivery all say about 8:39 to 8:40 a.m.; the 911 call is 9:34 a.m. Do not finalize C, "
-              "D or 17.1 until the client's timeline comes back (round-2 form, due October 28).")]
+         "Responding Party denies this request. The dog bit her at about 8:39 a.m., immediately after she put the "
+         "package down and photographed it. She returned to her car, found the wound bleeding, telephoned 911, and "
+         "remained at the scene until Azusa Police Department officers arrived, spoke with her and told her she could "
+         "leave. Her husband, who arrived as the officers did, rinsed the wound with clean water from a first-aid kit. "
+         "She then drove, picking up a friend on the way, to the USC Arcadia Hospital emergency department.",
+         flag(CALL + "The gap between the bite (about 8:39) and the 911 call (9:34) is now mostly explained, but "
+              "part of it is her call to our office. The draft does not mention that call. Disclose that she first "
+              "contacted counsel (fact of contact, not content), or leave it out? Klaus: check your own WeChat/phone "
+              "log for the time of her July 9 contact before Hernan decides. Note also: Li Fei went with her to the "
+              "emergency room, which may be where the triage note's 'friends dog' came from.")]
     dd = ["Admit that Responding Party was able to walk, with difficulty and with pain, numbness and bleeding "
           "from her left ankle, out of the front gate after the young female carried the dog into the house. "
-          "Except as expressly admitted, Responding Party denies this request. " + tbc("WHETHER SHE DROVE AWAY AND "
-          "RETURNED BEFORE THE 911 CALL") + " She telephoned 911 from her car in front of the residence and spoke "
-          "with Azusa Police Department officers at the scene.",
-          flag("Conflict: round 1 (October 15) says 'after the bite I drove away by myself'; voice (October 25) says "
-               "she sat in her car at their door, called 911, and the officers came to the scene. Both can be true "
-               "only if she left and came back. The CAD has the 911 call at 9:34 a.m., about 55 minutes after the "
-               "8:39 a.m. delivery photo, which round 1 says she was uploading when bitten. Do not deny D until the "
-               "client explains the gap; a denial later disproved risks costs of proof (section 2033.420).")]
+          "Except as expressly admitted, Responding Party denies this request. She did not walk away from the premises. "
+          "She went to her car in front of the residence, telephoned 911, and remained there until Azusa Police "
+          "Department officers arrived, spoke with her and told her she could leave.",
+          flag("Resolved by the October 29 call: she stayed in her car at the residence until the officers released "
+               "her; the round-1 line 'after the bite I drove away by myself' refers to leaving for the hospital after "
+               "the police. Note for Hernan only: her husband drove her car (with the Flex packages, if any remained) "
+               "away from the scene. Not asked further.")]
     e = [INQ + " Responding Party has no personal knowledge of the dog's history. Her inquiry, which is "
          "continuing, includes: (1) a public records request to the Azusa Police Department (PDRR2026-67), "
          "which responded on October 1, 2026 that no written report was prepared for this INCIDENT; (2) a "
@@ -396,7 +408,10 @@ def rfa_resp(d):
               "that she did not catch; she asked 'can I leave it here?', the girl said 'OK', she put the package "
               "down and was bitten. Not a clean 'no one said anything.' The draft "
               "discloses the low-voice remark so the deposition cannot surprise us; a bare 'Deny' is the "
-              "alternative. Same choice for G and 17.1 F.")]
+              "alternative. Same choice for G and 17.1 F. Added October 29: after the bite the girl's mother and brother "
+              "came home and, through Li Fei interpreting by phone, said the house has a dog and that the client did "
+              "not understand English. Expect the Lunas to say the girl warned her in English; the draft's 'did not "
+              "hear or understand' fits that. Li Fei is now a witness to the family's statements (12.1(c)).")]
     g = ["Deny."]
     return {"A": a, "B": b, "C": c, "D": dd, "E": e, "F": f, "G": g}
 
@@ -425,16 +440,19 @@ def rfa_171(d):
     blk("B", "Responding Party does not know %s by sight and cannot identify the female who was at the residence "
              "and carried the dog into the house." % who,
         ME + "; " + LUNAS, "None known to Responding Party at this time")
-    blk("C", "Responding Party reported the bite by telephoning 911 and was treated at the USC Arcadia Hospital "
-             "emergency department, arriving at 10:43 a.m. " + tbc("TIMELINE"),
+    blk("C", "The dog bit Responding Party at about 8:39 a.m., immediately after she photographed the delivered "
+             "package. She returned to her car, telephoned 911, and waited at the scene until the Azusa Police "
+             "Department officers released her; her husband rinsed the wound with clean water; she then drove, "
+             "picking up a friend, to the USC Arcadia Hospital emergency department, arriving at 10:43 a.m.",
         ME + "; Officers Castro and Torres, " + APD + "; " + USC,
         "Azusa Police Department call detail report, incident 26-23363 (Azusa Police Department; Responding "
         "Party's counsel has a copy); USC Arcadia Hospital emergency department record of July 9, 2026 (USC "
         "Arcadia Hospital; Responding Party's counsel)")
     blk("D", "Responding Party walked out of the front gate with difficulty, pain, numbness and bleeding after the "
-             "dog was carried inside; she later telephoned 911 from her car in front of the residence and spoke with the "
-             "officers at the scene " + tbc("WHAT SHE DID BETWEEN THE BITE AND THE 911 CALL") + ".",
-        ME + "; Officers Castro and Torres, " + APD,
+             "dog was carried inside, went to her car in front of the residence, telephoned 911, and remained there until the "
+             "officers spoke with her and told her she could leave.",
+        ME + "; Officers Castro and Torres, " + APD + "; Fuguo Wang, Responding Party's husband, " + COUNSEL_CONTACT
+        + "; Fei Li, (626) 262-3246",
         "Azusa Police Department call detail report, incident 26-23363")
     blk("E", "See the response to Request for Admission E, which sets out the inquiry made.",
         "Azusa Police Department, " + APD.split(", ", 1)[1] + "; City of Azusa; " + IVHS
