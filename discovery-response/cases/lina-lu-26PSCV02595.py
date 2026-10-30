@@ -362,12 +362,16 @@ def rfa_resp(d):
                "Code of Civil Procedure section 2033.420.")]
          if arl else
          ["Deny."])
-    b = [INQ + " Responding Party does not know %s by sight. A female whom Responding Party describes as young "
-         "was at the residence at the time of the bite, came out from the area of the garage, and carried the dog "
-         "into the house afterward. Responding Party does not know that person's name." % who,
-         flag("Conflict to resolve before choosing this answer: client (October 15) says a girl in her teens; "
-              "the CAD (her 911 report) and her Prop 22 claim form say 'the dog owner' came out / was standing "
-              "on the porch. If both Lunas are adults, the client's account supports ADMITTING B for each.")]
+    b = ["Responding Party does not know %s by sight. Admit that, when the dog bit her, the only person "
+         "Responding Party saw at the residence was a girl who appeared to be about 13 to 15 years old, standing at "
+         "the side door of the garage, and that no adult was nearby. Except as expressly admitted, Responding Party "
+         "is unable to admit or deny this request: she does not know whether %s was inside the house. "
+         % (who, who) + INQ,
+         flag("Client (October 29 call): the girl was about 13 to 15, at the garage side door, no adult nearby; "
+              "the girl's mother and brother came home only after the bite. Draft is a partial admission. Still "
+              "open: the CAD (her 911 report) and her Prop 22 claim form say 'the dog owner' was on the porch; she "
+              "does not remember who filled in the claim form. Ages of Arlene and Rosalba are not in our file; if "
+              "either could be the 13-to-15-year-old, this answer must change.")]
     c = ["Admit that the records of USC Arcadia Hospital reflect her arrival at the emergency department at "
          "10:43 a.m. on July 9, 2026, more than one hour after the dog bit her. Except as expressly admitted, "
          "Responding Party denies this request. The dog bit her at about 8:39 a.m., immediately after she put the "
@@ -400,13 +404,16 @@ def rfa_resp(d):
          "and requests for admission served on the Luna defendants concerning the dog's history, to which "
          "responses are not yet due."]
     f = ["Deny. Responding Party had taken one step inside the front gate. The young female was at the side "
-         "door of the garage, some distance away, and may have said something in a very low voice; Responding "
+         "door of the garage, about two to three steps away, and may have said something in a very low voice; Responding "
          "Party did not hear or understand what was said. Responding Party asked whether she could leave the "
          "package there, and the young female answered \"OK.\" No one told Responding Party that a dog was loose "
          "or that she should leave the premises.",
          flag("Client (voice, October 25, 22:44): the girl at the garage side door said something very quietly "
               "that she did not catch; she asked 'can I leave it here?', the girl said 'OK', she put the package "
-              "down and was bitten. Not a clean 'no one said anything.' The draft "
+              "down and was bitten. On October 29 she put the girl two to three steps away and said the dog came "
+              "around the right side of the house (the garage is on the left), matching her August 13 diagram; her "
+              "round-1 answer said 'left side,' which looks like a slip. At two to three steps the defense will ask "
+              "how she could not hear; the answer is the language. Not a clean 'no one said anything.' The draft "
               "discloses the low-voice remark so the deposition cannot surprise us; a bare 'Deny' is the "
               "alternative. Same choice for G and 17.1 F. Added October 29: after the bite the girl's mother and brother "
               "came home and, through Li Fei interpreting by phone, said the house has a dog and that the client did "
@@ -437,8 +444,9 @@ def rfa_171(d):
             LUNAS + "; M. Valdez, number 14, " + IVHS,
             "Animal Bite Reporting Form dated July 9, 2026 (Inland Valley Humane Society; Responding Party's "
             "counsel has a copy)")
-    blk("B", "Responding Party does not know %s by sight and cannot identify the female who was at the residence "
-             "and carried the dog into the house." % who,
+    blk("B", "Responding Party does not know %s by sight. When the dog bit her, the only person she saw at the "
+             "residence was a girl about 13 to 15 years old at the side door of the garage; no adult was nearby. The "
+             "girl's mother and brother arrived after the bite." % who,
         ME + "; " + LUNAS, "None known to Responding Party at this time")
     blk("C", "The dog bit Responding Party at about 8:39 a.m., immediately after she photographed the delivered "
              "package. She returned to her car, telephoned 911, and waited at the scene until the Azusa Police "
