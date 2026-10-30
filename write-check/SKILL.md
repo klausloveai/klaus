@@ -213,7 +213,7 @@ W9保留在case folder然后你抓取完后备份进 folder3"). So when a stub v
    original in the case folder.
    ```
    gws drive files copy --params '{"fileId":"<w9 id>","supportsAllDrives":true,"fields":"id,name,parents,md5Checksum"}' \
-     --json '{"name":"<Payee Entity>.pdf","parents":["16klZfsFWR6SIL_s2646-4DATwPUNix32"]}'
+     --json '{"name":"<Payee name> - W9 (<Legal name>).pdf","parents":["16klZfsFWR6SIL_s2646-4DATwPUNix32"]}'
    ```
    Verify the copy's `md5Checksum` equals the source's before calling it filed. Already a file of that
    name there? Compare MD5 — identical means it is already filed (do nothing); different means the
