@@ -117,18 +117,22 @@ def frog(d):
                "4.1 asks for policies under which she 'might be insured.' Add it, or leave it out?"))
     q("6.1", "Yes.")
     q("6.2", "Responding Party sustained an open dog-bite wound to the outer (lateral) aspect of her left ankle, "
-             "with bleeding, swelling and a stinging sensation, diagnosed at USC Arcadia Hospital as an open "
+             "with bleeding, swelling, a stinging sensation, pain, numbness and aching, and difficulty walking, diagnosed at USC Arcadia Hospital as an open "
              "bite of the left ankle, initial encounter (S91.052A). The wound has healed with a scar on the "
              "outer left ankle measuring approximately 2.5 centimeters by 1 centimeter, which Saul Lahijani, "
              "M.D. described on September 16, 2026 as accompanied by fat necrosis. Responding Party also "
              "suffers emotional distress: fear and shortness of breath when she sees a dog, disturbed sleep "
              "and nightmares in which she wakes up suddenly, and distress about the appearance of the scar.")
     q("6.3", "Yes.",
-          ("sub", "(a)\tThe scar on her left ankle; " + tbc("CURRENT PHYSICAL ANKLE SYMPTOMS (ACHING, NUMBNESS, PAIN WHEN WALKING)")
-                  + "; fear and shortness of breath when she sees a dog; disturbed sleep and nightmares; "
-                  "reluctance to wear clothing or shoes that expose her ankles."),
-          ("sub", "(b)\tResponding Party describes each of these complaints as continuing without improvement "
-                  "since the INCIDENT " + tbc("SAME / BETTER / WORSE, PER COMPLAINT") + "."),
+          ("sub", "(a)\tThe dark scar on her left ankle; fear and shortness of breath when she sees a dog; "
+                  "disturbed sleep and nightmares; reluctance to wear clothing or shoes that expose her ankles."),
+          ("sub", "(b)\tThe pain, numbness, aching and difficulty walking that followed the bite have resolved, "
+                  "leaving the scar, which has not changed. The fear of dogs and the sleep disturbance continue "
+                  "without improvement."),
+          flag("Client (October 29 call): 'now there is nothing left but a small dark scar' (answering about the "
+               "ankle). Her October 25 voice said she still sleeps badly every night. The draft keeps the emotional "
+               "complaints as current on that basis; confirm with her that the fear of dogs and the poor sleep are "
+               "still present before she verifies."),
           ("sub", "(c)\tThe scar is constant. The fear and shortness of breath occur whenever she encounters a "
                   "dog or a situation similar to the INCIDENT. The sleep disturbance occurs nearly every night."))
     q("6.4", "Yes.",
@@ -140,7 +144,7 @@ def frog(d):
                   + tbc() + "."),
           ("sub", "2.\t(a) Thomas Yu, M.D., Allied Pacific IPA, 1448 South San Gabriel Boulevard, San Gabriel, California 91776, (626) 288-0300. "
                   "(b) Office visit for difficulty sleeping since the INCIDENT; prescription of a sleep aid. (c) July 28, 2026. "
-                  "(d) " + tbc("CHARGES OR COPAY") + "."),
+                  "(d) Unknown; Responding Party does not recall any charge for this visit."),
           ("sub", "3.\t(a) " + BHIPS + ". (b) Plastic surgery consultation and evaluation of the left ankle scar, "
                   "with photographs and chart review. (c) September 16, 2026. (d) $3,500.00."),
           flag("Lahijani's invoice and treatment plan are addressed to Lingtu Law Firm and the visit "
@@ -150,11 +154,12 @@ def frog(d):
     q("6.5", "Yes.",
           ("sub", "(a)\tAmoxicillin-clavulanate 875 milligrams / 125 milligrams oral tablets, one tablet twice a "
                   "day, quantity 14; Tdap vaccine administered at the hospital; and a sleep aid prescribed by Thomas Yu, M.D. "
-                  "on July 28, 2026 " + tbc("NAME OF SLEEP MEDICATION, DATES TAKEN, COST") + "."),
+                  "on July 28, 2026, the name of which Responding Party does not recall."),
           ("sub", "(b)\tElvis Santillan, PA, USC Arcadia Hospital, " + USC.split(", ", 1)[1] + " (antibiotic); Thomas Yu, "
                   "M.D. (sleep aid)."),
-          ("sub", "(c)\tAntibiotic: July 9, 2026, for seven days. Sleep aid: from July 28, 2026 " + tbc("END DATE") + "."),
-          ("sub", "(d)\t$3.00 (Sunny Bay Pharmacy, July 9, 2026)."))
+          ("sub", "(c)\tAntibiotic: July 9, 2026, for seven days. Sleep aid: from July 28, 2026, for seven days."),
+          ("sub", "(d)\tAntibiotic: $3.00 (Sunny Bay Pharmacy, July 9, 2026, receipt number 903630). Sleep aid: "
+                  "Responding Party does not recall any charge."))
     q("6.6", "No.")
     q("6.7", "Yes.",
           ("sub", "(a)\t" + BHIPS + "."),
@@ -168,8 +173,10 @@ def frog(d):
                   "anesthesia); subtotal $112,000.00. Non-surgical treatments $1,250.00 to $2,500.00 each, up to "
                   "twelve treatments, not included in the subtotal."),
           flag("The client wrote on October 15 that she will NOT have the surgery. The answer above is still "
-               "true (6.7 asks what was advised, not what she elected). Whether to add a sentence about her "
-               "election, and what future medical damages to claim, is yours; see also the Lahijani note at 6.4."))
+               "true (6.7 asks what was advised, not what she elected). Updated October 29: she also declines the "
+               "non-surgical laser / microneedling option and wants the scar to fade on its own. Whether to add a "
+               "sentence about her election, and whether to claim any future medical damages at all, is yours; see "
+               "also the Lahijani note at 6.4."))
     q("7.1", "No.")
     q("7.2", "Not applicable.")
     q("7.3", "Not applicable.")
@@ -383,7 +390,9 @@ def rfa_resp(d):
               "part of it is her call to our office. The draft does not mention that call. Disclose that she first "
               "contacted counsel (fact of contact, not content), or leave it out? Klaus: check your own WeChat/phone "
               "log for the time of her July 9 contact before Hernan decides. Note also: Li Fei went with her to the "
-              "emergency room, which may be where the triage note's 'friends dog' came from.")]
+              "emergency room and interpreted (client, October 29: the doctor asked how she was hurt, she said a dog bit "
+              "her, nothing more was asked, Li Fei interpreted), which may be where the triage note's 'friends dog' "
+              "came from.")]
     dd = ["Admit that Responding Party was able to walk, with difficulty and with pain, numbness and bleeding "
           "from her left ankle, out of the front gate after the young female carried the dog into the house. "
           "Except as expressly admitted, Responding Party denies this request. She did not walk away from the premises. "
