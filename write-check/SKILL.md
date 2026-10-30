@@ -98,18 +98,17 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
    If it ever shows an actual password field or a CAPTCHA, STOP — never enter credentials, never solve a
    CAPTCHA; hand it to Klaus.
 2. **Per payee** (provider or client), on the blank draft line:
-   - **Payee name = the name on the signed lien reduction letter** (its `PAYMENT REMIT TO` block) —
-     the clinic name the team actually knows (Klaus, 2026-10-30: "核对 lien reduction letter 的名字就行").
-     Cross-check it against the W-9: the letter's name must appear on the W-9 as **either line 1 (legal
-     name) or line 2 (DBA)** — whichever the letter uses is the one the team knows (Pham Chiropractic
-     Corporation's letter uses line 1 even though its W-9 lists DBA Prime Health Center; One Health
-     Medical's uses line 2). Letter name on neither line → stop and ask Klaus.
-     Rentec keeps **one vendor per EIN**, named that same way; the W-9's line-1 legal name goes into the
-     vendor's notes / 1099 name, because the year-end 1099 must carry **legal name + EIN** (IRS matches on
-     those — a DBA alone can come back as a name/TIN mismatch). Example: One Health Medical's W-9 is
-     line 1 `AVEVA MEDICAL AESTHETICS, INC` / line 2 `ONE HEALTH MEDICAL` → check and vendor say
-     **One Health Medical**, 1099 says Aveva Medical Aesthetics, Inc. Never create a second vendor for
-     the other name.
+   - **Payee name = the W-9's DBA (line 2) when it has one; the legal name (line 1) only when it has no
+     DBA** (Klaus, 2026-10-30: "全部常用名，除非确实w9没有dba"). The DBA is the clinic name the team knows.
+     Use the signed lien reduction letter (its `PAYMENT REMIT TO` block) to confirm it is the **same
+     entity** — the letter may print either name. If the letter's name appears on neither W-9 line, stop
+     and ask Klaus. Klaus re-printed two checks on 2026-10-30 to follow this: 80561 `AVEVA MEDICAL
+     AESTHETICS, INC` → **One Health Medical**, and 80560 `Pham Chiropractic Corporation` (the name the
+     letter used) → **Prime Health Center**.
+     Rentec keeps **one vendor per EIN**, named the same way (DBA); the W-9's line-1 legal name goes into
+     the vendor's notes / 1099 name, because the year-end 1099 must carry **legal name + EIN** (IRS matches
+     on those — a DBA alone can come back as a name/TIN mismatch). Never create a second vendor for the
+     other name.
    - Payment Type → **Print Check** (custom dropdown; resets to "Check" each new line).
    - Payee → custom type-ahead: click, type name, click the exact match (watch
      near-duplicates: "Advantage Plus MRI" ≠ "Open Advantage MRI"; "Sun Imaging, Inc" ≠
@@ -210,7 +209,7 @@ W9保留在case folder然后你抓取完后备份进 folder3"). So when a stub v
    Medicine Physicians).
 2. Read it, fill the RD vendor record, fix the line's Mailing Address.
 3. **Then back it up into `3. Disbursements/` root as `<Payee name> - W9 (<Legal name>).pdf`** — the
-   lien-letter / check name first, the line-1 legal name in brackets when it differs (e.g.
+   check name (DBA if any) first, the line-1 legal name in brackets when it differs (e.g.
    `One Health Medical - W9 (Aveva Medical Aesthetics, Inc).pdf`), so a search on either name finds it. Copy it, do **not** move it: Klaus keeps the
    original in the case folder.
    ```
@@ -230,8 +229,8 @@ in form fields that the renderer does not draw — a vision read shows a **blank
 returns the entity name, d/b/a, address and EIN. (The EIN comes out digit-spaced, e.g.
 `8 4 – 4 0 0 4 7 7 3` = 84-4004773.) `pypdf.get_fields()` returns None on them, so don't bother.
 Line 1 = the legal entity (what the 1099 carries); line 2 = the d/b/a / brand the clinic is known by.
-**The check and the Rentec vendor use the lien-letter name** — line 2 when there is a DBA, line 1 when
-there isn't (see step 2, "Payee name").
+**The check and the Rentec vendor use line 2 (DBA) when there is one, line 1 when there isn't** (see step
+2, "Payee name").
 
 ## Intake address lookup (client check)
 
