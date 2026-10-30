@@ -356,7 +356,7 @@ def rfa_items(d):
 INQ = ("After a reasonable inquiry concerning the matter, the information known or readily obtainable by "
        "Responding Party is insufficient to enable her to admit or deny this request.")
 
-CALL = "Client (phone call with Klaus, October 29): she was bitten just after she put the package down and took the delivery photograph. She went back to her car, saw the wound bleeding, FIRST CONTACTED OUR OFFICE (Klaus), then called 911, and waited in the car without treating the wound. While she waited, the girl's mother and brother came home and spoke to her in English; she called her friend Li Fei, who interpreted by phone (per Li Fei, the family said they have a dog and that she did not understand English). The officers spoke with her through a Chinese-language telephone interpreter, said it was not a criminal matter, gave her a card, told her she could leave, and went to talk to the family. Her husband arrived as the officers did and rinsed the wound with water from the car's first-aid kit. She then drove her husband's car, picked up Li Fei, and went to USC Arcadia Hospital; her husband drove her car away. "
+CALL = "Client (phone call with Klaus, October 29): she was bitten just after she put the package down and took the delivery photograph. She went back to her car, saw the wound bleeding, FIRST CALLED HER HUSBAND (who gave her Klaus's number), THEN CONTACTED OUR OFFICE (Klaus), then called 911, and waited in the car without treating the wound. While she waited, the girl's mother and brother came home and spoke to her in English; she called her friend Li Fei, who interpreted by phone (per Li Fei, the family said they have a dog and that she did not understand English). The officers spoke with her through a Chinese-language telephone interpreter, said it was not a criminal matter, gave her a card, told her she could leave, and went to talk to the family. Her husband arrived as the officers did and rinsed the wound with water from the car's first-aid kit. She then drove her husband's car, picked up Li Fei, and went to USC Arcadia Hospital; her husband drove her car away. "
 
 def rfa_resp(d):
     arl = d == "ARLENE LUNA"
@@ -389,7 +389,8 @@ def rfa_resp(d):
     c = ["Admit that the records of USC Arcadia Hospital reflect her arrival at the emergency department at "
          "10:43 a.m. on July 9, 2026, more than one hour after the dog bit her. Except as expressly admitted, "
          "Responding Party denies this request. The dog bit her at about 8:39 a.m., immediately after she put the "
-         "package down and photographed it. She returned to her car, found the wound bleeding, telephoned 911, and "
+         "package down and photographed it. She returned to her car, found the wound bleeding, telephoned her husband, "
+         "then telephoned 911, and "
          "remained at the scene until Azusa Police Department officers arrived, spoke with her and told her she could "
          "leave. Her husband, who arrived as the officers did, rinsed the wound with clean water from a first-aid kit. "
          "She then drove, picking up a friend on the way, to the USC Arcadia Hospital emergency department.",
@@ -465,7 +466,7 @@ def rfa_171(d):
              "girl's mother and brother arrived after the bite." % who,
         ME + "; " + LUNAS, "None known to Responding Party at this time")
     blk("C", "The dog bit Responding Party at about 8:39 a.m., immediately after she photographed the delivered "
-             "package. She returned to her car, telephoned 911, and waited at the scene until the Azusa Police "
+             "package. She returned to her car, telephoned her husband and then 911, and waited at the scene until the Azusa Police "
              "Department officers released her; her husband rinsed the wound with clean water; she then drove, "
              "picking up a friend, to the USC Arcadia Hospital emergency department, arriving at 10:43 a.m.",
         ME + "; Officers Castro and Torres, " + APD + "; " + USC,
