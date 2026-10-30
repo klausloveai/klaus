@@ -110,7 +110,17 @@ find the signed DIS anywhere and had to stop too. Holding the *money steps* is t
    `=SUM($U{r}:{r})-G{r}+H{r}` whenever you fill one in — don't trust the formula that is already there.
 9. **Re-search the row again**, then color: A no fill · received coverage green · I/M/N/O green ·
    J/K yellow · L green if zero else yellow · P yellow · Q–T yellow · provider cells yellow.
-10. Read back and confirm **N = zero**.
+   Colors are pure: green `{green:1}`, yellow `{red:1,green:1}`, white `{1,1,1}`.
+   ⚠️ **Search and color in ONE script, ONE `batchUpdate` — never color by a row number you found in an
+   earlier call.** People sort the sheet live (it sorts by col A, so a row you just dated jumps to the top).
+   2026-10-30: Angel Michelle Miner was found at r171, values written and read back fine, then the sheet
+   was re-sorted (she moved to r3) and two separate color calls aimed at r171 painted **Ann Yiyang Hou**'s
+   row instead; Angel stayed uncolored until Klaus spotted it. Ann's original fill was unrecoverable and had
+   to be copied from her sibling row (Anna Yiyang Hou). So: read col B:C → find the row by **name + DOL**
+   (assert exactly one hit) → build the requests from that index → send immediately. The same goes for
+   value writes: search and write in the same script.
+10. Read back **by name + DOL, not row number**, and confirm **N = zero** and the colors landed on the right
+    client.
 
 ## Phase 2 — Account Journal
 11. Back up `Account-Journal.xlsx` to `Backups/` first.
