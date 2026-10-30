@@ -182,7 +182,9 @@ def frog(d):
                "while she sat in the car and did the app's face verification; he gave up his own Uber rides to do it. "
                "So her Flex income did not drop because he did her work on her account. That is an account-sharing "
                "problem under the Flex terms, and Amazon (now a defendant) holds the GPS, scan and face-check logs for "
-               "those weeks. Nothing in the draft mentions it. Hernan to decide how to handle before any Flex records "
+               "those weeks. The client's Flex earnings screenshots (received October 30, "
+               "July 1 to July 19) bear this out: blocks on her account every day from July 10 to July 19, up to three "
+               "a day (July 17). Nothing in the draft mentions it. Hernan to decide how to handle before any Flex records "
                "are produced (RFP 7, 8, 9; Amazon's own RFP 20-21). 8.1 can stay 'No' on her own earnings; "
                "whether to claim the value of his help is the 9.1 decision. 'No' here waives her own lost "
                "earnings and earning capacity (8.2 through 8.8 go unanswered). Confirm 'No.'"))
@@ -356,7 +358,7 @@ def rfa_items(d):
 INQ = ("After a reasonable inquiry concerning the matter, the information known or readily obtainable by "
        "Responding Party is insufficient to enable her to admit or deny this request.")
 
-CALL = "Client (phone call with Klaus, October 29): she was bitten just after she put the package down and took the delivery photograph. She went back to her car, saw the wound bleeding, FIRST CALLED HER HUSBAND (who gave her Klaus's number), THEN CONTACTED OUR OFFICE (Klaus), then called 911, and waited in the car without treating the wound. While she waited, the girl's mother and brother came home and spoke to her in English; she called her friend Li Fei, who interpreted by phone (per Li Fei, the family said they have a dog and that she did not understand English). The officers spoke with her through a Chinese-language telephone interpreter, said it was not a criminal matter, gave her a card, told her she could leave, and went to talk to the family. Her husband arrived as the officers did and rinsed the wound with water from the car's first-aid kit. She then drove her husband's car, picked up Li Fei, and went to USC Arcadia Hospital; her husband drove her car away. "
+CALL = "Client (phone call with Klaus, October 29): she was bitten just after she put the package down and took the delivery photograph. She went back to her car, saw the wound bleeding, FIRST CALLED HER HUSBAND (who gave her Klaus's number), THEN WECHAT-CALLED KLAUS AT ABOUT 8:58 A.M.; Klaus opened a WeChat group with his colleague Cindy, who called her back from (323) 532-5688 and took the intake; then she called 911, and waited in the car without treating the wound. While she waited, the girl's mother and brother came home and spoke to her in English; she called her friend Li Fei, who interpreted by phone (per Li Fei, the family said they have a dog and that she did not understand English). The officers spoke with her through a Chinese-language telephone interpreter, said it was not a criminal matter, gave her a card, told her she could leave, and went to talk to the family. Her husband arrived as the officers did and rinsed the wound with water from the car's first-aid kit. She then drove her husband's car, picked up Li Fei, and went to USC Arcadia Hospital; her husband drove her car away. "
 
 def rfa_resp(d):
     arl = d == "ARLENE LUNA"
@@ -395,9 +397,10 @@ def rfa_resp(d):
          "leave. Her husband, who arrived as the officers did, rinsed the wound with clean water from a first-aid kit. "
          "She then drove, picking up a friend on the way, to the USC Arcadia Hospital emergency department.",
          flag(CALL + "The gap between the bite (about 8:39) and the 911 call (9:34) is now mostly explained, but "
-              "part of it is her call to our office. The draft does not mention that call. Disclose that she first "
-              "contacted counsel (fact of contact, not content), or leave it out? Klaus: check your own WeChat/phone "
-              "log for the time of her July 9 contact before Hernan decides. Note also: Li Fei went with her to the "
+              "part of it is her call to our office. The draft does not mention that call. Her phone's call log (screenshots "
+              "received October 30) shows the order: calls with her husband and Li Fei, then the incoming call from "
+              "(323) 532-5688 (Cindy, our office), then her husband and Li Fei again, then 911 (the list view shows dates, "
+              "not times). Disclose that she first contacted counsel (fact of contact, not content), or leave it out? Note also: Li Fei went with her to the "
               "emergency room and interpreted (client, October 29: the doctor asked how she was hurt, she said a dog bit "
               "her, nothing more was asked, Li Fei interpreted), which may be where the triage note's 'friends dog' "
               "came from.")]
@@ -563,10 +566,14 @@ def rfp_resp():
         "8": ["Responding Party is unable to comply with this request because no document showing compensation "
               "for the single delivery to 152 East Kirkwall Road has ever existed: the Amazon Flex program pays a "
               "fixed amount for a block of hours, not per package or per delivery. Responding Party has conducted a "
-              "diligent search and a reasonable inquiry. She will produce the Amazon Flex record of her pay for the "
-              "July 9, 2026 block " + tbc("CLIENT TO SEND SCREENSHOT OF JULY 9 BLOCK PAY") + ".",
+              "diligent search and a reasonable inquiry. She will produce the Amazon Flex record of her pay for "
+              "July 9, 2026, which shows a block from 6:30 a.m. to 10:00 a.m. paid at $89.50 " + BATES + ".",
               flag("Producing the block-pay screenshot is voluntary (it is not the document requested). Produce it, "
-                   "or stop at the inability statement? Note RFP 7: if we object and withhold her Flex earnings "
+                   "or stop at the inability statement? The client's Flex earnings screenshots (received October 30) "
+                   "show, for July 9, a 3:30 to 5:00 a.m. block ($41.50) and the 6:30 to 10:00 a.m. block during which "
+                   "she was bitten, paid in full ($89.50). The same screenshots show blocks on her account every day "
+                   "from July 10 to July 19 (the husband's driving, see 8.1). If produced: the July 9 entries only, or "
+                   "the whole set? Note RFP 7: if we object and withhold her Flex earnings "
                    "there, producing one block's pay here narrows that objection.")],
         "9": [UNABLE_NOW % "Amazon Logistics, Inc." + " The only Amazon Flex record in her possession for July 9, "
               "2026 is the delivery confirmation for package 5662 at 152 East Kirkwall Road, which shows no other delivery.",
