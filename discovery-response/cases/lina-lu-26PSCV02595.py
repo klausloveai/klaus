@@ -127,14 +127,10 @@ def frog(d):
           ("sub", "(a)\tThe dark scar on her left ankle; fear and shortness of breath when she sees a dog; "
                   "disturbed sleep and nightmares; reluctance to wear clothing or shoes that expose her ankles."),
           ("sub", "(b)\tThe pain, numbness, aching and difficulty walking that followed the bite have resolved, "
-                  "leaving the scar, which has not changed. The fear of dogs and the sleep disturbance continue "
-                  "without improvement."),
-          flag("Client (October 29 call): 'now there is nothing left but a small dark scar' (answering about the "
-               "ankle). Her October 25 voice said she still sleeps badly every night. The draft keeps the emotional "
-               "complaints as current on that basis; confirm with her that the fear of dogs and the poor sleep are "
-               "still present before she verifies."),
+                  "leaving the scar, which has not changed. The fear of dogs and the sleep disturbance continue but "
+                  "have improved considerably."),
           ("sub", "(c)\tThe scar is constant. The fear and shortness of breath occur whenever she encounters a "
-                  "dog or a situation similar to the INCIDENT. The sleep disturbance occurs nearly every night."))
+                  "dog or a situation similar to the INCIDENT. The sleep disturbance continues at night, less often than in the first months after the INCIDENT."))
     q("6.4", "Yes.",
           ("sub", "1.\t(a) " + USC + ". (b) Emergency department examination and treatment: wound irrigation, "
                   "tetanus, diphtheria and pertussis (Tdap) vaccination, and a prescription for oral "
