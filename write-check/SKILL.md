@@ -98,6 +98,16 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
    If it ever shows an actual password field or a CAPTCHA, STOP — never enter credentials, never solve a
    CAPTCHA; hand it to Klaus.
 2. **Per payee** (provider or client), on the blank draft line:
+   - **Payee name = the name on the signed lien reduction letter** (its `PAYMENT REMIT TO` block) —
+     the clinic name the team actually knows (Klaus, 2026-10-30: "核对 lien reduction letter 的名字就行").
+     Cross-check it against the W-9: it must match **line 2 (DBA)** when the W-9 has one, or **line 1
+     (legal name)** when it doesn't. Letter says something the W-9 doesn't → stop and ask Klaus.
+     Rentec keeps **one vendor per EIN**, named that same way; the W-9's line-1 legal name goes into the
+     vendor's notes / 1099 name, because the year-end 1099 must carry **legal name + EIN** (IRS matches on
+     those — a DBA alone can come back as a name/TIN mismatch). Example: One Health Medical's W-9 is
+     line 1 `AVEVA MEDICAL AESTHETICS, INC` / line 2 `ONE HEALTH MEDICAL` → check and vendor say
+     **One Health Medical**, 1099 says Aveva Medical Aesthetics, Inc. Never create a second vendor for
+     the other name.
    - Payment Type → **Print Check** (custom dropdown; resets to "Check" each new line).
    - Payee → custom type-ahead: click, type name, click the exact match (watch
      near-duplicates: "Advantage Plus MRI" ≠ "Open Advantage MRI"; "Sun Imaging, Inc" ≠
@@ -197,8 +207,9 @@ W9保留在case folder然后你抓取完后备份进 folder3"). So when a stub v
    named after the clinic's brand, not the payee entity (`ISSrehab W-9.pdf` → Integrative Physical
    Medicine Physicians).
 2. Read it, fill the RD vendor record, fix the line's Mailing Address.
-3. **Then back it up into `3. Disbursements/` root as `<Payee Entity>.pdf`** — the W-9 entity on line 1,
-   not the brand, so the next case finds it by payee name. Copy it, do **not** move it: Klaus keeps the
+3. **Then back it up into `3. Disbursements/` root as `<Payee name> - W9 (<Legal name>).pdf`** — the
+   lien-letter / check name first, the line-1 legal name in brackets when it differs (e.g.
+   `One Health Medical - W9 (Aveva Medical Aesthetics, Inc).pdf`), so a search on either name finds it. Copy it, do **not** move it: Klaus keeps the
    original in the case folder.
    ```
    gws drive files copy --params '{"fileId":"<w9 id>","supportsAllDrives":true,"fields":"id,name,parents,md5Checksum"}' \
@@ -216,7 +227,9 @@ W9保留在case folder然后你抓取完后备份进 folder3"). So when a stub v
 in form fields that the renderer does not draw — a vision read shows a **blank** form while `pdftotext`
 returns the entity name, d/b/a, address and EIN. (The EIN comes out digit-spaced, e.g.
 `8 4 – 4 0 0 4 7 7 3` = 84-4004773.) `pypdf.get_fields()` returns None on them, so don't bother.
-Line 1 = the payee entity (what goes on the check); line 2 = the d/b/a / brand the clinic is known by.
+Line 1 = the legal entity (what the 1099 carries); line 2 = the d/b/a / brand the clinic is known by.
+**The check and the Rentec vendor use the lien-letter name** — line 2 when there is a DBA, line 1 when
+there isn't (see step 2, "Payee name").
 
 ## Intake address lookup (client check)
 
