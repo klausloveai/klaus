@@ -181,9 +181,13 @@ def frog(d):
     q("7.2", "Not applicable.")
     q("7.3", "Not applicable.")
     q("8.1", "No.",
-          flag("Client: no days off and no lost earnings of her own. Updated October 28: her husband, also an "
-               "Uber driver earning about $200 to $300 a day, rode along with her for about two weeks after the "
-               "bite, after which she worked alone again. That is his loss, not hers, so 8.1 can stay 'No'; "
+          flag("Client: no days off and no lost earnings of her own. CORRECTED October 29 (phone): from July 9 itself, "
+               "for about two weeks (tentatively to July 23), her HUSBAND DROVE AND DELIVERED her Amazon Flex blocks "
+               "while she sat in the car and did the app's face verification; he gave up his own Uber rides to do it. "
+               "So her Flex income did not drop because he did her work on her account. That is an account-sharing "
+               "problem under the Flex terms, and Amazon (now a defendant) holds the GPS, scan and face-check logs for "
+               "those weeks. Nothing in the draft mentions it. Hernan to decide how to handle before any Flex records "
+               "are produced (RFP 7, 8, 9; Amazon's own RFP 20-21). 8.1 can stay 'No' on her own earnings; "
                "whether to claim the value of his help is the 9.1 decision. 'No' here waives her own lost "
                "earnings and earning capacity (8.2 through 8.8 go unanswered). Confirm 'No.'"))
     for n in range(2, 9):
@@ -193,7 +197,9 @@ def frog(d):
           flag("Client (voice, October 25, 22:47): no other out-of-pocket costs beyond the $50 emergency "
                "copayment and the $3 pharmacy charge, which match the receipts in 6.5 and 9.2. Her husband rode "
                "along for about two weeks at a cost to him of about $200 to $300 a day (14 days x $200 = $2,800; "
-               "14 days x $300 = $4,200; we have no record of the actual days he lost). Claim it here as the "
+               "14 days x $300 = $4,200; client now gives July 9 to about July 23, to be confirmed from his Uber earnings "
+               "records, which she is checking). Claiming it means explaining that he was doing her Flex deliveries "
+               "(see the 8.1 note). Claim it here as the "
                "reasonable value of his assistance, or leave it out? If claimed, we need proof of his Uber "
                "earnings. She says he has no pay stubs (paid only when he drives); his Uber earnings history would be the "
                "proof."))
@@ -271,7 +277,7 @@ def frog(d):
                   "female's mother and brother."),
           ("sub", "(d)\tEach person named above; Fuguo Wang, Responding Party's husband, " + COUNSEL_CONTACT
                   + "; Fei Li, identified on the Animal Bite Reporting Form as the person who reported the bite, "
-                  "a friend of Responding Party, (626) 262-3246 " + tbc("ADDRESS")
+                  "a friend of Responding Party, Arcadia, California (street address unknown to Responding Party), (626) 262-3246"
                   + "; M. Valdez, number 14, " + IVHS + ", who submitted the Animal Bite Reporting Form; "
                   "the agent of Amazon's Incident Response Team who signed as Mountassir, Amazon Logistics, Inc.; "
                   "and Richard Reyes and Zoraida Torres, as Trustees of the Torres Reyes Family Trust, through "
@@ -530,12 +536,12 @@ def rfp_resp():
         "2": [COMPLY + " " + BATES + ".", REDACT],
         "3": ["Responding Party will comply with this request in part by producing the lien statement of Katch, on "
               "behalf of L.A. Care Health Plan, dated August 21, 2026 " + BATES + ". " + UNABLE_NOW % "L.A. Care "
-              "Health Plan" + " " + tbc("CLIENT TO SEND ANY L.A. CARE EXPLANATION OF BENEFITS")],
+              "Health Plan" + " " + tbc("CLIENT TO CHECK HER UNOPENED MAIL FOR L.A. CARE EXPLANATION OF BENEFITS")],
         "4": [COMPLY + " Responding Party produces the invoice of Beverly Hills Institute of Plastic Surgery dated "
               "September 16, 2026, her receipt for the $50.00 copayment to USC Arcadia Hospital, and the Sunny Bay "
               "Pharmacy receipt dated July 9, 2026 " + BATES + ". " + tbc("THOMAS YU, M.D. STATEMENT FOR JULY 28, 2026"),
               flag("Lahijani invoice: produce, or withhold as consultant work product (see FROG 6.4)?")],
-        "5": [COMPLY + " " + BATES + ". " + tbc("CLIENT'S ORIGINAL PHOTOGRAPH FILES WITH DATES")],
+        "5": [COMPLY + " " + BATES + "."],
         "6": ["Responding Party was not an employee of Amazon Logistics, Inc. She will comply with this request by "
               "producing the Amazon Flex independent contractor terms in force on July 9, 2026 " + BATES + ". "
               + tbc("CLIENT TO DOWNLOAD THE AMAZON FLEX INDEPENDENT CONTRACTOR TERMS OF SERVICE")],
@@ -553,7 +559,8 @@ def rfp_resp():
               flag("Producing the block-pay screenshot is voluntary (it is not the document requested). Produce it, "
                    "or stop at the inability statement? Note RFP 7: if we object and withhold her Flex earnings "
                    "there, producing one block's pay here narrows that objection.")],
-        "9": [tbc("JULY 9, 2026 ITINERARY FROM THE FLEX APP"),
+        "9": [UNABLE_NOW % "Amazon Logistics, Inc." + " The only Amazon Flex record in her possession for July 9, "
+              "2026 is the delivery confirmation for package 5662 at 152 East Kirkwall Road, which shows no other delivery.",
               flag("The July 9 route will show the time of each stop and whether she kept delivering after 8:39 "
                    "a.m. Review it before deciding how to answer; it decides the bite-time question as well.")],
         "10": [COMPLY + " Responding Party produces the documents identified in her response to Form "
