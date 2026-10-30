@@ -54,7 +54,7 @@ def frog(d):
     q("1.1", "Responding Party, LINA LU, with the assistance of her attorneys of record, Hern\u00e1n S. "
              "Sim\u00f3, Lingtu Law Office, Law Office of Shenqi Cai, APC, 13191 Crossroads Parkway North, "
              "Suite 295, City of Industry, California 91746, (626) 479-2207. The responses were translated "
-             "for Responding Party by " + tbc("TRANSLATOR NAME") + ", of the same office.")
+             "for Responding Party by " + "Klaus Liu" + ", of the same office.")
     q("2.1", ("sub", "(a)\tLina Lu."), ("sub", "(b)\tNone."), ("sub", "(c)\tNot applicable."))
     q("2.2", ("sub", "(a)\tFebruary 20, 1982."),
              ("sub", "(b)\tDaqing, Heilongjiang Province, People's Republic of China."))
@@ -136,8 +136,8 @@ def frog(d):
                   "tetanus, diphtheria and pertussis (Tdap) vaccination, and a prescription for oral "
                   "antibiotics. (c) July 9, 2026. (d) $1,898.00 in hospital charges ($1,644.00 emergency "
                   "service; $254.00 Tdap vaccine). The hospital's bill states that the emergency physicians "
-                  "bill separately; Responding Party has not received a separate physician bill "
-                  + tbc() + "."),
+                  "bill separately; Responding Party has not received a separate physician bill, "
+                  "and none appears on her health plan's explanation of benefits for that date."),
           ("sub", "2.\t(a) Thomas Yu, M.D., Allied Pacific IPA, 1448 South San Gabriel Boulevard, San Gabriel, California 91776, (626) 288-0300. "
                   "(b) Office visit for difficulty sleeping since the INCIDENT; prescription of a sleep aid. (c) July 28, 2026. "
                   "(d) Unknown; Responding Party does not recall any charge for this visit."),
@@ -501,7 +501,7 @@ def rfa_171(d):
              "the dog bit her.",
         ME + "; Amazon Logistics, Inc.",
         "Amazon Flex proof-of-delivery record for package 5662 (Amazon Logistics, Inc.; Responding Party's "
-        "counsel has a screenshot); " + tbc("AMAZON FLEX PHOTO-ON-DELIVERY POLICY DOCUMENT"))
+        "counsel has a screenshot); Amazon Flex proof-of-delivery photograph requirements (Amazon Logistics, Inc.)")
     return out
 
 
@@ -551,12 +551,13 @@ def rfp_resp():
                    "EOB lists no claim lines (summary only) and is not being produced.")],
         "4": [COMPLY + " Responding Party produces the invoice of Beverly Hills Institute of Plastic Surgery dated "
               "September 16, 2026, her receipt for the $50.00 copayment to USC Arcadia Hospital, and the Sunny Bay "
-              "Pharmacy receipt dated July 9, 2026 " + BATES + ". " + tbc("THOMAS YU, M.D. STATEMENT FOR JULY 28, 2026"),
+              "Pharmacy receipt dated July 9, 2026 " + BATES + ". No statement for her July 28, 2026 visit to Thomas Yu, "
+              "M.D. is presently in her possession, custody or control; she is obtaining it from his office and will "
+              "produce it upon receipt.",
               flag("Lahijani invoice: produce, or withhold as consultant work product (see FROG 6.4)?")],
         "5": [COMPLY + " " + BATES + "."],
-        "6": ["Responding Party was not an employee of Amazon Logistics, Inc. She will comply with this request by "
-              "producing the Amazon Flex independent contractor terms in force on July 9, 2026 " + BATES + ". "
-              + tbc("CLIENT TO DOWNLOAD THE AMAZON FLEX INDEPENDENT CONTRACTOR TERMS OF SERVICE")],
+        "6": ["Responding Party was not an employee of Amazon Logistics, Inc. " + UNABLE_NOW % "Amazon Logistics, Inc."
+              + " She has no copy of the Amazon Flex terms of service."],
         "7": [O_PRIVACY("request") + " Responding Party does not claim lost earnings or loss of earning capacity "
               "in this action (see her response to Form Interrogatory 8.1), and her earnings from January 1, 2025 "
               "forward bear on no issue in the case. On the basis of this objection Responding Party is "
@@ -671,7 +672,7 @@ def build(kind, d):
     emit(doc, protos, "body", "")
     emit(doc, protos, "head", "DECLARATION OF TRANSLATOR")
     emit(doc, protos, "body", TRANSLATOR_DECL.replace("YI CONG, who stated that he", "LINA LU, who stated that she")
-         .replace("I am fluent", "I, " + tbc("TRANSLATOR NAME") + ", am fluent"))
+         .replace("I am fluent", "I, " + "Klaus Liu" + ", am fluent"))
     emit(doc, protos, "body", "Executed on ______________, 2026, at City of Industry, California.")
     emit(doc, protos, "body", "")
     stopped(emit(doc, protos, "body", "\t______________________________"))
