@@ -132,6 +132,7 @@ modal 里的支票图太小。注入全局 CSS 把 `#checks-accordionPanel0 img`
 
 ## 已知悬案速查(报告时别当新发现)
 - Xiuying Wang(tab, DOL 2/12) vs Xueying Wang(Hudson 支票, DOL 6/2)：拼写疑点 —— **案子未结（Klaus 10/28）**，结案出账时再核。
+- 80523 Zhiping Liu $75,410.29（10/28，已兑现）：**金额正确**，案子未结、先放客户款；Pending tab 未 finalize（暂写 $75,810.29）。**Klaus 11/1：先不 recon**，等全案结清再勾 + 录 Internal/journal。
 - 80275 重号两张(Hong Li $3,210 + Axis $705)——月结对 Journal 时别绊住。
 - 旧 #4854 支票号 800092 / 800093 / 800094 仍无解释，出现在对账单上立刻报。
 - 80366：Rentec ledger 上也不存在（前后 80365/80367 = King Chung Leung 8/27），多半是删掉的草稿；若当时打印过再作废，journal 要补一行 VOID。
