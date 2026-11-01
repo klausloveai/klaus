@@ -5,7 +5,7 @@ with no statement line, and any amount that disagrees."""
 import csv, json, os, re, shutil, sys, argparse
 
 MR = os.path.expanduser("~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/"
-                        "Lingtu Law-Disbursement/IOLTA#3618/Monthly Reconciliations/")
+                        "Documents/Lingtu Law-Disbursement/IOLTA#3618/Monthly Reconciliations/")
 
 def main():
     ap = argparse.ArgumentParser()

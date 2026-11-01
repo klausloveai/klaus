@@ -7,7 +7,7 @@ import openpyxl
 from collections import defaultdict
 from build_package import (load_journal, issued, cleared, num, f, norm,
                            carryover, load_disbursements, sweep_allocation)
-MR='/Users/klaus/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/IOLTA#3618/Monthly Reconciliations/'
+MR='/Users/klaus/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Documents/Lingtu Law-Disbursement/IOLTA#3618/Monthly Reconciliations/'
 
 ap=argparse.ArgumentParser(); ap.add_argument('--month',required=True); ap.add_argument('--bank-end',type=float,required=True)
 a=ap.parse_args()

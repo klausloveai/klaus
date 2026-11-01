@@ -23,7 +23,7 @@ description: >
 
 | 什么 | 值 |
 |---|---|
-| 主账本 | `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`，工作表 `Account journal` |
+| 主账本 | `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Documents/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`，工作表 `Account journal` |
 | 表头 / 数据 | 表头第 **9** 行，数据第 **10** 行起。**第 1–9 行有合并单元格，openpyxl 从第 1 行扫会崩** —— 一律从第 10 行往后扫 |
 | 列 | A 日期 · B Payor/Payee · C Method · D Check# · E Purpose · F Deposit · G Disbursement · H Running Balance · I Client · J Notes · K Reconciled to Ledgers? · L Reconciled to Bank Stmt? · **M Cleared Date** · **N Statement Month** |
 | 备份 | 同目录 `Backups/`，命名 `Account-Journal_backup_<YYYY-MM-DD_HHMM>_<用途>.xlsx` |

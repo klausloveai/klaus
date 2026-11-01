@@ -20,7 +20,7 @@ except ImportError:
     sys.exit("need openpyxl:  pip3 install openpyxl")
 
 JOURNAL = os.path.expanduser(
-    "~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/"
+    "~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Documents/Lingtu Law-Disbursement/"
     "IOLTA#3618/Account-Journal.xlsx")
 SHEET = "Account journal"
 HDR_ROW, FIRST_ROW = 9, 10

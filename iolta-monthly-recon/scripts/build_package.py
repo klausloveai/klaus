@@ -21,9 +21,9 @@ except ImportError:
     sys.exit("need openpyxl:  pip3 install openpyxl")
 
 BASE = os.path.expanduser("~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/"
-                          "Lingtu Law-Disbursement/IOLTA#3618/")
+                          "Documents/Lingtu Law-Disbursement/IOLTA#3618/")
 OLD  = os.path.expanduser("~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/"
-                          "Lingtu Law-Disbursement/IOLTA #4854/Account#4854-Journal-Reconciled.xlsx")
+                          "Documents/Lingtu Law-Disbursement/IOLTA #4854/Account#4854-Journal-Reconciled.xlsx")
 MR   = BASE + "Monthly Reconciliations/"
 DISB_ID = "1Av8_fj3MAekCM6RujmGWuFsYRnSG6MMbAskvPkFcs2U"
 MONEY = "#,##0.00_);(#,##0.00)"
