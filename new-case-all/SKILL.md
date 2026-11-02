@@ -43,7 +43,7 @@ Klaus 给的是截图/口述「文档里两位客户填写的信息」时：
 同一份表里两人日期可能不一样（例：司机 10/17、乘客 10/18）——以警察卡 / 客户实际填写为准，
 不要直接抄 Excel。照 new-case Step 3 闸门处理。
 
-## 阶段 B — new-case Step 1–14
+## 阶段 B — new-case Step 1–14（含 Step 9a Lingtu Data 入档 + 完成闸门）
 
 完全照 `new-case`。补充：
 - **Picase@ 已拆成三个 tab**：`Picase@(Amos)` / `Picase@(Jenkins)` / `Picase@(Eeve)`。Klaus 只说「picase」时
@@ -119,7 +119,7 @@ Klaus 笔记来了再**原话**补发一条（同样 @ 三人）。规则详见 
 
 - Activity Log 每个对外动作各一行（建企微群 / 拉客户 / 发三条），Ref 写群名和人数。
 - 本次学到的新坑写进 memory `feedback_wecom_case_group`。
-- 最终回复：new-case 的 7 节 summary（照 new-case Step 15）+ 一段企微群状态（群名、成员、已发哪几条、客户有没有回）。
+- 最终回复：new-case 的 8 节 summary（照 new-case Step 15）+ 一段企微群状态（群名、成员、已发哪几条、客户有没有回）。
 
 ## 不做的事
 
