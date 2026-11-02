@@ -52,3 +52,9 @@ Use ⚠️ CRITICAL: prefix for each. Examples:
 
 ## 7. Intake Responses Zip
 Confirm: "Original intake zip saved as 'Intake Responses.zip' in 1#Legal Documents."
+
+## 8. Lingtu Data 与完成核对
+- 编号：`<客户编号>`（新客户 / 老客户 / 官网已进库），owner、lead_source 各写一个词。
+- Master A 列：已写 <tab> 第 N–M 行。案卷：已挂 / 「签约后补」。
+- Completion gate 7 项：全部通过；没通过的逐条写「未完成：<哪项> —— <原因>」。
+

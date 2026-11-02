@@ -31,14 +31,16 @@ the Docusign retainer as the final step.
 7. **Classify & place ALL documents into subfolders** (DL, AIC, Police Card, photos, videos)
 8. Deliver the case folder zip + place "Intake Responses.zip" in 1#Legal Documents
 9. Upload to Google Drive (default destination: 1. Pending)
+9a. **Lingtu Data 入档 —— 拿到编号**（查重 → 登记 → 挂案卷）。**没有编号不准进 Step 10**
 10. Add the case to the tracking sheet, insert one row per client below the Example Row
 11. Create the Google Chat case space, add the team, **promote Amos/Claire/CM to Manager**, ask user for case notes, post verbatim with the whole team's @mention list
 12. Create the Gmail case label in the team mailbox (yellow)
 13. Send the Docusign retainer — **ONLY if the prompt explicitly asks to send** (default = skip); when sending, `retainer type = new / standard` is a hard gate
 14. **Output the client-facing signing message** (WeChat 文案 for Klaus to forward) — **always last, but only if Step 13 actually sent**
-15. **Final reply = `references/summary-format.md` only** — no analysis, no case-value opinions, no unsolicited to-dos
+15. **完成闸门（Completion gate）** —— 逐项读回核对 Drive / Lingtu Data / Master / Chat / label 都真的建好了，再出最终回复。
+16. **Final reply = `references/summary-format.md` only** — no analysis, no case-value opinions, no unsolicited to-dos
 
-> The 14 headings below (Step 1 – Step 14) match this list exactly.
+> The headings below (Step 1 – Step 14, plus Step 9a and the Completion gate) match this list exactly.
 
 ## Execution Mode
 
@@ -58,6 +60,9 @@ When the user has not said otherwise *in advance*, apply these defaults and keep
   2. **上一案的人数构成** —— 几个成年人、几个 minor
   3. **本案的人数构成** —— 几个成年人、几个 minor
   4. **三个信箱当前的加权在手量** —— 见下方折算规则
+  5. **Lingtu Data 登记字段**（Step 9a 要用，在这同一次确认里一起给 Klaus 看，不另停一次）：
+     客户姓名、电话、`lead_source`（由 Referrer 推，见 Step 9a 对照表）、介绍人、`owner`，
+     以及 `find` 查重结果（新客户 / 老客户 + 原编号 / 官网或总机已自动进库的线索）。
 
   > ⚠️ **2026-10-08 改口径**：以前是「只在 Jerry 和 Amos 之间轮」，现在 **Picase@ 回到轮转里**，
   > 三个信箱一起算。**少的那个就是 next assign**（Klaus 原话）；并列时规则选不出来，直接问 Klaus。
@@ -607,6 +612,52 @@ for the tracking-sheet `=HYPERLINK(...)` formula.
 
 ---
 
+## Step 9a — Lingtu Data 入档（拿编号）
+
+> **2026-11-02 起每个新案必做（Klaus：「有的时候还是会跳过入档，我放进 skill 里应该都可以确保
+> 案件正确入档有编号」）。** 编号是系统生成的，照系统给的用，**绝不自己编、不手改**。
+> 规则来源：`lingtu-data` skill（分流、来源、敏感信息）。这里只写 new-case 里怎么接。
+
+**位置**：Step 9 上传 Drive 之后（要用案卷链接）、Step 10 写 Master 之前（Master A 列要用编号）。
+**Step 10 的脚本 `--case-id` 是必填参数 —— 没有编号就写不了 Master 行，这一步跳不过去。**
+
+1. **查重（必做）**：`find` 先按司机电话查，再按姓名查。
+   - 查到**官网 / 总机已自动进库**的这条线索 → 直接用它的编号，**不要再 `log_lead`**。
+   - 查到**老客户**（电话对上）→ `log_lead` 带 `existing_client_code=<原编号>`、`lead_source=returning_client`。
+   - 只是**重名、电话对不上** → 是另一个人，`log_lead` 带 `confirm_new_client=true`。重名不同人本来就该是不同编号。
+   - 拿不准是不是同一个人 → 停下来问 Klaus。
+2. **登记**（`log_lead`，字段已在开头的 assign 确认里给 Klaus 看过）：
+   - `name` = 司机全名；`phone`、`email` 取 intake；`channel=staff_entry`
+   - `case_type` = `car_accident`（狗咬 `dog_bite`，其他见 `options`）
+   - `summary` = 一句话案情（DOL、事故类型、几位客户），**不写 SSN、DL#、DOB、地址**
+   - `notes` = 同案乘客姓名、分派的信箱和 CM
+   - `lead_source` 由 Master 的 Referrer 推：
+
+     | Referrer 写的 | `lead_source` |
+     |---|---|
+     | `<名字>老客户介绍` / 朋友介绍 | `client_referral` + `referrer_name=<名字>` |
+     | 老客户本人（「老客户（M/D/YYYY 案）」） | `returning_client` + `existing_client_code` |
+     | `Klaus朋友圈` | `wechat_article` |
+     | 修车行 / 车行（如「小朱修车」） | `partner` + `source_detail=<车行名>` |
+     | `Cindy Intake` 或空白 / 对不上 | **问 Klaus**，不猜；客人确实不记得才用 `unknown_asked` |
+
+   - `owner` 按 `lingtu-data` 分流：广告 / 官网 / 地图 / AI 搜索 / 社媒来的 → `Cindy`；
+     朋友或老客户介绍、车行、到访、来源不明 → `Klaus Liu`。
+3. **记下编号**：`log_lead` 返回客户编号（5 位）。PI 的案件编号（`12345-PI1`）要到 `sign_lead`
+   签约才生成 —— PI 是风险代理，`sign_lead` 现在必须填合同额，**等 Joe 加好 contingency 选项之前不调 `sign_lead`**。
+   所以现阶段 Master A 列先写**客户编号**；签约生成案件编号后再把 A 列换成案件编号。
+   老客户第二个案子同理，签约后系统会排出 `-PI2`。
+4. **挂案卷**：`link_case_folder`（`client_code` + Step 9 的 Drive 案卷链接）。报错（例如还没有案件）
+   就在最终回复里写明「案卷未挂，签约后补」，不要重试别的写法。
+5. **记一笔**：`log_event`（`action=note`，挂客户编号）
+   「新案建档：Drive 案卷 1. Pending、Master <tab>、分派 <CM>」，`link` = Drive 案卷。
+6. **读回核对**：再 `find` 一次，确认客户、线索、编号都在库里。**`find` 查不到就不算完成。**
+
+**同案多位客户**：一个案子登记一条线索（司机名下），乘客写进 `notes`，Master 里司机和乘客行用同一个编号
+（库里已有的先例：48845-PI1 Kuang Yu Feng & Hui Lin Huang）。乘客本人以后自己再来办案，再单独登记。
+
+---
+
 ## Step 10 — Add Case to Tracking Sheet
 
 After the Drive upload (Step 9), add the case to the **PI Master Sheet** tracking Google Sheet.
@@ -628,6 +679,7 @@ python3 ~/.claude/skills/new-case/scripts/add_tracking_row.py \
   --tab Piteam@ --dol 9/10/2026 --client "Xianyong Hou" \
   --sheet-id <intake sheet Drive file id> \
   --retainer "Standard 1/3" --retainer-sent 9/10 \
+  --case-id <Step 9a 拿到的编号> \
   [--referrer "..."] [--passenger "Name"]...
 ```
 
@@ -1492,10 +1544,27 @@ to the 签署操作说明 block:
 
 ---
 
+## Completion gate — 读回核对，全部过了才准写最终回复
+
+> 2026-11-02 加（Klaus：有时会跳过入档）。**不凭记忆说"做完了"，逐项用工具读回来。**
+> 任何一项不过 → 回去补那一步；补不了的，写进最终回复 §8 的「未完成」，**不准当成完成**。
+
+| # | 核对 | 怎么读回 |
+|---|---|---|
+| 1 | Drive 案卷在 `1. Pending`，内有 intake sheet 和 `Intake Responses.zip` | `gws drive files list`（parent = 案卷 id） |
+| 2 | Lingtu Data 有这个客户和编号 | `find` 司机电话或姓名 |
+| 3 | Master 对应 tab 有这几行，**A 列 = 编号**、Client Name 带 intake 链接 | 读 `'<tab>'!A3:F<3+N-1>` |
+| 4 | Chat 群已建、成员齐、CM 和 Amos/Claire 是 Manager | `gws chat spaces members list` |
+| 5 | 团队信箱的 Gmail case label 已建且是黄色 | `labels list` |
+| 6 | 案卷已挂到 Lingtu Data（或已注明「签约后补」） | Step 9a 第 4 步的结果 |
+| 7 | retainer：送了就有 envelope id；没要求就写「未发（未要求）」 | Step 13 的结果 |
+
+---
+
 ## Step 15 — Final Reply to Klaus (HARD STOP)
 
 **The last thing you say after the 14 steps is the output summary from
-`references/summary-format.md` — its 7 sections, in order, and NOTHING else.**
+`references/summary-format.md` — its 8 sections, in order, and NOTHING else.**
 
 Forbidden in the final reply (all of these were written 2026-09-10 and Klaus called them out):
 - Liability analysis, respondeat superior / corporate-defendant theories, policy-limit estimates,

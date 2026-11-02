@@ -65,6 +65,10 @@ def main():
     ap.add_argument("--referrer", default="")
     ap.add_argument("--status", default="✒️Signing")
     ap.add_argument("--passenger", action="append", default=[])
+    # 2026-11-02: every new case must carry its Lingtu Data code (Step 9a). Required on purpose —
+    # no code, no tracking row. Same code on the driver and every passenger row.
+    ap.add_argument("--case-id", required=True,
+                    help="Lingtu Data code from Step 9a: matter code (12345-PI1) or, before signing, client code (12345)")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
@@ -133,6 +137,10 @@ def main():
     def put(row, header, value):
         data.append({"range": a1(a.tab, f"{col_letter(need(header))}{row}"), "values": [[value]]})
 
+    import re
+    if not re.fullmatch(r"\d{5}(-PI\d+)?", a.case_id):
+        sys.exit(f"--case-id {a.case_id!r} is not a Lingtu Data code (12345 or 12345-PI1)")
+    put(3, "Case ID", a.case_id)
     put(3, "DOL", a.dol)
     put(3, "Client Name", f'=HYPERLINK("{link}","{a.client}")')
     if a.referrer:
@@ -145,6 +153,7 @@ def main():
 
     for k, name in enumerate(a.passenger):
         r = 4 + k
+        put(r, "Case ID", a.case_id)      # passengers share the driver's code
         put(r, "DOL", "")                 # passengers: DOL blank
         put(r, "Client Name", name)       # plain text, no hyperlink
         put(r, "Case Status", a.status)
