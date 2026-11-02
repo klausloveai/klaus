@@ -40,6 +40,17 @@ MERGE = {
     'Junfeng Zhao':'Jianfeng Zhao', 'Liang Huang':'Lirong Huang', 'Yajing Li':'Yining Li',
     'Yuncheng Wu':'Yanzhong Wu',
     'Danny Qin (erroneous dup of 80089 — refund pending)':'Danny Qin',
+    # journal says "James Chan"; Disbursement Sheet says "James Leong Chan" (8/20/2026, DOL
+    # 3/18/2026). Proven by the matter: 3P 20,000 = journal r165; client 7,533.33 = ck 80300;
+    # liens 900 + 4,900 = 5,800 = ck 80301 + 80302. (5/26 Tesla MedPay 1,000 is NOT in that
+    # disbursement and is still held for him.)
+    'James Chan':'James Leong Chan',
+}
+# One client, two matters, kept as separate ledgers "Name (DOL)". The Disbursement Sheet names
+# only the client, so its DOL column decides which matter a disbursement belongs to.
+MATTER_BY_DOL = {
+    ('Jingrui Hu', '10/18/2025'): 'Jingrui Hu (10/18/2025)',
+    ('Jingrui Hu', '10/25/2025'): 'Jingrui Hu (10/25/2025)',
 }
 norm = lambda c: MERGE.get(str(c).strip(), str(c).strip())
 num  = lambda v: v if isinstance(v, (int, float)) else 0.0
@@ -92,6 +103,8 @@ def load_disbursements():
         r = list(r) + [""] * 18
         nm = norm(r[1]);  dt = ser(r[0])
         if not nm or nm == "Template" or not dt: continue
+        dol = ser(r[2])
+        if dol: nm = MATTER_BY_DOL.get((nm, f"{dol.month}/{dol.day}/{dol.year}"), nm)
         fee  = float(r[10]) if isinstance(r[10], (int, float)) else 0.0
         cost = float(r[11]) if isinstance(r[11], (int, float)) else 0.0
         rows.append((dt, nm, fee, cost))
@@ -115,12 +128,22 @@ def carryover(disb):
         sys.exit(f"carryover allocation is {tot:,.2f}, must be 386,306.90 — fix before continuing")
     return out
 
+# Amounts the Disbursement Sheet books in a matter's COST column that were really paid out of
+# trust by check, so they never travelled to operating with the fee sweep. Counting them in the
+# sweep would charge the client twice — once by the check, once by the sweep. Each entry must
+# name the check that paid it; excluding it is what makes the sweep tie to the cent.
+PAID_FROM_TRUST = {
+    ("2026-08", "Yan Li"): 3570.70,   # ck 80277, 8/10/2026, co-counsel Kaisheng Yang (fee share + his cost)
+}
+
 def sweep_allocation(ws, last, eom, disb):
     """Each fee sweep belongs to the clients disbursed the PREVIOUS month.
     Returns {client: [(date, conf, label, amount)]} for sweeps on or before eom."""
     by_month = defaultdict(list)
     for dt, nm, fee, cost in disb:
-        if fee or cost: by_month[dt.strftime("%Y-%m")].append((nm, fee + cost))
+        mo = dt.strftime("%Y-%m")
+        cost = round(cost - PAID_FROM_TRUST.get((mo, nm), 0.0), 2)
+        if fee or cost: by_month[mo].append((nm, fee + cost))
     alloc = defaultdict(list)
     for r in range(10, last + 1):
         cli = str(ws.cell(r, 9).value or "")
