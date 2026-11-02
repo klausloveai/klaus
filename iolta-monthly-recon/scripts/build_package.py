@@ -45,6 +45,10 @@ MERGE = {
     # liens 900 + 4,900 = 5,800 = ck 80301 + 80302. (5/26 Tesla MedPay 1,000 is NOT in that
     # disbursement and is still held for him.)
     'James Chan':'James Leong Chan',
+    # deposit r573 (Mercury $50,000, 9/23) is under "Kai Zhang / Jiaqi Chen"; the 10/02 disbursement
+    # checks 80458-80462 are under "Kai Zhang". One matter: client 16,666.67 + liens 16,666.66 +
+    # fee 16,666.67 = 50,000.00.
+    'Kai Zhang / Jiaqi Chen':'Kai Zhang',
 }
 # One client, two matters, kept as separate ledgers "Name (DOL)". The Disbursement Sheet names
 # only the client, so its DOL column decides which matter a disbursement belongs to.
