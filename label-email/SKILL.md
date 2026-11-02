@@ -112,6 +112,8 @@ python3 -I $D/apply.py $W/plan.json            # plan 里只放 "label" 键
    **整封对话的正文（切掉签名和保密声明后）都没出现 Klaus 的名字** → 先确保有 case label，再移出。
    **只要提到 Klaus 一次就留着**，哪怕只是"Klaus's October 22 draft"这种引用 —— 清单里写明提到了什么，让他决定。
    每一封移走的都要在清单里列出来，不静默处理。
+   **Updates 同样适用**：One Legal / DocuSign 等系统通知，订单名或主题是已交出去的案子 → 打该案 label 后移出；
+   别的部门的案子（如 SIJS Guard 移民线）label 树里没有 → 不建 label，先问 Klaus。
 
 **一律留着：**
 - **带星的** —— 星 = 待办，归档还是留着由 Klaus 用口令决定（[[gmail-star-status-convention]]）。脚本会硬拒。
