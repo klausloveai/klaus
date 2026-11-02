@@ -158,8 +158,9 @@ Do all of these in one pass, no need to ask:
 5. **Calendar + todo**: move the "confirm booked" event to the appointment slot (Free); close the
    todo and add one for the appointment day: confirm the client went, then request report + bill.
 6. Case artifact (if any): treatment row + timeline.
-7. **Reminder goes through the CA** (Klaus 2026-11-02): the day before, Chat @ the case's CA (Klaus's own
-   cases = Claire) asking her to remind the client, with a short WeChat 文案 drafted for her (time / address /
+7. **Reminder goes through the CA** (Klaus 2026-11-02): the day before, Chat @ the case's main CA (memory
+   `team_roles_cm_ca`: Claims@ Taki · Piteam@ Angelina · Picase@ Tiana; CA out → Claire as backup;
+   Klaus@ own cases → ask Klaus) asking her to remind the client, with a short WeChat 文案 drafted for her (time / address /
    phone / bring ID / call to reschedule). Attendance check after the appointment also goes through the CA.
    Show Klaus the Chat draft first.
 
