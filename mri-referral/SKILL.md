@@ -157,8 +157,11 @@ Do all of these in one pass, no need to ask:
 4. **Case Chat**: `【Claude AI】 MRI appointment confirmed✅` / `<Center>` / `<Weekday> MM/DD/YYYY h:mm AM — MRI <body parts>`.
 5. **Calendar + todo**: move the "confirm booked" event to the appointment slot (Free); close the
    todo and add one for the appointment day: confirm the client went, then request report + bill.
-6. Case artifact (if any): treatment row + timeline. Offer Klaus a short WeChat reminder 文案 (time /
-   address / phone / bring ID / call to reschedule).
+6. Case artifact (if any): treatment row + timeline.
+7. **Reminder goes through the CA** (Klaus 2026-11-02): the day before, Chat @ the case's CA (Klaus's own
+   cases = Claire) asking her to remind the client, with a short WeChat 文案 drafted for her (time / address /
+   phone / bring ID / call to reschedule). Attendance check after the appointment also goes through the CA.
+   Show Klaus the Chat draft first.
 
 ## Guardrails
 - Draft-only until Klaus says "发" for this draft; one live draft per center.
