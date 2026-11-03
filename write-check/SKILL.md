@@ -79,19 +79,45 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
 
 0. **Funding check FIRST — was the settlement check deposited, and when?** (Klaus, 2026-10-13:
    "在这个 skill 前多做一个就是查找是否 deposit 支票，什么时候存入".) Before drafting anything,
-   open `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`
+   open `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Documents/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`
    and search for the client. On a **Deposit** row, col D = the carrier's check #, col F = amount, col I = client,
    and the deposit date is in **column M (cleared date)**. Column A is often blank, or holds the check or
    mobile-capture date, so **never call a deposit missing because A is empty: read M** (Klaus caught this 2026-10-28:
    five deposits flagged "no date" all had M = 10/14 or 7/22). Only M blank means no record of the check clearing.
    Report "deposited <date>, <carrier> check <#>, $<amt>" in the final table's header line.
+
+   **HARD GATE — no check is drafted until the money it pays out is in the bank** (Klaus 2026-11-02,
+   after the September recon). Ziqing Chen: three checks dated 9/14, Allstate $13,000 credited only 10/01;
+   ck 80409 Prime Rad $700 cleared 9/23, so for 8 days another client's trust money paid this client's lien.
+   That is a Rule 1.15 misappropriation even when negligent and later covered, and it cannot be "fixed" in the
+   books afterwards: the bank statement shows both dates. Run all three before opening Rentec:
+   - **Credited, not just received.** The deposit must have a **bank credit date** (M, and A once the month is
+     reconciled; A = bank credit date since 11/01/2026) that is **on or before today**. A check scanned, in the
+     office, "deposited per Klaus", mobile-captured or listed as planned does not count. Two-payee checks
+     (client + firm) are often rejected by mobile deposit: Phuong Kieu Nguyen's MedPay was noted "DEPOSITED
+     9/23" and actually credited 10/16.
+   - **Month not reconciled yet → confirm on BoA.** If the deposit's month has no statement CSV in
+     `Monthly Reconciliations/` (or col N is blank), M may be a planned date or simply wrong (r603–608 carried
+     M 10/01 for a 10/02 credit). Look it up on BoA #3618 activity in Klaus's logged-in Chrome: date + amount,
+     and for a counter credit, that the component check is in that deposit's images. Not on BoA → not credited.
+   - **Enough of THIS client's money.** Sum the client's credited deposits minus every check already written
+     on the matter (cleared or not, col G) and minus the fee/cost already swept; it must be ≥ the total of the
+     checks you are about to draft. Count only credited deposits — a BI check still in the mail does not fund
+     a lien paid today. Use the matter, not the name (see dedup below; MERGE / MATTER_BY_DOL in
+     `iolta-monthly-recon/scripts/build_package.py`).
+
+   Any gate fails → **STOP, draft nothing**, and tell Klaus which deposit is missing and what it would take
+   (e.g. "Allstate $13,000 not on BoA yet — check back after it credits"). No "draft now, post later": drafts
+   sit for days and get posted and printed together. Put the three results in the final table's header line:
+   `deposit credited <date> (BoA ✓ / recon ✓) · matter balance $<x> ≥ checks $<y>`.
    - **Dedup/match by CHECK NUMBER and amount, never by name alone** — the firm has repeat and
      near-duplicate clients (the journal itself warns "Jing Wang … NOT the same client as Jingjing Wang";
      Alejandra Rios and Angel Miner had two USD 7,594.62 checks on one claim).
    - **Not found in #3618?** Look in #4854 (pre-5/2026 carryover) and Lashine IOLTA-5429. Money in 5429
      is NOT in #3618. **Underfunded or not deposited → STOP and tell Klaus; never draft against
      another client's funds.**
-   - Deposited but the month isn't reconciled yet is fine — say so rather than claiming it cleared.
+   - Deposited but the month isn't reconciled yet is fine **once BoA shows the credit** (gate above) — say
+     "BoA ✓, recon pending" rather than claiming it reconciled.
 
 1. **Connect & open.** select_browser → tabs_context_mcp. Go to
    **`https://secure.rentecdirect.com/owners/expense.php?bank_id=111793`**
