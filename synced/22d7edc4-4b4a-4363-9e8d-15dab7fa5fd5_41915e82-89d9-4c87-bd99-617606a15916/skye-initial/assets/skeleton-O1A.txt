@@ -1,0 +1,52 @@
+@title {客户英文全名} O1A 材料清单
+@meta COS:{现身份}➡️O1
+@urgent 加急
+@meta DDL：{日期}
+@meta O1 Start date: {日期}
+@section 个人信息：
+* 护照首页/签证页 上传
+* 填写个人信息表：{链接}
+@section 工会信：
+* Consultation Letter：找一位领域内高成就的独立推荐人
+	* 推荐人 legal name/title/contact/linkedin or resume
+@section Maintenance of Status：
+* 身份时间线：
+	* {日期} {事件}
+* 客户提供：I-797 approval notice / 最近三个月 paystub
+@section 未来计划：
+* Direct Employee / Agent（择一）
+	* {公司} 作为 petitioner
+	* 走 agent 的，其余机构各签一份 authorization letter
+* 客户提供：Business Plan，时间涵盖未来三年
+@section O1A 8满3：
+@section 会员：
+* {协会名}
+	* 会员证书/官网会员页面 PDF、入会标准链接、通过审核的 letter/email
+@section 奖项：
+* {奖项名} {年份}
+	* 获奖通知/奖状、评选标准、获奖比例
+@section 新闻：
+* 新闻需要有具体作者姓名，有发布日期，需要是主流媒体平台（浏览量/点击量在百万），新闻报道不能是 Q&A 形式，内容围绕您 or 您的作品，需要是第三方叙述口吻
+* 已发：{媒体} {标题}，{日期}，{作者} {链接}
+* 待发：{时间} {噱头}
+@section 评审：
+* {赛事名} {数量}个
+	* 资格：邀请函/邮件确认/官网 listing
+	* 完成证明：certificate/感谢信
+	* 工作记录：打分表、打分 sample 5 个左右、总评审个数页面存 PDF，保留页眉页脚
+@section 原创贡献：
+* {专利/标准/方法}
+	* 原创性证据 + 实际应用范围，使用证明需签字盖章
+@section 学术发表：
+* {论文/期刊}
+	* 全文 PDF、期刊页面、录用通知
+	* 律所调研：期刊发行量、审稿制度
+@section 重要组织重要角色：
+* {公司名}：{起止时间}
+	* 重要角色：Offer/promotion letter/W2/最近三个月 payroll
+		* 负责项目简要说明：具体做了什么，impact 尽量量化
+	* 重要组织：律所调研 —— 公司规模/business model/行业排名/第三方报道/融资信息/合作品牌
+	* 推荐信：律所 draft
+		* 推荐人 legal name/title/email/linkedin
+@section 高薪：
+* 上传最近一年 W-2；同岗位薪资对比数据由律所调研

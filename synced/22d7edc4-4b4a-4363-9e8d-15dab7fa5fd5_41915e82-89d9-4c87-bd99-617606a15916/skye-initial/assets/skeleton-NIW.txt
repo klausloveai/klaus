@@ -1,0 +1,29 @@
+@title {客户英文全名} NIW 材料清单
+@meta DDL：{日期}
+@urgent 加急
+@section 个人信息：
+* 护照首页/签证页 上传
+* 填写个人信息表：{链接}
+* 学位证/成绩单/简历
+@section Proposed Endeavor：
+* 客户提供：未来具体要做的领域、项目名称、时间表
+* Proposed Endeavor 文档（律所 draft，客户 personalize）
+@section Prong 1：
+* 该 endeavor 的 substantial merit 与 national importance
+	* 行业数据、政府报告、政策文件（律所调研）
+	* 政府/机构合作意向证据
+@section Prong 2：
+* 客户有能力推进该 endeavor
+	* 学历、过往成果、专利、论文、项目记录
+	* 已有的资源支持：offer、合作方、资金
+@section Prong 3：
+* 免除劳工证对美国有利
+	* 领域人才短缺证据（律所调研）
+	* 客户成果的独特性和不可替代性
+@section 推荐信：
+* 独立推荐人 {N} 位：过往客户、项目方、优秀同行
+	* 推荐人 legal name/title/email/linkedin or 简历
+	* 侧重写 proposed endeavor 如何对美国有益
+@section 未来计划：
+* 现有 offer / 自雇计划
+* Business Plan（如走自雇）

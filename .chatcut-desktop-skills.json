@@ -1,0 +1,27 @@
+{
+  "entries": {
+    "chatcut-app-promo-guide": "13941698b04863282ae89d20d77e805f51431bcb2174d6fd729749776df39dff",
+    "chatcut-audio-processing-gen": "2ad81ce54f12f16fc4b1fbd14c96cc136f5926f8fe999e8c17868878b1b8232c",
+    "chatcut-create-motion-graphics": "40389cc445c9d0a20adfe62ab728213ba5388ae219f4be3416ac100809f1b0f4",
+    "chatcut-create-pixel-processor": "5178a4f01a5e197bb5f6980e270693659fc7e4a951cacfdb3e33837ba2d39cae",
+    "chatcut-digital-human": "ac8f1c1dc3ffe7f524d7cee896a2b3f1ad06599d60b62c22019d029b76a54010",
+    "chatcut-doctor": "95b7cf9e9ef87d9627023bd5e182307d1720a25703abc1ca6b41fc378be7f8c8",
+    "chatcut-image-gen": "5e01353619680414bf0f08ba0f3c354d151a0eadaf3094e5a3c4429be7a202fd",
+    "chatcut-lipsync": "765de29e4a07575ddca1d452afe376b3149b765dcf8185782248bcc2fac8a8dc",
+    "chatcut-multicam-sync": "a6152b70761bd18c53321d70bc172884461b4acf8edd1b5fcfbcae7e6e90d7a0",
+    "chatcut-music": "0f2bd63ba47c47580d51d4eb3eb26e584ec660f668bac7b64eda9ec010131337",
+    "chatcut-product-help": "dabc6a841bed11c2f77f09d5c836707ba67e889ad48b2b8631fd816daaf64de5",
+    "chatcut-skill-creator": "f24a4a17f11bc338774c2c1679b07a14752a83cdad9fafaf559e8fee70f3391f",
+    "chatcut-talking-head-guide": "8c4b1296469137749e5d30db2c1048b81e6fedb8c1ce050a117814a80d1df57b",
+    "chatcut-transcription": "6e32b8dc31e505cb45737ed56a2d5cda31ea25fcebf29786ecfa3311cdf0316b",
+    "chatcut-ugc-ad-guide": "74377035b25d62bd7f893d95826f66d6f1b8c47ba7f24ea60dc40e5e404a9d30",
+    "chatcut-video-gen": "730788e208e8295f0217a618a3b0fafa49061071a684b88c7f8a07bc3a69be09",
+    "chatcut-video-translation": "bb02f6ae666300da65e1fa7b12b8182704461e5ed74215e07cd1c7602483d2cb",
+    "chatcut-visual-analysis": "b122f34dd4c382bfcef8a0d597576c6e42af2492292bc7ec65027c924b65be7d",
+    "chatcut-voice": "72802b8c3b5f49ac92eb9280db608c1c8befb1701539f54df5a2b657f3a0e7ab",
+    "chatcut-voice-isolation": "162b2746da81c53759849d2093c7818797ec472f0c30344b27312d095d28dad8",
+    "chatcut-web-browser": "3c2546fd60b4703c56d5d07a86dfc047c06ff9c7ebb1579ec66251fd6f81d1db",
+    "chatcut-widget-forms": "126c92a1b94a526ce8ac3227fc1235bf3c1f8eeb9a299b095f64759cddeca2a6"
+  },
+  "version": 1
+}

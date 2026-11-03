@@ -1,0 +1,36 @@
+{
+  "name": "xiaohongshu-skill",
+  "version": "1.0.0",
+  "description": "小红书爆款文案生成专家 - 基于小红书生态算法和用户心理，生成包含标题、正文、标签、互动及 CTA 的完整笔记方案",
+  "main": "xiaohongshu.mjs",
+  "type": "module",
+  "scripts": {
+    "post": "node xiaohongshu.mjs post",
+    "hot": "node xiaohongshu.mjs hot",
+    "check": "node xiaohongshu.mjs check",
+    "start": "node xiaohongshu.mjs help"
+  },
+  "keywords": [
+    "xiaohongshu",
+    "小红书",
+    "文案生成",
+    "内容创作",
+    "社交媒体",
+    "爆款",
+    "openclaw",
+    "skill"
+  ],
+  "author": "OnePieceLwc",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OnePieceLwc/xiaohongshu-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OnePieceLwc/xiaohongshu-skill/issues"
+  },
+  "homepage": "https://github.com/OnePieceLwc/xiaohongshu-skill#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

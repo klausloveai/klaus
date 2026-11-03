@@ -1,0 +1,54 @@
+@title {客户英文全名} EB1A 材料清单
+@meta DDL：{日期}
+@urgent 加急
+@section 个人信息：
+* 护照首页/签证页 上传
+* 填写个人信息表：{链接}
+* 配偶护照/基本信息
+@section 奖项：
+* {奖项名} {年份} - {作品}
+	* 获奖通知/奖状 上传
+	* 评选标准、获奖比例、评审通知（律所调研）
+@section 会员：
+* {协会名}
+	* 会员证书/官网会员页面 PDF
+	* 入会标准：{链接}
+	* 通过 peer review 的 letter/email
+@section 新闻：
+* 新闻需要有具体作者姓名，有发布日期，需要是主流媒体平台（浏览量/点击量在百万），新闻报道不能是 Q&A 形式，内容围绕您 or 您的作品，需要是第三方叙述口吻；不含 disclaimer，作者不能是编辑部
+* 已发：{媒体} {标题}，{日期}，{作者} {链接}
+* 待发：建议 2 网媒 + 1 纸媒，间隔一个月左右一篇，发之前给律所看 draft
+@section 评审：
+* {赛事/期刊名} {数量}个
+	* 资格：邀请函/邀请邮件/评委证/官网 listing
+	* 完成证明：certificate/感谢信/证明信
+	* 工作记录：打分表、打分 sample 5 个左右、能体现总评审个数的页面（存 PDF，保留页眉页脚）
+@section 原创贡献：
+* {专利/标准/书籍/课程}
+	* 原创性证据 + 实际应用范围（多少家单位/多少人在用），使用证明需签字盖章
+@section 学术发表：
+* {论文/期刊}
+	* 全文 PDF、期刊页面、录用通知
+	* 律所调研：期刊发行量、读者规模、审稿制度
+@section 展览：
+* {展览名} {日期} {地点}
+	* 邀请函/参展证明
+	* 现场照片，多角度：作品特写（能显示 credit）、展览场所整体、有人参观
+@section 重要组织重要角色：
+* {公司/机构名}：{起止时间}
+	* 重要角色：Offer/Title/promotion letter/W2/最近三个月 payroll
+		* 负责项目简要说明：具体做了什么，产生了怎样的 impact，尽量量化
+	* 重要组织：律所调研 —— 公司规模与经营情况/business model/行业排名/第三方新闻报道/融资信息/合作品牌/权威机构认可
+	* 推荐信 2 封：最好 C-level 一位 + Department Head 一位
+		* 推荐人 legal name/title/email/linkedin or 简历
+@section 高薪：
+* 上传最近一年 W-2 / offer / payroll
+@section 商业成就：
+* 商业数据/应用数据/销售数据
+@section Final Merits：
+* 独立推荐人 2 位，同领域成就在客户 2-3 倍以上，写推荐信说客户是 top of the field
+	* 推荐人 legal name/title/email/linkedin or 简历
+* 整体成就时间线是否持续：最早追溯到 {年份}
+@section 未来计划：
+* 当前 Offer + Personal Statement
+	* PS 提供未来具体想做的项目名称，律所撰写草稿，客户进一步 personalize

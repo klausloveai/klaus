@@ -34,7 +34,7 @@ W=<scratchpad 目录>          # 中间文件放这里，不放 Downloads
 
 Updates 里多是系统通知（One Legal、RingCentral、银行、日历提醒）。打 label 照常；移出 inbox 时，
 **例行通知、对方已确认无后续的 = Step 3 第 2 类「已了结」**。但先看正文再判：送达**失败**、法院**退件**、
-IOLTA（#3618）的任何通知、对方 adjuster 来电留言 —— 这些都不是例行，留着并在清单末尾 ⚠️ 提醒。
+对方 adjuster 来电留言 —— 这些都不是例行，留着并在清单末尾 ⚠️ 提醒。**BoA 通知（含 IOLTA 3618）2026-11-03 起按 Klaus 原话「都不管，除非是重要需要我action的」**：statement / account notices / $0.00 hold / wire advice 直接标已读+移出；只有真要他动手的（实际冻结、退票、异常扣款）才留。
 
 ## Step 1 — 拉取 + 编号
 

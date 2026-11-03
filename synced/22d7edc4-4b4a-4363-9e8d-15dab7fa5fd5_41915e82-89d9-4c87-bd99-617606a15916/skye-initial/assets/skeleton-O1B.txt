@@ -1,0 +1,39 @@
+@title {客户英文全名} O1B 材料清单
+@meta COS:{现身份}➡️O1
+@urgent 加急
+@meta DDL：{日期}
+@meta O1 Start date: {日期}
+@section 个人信息：
+* 护照首页/签证页 上传
+* 填写个人信息表：{链接}
+@section 工会信：
+* Consultation Letter：找一位领域内高成就的独立推荐人
+	* 推荐人 legal name/title/contact/linkedin or resume
+@section Maintenance of Status：
+* 身份时间线：
+	* {日期} {事件}
+* 客户提供：I-797 approval notice / 最近三个月 paystub
+@section 未来计划：
+* Direct Employee / Agent（择一）
+	* {公司} 作为 petitioner
+	* 走 agent 的，其余机构各签一份 authorization letter
+* 客户提供：Business Plan，时间涵盖未来三年
+@section O1B 6满3：
+@section 主演主创：
+* {作品/演出名} {年份}
+	* 演职员表/节目单/海报（能显示 credit）
+	* 作品本身的影响力证据：票房/观看量/评论
+@section 国家级国际级认可：
+* {奖项/提名/榜单}
+	* 获奖或提名证明、评选标准、主办方权威性资料
+@section 知名机构主要角色：
+* {机构名}：{起止时间}
+	* 角色证明：offer/合约/节目单/官网页面
+	* 机构声誉：律所调研 —— 历史、规模、行业地位、第三方报道
+@section 商业或口碑成就：
+* 票房/发行量/观看量/评分/专业评论
+@section 业内专家认可：
+* 独立推荐人 2 位，领域内公认的高成就者
+	* 推荐人 legal name/title/email/linkedin or 简历
+@section 高薪：
+* 上传最近一年 W-2 / 合约报酬证明；同岗位薪资对比数据由律所调研

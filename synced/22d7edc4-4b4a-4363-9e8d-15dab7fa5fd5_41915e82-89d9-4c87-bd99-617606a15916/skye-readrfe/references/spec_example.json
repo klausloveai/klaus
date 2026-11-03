@@ -1,0 +1,76 @@
+{
+  "_comment": "Real excerpt from the Jian Wang EB-1A analysis (RFE dated 07/28/2026). Two sections shown: one threshold issue and one criterion, including the parallel 解读/应对 numbering and a 待核实 block.",
+  "client": "Jian Wang",
+  "file_date": "07/09/2026",
+  "ddl": "10/23/2026",
+  "translate": true,
+  "top_notes": [
+    "评审认可✅  判断标准 8 C.F.R. § 204.5(h)(3)(iv) 已被认可（RFE p. 8）。EB-1A 需三条，已得一条，尚需两条。"
+  ],
+  "sections": [
+    {
+      "heading": "Field of Endeavor",
+      "filed": "商业计划书（赴美设立并运营一家面向制造业的 IT 公司）",
+      "blocks": [
+        {
+          "en": "The record shows the self-petitioner intends to work as an entrepreneur and information technology as stated on the business plan provided in the initial filing. These are two different and distinct endeavors. ~~According to the business plan you submitted with your petition, you intend to pursue work as an entrepreneur.~~ **Therefore, the request for evidence has been tailored to that field of endeavor.** (RFE p. 2)",
+          "zh": "现有记录显示，根据首次提交申请时提供的商业计划，自行申请人拟从事创业及信息技术领域的工作。这是两项不同且彼此独立的事业。根据您随申请提交的商业计划，您拟从事创业相关工作。因此，本补件通知是针对该拟从事领域提出的。"
+        }
+      ],
+      "jiedu": "1）移民官将我们的领域错误定义为了企业家，整篇 RFE 都据此发出质疑；2）RFE 同时明确邀请我们更正——\"If you meant to emphasize the other distinct field of endeavor, then please address that in your response\"。",
+      "yingdui": [
+        "1）开篇即纠正，明确我们是 Information Technology 领域的申请人：PL 全篇、六条标准的标题都写的是 IT；RFE 自己在 p. 4 和 p. 11 也把领域写成 information technology。",
+        "2）接受移民官的邀请正面回应；商业计划书是载体不是领域，需改写 BP，强化技术方向的 JD。"
+      ]
+    },
+    {
+      "heading": "News",
+      "blocks": [
+        {
+          "list": [
+            "Article, How He Keeps a Virtual Factory in Sync with Real Production, Qilu Evening News, ~~Author unknown~~, May 22, 2026",
+            "Document titled, The Highlights of Issue 91 \"Hello Metaverse\" Are Here!, First Kunshan, ~~Author unknown~~, October 15, 2024",
+            "Statistics and circulation documents"
+          ]
+        },
+        {
+          "en": "**Since these materials failed to identify the author,** they do not meet the regulation at 8 CFR 204.5(h)(3)(iii) and were given no probative value under this criterion. (RFE p. 6)",
+          "zh": "由于上述材料未注明作者，因此不符合 8 C.F.R. § 204.5(h)(3)(iii) 的规定，在该项标准下不具有证明价值。"
+        },
+        {
+          "continued": true,
+          "en": "Thus, you have not established any of the publications as major trade publications or other major media. With regard to a publication's own circulation statistics, ~~you offer no primary documentary evidence to support the claims contained in these letters.~~ (RFE p. 7)",
+          "zh": "因此，您尚未证明上述任何出版物属于主要行业出版物或其他主要媒体。关于出版物自行提供的发行量统计数据，您未提交任何第一手文件证据来支持这些主张。"
+        }
+      ],
+      "jiedu": "1）认为齐鲁晚报／第一昆山／微信公众号三篇媒体没有作者；2）认为新闻来自允许 self-created material 的平台；3）认为 ARinChina 不属于 professional publication；4）认为发行量数据是自证，无独立佐证；5）再次提到领域问题。",
+      "yingdui": [
+        "1）齐鲁晚报和第一昆山都是有作者的（Zhao Zhang；Chao Wang、Siyu Liu），移民局自己没看到，重新提交时把署名圈出来；qq.com 仅有人工智能产业委员会署名，这里不特意强调。",
+        "2）给移民局对比说明允许 self-created 的平台长什么样、我们为什么不是：齐鲁晚报是纸媒（卷内有版面照片），第一昆山是市级国有融媒体机构。",
+        "3）用移民局自己引的 Piedmont 定义反过来证明；且法条明确，professional publication 只需证明 intended audience 是专业人群。",
+        "4）给移民局再交一遍，现有证据里已包含大量第三方排名、报道、流量数据，你自己没看到：<<https://drive.google.com/drive/folders/1cs6ntIt3KlL9LnbXzriFy7nWNdpnDuKv>>",
+        "5）领域再纠正，就是 IT 领域。"
+      ],
+      "audit": [
+        "⚠️ 应对 1）假定 PL 里写的作者名在提交件上可见。核 C-1／C-2 提交版是否真的显示署名——若翻译件未体现 byline，这条会重复被打回。"
+      ]
+    }
+  ],
+  "client_asks": [
+    {
+      "item": "齐鲁晚报／第一昆山原文的署名截图，或报社出具的作者确认",
+      "why": "回应 News 解读 1）移民官称无作者",
+      "who": "客户"
+    },
+    {
+      "item": "齐鲁晚报发行量证明（报社盖章）",
+      "why": "回应 News 解读 4）发行量无第一手证据",
+      "who": "客户联系报社"
+    },
+    {
+      "item": "3PR 标准审查意见记录／往来邮件",
+      "why": "证明审查意见被起草组采纳，回应原创贡献质疑",
+      "who": "客户向 DISA 索取"
+    }
+  ]
+}

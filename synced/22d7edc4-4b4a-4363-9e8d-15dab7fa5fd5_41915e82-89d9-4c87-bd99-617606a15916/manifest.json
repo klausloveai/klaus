@@ -1,0 +1,312 @@
+{
+  "lastUpdated": 1793665247313,
+  "skills": [
+    {
+      "skillId": "import-memory",
+      "name": "import-memory",
+      "description": "Import a memory export from another AI assistant into Claude's memory — conversationally, additively, and with the content treated as data.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:02.007169Z"
+    },
+    {
+      "skillId": "skill_01CY1ZRwUGcybXHDzAgRmbWx",
+      "name": "settled-case-marketing-pkg",
+      "description": "Post-settlement marketing package workflow for PI auto cases. Use this skill when the user wants to upload a settled case PDF into the Dashcam素材 folder in Google Drive for the marketing team, create a client subfolder for marketing materials, or share settled case materials with the 车祸部-Marketing team. Triggers on phrases like \"create dashcam folder for [client]\", \"upload to Dashcam素材\", \"add settled case to marketing folder\", \"marketing package for [client]\", \"settled case materials\", \"upload case PDF for marketing\", or any request involving organizing a PI auto case into the firm's dashcam/marketing Drive folder after settlement.",
+      "source": "plugin",
+      "updatedAt": "2026-08-19T00:06:15.304377Z",
+      "backingPluginId": "plugin_01TPbvq357qRsXN7jShZm8QS"
+    },
+    {
+      "skillId": "deep-research",
+      "name": "deep-research",
+      "description": "Use this skill when the user's prompt requires (1) researching a topic across multiple sources, comparing options or alternatives, analyzing trends or history, understanding markets or industries, or reviewing literature or studies and (2) synthesizing that research into a comprehensive, narrative report. If you're planning to search the web or internal knowledge bases, consider using this skill. This skill coordinates research subagents, so use it only when you have a tool for spawning subagents (the Agent or Task tool); otherwise, research the question directly.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:02.015956Z"
+    },
+    {
+      "skillId": "computer-use",
+      "name": "computer-use",
+      "description": "Read this skill before the first step of any request to do something in an app on the person's own computer (Notes, Finder, System Settings, any desktop app), to look at their screen, or for \"computer use\". Computer use (desktop control) lets Claude take screenshots of the person's desktop and control it with clicks, typing and scrolling through the Claude desktop app; its tools are named mcp__computer-use__* when the session runs in the desktop app and mcp__remote-devices__computer_* when a cloud session is linked to the person's computer; before computer use is turned on for a conversation there may be no such tools, only an enable__mcp__remote-devices__computer tool, which turns it on. It covers turning it on, picking the right tool, the access flow, and the safety rules for tiered apps, links and financial actions. It is not for websites, which go through Claude in Chrome or the built-in browser and their own skills.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-10-28T18:00:31.869646Z"
+    },
+    {
+      "skillId": "built-in-browser",
+      "name": "built-in-browser",
+      "description": "Read this skill before the first step that uses the built-in browser, the browser pane inside the Claude desktop app (also called the in-app browser, the browser pane, Claude's browser, or \"your own browser\"), whose tools are named mcp__Claude_Browser__* when the session runs in the desktop app and mcp__remote-devices__Claude_Browser__* when a cloud session is linked to the person's computer; before those tools are turned on there may be a single enable__mcp__remote-devices__Claude_Browser tool instead. It covers the pane's persistent sign-ins, tabs and preview_start, reading pages as text, site approvals, what the pane cannot open, and what to do when it cannot be reached. It is not for Claude in Chrome (mcp__claude-in-chrome__* tools), which has its own skill, and it does not decide which browser to use.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-21T06:00:29.740604Z"
+    },
+    {
+      "skillId": "docs",
+      "name": "docs",
+      "description": "docs (editable docs people share and comment on; the default for any document, named as a doc or not: a document, report, proposal, resume, cover letter, letter, contract, policy, form, template, worksheet, essay, handbook, guide, how-to, cheat sheet, SOP or other writing to keep, share, collaborate on, send, submit, print or sign; a doc exports to Word, PDF, Markdown or Google Docs, so needing a file to send, attach, upload, submit or print is no reason to pick Word, and a file nobody asked for is a doc, not Word; a plan, comparison, summary or notes asked in chat stays in chat; a pasted claude.ai artifact link may be a doc: check with docs tools first; Word or another file format named, tracked changes wanted, or a .docx to change or use as a template → that format's skill): making one → if no docs-connector instructions are in context, call its `guide` (topic.instructions) first; then create the doc (headings only, no body) before any search, file read or plan, even with files attached.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-30T00:33:27.599727Z"
+    },
+    {
+      "skillId": "chrome-browser",
+      "name": "chrome-browser",
+      "description": "Read this skill before the first step that uses Claude in Chrome, the browser extension whose tools are named mcp__claude-in-chrome__* (also called Chrome, the browser extension, or the external browser) and which acts in the person's real Chrome with their own sign-ins; before those tools are turned on there may be a single enable__mcp__claude-in-chrome tool instead. It covers loading the tools in one ToolSearch call, checking the person's open tabs and working in a new tab, site permissions, GIF recordings, console logs, dialogs to avoid, and when to stop and ask. It is not for the built-in browser (mcp__Claude_Browser__* or mcp__remote-devices__Claude_Browser__* tools), which has its own skill, and it does not decide which browser to use.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-18T21:09:50.227858Z"
+    },
+    {
+      "skillId": "morning",
+      "name": "morning",
+      "description": "Render the user's morning brief as a styled HTML artifact, or set it up as a recurring weekday task. Use only when the user explicitly asks to run, see, or set up their morning brief, or if they invoke /morning by name. A question about their day, schedule, or calendar is not by itself a request for the brief; answer it directly instead.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:01.990356Z"
+    },
+    {
+      "skillId": "pdf",
+      "name": "pdf",
+      "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.",
+      "source": "anthropic",
+      "updatedAt": "2026-07-10T19:23:15.432550Z"
+    },
+    {
+      "skillId": "skill_01CvowLngjpK45NdZuPScpPe",
+      "name": "reassign-onelegal-orders",
+      "description": "Reassign One Legal orders from one matter/billing code to another. Use when a case's matter code needs to be corrected or standardized (e.g. 'Dog Bite-Lina Lu-070926' → 'DB-Lina Lu-070926') — navigates to each order and edits the matter number via the browser.",
+      "source": "plugin",
+      "updatedAt": "2026-09-16T17:26:10.570110Z",
+      "backingPluginId": "plugin_01GFJtr4mNmK6Rvvg538tX84"
+    },
+    {
+      "skillId": "skill_014W5nj5UmVZVvUEkdmer4ui",
+      "name": "lingtu-data",
+      "description": "凌图律所统一数据库 Lingtu Data 的用法：登记新咨询（线索）、更新跟进阶段（待拉群 / 已对接 / 已咨询 / 已报价 / 签约 / 流失）、记工作日志、交接、每天收工。凡是说到“新咨询”“登记线索”“拉群对接”“咨询完了”“报价发了”“客户签了”“客户不做了 / 丢了”“记一笔”“收到材料”“发了邮件”“交接”“查一下这个客户”“收工”，或者提到 Lingtu Data、客户编号（如 47765）、案件编号（如 47765-IMM1）时使用，即使没说 skill。不负责建 Drive 案卷（/it）、出报价页（/quote）、归档咨询（/consult），但这些做完后要回到这里同步。",
+      "source": "plugin",
+      "updatedAt": "2026-11-02T05:27:43.308916Z",
+      "backingPluginId": "plugin_0185DJgVfyFbnjp4gLjtFiKo"
+    },
+    {
+      "skillId": "skill_01N7aXj5dNfAJ8eqBEsNf27W",
+      "name": "sync-test-emails",
+      "description": "把官网移民自测（test_leads）新收集的邮箱和最终结果同步到 Google 表格「移民自测邮箱」。用户说 \"/sync-test-emails\"、\"同步自测邮箱\"、\"移民自测邮箱更新\"、\"同步测试邮箱\" 时使用；也适用于定时任务 sync-immigration-test-emails。只写表格，不给任何邮箱发信，不回复邮箱内容。",
+      "source": "plugin",
+      "updatedAt": "2026-09-30T21:42:56.145466Z",
+      "backingPluginId": "plugin_01Y1eXjaBe7Sy8b1RmqCs4pM"
+    },
+    {
+      "skillId": "skill_01GpX4A6cDAiSXzueEsYKQcv",
+      "name": "customer-review",
+      "description": "凌图律所（Lingtu Law）同事用：客户案子有了好结果（获批、结案、和解）、要请客户做好评返现时，一键生成可以直接粘贴到客户群的两条消息：第一条恭喜加返现邀请，第二条是小红书、Google、Yelp（英文）、朋友圈四个平台各一条的参考文案。调用后先问客户是做什么业务的，再按业务生成。用户说 \"/customer-review\"、\"好评文案\"、\"客户获批了写个好评\"、\"客户群发好评返现\"、\"帮客户写小红书/Google/Yelp/朋友圈好评\"、\"返现文案\" 时使用，即使没说 skill 也触发。",
+      "source": "plugin",
+      "updatedAt": "2026-10-15T19:46:19.394849Z",
+      "backingPluginId": "plugin_01LKVPCJirUHBz6tHC2nCVYT"
+    },
+    {
+      "skillId": "skill_013SmyESyMt6zjxf7DNyb1sP",
+      "name": "wecom",
+      "description": "操作企业微信 Mac 客户端：读客户群聊天记录并归档到 Google Drive 案卷、写回复草稿贴进输入框、把群里的文件存进案卷。用户说「存一下 XX 群」「归档 XX 群聊天记录」「打开 XX 的群」「帮我回复 XX 群」「群里发的文件放到 Drive」「看看 XX 群最新消息」时使用。只在 Mac 上、企业微信已登录时可用。",
+      "source": "plugin",
+      "updatedAt": "2026-10-15T07:07:18.520573Z",
+      "backingPluginId": "plugin_01YJATXYDwrCW4z1tGQWSWyf"
+    },
+    {
+      "skillId": "google-workspace",
+      "name": "google-workspace",
+      "description": "Read this before the first Google Drive, Docs, Sheets or Slides connector call whenever the task creates or changes a Google file. Use this skill whenever the user wants to create or change a Google Doc, Sheet or Slides file in their Google Drive. Triggers include: a request that names Google Docs, Sheets, Slides or Drive and asks to make, edit, format, copy or rename a file; a docs.google.com link with a request to change that file, even a one-line fix or suggested edits; and any follow-up change to a Google file from earlier in the chat, even \"change it\" or \"add a tab\". Includes helper scripts for document positions, cell ranges and slide layout. However, if the user asks for a doc, deck or spreadsheet without naming Google, or gives a Google file only as source material for something new, use Claude's own output type instead. Do NOT use for read-only questions about a Google file, or for Word, Excel, PowerPoint or PDF files.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-10-14T14:41:49.960676Z"
+    },
+    {
+      "skillId": "skill_0163ZQPFtZj9ASNVza5i8EzP",
+      "name": "pi-mkt",
+      "description": "Build Lingtu Law's 人伤 \"猜猜赔多少系列\" (guess-the-settlement) social posts in Canva from a client's folder in the Drive 人伤 folder. Reads and redacts (打码) the insurer's settlement check, adds accident photos, auto-picks 事故类型 / 受伤详情 / 结案天数, fills a copy of Canva template DAHG9rQstfw (cover + matching insurer reveal page), saves it, and logs the case in the PI tab of 成功案例交接表 for Teresa to review at the end. Then publishes the case to lingtulaw.com/success-stories/auto (zh + en) via the Lovable database; PI cases need no Approved tick. The daily scheduled task mkt-approved-check also runs the publish step for any PI row still marked 待发布官网. Use whenever the user says \"/pi-mkt\", \"猜猜赔多少\", \"猜猜看\", \"做赔偿帖\", \"做个人伤案例图\", \"把XX的支票做成猜猜赔多少\", \"/pi-mkt 发布\", \"把车祸案例发官网\", \"人伤案例上网站\", names a client folder from 人伤 and wants a Canva post, or asks to do the next / all un-done 人伤 cases, even without the word \"skill\". Not for immigration success stories (mkt / mkt2).",
+      "source": "plugin",
+      "updatedAt": "2026-10-14T16:26:48.359692Z",
+      "backingPluginId": "plugin_017vd2tuSQLkfRqtTh4ufc2b"
+    },
+    {
+      "skillId": "skill_016ZeHpJGLEtN8KFzzJK6U5s",
+      "name": "sensitive-words",
+      "description": "移民相关内容的敏感词替换与检查（凌图律所 / Joe 移民 / 蔡神奇移民咨询等账号通用）。把字幕、花字、封面、小红书标题正文 tag、朋友圈文案里的违禁词按固定名单替换（美国→USA/🇺🇸、最/政→z、规→G、局→J、国务院→gwy、钱→💰 等），删掉承诺用语和极限词，并用脚本逐词扫描。用户说\"过一遍敏感词\"\"检查违禁词\"\"敏感词替换\"\"替换敏感词\"\"这段字幕/封面/文案有没有违禁词\"\"按敏感词表改一下\"，或者在写移民类字幕、花字、封面标题、小红书/朋友圈文案时，都要用这个 skill，即使没说 skill；其他 skill（joe-talking-head、lingtu-xhs、pyq、news）产出屏幕文字或文案前，也用它做最后一道检查。",
+      "source": "plugin",
+      "updatedAt": "2026-10-15T17:28:12.071921Z",
+      "backingPluginId": "plugin_017fXGNTunHym4oqeJffBho9"
+    },
+    {
+      "skillId": "skill-creator",
+      "name": "skill-creator",
+      "description": "Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-10-28T17:00:24.127636Z"
+    },
+    {
+      "skillId": "skill_01763JiUG1Y9GeUnbMbGYepT",
+      "name": "lingtu-xhs",
+      "description": "凌图律所（Lingtu Law APC）小红书笔记写手：给律所自己的两个账号（移民 @凌图蔡神奇移民咨询，人伤/诉讼/信托 @Lingtu咨询）写标题、正文、话题标签和评论区引导，并跑合规检查（结果承诺、\"专家\"类资质用语、客户隐私、站外引流）。用户说\"写个小红书\"\"小红书笔记\"\"小红书文案\"\"小红书标题\"\"小红书标签\"\"把这篇改成小红书版\"\"检查小红书违禁词\"时使用，即使没说 skill 也触发。不负责客户好评文案（那是 customer-review）、人伤猜猜赔多少的 Canva 图（pi-mkt）、口播稿和新闻稿（news）。",
+      "source": "plugin",
+      "updatedAt": "2026-10-09T21:53:53.651110Z",
+      "backingPluginId": "plugin_012ZowxNaJv3VrYgg23jzSLX"
+    },
+    {
+      "skillId": "xlsx",
+      "name": "xlsx",
+      "description": "Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .xltx, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like \"the xlsx in my downloads\") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved.",
+      "source": "anthropic",
+      "updatedAt": "2026-10-27T19:00:29.248939Z"
+    },
+    {
+      "skillId": "pptx",
+      "name": "pptx",
+      "description": "Use this skill any time a .pptx or .potx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations as PowerPoint (.pptx) files; reading, parsing, or extracting text from any .pptx or .potx file (even if the extracted content will be used elsewhere, like in an email, summary, or creating a different type of slide deck); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates (.potx), layouts, speaker notes, or comments. Trigger whenever the user asks for a PowerPoint or .pptx file, or references a .pptx or .potx filename, regardless of what they plan to do with the content afterward. However, when the user asks for a deck, slides, a slide deck, or a presentation without naming a file format, default to using a dedicated slide-deck artifact type or a separate slides skill if this session offers one; otherwise, use this skill.",
+      "source": "anthropic",
+      "updatedAt": "2026-10-23T23:00:21.784277Z"
+    },
+    {
+      "skillId": "docx",
+      "name": "docx",
+      "description": "Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx) or Word templates (.dotx). Triggers include: any mention of Microsoft Word Documents, such as 'Word doc', 'word document', '.docx', '.dotx', 'microsoft doc'. Also use when extracting or reorganizing content from .docx or .dotx files, inserting or replacing images in documents, find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a deliverable as a Word or .docx file (to download, email or print), use this skill. However, if they ask for a document, page, report, memo, or notes WITHOUT naming a file format and the session offers Claude's own dedicated document or page skill or connector, use that instead, even if they will email or print it. Do NOT use for PDFs, spreadsheets, Google Docs, or coding unrelated to document generation.",
+      "source": "anthropic",
+      "updatedAt": "2026-09-30T02:00:31.677168Z"
+    },
+    {
+      "skillId": "skill_019BiNkThWhDBULrSt6G64ou",
+      "name": "case",
+      "description": "Prepare a USCIS filing package for a Lingtu Law / SIA 高徒 client whose case folder already exists in Google Drive (built via the \"it\" skill). Universal across case/form types — required forms, attachment order, and fixed/flexible data are learned per-case from that case's \"1. Initial\" and \"3. Draft\" folders instead of being hardcoded. Covers organizing intake materials, determining which forms a case needs, downloading and verifying current USCIS forms, filling them with the firm's fixed data plus the client's flexible case data, extracting client-signature pages, completing the cover letter, assembling the final package, and purchasing/printing the shipping label. Use whenever asked to prepare, fill, or complete a USCIS filing/case package (I-131, I-485, I-765, I-130, etc.), fill forms for an immigration case, organize a client's materials, or print a shipping label for a USCIS filing — even mentioning just one form or step, since this covers the whole package end to end for any case type.",
+      "source": "plugin",
+      "updatedAt": "2026-09-16T00:24:38.173130Z",
+      "backingPluginId": "plugin_01CpUn1Z2AJVy8dWcpm9Ghm3"
+    },
+    {
+      "skillId": "skill_017FFnvzSzs3P1P6pSq89pZo",
+      "name": "mkt2",
+      "description": "Publish Lingtu Law / SIA 高徒 success cases to lingtulaw.com (Chinese, then the English version) once their row in 成功案例交接表 has the Approved box ticked. Phase 2 of the mkt pipeline, which `mkt` hands off to. Use when the scheduled task `mkt-approved-check` fires, or when the user says \"/mkt2\", \"检查Approved\", \"把Approved的案例发官网\", \"发布成功案例到官网\", \"同步英文版\". Writes straight to the Lovable database (no credits). Never ticks tracker checkboxes and never publishes a row whose Approved box is unticked.",
+      "source": "plugin",
+      "updatedAt": "2026-10-14T17:18:24.162447Z",
+      "backingPluginId": "plugin_019c4fiJxamFEmuQvpH4BPKV"
+    },
+    {
+      "skillId": "skill_012QM24fLLSCLBD9n34myFgU",
+      "name": "news",
+      "description": "Research recent news affecting Chinese/Asian Americans or major cross-ethnic policy reforms, then produce TWO documents per topic — a 口播稿 (1.5-min broadcast script) and a 新闻稿 (newspaper article in 世界日报/ChineseInLA style with 蔡沈祺律师评语). Saves both to Google Drive, writes the 新闻稿 to the firm website as a draft for review, and makes a 媒体版 copy. Triggers on: \"口播\", \"口播稿\", \"播稿\", \"/news\", \"华裔新闻\", \"移民新闻\", \"新闻稿\", \"今日新闻\". Run with no arguments — it discovers the news itself.",
+      "source": "plugin",
+      "updatedAt": "2026-09-30T21:30:36.323304Z",
+      "backingPluginId": "plugin_01PcPe9U1Dh1ZnjtLUFCXx6R"
+    },
+    {
+      "skillId": "skill_015dW4Yatk1WukhifPCfni6i",
+      "name": "skye-rfe",
+      "description": "Draft an RFE or NOID response for a Lingtu Law / SIA 高徒 filing. Covers locating the client's case folder and RFE folder in Drive, page-mapping the notice, reading the firm's internal 解读+策略 analysis (produced by skye-readrfe) and the original petition letter, verifying the governing law fresh, building the two deliverables (the Response letter and a separate INDEX OF EXHIBIT), the firm's verified numbering scheme and typography, dense bolding of key facts, 蔡律师's language rules, continuing exhibit lettering from the original filing, mirroring exhibits as Drive folders, the ability-to-pay playbook, and the diff-before-write rule that keeps Skye's own Drive edits from being overwritten. Use whenever asked to respond to an RFE or NOID, to write or revise a Response, to build the exhibit package for one, or to act on review comments on one. Petition letters are drafted differently and have their own skills.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:14:11.216250Z",
+      "backingPluginId": "plugin_017cLqBN3hDQa61voWL6QCQC"
+    },
+    {
+      "skillId": "skill_017b2uzKKNTWDE4V9P3oKJx7",
+      "name": "skye-translate",
+      "description": "Translate Chinese-language exhibit materials into English for a Lingtu Law / SIA 高徒 immigration filing, file them into the client's evidence package with the firm's naming and certification conventions, and mark the passages the petition letter relies on using Word comments (.docx) or PDF highlight-plus-popup annotations (.pdf). Covers auditing an exhibit package for untranslated Chinese, verifying that source captures are not truncated before translating, re-capturing defective web-page PDFs, translating literally per the firm's translation instructions, cross-checking every translated figure against what the petition letter asserts, and syncing everything to the case folder in Google Drive. Use whenever asked to translate exhibits or evidence, find what still needs translation, add translation certificates, or annotate/highlight the parts of the evidence that support the petition letter.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:14:32.589204Z",
+      "backingPluginId": "plugin_01HXhaXrrBRrQVPdgrTGmisf"
+    },
+    {
+      "skillId": "skill_01T8jg7PpDLcvTpkoUZN5qnf",
+      "name": "skye-petition",
+      "description": "Draft, revise and audit an O-1 petition letter for a Lingtu Law / SIA 高徒 filing. Covers pulling the firm's O-1 PL template from the shared drive, generating the letter skeleton, building each criterion section from the regulation outward, tying every assertion to a numbered exhibit, auditing the letter against the evidence package for unsupported figures and template leftovers, keeping exhibit numbering consistent across the letter, the INDEX OF EXHIBIT and the Drive folders, and processing a reviewing attorney's comments. Use whenever asked to write, restructure, condense, proofread, renumber or fact-check an O-1 petition letter, to add or rework a criterion argument, or to act on review comments on one. Routes any petition instruction by type first — O-1A, O-1B, EB-1A or NIW — to that type's own sample template and most recent filed case. The craft guidance is O-1 specific; EB-1A and NIW use different frameworks.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:13:51.522886Z",
+      "backingPluginId": "plugin_01TdiUXy4kJ8LnJiqYoCtgEG"
+    },
+    {
+      "skillId": "skill_01FXCv4XbgGfwXeER8oakB4S",
+      "name": "skye-submission",
+      "description": "Assemble a finalized Lingtu Law / SIA 高徒 USCIS filing into the electronic-submission PDF set, then split it and upload it to Drive. Covers locating the finalized folder in the client's PL folder, pulling the SIGNED forms from the case drive's 表格 / Forms folder (telling signed scans apart from the *-waiting signature drafts and verifying each signature by eye), and the pre-merge audit — per-case-type Checklist, missing translations, exhibits with no source-URL footer, AI-tool markers such as source=chatgpt in a URL, junk pages — all CONFIRMED with the attorney before merging. Then it merges in filing order behind cover pages, splits into the per-case-type set, under 11.92 MB each, and uploads into a 电子提交拆分 folder. Use for 电子提交 / 电子拆分, combining or splitting a package, finding the signed forms, auditing exhibits for missing 角标 / links / translations, or re-splitting an oversized file.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:14:24.630613Z",
+      "backingPluginId": "plugin_01XnJE2xjZb41QVER8BSniDB"
+    },
+    {
+      "skillId": "skill_01PsNpduqVUepewtNe8mKkDL",
+      "name": "consult",
+      "description": "Archive client consultations for Lingtu Law / SIA 高徒 into Google Drive. Use this skill whenever someone wants to file, archive, or log a client consultation ($100/$250/$500), create a doc or folder for a new or returning consultation client, rename an existing consultation folder/doc to add a follow-up date, or upload materials for a consultation. Triggers on Chinese or English phrasing — \"归档咨询\", \"咨询归档\", \"新咨询\", \"建咨询文件夹\", \"上传咨询材料\", \"archive consultation\", \"log consultation\", \"consultation folder\" — even if the user doesn't say \"skill\".",
+      "source": "plugin",
+      "updatedAt": "2026-08-18T20:01:43.230849Z",
+      "backingPluginId": "plugin_014Wm2TeGcMQVe2hH3TDPiZr"
+    },
+    {
+      "skillId": "skill_019XyfmH8SKxFq9gVYNirvW2",
+      "name": "initial",
+      "description": "Organize and archive client materials for a Lingtu Law case — scan the Shared Folder and Intake folder, identify and rename each file, copy it to the correct subfolder under 1. Initial, fill in the Fixed/Flexible info template, and track material completeness. Also handles drafting client replies and generating follow-up action lists. Triggers on keywords: \"新文件\", \"状态\", \"回复\", \"回答\", \"下一步\", or any request to process uploaded documents, check what's missing, reply to a client message, or plan next steps for material collection.",
+      "source": "plugin",
+      "updatedAt": "2026-08-31T18:02:28.227414Z",
+      "backingPluginId": "plugin_01B2wSPzARPMSDcy69HnRTRh"
+    },
+    {
+      "skillId": "skill_01USYkKEifTd4iAj2tnBgSoR",
+      "name": "skye-case-drive",
+      "description": "Build a new talent-immigration case folder in the 人才移民 Google shared drive for Lingtu Law / SIA 高徒: sort the intake into O-1 / EB1A / NIW, create the case Drive named 客户姓名+案件类型, lay out the standard subfolders (Intake, Shared Folder, Initial, Form, Petition Letter & Exhibits, RFE, Approval Letter, 弃用, plus NVC on EB1A/NIW), copy the PL template in, file the intake materials into 1. Initial renamed, add a blank 材料清单 and the intake note, share only 0. Shared Folder with the client, and log it into 案件总表 法律. Builds one subfolder per statutory criterion (EB1A 10, O-1A 8, O-1B 6, NIW 3 prongs, plus 工会信/offer/PS). Use on any intake hand-off for an O-1 / EB-1A / NIW client — 新客户建文件夹 / O1客户建case drive / 把这个intake建成案子 — and for later materials and criteria folders. For I-131 / I-485 / family-based / H1B use the it skill.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:12:57.491382Z",
+      "backingPluginId": "plugin_01Wo3dFqk5SrtVnYUAQtGHd9"
+    },
+    {
+      "skillId": "skill_01A743PwF8oMyFUE5bHf4HuM",
+      "name": "skye-initial",
+      "description": "Organize a 人才移民 client's uploaded materials for Lingtu Law / SIA 高徒, judge whether each one is actually usable, and keep that case's 材料清单 in step: read every file dropped in 0. Shared Folder or 1. Initial, rename it to the firm's convention, file it under 1. Initial by statutory criterion, write the first full 材料清单 and afterwards only append to it, mark each new file 能用 / 要重新提供 / 不算数 (truncated captures, missing source URLs), then draft the Chinese WeChat message telling the client what to redo and what is still missing. Also maintains the 材料进度 doc, sweeps Priority 1-3 cases daily, books an LA-Beijing meeting hour, and puts receipt numbers onto 案件总表. Use after a case Drive is built and every time the client uploads — 新文件 / 整理材料 / 写材料清单 / 材料进度 / 巡检 / 这些材料能不能用 / 给客户回个话 / 还缺什么材料.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:13:40.385107Z",
+      "backingPluginId": "plugin_01DHk6k9rkqgLVpLcHgsyUQ3"
+    },
+    {
+      "skillId": "skill_019TRqY2WbbamzCjQR45VeWF",
+      "name": "it",
+      "description": "Set up a new client case folder for SIA 高徒 / Lingtu Law Office in Google Drive — match the case type against the template library, mirror its subfolders, write the intake background doc, share \"0. Shared Folder\" with the client, keep a running Activity Log, and link the folder to the client's case in Lingtu Data (client code / matter code come from Lingtu Data first). Use whenever the user registers a new client and wants a case folder built — e.g. \"帮XX客户建案件文件夹\", \"案件类型是XX，客户叫XX，建文件夹\" (any case type) — or hands over a 客户跟进表 row/screenshot with 案件类型 + 客户名称. Also covers adding intake notes to an existing case, updating a client's tracking-sheet row (priority, notes, highlight, payment status), or reviewing/editing this workflow itself. Triggers without the word \"skill\" — any request to create/mirror a case folder or log a client into the tracking sheet counts.",
+      "source": "plugin",
+      "updatedAt": "2026-11-02T05:39:26.199181Z",
+      "backingPluginId": "plugin_01UczPUKoXdQsfyVVfJydcbx"
+    },
+    {
+      "skillId": "skill_01415EPttDWp5ETNfx6oJPGB",
+      "name": "skye-readrfe",
+      "description": "End-to-end handling of a USCIS Request for Evidence or NOID for a Lingtu Law / SIA 高徒 case: pick the scan up from Gmail (the office scanner mails them as MX-M476WH_*.pdf), identify whose case it is, file it into that client's Drive folder, page-map the notice so `See RFE at p. N` cites are real, and write the firm's internal 解读+策略 analysis as a Google Doc — quoting the officer verbatim with the operative holding in red, counting criteria required against criteria the RFE conceded, giving each objection a numbered 解读 with a parallel-numbered 应对. Then it emails Skye, watches for her 'done' comment, finds an hour both Skye and Cassie are free, and drafts the Chinese meeting invitation. Use whenever an RFE or NOID needs reading, analyzing, translating or filing — 解读RFE / RFE分析 / 看一下这个补件 / 补件策略 / 收到RFE了. The Response letter itself belongs to skye-rfe.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:14:02.479076Z",
+      "backingPluginId": "plugin_017ertAepdtcNYwBPgUtUMEX"
+    },
+    {
+      "skillId": "skill_018UyN2igHaJ4FXNHPZLt1ru",
+      "name": "template",
+      "description": "Build a reusable Fixed(firm-standing-data)/Flexible(client-specific-data) template for a recurring paperwork or form-filling workflow at Lingtu Law / SIA 高徒, and store the master copy in the matching case-type folder under \"0. Template\" → \"1. Initial\" so future cases reuse it. Use this whenever the user asks to \"整理成 template\", \"把这个流程做成模板\", generalize a one-off case's data-gathering into something reusable, or says a workflow should become \"Universal\" — not just for I-131 (see the `case` skill for that concrete instance), but for any case type this firm handles where the same forms get filled repeatedly with mostly-the-same firm data and a few client-specific facts.",
+      "source": "plugin",
+      "updatedAt": "2026-08-12T04:35:04.555884Z",
+      "backingPluginId": "plugin_01Bk9PrKp5XXb4nkuqa31Hfy"
+    },
+    {
+      "skillId": "skill_01EkRJQUFkbY8EcSqgwXhFo6",
+      "name": "mkt",
+      "description": "Turn a real client's case folder in Google Drive into an anonymized marketing success-story doc for Lingtu Law / SIA 高徒's \"成功案例\" (Success Cases) library. Use whenever the user says things like \"学我的成功案例\", \"把这个案子做成案例分享\", \"写一个成功案例放到成功案例文件夹\", or points at a client's case folder and a success-case library folder and asks to turn one into the other. Also covers touching up an already-generated case-study doc (e.g. \"职业写得太精准了，模糊一下\"). Triggers on requests to extract/summarize/anonymize a client case into shareable marketing copy — not on requests to just read or organize case files (that's the `it` skill), and not on drafting official USCIS filing content (that's the `case` skill).",
+      "source": "plugin",
+      "updatedAt": "2026-10-14T17:16:26.350400Z",
+      "backingPluginId": "plugin_01YaxXjdXzMPUSeEysgmkfAt"
+    },
+    {
+      "skillId": "skill_01C2GYEuwRq9qVwMcq2Ndagi",
+      "name": "cs",
+      "description": "凌图律师事务所（Lingtu Law）客户 intake 客服话术规范。当需要以律所 intake 工作人员身份接待客户初步咨询（移民、人身伤害 Personal Injury、信托遗产规划、民商事诉讼等）、需要介绍律所业务、回答客户案件相关问题、或引导客户留下联系方式完成登记时，务必使用本技能。只要对话涉及\"客户咨询\"\"案件类型\"\"登记信息\"\"拉群对接\"等律所 intake 场景，即应触发本技能，不必等用户明确说\"用 cs 技能\"。",
+      "source": "plugin",
+      "updatedAt": "2026-08-14T17:42:43.641652Z",
+      "backingPluginId": "plugin_01VzXvszUY7WsKSSZyLWofXy"
+    },
+    {
+      "skillId": "skill_01WkSiDPDgv9ugC7SgE9cssu",
+      "name": "eon-case-drive",
+      "description": "Build a new talent-immigration case folder in the 人才移民 Google shared drive for Lingtu Law / SIA 高徒: sort the intake into O-1 / EB1A / NIW, create the case Drive named 客户姓名+案件类型, lay out the standard subfolders (0. Intake, 0. Shared Folder, 1. Initial, 2. Form, 3. Petition Letter & Exhibits, 4. Final Scanned, 5. RFE, 6. Approval Letter, 弃用, plus NVC Letter on EB1A/NIW only), copy the PL template in, drop a blank 材料清单 and the intake note in, share only 0. Shared Folder with the client, and log it into the 案件总表 法律 tab. Builds one subfolder per statutory criterion there (EB1A 10, O-1A 8, O-1B 6, NIW 3 prongs, plus 工会信/offer/Personal Statement). Use whenever an intake hand-off arrives for an O-1A / O-1B / EB-1A / NIW client — name + email + 申请种类 + intake note, or 新客户建文件夹 / O1客户建case drive / 把这个intake建成案子 — and for follow-ups: later intake notes, re-sharing, criteria folders, fixing the tracking row. Triggers without the word skill. For SIA 高徒 case types (I-131, I-485, family-based, H1B) use the it skill.",
+      "source": "plugin",
+      "updatedAt": "2026-08-20T17:27:45.926817Z",
+      "backingPluginId": "plugin_0178xZPANbKTpv4VDNorHwrk"
+    },
+    {
+      "skillId": "skill_01CoyNmzSR8rNFMVkb8taWBp",
+      "name": "skye-forms",
+      "description": "Auto-fill the USCIS and DOL forms for any 人才移民 petition at Lingtu Law, routing by case type first — O-1A/O-1B (I-129 with the O and P supplement, I-907, three G-1650s), EB-1A (I-140, G-1145) and EB-2 NIW (I-140 plus ETA-9089 Appendix A, Appendix C and Final Determination) — with G-28 when the firm is attorney of record, I-907 when premium processing is requested, and one G-1650 per fee. Each run reads that case's 填表指令 doc and writes the filled forms into the client Drive folder the user names. Blank forms are always downloaded fresh from uscis.gov and dol.gov and each edition date checked first. Use whenever forms need filling, checking or regenerating: 填表, 填O1表格, 填EB1A表格, 填NIW表格, 填140, 帮XX客户填表, 有G28还是无G28, 9089怎么填, 加急要不要交907, 几张1650, 核对表格版本, 换新版表格重填. Also for a single form and for current editions or fees.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T18:13:19.377937Z",
+      "backingPluginId": "plugin_01YMJEp6gQExHNJFPFbZGLWS"
+    }
+  ]
+}
