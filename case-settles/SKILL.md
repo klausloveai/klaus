@@ -12,7 +12,7 @@ description: >
   client, prepends each client's incoming carrier check, and files `<Client>-Disbursements.pdf` before the
   pipeline runs. It orchestrates end-to-end in one pass —
   verify math + funding → Disbursement Sheet → Account Journal → archive + move to "8. Settled" →
-  Pending→Completed sheet → send the team "Case settled" email (default: send, no approval gate) →
+  Pending→Completed sheet → save the Lingtu workbench「PI 结案分账」draft for Klaus to check and submit → send the team "Case settled" email (default: send, no approval gate) →
   extract marketing material → file the case into its DOL-year folder → Activity Log + _STATE.md →
   close out the PI Master row and move it to the top of the Completed block.
   Detail lives in `accounting-agent` (money) and `settled-case-marketing-pkg` (marketing); this
@@ -39,6 +39,8 @@ sitting in drafts waiting on Klaus.
    itself is unresolved (funding, math, a DOL conflict you had to pick a side on).
 4. **Not PI auto** — dog-bite / Hernán litigation: do the money steps only, no marketing package.
 5. **Confidentiality** — a settlement agreement with a confidentiality clause: skip marketing, tell Klaus.
+6. **「交给财务」in the workbench is Klaus's click, never yours** (Klaus 2026-11-03: "我核对后交接给财务").
+   Phase 4b fills the PI 结案分账 and **saves it as a draft** only.
 
 ---
 
@@ -158,6 +160,34 @@ check is usually payable to **both parents as guardians** — both must endorse 
 19. `🔍 Search` index: insert a row at index 1 → `[disburse date, client, DOL, HYPERLINK to the new gid]`.
 20. Delete the tab from Pending.
 
+## Phase 4b — Lingtu 工作台「PI 结案分账」草稿  ← Klaus 核对后自己点「交给财务」
+From 2026-11-02 every PI settlement is also registered in Joe's workbench
+(https://lingtu-workbench.joe-c97.workers.dev/app → left menu **PI** group → **PI 结案分账**; how-to page
+https://claude.ai/artifact/CRtyzeNQF46so373xY8bPi). Elena matches it against the 3618 / 2995 bank
+statements **by check number + amount**, then confirms and locks it — that lock is what posts it to the books.
+The Disbursement Sheet / Account Journal steps above stay as they are; this is an additional record.
+Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP tool for it.
+20a. **Case code first.** The form picks the matter as `案件 #####-PI#`. Take it from PI Master col A
+    (`Case ID`) or Lingtu Data `find` by client name — **pick by DOL** when the client has several matters.
+    No code → stop this phase, tell Klaus the client is missing a code (Joe has to add it), carry on with Phase 5.
+20b. **新建分账** → choose the case, fill **DOL** and the **date the client signed the disbursement letter**.
+20c. **Settlement by coverage**, from the `Internal ` row: 3P (D) · UM/UIM (E+F) · MedPay — separate lines.
+20d. **Attorney fee** — default 1/3; change it to what the DIS letter actually used (50/50 medical-first,
+    25 / 40 %…). The fee must equal the DIS letter's figure to the cent.
+20e. **Case cost / advances** = DIS letter case cost (0 if none).
+20f. **One line per provider**: original bill · reduced amount · our check # · check date — same numbers
+    as the journal rows from Phase 2.
+20g. **Every incoming insurance check — required.** Check # · amount · date, from the carrier check found in
+    0a-3. Leaving it empty makes the trust inflow 0 and Elena cannot match the deposit.
+20h. **Client recovery check # and date**; **date the fee was transferred to 2995** — only if Klaus/the
+    journal shows it; if not known, leave it blank and list it in the hand-off. Never guess a date or check #.
+20i. Compare the workbench's computed figures (client net, fee split 5% / Cassie / Joe / CM) with the DIS
+    letter. Any cent gap → gate 2, raise it.
+20j. **保存草稿 — do not click 交给财务.** Hand Klaus a short table (case code · coverage totals · fee ·
+    cost · each provider/check # · each carrier check # · client check # · 2995 date or "blank") so he can
+    check it and submit himself. If Elena sends one back, her reason shows in「给 Klaus 的话」; fix and
+    leave it for Klaus to resubmit. Once locked, any change goes through Joe.
+
 ## Phase 5 — Team email  ← STOP GATE
 21. **PI Master Sheet** `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM` — find the client in col B of
     the `Claims@` / `Piteam@` / `Picase@` tabs; the tab IS the owning mailbox.
@@ -233,7 +263,8 @@ check is usually payable to **both parents as guardians** — both must endorse 
 ## Phase 7 — Close out
 33. Verify the whole chain: N = zero · journal rows present and row 2 of the xlsx still empty ·
     PDF in subfolder 6 · case folder in the year folder · marketing folder populated ·
-    **no stray "Untitled" in the shared-drive root** · email draft labeled.
+    **no stray "Untitled" in the shared-drive root** · email draft labeled ·
+    **工作台 PI 结案分账 draft saved (status 草稿) and handed to Klaus**.
     Then **clear the staging folder**. `Case Disbursements/<Client>/` is a workbench, not an archive —
     once the email is out and `<Client>-Disbursements.pdf` is verified inside the case's subfolder 6,
     trash the whole client folder. Before trashing, account for **every file in it one at a time**:
@@ -309,5 +340,5 @@ check is usually payable to **both parents as guardians** — both must endorse 
       rows Completed up in the active list the "longest run" logic can pick one of those instead; anchor on
       the known block instead of recomputing after every write.
     Process oldest-disbursed first so the newest case ends up at the very top.
-38. Report: what got done, what is waiting on Klaus, and **every discrepancy found** (DOL conflicts,
+38. Report: what got done, what is waiting on Klaus (always including **「工作台分账草稿待你核对、点交给财务」**), and **every discrepancy found** (DOL conflicts,
     retainer-type mismatches, cent-level gaps). Never bury these.
