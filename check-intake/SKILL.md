@@ -106,6 +106,13 @@ face amount is distributable.
 > The earlier, narrower version of this rule (exclude only when the firm is not a payee) is
 > wrong. Journal row 362 was recorded under the old reading and is a known inconsistency.
 
+**A Collision deductible reimbursement made out to the firm alone** (no client on the payee line) →
+do not record, do not deposit. Post it to the case Chat, **@ the CM** (the owning group's CM, by
+user id `<users/…>`), with the check attached, asking them to have the carrier reissue it straight to
+the client (Klaus, 2026-11-03, GEICO chk N268938714 $1,000, Jianshuo Sun). File the scan to the case's
+`3#` with ` - NOT TRUST` in the name. Example line:
+`<users/…> GEICO Collision $1000 (deductible reimbursement, chk N268938714) 抬头只写了律所，我们不存。请联系 GEICO 重新 issue 直接开给客人。`
+
 ## Step 2 — Journal
 
 Append at the **tail** of `Account journal`; do not insert rows above the `--- AUGUST PENDING ---`
