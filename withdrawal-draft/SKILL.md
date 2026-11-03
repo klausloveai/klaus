@@ -90,7 +90,7 @@ gws drive files list --params '{"q":"'\''<CASE_FOLDER_ID>'\'' in parents and tra
 ## Step 2 — Read the intake sheet
 
 ```bash
-gws drive files get --params '{"fileId":"<INTAKE_XLSX_ID>","alt":"media","supportsAllDrives":true}' -o $HOME/wd_work/intake.xlsx
+python3 ~/.claude/skills/new-case/scripts/intake_io.py fetch <INTAKE_ID> $HOME/wd_work/intake.xlsx   # 原生 Google Sheet / 旧 .xlsx 都行
 python3 ~/.claude/skills/withdrawal-draft/scripts/read_intake.py $HOME/wd_work/intake.xlsx
 ```
 

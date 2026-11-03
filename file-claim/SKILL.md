@@ -103,7 +103,7 @@ intake `.xlsx` id and the `1#Legal Documents` subfolder id (`'<FOLDER_ID>' in pa
 
 ```bash
 mkdir -p ~/claim_work
-gws drive files get --params '{"fileId":"<INTAKE_XLSX_ID>","alt":"media","supportsAllDrives":true}' -o $HOME/claim_work/intake.xlsx
+python3 ~/.claude/skills/new-case/scripts/intake_io.py fetch <INTAKE_ID> $HOME/claim_work/intake.xlsx   # 原生 Google Sheet / 旧 .xlsx 都行
 python3 ~/.claude/skills/file-claim/scripts/read_intake_claim.py $HOME/claim_work/intake.xlsx
 ```
 
@@ -167,8 +167,10 @@ post-submit prompts.
 
 ## Step 8 — Record, notify, auto-LOR (firm-confirmed flow)
 
-1. **Write the Claim # to the intake sheet.** The intake is an `.xlsx` in Drive (NOT a Google
-   Sheet) — cell `L19` for 3P, `I15` for 1P (new-case cell-map). Edit inline + re-upload
+1. **Write the Claim # to the intake sheet** — cell `L19` for 3P, `I15` for 1P (new-case cell-map).
+   **Native Google Sheet（2026-11-03 起的新案）**：`python3 ~/.claude/skills/new-case/scripts/intake_io.py set <INTAKE_ID> L19 <CLAIM#>`
+   （RAW 写入，16 位 claim# 按文本存），到此为止，不要走下面的 xlsx 路径。
+   **Legacy `.xlsx`**（`intake_io.py mime` 打印 xlsx）: edit inline + re-upload
    (overwrite same fileId): download, replace the cell with an `inlineStr` (claim #s are 16
    digits — store as text, not numeric, or precision is lost), preserve the cell's `s="..."`
    style, then `gws drive files update --upload`. openpyxl is NOT installed — use a
@@ -219,7 +221,7 @@ to speak with the carrier directly. Clean up: `rm -rf ~/claim_work`.
   the home county) so the report can proceed; the **CM updates the exact location with the
   adjuster afterward**. Always tell the user it's a placeholder and flag it in Step 4.
 - Claim # is expected blank in intake before filing; you're creating it.
-- Intake sheet is `.xlsx`, read with `read_intake_claim.py`. Tracking sheet is a Google
+- Intake sheet is a native Google Sheet (new cases) or legacy `.xlsx`; fetch with `intake_io.py fetch`, read with `read_intake_claim.py`. Tracking sheet is a Google
   Sheet — `values update` only, never a formatting batchUpdate.
 - Always file as the correct party: GEICO 3P = "I had an incident with a GEICO customer",
   NOT "I am insured with GEICO" (despite the source file being named "...1P").

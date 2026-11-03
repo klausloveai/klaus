@@ -110,7 +110,7 @@ gws drive files list --params '{"q":"'\''<CASE_FOLDER_ID>'\'' in parents and tra
 ## Step 2 — Read the intake sheet
 
 ```bash
-gws drive files get --params '{"fileId":"<INTAKE_XLSX_ID>","alt":"media","supportsAllDrives":true}' -o $HOME/lor_work/intake.xlsx
+python3 ~/.claude/skills/new-case/scripts/intake_io.py fetch <INTAKE_ID> $HOME/lor_work/intake.xlsx   # 原生 Google Sheet / 旧 .xlsx 都行
 python3 ~/.claude/skills/send-lor/scripts/read_intake.py $HOME/lor_work/intake.xlsx
 ```
 
@@ -442,7 +442,7 @@ own fax line is `626-240-2046` (`+16262402046`).
 
 - **Always re-fetch the template** from Drive each run — the firm edits it; never cache.
 - Claim # / adjuster email are usually blank in intake at LOR stage → expect to prompt.
-- The intake sheet is an `.xlsx` (not a Google Sheet); read it with `read_intake.py`.
+- The intake sheet is a native Google Sheet on new cases (2026-11-03+) or a legacy `.xlsx`; fetch it with `new-case/scripts/intake_io.py fetch` (exports either to xlsx), then read with `read_intake.py`.
 - "Your Insured" (3P) = the at-fault **policyholder** (`p3_insured` / intake L8), not the
   3P driver.
 - **Two books, not one:** the PI Master Sheet (Step 8) is current state; the Activity Log

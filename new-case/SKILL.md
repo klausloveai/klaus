@@ -303,13 +303,14 @@ Build the local case folder mirroring whatever subfolders the template currently
 │     └── Referral/               (template id: 1fZ1giwvsg_W6FPmzREbAXT1JDZAmLjF0)
 ├── 5#Demand Package/        (template id: 1I4DRX7DVTfPq_sfLcPV0cynTVxxevEFb)
 ├── 6#Settlement Documents/  (template id: 1SWMMs0Qsy_wz2GwldlaO9JNng-Gj-gUU)
-└── [CaseName].xlsx               ← in root; filename = the DISK case name, nothing appended
+└── [CaseName]                    ← native Google Sheet in root (built locally as [CaseName].xlsx, converted on upload); name = DISK case name, nothing appended
 ```
 
 > ⚠️ **Intake sheet filename (Klaus, 2026-09-24): `<DISK case name>.xlsx` — NO suffix.**
 > `Mengmeng Wang-9-17-2026.xlsx` ✅ — not `Mengmeng Wang Intake Sheet.xlsx`,
 > not `Mengmeng Wang-9-17-2026 Intake Sheet.xlsx`. The words "Intake Sheet" never appear
-> in the filename. Same string as the case folder, dashes in the date, `.xlsx` extension.
+> in the filename. Same string as the case folder, dashes in the date. Local working copy is
+> `.xlsx`; on Drive it is converted to a native Google Sheet with no extension (2026-11-03).
 > (Older cases on Drive still carry the legacy ` Intake Sheet.xlsx` suffix — do not copy them.)
 
 If the live query returns a different set of folders, use the live set — the template IDs above are cached references only.
@@ -387,7 +388,9 @@ Email→has @, 1P Driver→must be our client), and flags values that smuggle in
 WARNs are advisory; review each one.
 
 **Re-filling an existing case's sheet** (rules changed, or fixing an earlier fill): download the
-live Drive copy first and diff it cell-by-cell against your new version before uploading.
+live Drive copy first (`python3 scripts/intake_io.py fetch <id> live.xlsx` — works for both native
+Sheets and legacy .xlsx) and diff it cell-by-cell against your new version before uploading. For a native
+Sheet, write the changed cells back with `intake_io.py set`, never by re-uploading the xlsx.
 Other skills write real progress into this sheet after intake (e.g. `exer-lien` fills C20
 UrgentCare with the booked appointment) — never let an initial-fill default overwrite a fact
 that already happened. See 「既成事实不被初填规则覆盖」 in cell-map.md.
@@ -568,20 +571,25 @@ can take 5–30+ minutes before the Drive API sees them, and subsequent steps ne
 3. **Create subfolders via API** (one call per subfolder, using `CASE_FOLDER_ID` as parent):
    Replicate the same subfolder structure built locally. Capture each subfolder ID.
 
-4. **Upload intake sheet `.xlsx` via API** immediately — this gives you the `webViewLink` for Step 10:
+4. **Upload the intake sheet as a NATIVE Google Sheet** immediately — this gives you the `webViewLink` for Step 10:
    ```bash
-   gws drive files create \
-     --upload "/Users/Klaus/work/[CaseName]/[CaseName].xlsx" \
-     --json '{"name":"[CaseName].xlsx","parents":["<CASE_FOLDER_ID>"],"mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}' \
-     --params '{"supportsAllDrives":true,"uploadType":"multipart","fields":"id,name,webViewLink"}'
+   cd "/Users/Klaus/work/[CaseName]" && gws drive files create \
+     --upload "[CaseName].xlsx" \
+     --json '{"name":"[CaseName]","parents":["<CASE_FOLDER_ID>"],"mimeType":"application/vnd.google-apps.spreadsheet"}' \
+     --params '{"supportsAllDrives":true,"uploadType":"multipart","fields":"id,name,mimeType,webViewLink"}'
    ```
 
-   > ⚠️ **Upload it as a real `.xlsx` — NEVER convert it to a Google Sheet.** Do not pass
-   > `"mimeType":"application/vnd.google-apps.spreadsheet"` in the metadata. Every case on
-   > Drive stores the intake sheet as an xlsx file; a converted Google Sheet is the odd one
-   > out and breaks the team's expectations. The tracking-row hyperlink still uses the
-   > `https://docs.google.com/spreadsheets/d/<FILE_ID>/edit` form — Drive renders the xlsx in
-   > the Sheets viewer, so the link works either way. (Hit 2026-09-24, Mengmeng Wang.)
+   > ⚠️ **默认原生 Google Sheet（Klaus 2026-11-03：「我需要都默认 google sheet」）。** 推翻了
+   > 2026-09-24「永远传 xlsx、不转换」的旧规则。本地仍用 openpyxl 填 `.xlsx` 并跑 `verify_intake.py`，
+   > 上传时在 `--json` 里写 `"mimeType":"application/vnd.google-apps.spreadsheet"` 让 Drive 转换；
+   > Drive 上的名字 = DISK case name，**不带 `.xlsx`**。转换实测无损（值 / 黄色高亮 / Nunito 字体全保留，
+   > Jiuan Xiong 样本 round-trip 0 差异）。上传后核对返回的 `mimeType` 是
+   > `application/vnd.google-apps.spreadsheet`，不是就删掉重传。
+   > 原生 Sheet 才能挂 `Activity Log` subtab（案件 AL）。旧案的 `.xlsx` 不批量转换。
+   >
+   > **之后读写这张表**一律走 `scripts/intake_io.py`：`fetch` 两种格式都导出成本地 xlsx（只读）；
+   > 写值用 `set`（Sheets API）。**绝不**把本地 xlsx `files update --upload` 覆盖回原生 Sheet ——
+   > 那会把它变回 xlsx 文件。
    >
    > ⚠️ **`uploadType:multipart` + mimeType in `--json`.** Declaring `uploadType:media` while
    > sending a multipart body embeds the MIME headers INTO the file and silently corrupts it

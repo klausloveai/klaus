@@ -63,7 +63,7 @@ fallback location.
 ## Step 2 — Read the intake (referral fields)
 ```bash
 mkdir -p ~/referral_work && cd ~/referral_work
-gws drive files get --params '{"fileId":"<INTAKE_XLSX_ID>","alt":"media","supportsAllDrives":true}' -o intake.xlsx
+python3 ~/.claude/skills/new-case/scripts/intake_io.py fetch <INTAKE_ID> intake.xlsx   # 原生 Google Sheet / 旧 .xlsx 都行
 python3 ~/.claude/skills/chiro-referral/scripts/read_intake_referral.py intake.xlsx
 ```
 → accident type (`point_of_impact`), `dol`, `time`, `client`, `dob`, `phone`, `address`.
@@ -223,8 +223,10 @@ tabs lost their `(Name)` suffixes — now just `Picase@` / `Claims@` / `Piteam@`
 > If the target column already has content, DON'T overwrite — flag it to the user.
 
 ## Step 8b — Update the case INTAKE sheet (Treatments block)
-Also record the clinic in the **case intake `.xlsx`** (the one in the case-folder root), in its
-**Treatments** section, so the case file itself shows where the client is treating. Edit the
+Also record the clinic in the **case intake sheet** (the one in the case-folder root), in its
+**Treatments** section, so the case file itself shows where the client is treating.
+**Native Google Sheet（新案默认）**：用 `python3 ~/.claude/skills/new-case/scripts/intake_io.py set <INTAKE_ID> R3 "<Clinic>" R4 "<Address>" R5 "<Phone>" R6 "<Email>"` 写（布局先 fetch 下来读清楚）。
+**Legacy `.xlsx`**：edit the
 mounted `.xlsx` with openpyxl (back it up first to `~/.supplement-intake-backups/`; the mount
 syncs to Drive).
 

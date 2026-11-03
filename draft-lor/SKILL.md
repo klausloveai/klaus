@@ -80,7 +80,7 @@ is on no tab or several, ask the user which case manager to sign.
 ## Step 3 — Read the intake sheet
 
 ```bash
-gws drive files get --params '{"fileId":"<INTAKE_XLSX_ID>","alt":"media","supportsAllDrives":true}' -o $HOME/lor_work/intake.xlsx
+python3 ~/.claude/skills/new-case/scripts/intake_io.py fetch <INTAKE_ID> $HOME/lor_work/intake.xlsx   # 原生 Google Sheet / 旧 .xlsx 都行
 python3 ~/.claude/skills/draft-lor/scripts/read_intake.py $HOME/lor_work/intake.xlsx
 ```
 
