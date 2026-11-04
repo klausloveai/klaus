@@ -15,6 +15,7 @@ FIRST：跑 `date "+%m/%d/%Y (%A) %H:%M"` 取真实日期时间，绝不猜。
 面板读中央 Activity Log：**H 列 = `Gmail-In`、I 列 = 这封邮件的 Gmail message id（16 位左右的十六进制，原样写，不加前缀）、J 列 Next Step 不为空** 的行，14 天内的都显示成一条邮件任务。所以：
 - 每封要记的邮件 append 一行（见 Step 4），J 列写成 **Klaus 要推进的那一件事**：动词开头、一句话、有期限就写 `MM/DD 前 <动作>`。例：`11/09 前 回 Daphne 确认 IME 日期`、`等 Hernán 签回 Notice（不用动，留意）`。
 - 一封邮件里有好几件要做的事 → 合成一句，按期限先后写，别拆成多行（I 列 message id 必须唯一）。
+- **Joe 主办、Klaus 只在 CC 的**（J 会写成「Joe 在跟 / 不用动」的）→ 不记任务行，记进 mail_seen.json（原因「Joe 在跟」）；正文点名要 Klaus 做事的才记，J 以「Klaus：」开头。（Klaus 11/03：Chen Chia Kuo 这种不是我的案子）
 - 不需要任何动作的 → 不记这一行（不然面板上会多一条没用的任务）。
 
 ## 幂等（两份已读清单）

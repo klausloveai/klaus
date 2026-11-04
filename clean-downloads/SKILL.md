@@ -13,7 +13,7 @@ description: >-
 
 # clean-downloads — 让 Downloads 只剩还要用的文件
 
-规则本体在 CLAUDE.md「出手即归档」：**Downloads 只是工作台，不是档案柜。** 任务完成，Downloads
+**扫描范围包括 `~/Downloads/任务总盘/`**（2026-11-03 起 Claude 产生的文件都落这里，递归扫）。规则本体在 CLAUDE.md「出手即归档」：**Downloads 只是工作台，不是档案柜。** 任务完成，Downloads
 里就不留这件事的任何副本；但**备份在前、删除在后，顺序不能反**。
 
 FIRST：`date "+%m/%d/%Y (%A) %H:%M"`。
