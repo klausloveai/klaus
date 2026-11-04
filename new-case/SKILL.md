@@ -595,6 +595,18 @@ can take 5–30+ minutes before the Drive API sees them, and subsequent steps ne
    > sending a multipart body embeds the MIME headers INTO the file and silently corrupts it
    > (3 files corrupted 2026-09-17 → 09-23, one undetected for 6 days).
 
+4a. **建案件 AL tab + 登记 registry**（Klaus 2026-11-03：「加上 al.py init」）。intake 一上传成原生 Sheet
+   就建，不等第一次有人写：
+   ```bash
+   python3 ~/lingtu-cm-study/al/al.py init <INTAKE_SHEET_ID>
+   ```
+   - 用 Klaus@ 默认身份跑（al.py 拒绝 team 邮箱身份写 AL）；输出「已建「Activity Log」tab」或「已存在」都算过。
+   - 然后在 `~/lingtu-cm-study/al/registry.json` 的 `cases` 里追加一条（同名同 DOL 已有就不加；同名不同 DOL 分开登记）：
+     `{"case": "<司机姓名>", "dol": "MM/DD/YYYY", "sheet_id": "<INTAKE_SHEET_ID>", "type": "native", "al": true}`。
+     一车多人：每人一条，`sheet_id` 相同。
+   - 只建表头，**不写行**：建案本身记在 Lingtu Data（Step 9a）和中央 Activity Log，不在这里重复。
+   - 上传回来的 `mimeType` 不是原生 Sheet（第 4 步要求删掉重传）时，先重传再 init，xlsx 上建不了 tab。
+
 5. **Upload all other files to their respective API-created subfolders** (small files sequentially;
    large files — ZIPs, DNG, videos >20MB — in parallel background processes):
    ```bash
@@ -1580,6 +1592,7 @@ to the 签署操作说明 block:
 | 5 | 团队信箱的 Gmail case label 已建且是黄色 | `labels list` |
 | 6 | 案卷已挂到 Lingtu Data（或已注明「签约后补」） | Step 9a 第 4 步的结果 |
 | 7 | retainer：送了就有 envelope id；没要求就写「未发（未要求）」 | Step 13 的结果 |
+| 8 | intake 表有 `Activity Log` tab，registry.json 已登记这个案子 | `al.py init <id>` 再跑一次应回「已存在」；`grep <sheet_id> registry.json` |
 
 ---
 
