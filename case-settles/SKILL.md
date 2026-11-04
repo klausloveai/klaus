@@ -166,6 +166,9 @@ From 2026-11-02 every PI settlement is also registered in Joe's workbench
 https://claude.ai/artifact/CRtyzeNQF46so373xY8bPi). Elena matches it against the 3618 / 2995 bank
 statements **by check number + amount**, then confirms and locks it — that lock is what posts it to the books.
 The Disbursement Sheet / Account Journal steps above stay as they are; this is an additional record.
+**Scope (Klaus 2026-11-04): November 2026 onward only.** "暂时先不对齐11月之前的账，先把这个系统跑出来，用11月的账来对" —
+do not backfill the workbench (or re-code the PI Master) for cases disbursed before 11/1/2026; the November
+cases are the test set the workbench gets checked against.
 Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP tool for it.
 20a. **Case code first — Lingtu Data is the authority, the PI Master follows it** (Klaus 2026-11-04:
     "编码全部按照凌图工作台为准，master sheet同步更改"). Always run Lingtu Data `find` by client name and
