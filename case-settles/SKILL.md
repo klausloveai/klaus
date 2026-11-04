@@ -167,8 +167,13 @@ https://claude.ai/artifact/CRtyzeNQF46so373xY8bPi). Elena matches it against the
 statements **by check number + amount**, then confirms and locks it — that lock is what posts it to the books.
 The Disbursement Sheet / Account Journal steps above stay as they are; this is an additional record.
 Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP tool for it.
-20a. **Case code first.** The form picks the matter as `案件 #####-PI#`. Take it from PI Master col A
-    (`Case ID`) or Lingtu Data `find` by client name — **pick by DOL** when the client has several matters.
+20a. **Case code first — Lingtu Data is the authority, the PI Master follows it** (Klaus 2026-11-04:
+    "编码全部按照凌图工作台为准，master sheet同步更改"). Always run Lingtu Data `find` by client name and
+    **pick by DOL** when the client has several matters; read `old_codes` too. Never copy PI Master col A
+    (`Case ID`) into the form unchecked — codes get reissued (2026-11-03: two same-name Hao Zhang clients were
+    split, `32654-PI2/-PI3` became `56469-PI1/-PI2`, and the Master still showed the old codes).
+    If the Master's col A differs from Lingtu Data, **overwrite the Master cell with the Lingtu Data code**
+    (match the row on name + DOL) and say so in the report.
     No code → stop this phase, tell Klaus the client is missing a code (Joe has to add it), carry on with Phase 5.
 20b. **新建分账** → choose the case, fill **DOL** and the **date the client signed the disbursement letter**.
 20c. **Settlement by coverage**, from the `Internal ` row: 3P (D) · UM/UIM (E+F) · MedPay — separate lines.
