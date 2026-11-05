@@ -678,11 +678,10 @@ for the tracking-sheet `=HYPERLINK(...)` formula.
    - `owner` 按 `lingtu-data` 分流：广告 / 官网 / 地图 / AI 搜索 / 社媒来的 → `Cindy`；
      朋友或老客户介绍、车行、到访、来源不明 → `Klaus Liu`。
 3. **记下编号**：`log_lead` 返回客户编号（5 位）。PI 的案件编号（`12345-PI1`）要到 `sign_lead`
-   签约才生成 —— PI 是风险代理，`sign_lead` 现在必须填合同额，**等 Joe 加好 contingency 选项之前不调 `sign_lead`**。
-   所以现阶段 Master A 列先写**客户编号**；签约生成案件编号后再把 A 列换成案件编号。
-   老客户第二个案子同理，签约后系统会排出 `-PI2`。
-4. **挂案卷**：`link_case_folder`（`client_code` + Step 9 的 Drive 案卷链接）。报错（例如还没有案件）
-   就在最终回复里写明「案卷未挂，签约后补」，不要重试别的写法。
+   才生成 —— retainer 发出后在 **Step 13b** 签（contingency 选项 Joe 已加好，2026-11-05 确认）。
+   Step 10 时还没有案件编号，Master A 列先写**客户编号**，Step 13b 签约后换成案件编号。
+   老客户第二个案子同理，签约后系统会排出 `-PI2`。retainer 不发（skip）的案子不签，A 列保持客户编号。
+4. **挂案卷**：放到 Step 13b 签约之后做（没有案件挂不上）。retainer skip 的案子在最终回复里写明「案卷未挂，签约后补」。
 5. **记一笔**：`log_event`（`action=note`，挂客户编号）
    「新案建档：Drive 案卷 1. Pending、Master <tab>、分派 <CM>」，`link` = Drive 案卷。
 6. **读回核对**：再 `find` 一次，确认客户、线索、编号都在库里。**`find` 查不到就不算完成。**
@@ -1370,6 +1369,42 @@ Examples:
 
 ---
 
+## Step 13b — Lingtu Data 签约 + 直接挂 CM（retainer 发出后立刻做）
+
+> Klaus 2026-11-05：「最重要就是确保它后面是 assign 给的这个 case manager，然后它的凌图数据能直连到这个案子，
+> 而不会出现延误，不会说需要它再主动去连接一下这个案子。」—— 所以 **DocuSign 一发出就签约**，不等客户签完，
+> 也不让 CM 自己 `claim_my_case`。
+
+**只在 Step 13 真的发出 retainer 时做。** retainer skip → 跳过本步，A 列留客户编号。
+
+1. **`sign_lead`**（每条线索签一次；一车多人每人各自的线索各签一次）：
+
+   | 参数 | 值 |
+   |---|---|
+   | `lead_id` | Step 9a `log_lead` 返回的 |
+   | `contract_kind` | new → `pi_new_50`；standard → `pi_standard_1_3`（与 Step 13 发出的模板一致） |
+   | `client_minor` | 这位客户是 minor → `true` |
+   | `lead_staff` | 按 tab 的 CM（下表） |
+   | `assist_staff` | 按 tab 的 CA（下表） |
+   | `partner` / `no_partner` | **开头闸门里 Klaus 说的**：车行 / 中介要付介绍费 → `partner`=合作方名单里的名字；没有 → `no_partner=true`。没说就问，不猜 |
+   | `signed_on` | 今天（retainer 发出日） |
+   | `attorney` | 不填（默认蔡律师） |
+
+   | Tab | CM (`lead_staff`) | CA (`assist_staff`) |
+   |---|---|---|
+   | Claims@ | Amos Feng | Taki Xue |
+   | Piteam@ | Jerry Piao | Angelina Meng |
+   | Picase@(Jenkins) | Jenkins Li | Tiana Deng |
+   | Picase@(Amos) | Amos Feng | 问 Klaus |
+
+2. **挂案卷**：`link_case_folder`（`matter_code` = 返回的案件编号，`drive_folder_url` = Step 9 案卷，
+   `activity_log_url` = intake sheet 链接）。
+3. **Master A 列换号**：把 Step 10 写的客户编号换成案件编号（`84940` → `84940-PI1`），按客户名定位行。
+4. **读回**：`find` 客户编号 → `cases[]` 里有这个案件编号，`lead` = 该 CM、`assist` = 该 CA、`linked` 有案卷。
+   不对就停下报告，不算完成。
+
+---
+
 ## Step 14 — Output the Client Signing Message (文案)
 
 > ⛔ **CONDITIONAL — only if Step 13 actually sent a retainer.** If the retainer was skipped
@@ -1590,7 +1625,7 @@ to the 签署操作说明 block:
 | 3 | Master 对应 tab 有这几行，**A 列 = 编号**、Client Name 带 intake 链接 | 读 `'<tab>'!A3:F<3+N-1>` |
 | 4 | Chat 群已建、成员齐、CM 和 Amos/Claire 是 Manager | `gws chat spaces members list` |
 | 5 | 团队信箱的 Gmail case label 已建且是黄色 | `labels list` |
-| 6 | 案卷已挂到 Lingtu Data（或已注明「签约后补」） | Step 9a 第 4 步的结果 |
+| 6 | retainer 发了：Lingtu Data 有案件编号、CM/CA 已挂、案卷已挂、Master A 列已换成案件编号；retainer skip：注明「签约后补」 | Step 13b 第 4 步的 `find` |
 | 7 | retainer：送了就有 envelope id；没要求就写「未发（未要求）」 | Step 13 的结果 |
 | 8 | intake 表有 `Activity Log` tab，registry.json 已登记这个案子 | `al.py init <id>` 再跑一次应回「已存在」；`grep <sheet_id> registry.json` |
 
