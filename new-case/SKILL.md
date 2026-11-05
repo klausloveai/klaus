@@ -1340,6 +1340,10 @@ behalf. Set the minor's Docusign recipient as follows:
      (e.g. a `Piteam@` / `Picase@` / `Claims@` role) → remove it before sending; a 0-tab signer
      stalls the envelope forever.
    - **Exactly one carbonCopy may remain** — the assigned CM's mailbox (or klaus@ if no CM).
+   - **That CC's display NAME must be the current CM** — the templates still carry `Ryan Wei` on
+     picase@ (he has left; Klaus 2026-11-05: 「there is no more Ryan Wei, Picase only Jenkins Li」).
+     Fix it with `updateEnvelopeRecipients` → `recipientsToUpdate.carbonCopies` before sending:
+     claims@ = `Amos Feng` · piteam@ = `Jerry Piao` · picase@ = `Jenkins Li`.
      Remove the rest.
 
    If it is broken: delete the envelope and rebuild it with `roleName: "Client1"`. Do NOT send
