@@ -22,7 +22,7 @@ FIRST：跑 `date "+%m/%d/%Y (%A) %H:%M"` 取真实日期时间，绝不猜。
 一封邮件算「已处理」= 它的 message id 已在 Activity Log I 列（记成了任务），**或**已在 `/Users/klaus/.claude/tasks-board/mail_seen.json`（判定不用记的）。label 不再作为已处理标记：带不带 label 都要读。
 - 记成任务的 → 写 Activity Log 一行（Step 4）。
 - 读完判定不用记的 → 把 `{"<message id>": "<MM/DD> <一个词理由>"}` 合并写进 mail_seen.json（文件不存在就新建 `{}`；读、合并、整体写回，别覆盖掉别人的条目）。**不写这一步，下一轮会重复读它。**
-- **绝不改已读 / 未读状态，绝不移出 inbox，绝不加星、去星。** 这些都是 Klaus 自己的操作信号。
+- **不改已读 / 未读，不加星、去星。** 只有一种情况可以移出 inbox：Step 2 判定「不是 Klaus 的」且 thread 已有 user label（`Label_…`）。**没有 label 的一律不移出**（移出去就找不回来了）。办完的任务由面板（build.py → mailstate.py）自动关，不归本 routine。
 - 中途失败的那封两边都不写，下轮重来。
 
 ## Step 1 — 拉未读邮件
@@ -47,14 +47,21 @@ claude@lingtulaw.com 是律所 Windows 本地机上的 Claude。Klaus 从 klaus@
 4. 收尾：claude@ 回复任务 02 完成、并确认 client_secret.json 已就位 → 把 Drive 文件 `1SE4KvG7GdfQAYv5JnCpfuhrvZF_2Whed` 移进回收站（`gws drive files update --params '{"fileId":"1SE4KvG7GdfQAYv5JnCpfuhrvZF_2Whed"}' --json '{"trashed":true}'`；文件已不存在就跳过），在输出里报一句。
 5. 回复后给该 thread 打 label「Claude」（`Label_911606009448008035`）。这些邮件不写 Activity Log、不写 mail_seen.json、不进面板，也不占 Step 2 的 30 封上限。
 
-## Step 2 — 分流
-**要记**：① Hernán Simó（hernan.s@lingtulaw.com，最高优先）② 法院 / One Legal / 送达公司的通知、回执、驳回 ③ 对方保险 adjuster、对方律所 ④ 客户本人来信 ⑤ 政府 portal 的实质答复 ⑥ 新案咨询 / 客户签回 retainer（案件的开端，Case 填 `待指认` 或客户名）。
-**只记跟案件有关的。** Klaus 11/02 定：与案件无关的一律不给任务——BoA / 银行通知（含 IOLTA hold）、Claude / Anthropic 用量与账单、软件订阅、所内经营 / 人事 / 付款流程通知，都写进 mail_seen.json 跳过。
-**不记成任务、只写进 mail_seen.json、不打 label、原样留着**：营销、订阅、系统通知、纯 FYI 抄送；团队邮箱（Claims@ / Piteam@ / Picase@）在管、不需要 Klaus 本人动作的；**治疗 / 转介 / lien 往来**（eazyliens、healthierminds、各诊所预约与 lien）—— 那条线另有人管。
+## Step 2 — 分流：是不是 Klaus 的（Klaus 11/04 定，宁可多留，不可漏掉他的任务）
+先读 `/Users/klaus/.claude/tasks-board/cases.json`：`section` 不是 `Hernán, Klaus & Joe` 的案子 = **Klaus 的案子**。
 
-**C 列 Case 怎么填**：对得上案子 → 案名（用 Activity Log 里已有的写法，如 `Mudong Huang`、`Ye Ding v. UFCC`）；是案件邮件但认不出哪个案子 → `待指认`；不是案件 → 不记成任务（见上）。
+**A. Klaus 的案子 → 所有邮件都是他的**，一律记成任务（包括治疗 / lien / 诊所往来、CC 给他的），J 列写他要推进的事；纯通知也要写「留意：…」。
 
-**Hernán, Klaus & Joe 的案子交 Joe 跟**（Klaus 11/02 定：Joe 处理，除非点名我）：Mudong Huang、Weicong Lin、Guolin Zhao、Bo Tao、Yi Cong、Gaoyang Qin、Xicheng Li、Brian Wu、CB Kitchen。这些案子的邮件照常写 Activity Log 一行（记录不能少），但只有**邮件里点名 Klaus**（称呼他、问他、要他本人做事或决定）时，J 列才以「【点名 Klaus】」开头；没点名的，J 列照写下一步（面板不会给 Klaus 显示）。
+**B. 不是 Klaus 的案子（Joe 线、各团队信箱的 PI 案、别的部门）→ 谨慎判断，三选一：**
+1. **确定不是他的**——下面四条**全部**满足才算：① Klaus 不在 To（只在 CC），或在 To 但只是群发通知；② 正文没有称呼他、问他、要他做事或决定；③ 有明确的经办人在跟（Joe / CM / Claire / 发件同事本人）；④ 不是对方律师 / 法院 / 保险公司在等我们回应而经办人不在收件人里。
+   → 写进 mail_seen.json（理由「不是我的：<谁在跟>」）→ **thread 有 user label 才移出 inbox**（`threads.modify` removeLabelIds INBOX）；没 label 且能对上案子 → 先打该案已有 label 再移出；对不上案子 → 不移出，进 Step 7 的「❓ 留着」。
+2. **确定是他的**（点名他、问他、只有他能办）→ 记成任务，J 以「【点名 Klaus】」开头。
+3. **拿不准** → 留在 inbox，记成任务，J 写「【待判断】是不是 Klaus 的：<一句理由>」，Step 7 单列。
+
+**C. 不是案件邮件**（BoA、订阅、推销、系统通知、所内行政）：不记任务，写 mail_seen.json；**没有 label 不移出 inbox**，在 Step 7 汇总一行「非案件 N 封留在 inbox」。
+- Hernán 的邮件、法院 / One Legal 送达**失败或退件**、对方律师 / adjuster 来信：不管谁的案子都不能走 B1，至少是「拿不准」。
+
+**C 列 Case 怎么填**：对得上案子 → 案名（用 Activity Log 里已有的写法）；是案件邮件但认不出哪个案子 → `待指认`（这类永远留在 inbox）。
 
 **每轮上限 30 封**（只算真正读了正文的），超出的留给下一轮，按新到旧处理。
 
@@ -77,13 +84,17 @@ Category 从这些里选：立案/送达 · 记录申请 · 保全 · 理赔 · 
 ## Step 6 — 刷新面板
 跑 `/opt/homebrew/bin/python3 -I /Users/klaus/.claude/tasks-board/build.py`，让 Task To-do 下次刷新就看到新任务。失败就在输出里写一行原因。
 
-## Step 7 — 输出（简体中文，纯文本，一封一行）
-```
-【Claude】📬 邮件 → 任务 <MM/DD HH:MM>
-本轮：新邮件 N 封 / 记成任务 M 条 / 附件归档 K 份 / 跳过 X 封
-• <Case> — <Next Step>
-❓ 待指认：<主题> — <发件人>（没有就省略）
-⏭️ 还剩 X 封下轮继续（没有就省略）
-🤖 本地机：已回复 N 封（<主题> — <回了什么>）；⏸ 留给你 M 封（<主题> — <为什么>）（都没有就省略）
-```
-没有新的要记的邮件 → 只输出一行 `【Claude】📬 <HH:MM> 无新邮件任务。`（Step A 有动作时，后面照样加 🤖 那一行）
+## Step 7 — 每小时简报邮件（Klaus 11/04：每跑一次就发一封，像 WhatsApp 那种，一两句话；他看完就删）
+本轮有任何动作（新任务、移出 inbox、snooze 放回、待判断、本地机回复）才发；什么都没有就不发，只输出一行 `【Claude】📬 <HH:MM> 无新邮件任务。`
+- 先读 `/Users/klaus/.claude/tasks-board/closed_log.json`，取 `reported` 为 false 的条目（面板自动关掉的、snooze 到点放回的），发完把它们改成 true 写回。
+- 发信：From klaus@ To klaus@，主题 `[邮件简报] MM/DD HH:MM · 新任务 N · 已关 M`，正文 HTML 短段落，按这个顺序，没有的段省略：
+  - 🆕 新任务：一行一条「<Case> — <Klaus 要做的事>」
+  - ✅ 已关（移出 inbox）：一行一条「<Case> — <为什么关>」（含本轮 B1「不是我的」和 closed_log 里的）
+  - ⏰ snooze 到点回来：一行一条
+  - ❓ 待判断 / 留在 inbox：一行一条「<主题> — <为什么拿不准>」，最后一行「非案件 N 封留在 inbox」
+  - 🤖 本地机：一行
+- 这封简报本身：发出后给它打 label「Claude」（`Label_911606009448008035`），**下一轮 Step 1 读到主题以 `[邮件简报]` 开头、发件人是 klaus@ 的，直接写 mail_seen.json 跳过**（它不是任务）。
+- 本 routine 唯二能发的邮件：Step A 回本地机、这封简报（只发给 klaus@ 本人）。
+
+## Step 8 — 输出（简体中文，纯文本）
+同简报内容，再加一行「简报已发 Gmail <id>」。
