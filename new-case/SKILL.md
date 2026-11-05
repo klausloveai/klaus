@@ -767,7 +767,7 @@ whole case block; a blank passenger cell makes it look like that client never si
 | Client Name (B) | `=HYPERLINK("<intake sheet webViewLink>","Firstname Lastname")` — name only, no CM tag | plain text `"Firstname Lastname"` — **no hyperlink, no CM tag, no "(minor)" tag** |
 | Retainer (C) | `Standard 1/3` or `New 50%` (per table above) | **same value as the driver — never blank** |
 | Referrer (D) | leave blank (Klaus fills manually) | leave blank |
-| Case Status (E) | `✒️Signing` (from template) | `✒️Signing` (from template) |
+| Case Status (E) | `✒️Signing`；Klaus 说 `retainer signed` → `⚠️Pending`（`--status`） | same as driver |
 | Note-Claims (F) | `Retainer sent M/D` | same text + same blue formatting (keep from template copy; see background rule below) |
 | 1LOR → Property Damage (G–M; **F–L on Claims@**) | keep Example Row values — do not override | **EMPTY + no color** — clear all 7 values *and* reset their background to white; one case only needs one primary record row |
 | Ambulance → Health Ins Lien (cols N–T) | **keep Example Row template values (P / Pending) — do NOT pull from intake** | keep Example Row template values |
@@ -1086,7 +1086,8 @@ added automatically as owner — he is in every space.**
    import json, subprocess
    user_notes = "<user's verbatim reply — do NOT edit, translate, or reformat>"
    mentions = " ".join(f"<users/{i}>" for i in MENTION_IDS)   # order per the step-4 table
-   msg = {"text": f"{mentions} new case\n\n{user_notes}"}
+   status_line = "<retainer 状态句，见下表>"
+   msg = {"text": f"{mentions} new case\n\n{user_notes}\n\n{status_line}"}
    subprocess.run(["gws", "chat", "spaces", "messages", "create",
      "--params", '{"parent":"spaces/XXXX"}',
      "--json", json.dumps(msg, ensure_ascii=False)])
@@ -1094,7 +1095,18 @@ added automatically as owner — he is in every space.**
    Verify the response `annotations` contain `USER_MENTION` entries for each @mentioned person.
    **Do NOT add, edit, translate, or reformat the user's text in any way.**
 
-   > 🔒 **The message body is a CLOSED SET: the step-4 @mention list + one case-name line + Klaus's notes verbatim.
+   **Retainer 状态句 —— 每条 new-case 消息末尾固定加一行（Klaus 2026-11-05：「发到 chat 里的内容之后都默认加一下」）：**
+
+   | Klaus 的 prompt | 状态句（逐字，M/D 换成实际日期） | Master Case Status |
+   |---|---|---|
+   | 发合同（`new retainer` / `standard retainer`） | `M/D 合约已发出，等待客户签约后启动。` | `✒️Signing` |
+   | `retainer signed` / `retainer signed, skip` | `客人已经签约，我们可以启动。` | **`⚠️Pending`**（`add_tracking_row.py --status "⚠️Pending"`） |
+   | 只说 skip、没说签没签 | 不加状态句 | `✒️Signing` |
+
+   M/D = Step 13 实际发出 retainer 的日期（Step 11 在 Step 13 之前跑时，按今天写；没发出就回头删掉这一句）。
+   `retainer signed` 的案子同样走 Step 13b 签约挂 CM —— 合同类型从 DocuSign 已签的 envelope 主题 `(New)` / `(Standard)` 读，读不到就问。
+
+   > 🔒 **The message body is a CLOSED SET: the step-4 @mention list + one case-name line + Klaus's notes verbatim + the retainer 状态句 above.
    > Nothing else may appear in it. Ever.** The following are all FORBIDDEN in the Chat message,
    > no matter how useful they look:
    > - **Drive folder link / intake-sheet link / any URL** (the team opens the case from Drive and
@@ -1375,7 +1387,7 @@ Examples:
 > 而不会出现延误，不会说需要它再主动去连接一下这个案子。」—— 所以 **DocuSign 一发出就签约**，不等客户签完，
 > 也不让 CM 自己 `claim_my_case`。
 
-**只在 Step 13 真的发出 retainer 时做。** retainer skip → 跳过本步，A 列留客户编号。
+**Step 13 真的发出 retainer，或 Klaus 说 `retainer signed` 时做。** 只说 skip、没说签了 → 跳过本步，A 列留客户编号。
 
 1. **`sign_lead`**（每条线索签一次；一车多人每人各自的线索各签一次）：
 
