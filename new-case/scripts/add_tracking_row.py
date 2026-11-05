@@ -90,6 +90,11 @@ def main():
         col["DOL"] = 0
         print(f"note: {a.tab} has no 'DOL' header; column A is blank -> treating A as DOL")
 
+    # After the Case ID column was added at A (2026-11), some tabs left B's header blank while B holds the DOL.
+    if "DOL" not in col and len(hdr) > 1 and str(hdr[0]).strip() == "Case ID" and not str(hdr[1]).strip():
+        col["DOL"] = 1
+        print(f"note: {a.tab} has 'Case ID' in A and a blank B header -> treating B as DOL")
+
     def need(name):
         if name not in col:
             sys.exit(f"column {name!r} not found in {a.tab} header: {hdr}")
@@ -145,6 +150,10 @@ def main():
     put(3, "Client Name", f'=HYPERLINK("{link}","{a.client}")')
     if a.referrer:
         put(3, "Referrer", a.referrer)
+    # Klaus 2026-11-05: cases referred by 小朱修车 send the car to that shop, so Property Damage
+    # starts at "小朱修车 Ref" instead of the Example Row's "Ask Klaus".
+    if a.referrer.strip() == "小朱修车":
+        put(3, "Property Damage", "小朱修车 Ref")
     put(3, "Case Status", a.status)
     if a.retainer_sent:
         put(3, "Note-Claims", f"Retainer sent {a.retainer_sent}")
