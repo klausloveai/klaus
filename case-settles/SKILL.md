@@ -191,6 +191,11 @@ Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP 
     journal shows it; if not known, leave it blank and list it in the hand-off. Never guess a date or check #.
 20i. Compare the workbench's computed figures (client net, fee split 5% / Cassie / Joe / CM) with the DIS
     letter. Any cent gap → gate 2, raise it.
+    ⚠️ **「MedPay 写进了 letter」defaults to checked — untick it when the DIS has no MedPay, with a real
+    mouse click.** Unticking it through `form_input` looks fine on screen but does NOT persist: on 2026-11-05
+    all four November drafts (Hao Zhang, Yixuan Li, Hao Qu, Xuebing Song) came back checked after save.
+20i-2. **After saving, re-open the draft (编辑) and read every field back** — inputs, the checkbox, the
+    summary block — then 关闭. Only a re-opened draft proves what was stored.
 20j. **保存草稿 — do not click 交给财务.** Hand Klaus a short table (case code · coverage totals · fee ·
     cost · each provider/check # · each carrier check # · client check # · 2995 date or "blank") so he can
     check it and submit himself. If Elena sends one back, her reason shows in「给 Klaus 的话」; fix and
