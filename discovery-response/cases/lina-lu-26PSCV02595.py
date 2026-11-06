@@ -689,7 +689,7 @@ def build(kind, d):
                    ["//Defendant, in pro per://", "", "**ROSALBA LUNA**"]),
                   (["Colin H. Walshok", "Shealie E. Brew", "Wingert Grebing Brubaker & Walshok LLP",
                     "1230 Columbia Street, Suite 400", "San Diego, California 92101-3370",
-                    "cwalshok@wingertlaw.com", "sbrew@wingertlaw.com", "lsherwood@wingertlaw.com",
+                    "cwalshok@wingertlaw.com", "sbrew@wingertlaw.com", "rgerardo@wingertlaw.com",
                     "cstone@wingertlaw.com", "(by electronic mail)"],
                    ["//Attorneys for Defendants://", "",
                     "**RICHARD REYES and ZORAIDA TORRES, as Trustees of the TORRES REYES FAMILY TRUST**"]),

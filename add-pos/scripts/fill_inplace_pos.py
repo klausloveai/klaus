@@ -56,6 +56,7 @@ TEMPLATE_ID = "1yHMojbfNpE_C6aeZ30Td7qXypwLp0sok"
 TNR = "/System/Library/Fonts/Supplemental/Times New Roman.ttf"
 SIZE = 12
 SIG_W = 115.0          # pt on the page
+ESERVICE = "klaus@lingtulaw.com"   # declarant's electronic service address
 
 
 def signature_png(workdir):
@@ -203,6 +204,18 @@ def fill_doc(d, sig_png, date, city, declarant, translator):
                 r = rule_above(L, i)
                 if r: sign_on(pg, runs(pg, r["rect"])[0], sig_png, aspect); log.append("POS signature")
             elif t == declarant:
+                r = rule_above(L, i)
+                if r: sign_on(pg, runs(pg, r["rect"])[-1], sig_png, aspect); log.append("POS signature")
+            # Hernan's Lina Lu / Amazon layout (2026-11-06): "My electronic service address is"
+            # with the blank on the same or the next line; a bare rule, "Signature" under it,
+            # then "Print name: ____".
+            elif rs and ("electronic service address is" in t or
+                         (t.strip("_. ") == "" and any(L[j]["text"].endswith("electronic service address is")
+                                                       for j in range(max(0, i - 3), i)))):
+                write_on(pg, rs[0], ln["base"], ESERVICE); log.append("POS e-service address")
+            elif t.lower().startswith(("print name", "printed name")) and rs:
+                write_on(pg, rs[0], ln["base"], declarant); log.append("POS name")
+            elif t == "Signature":
                 r = rule_above(L, i)
                 if r: sign_on(pg, runs(pg, r["rect"])[-1], sig_png, aspect); log.append("POS signature")
     return log
