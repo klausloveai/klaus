@@ -1,6 +1,6 @@
 # Voiceover Video Sync
 
-Use this reference from the `voice` skill to align narration and visuals.
+Use this reference from the `chatcut-voice` skill to align narration and visuals.
 Preserve which medium drives timing: an existing visual target uses the
 visual-led workflow below; a new MG sequence built around narration uses the
 narration-led workflow. Do not change an accepted timing direction implicitly.
@@ -8,7 +8,7 @@ narration-led workflow. Do not change an accepted timing direction implicitly.
 ## New MG driven by narration
 
 When narration drives a new MG sequence and no existing visual windows constrain
-it, split the confirmed script into semantic/visual beats and follow `voice` for
+it, split the confirmed script into semantic/visual beats and follow `chatcut-voice` for
 voice choice and TTS generation. Generate the audio segments first, then use the
 completed assets' actual durations to set MG windows and duration. Estimates are
 planning budgets only; do not freeze timeline windows or finalize dependent MG
@@ -84,7 +84,7 @@ talking-head workflow for editing existing spoken content.
    whose fit status is `too long` or `uncertain` until you tighten the wording,
    split the line, adjust supported speed, or ask the user to approve the timing
    tradeoff.
-7. Follow the `voice` skill's audition workflow if the user has not picked a
+7. Follow the `chatcut-voice` skill's audition workflow if the user has not picked a
    voice. Generate TTS per mapped segment.
 8. After each TTS segment finishes, read the real audio duration before placing
    it. If the real duration exceeds its visual window or would make the

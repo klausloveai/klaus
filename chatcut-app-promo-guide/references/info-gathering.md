@@ -54,7 +54,7 @@ Border radius, spacing, and button styles have no designSpec field. Keep them fo
 
 Save what was actually extracted. Do not invent a color or a font to fill a role, and do not fold catalog-preset aesthetics into the brand.
 
-**When the brand cannot be obtained** - no URL, extraction failed, and the user has no materials - say so, then fall back to the normal style alignment in `create-motion-graphics` (catalog presets). Do not silently substitute a preset for a brand the user expected you to use.
+**When the brand cannot be obtained** - no URL, extraction failed, and the user has no materials - say so, then fall back to the normal style alignment in `chatcut-create-motion-graphics` (catalog presets). Do not silently substitute a preset for a brand the user expected you to use.
 
 ---
 

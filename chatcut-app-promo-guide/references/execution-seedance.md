@@ -1,6 +1,6 @@
 # Execution Path: Seedance 2.0
 
-Seedance 2.0 can generate visuals, voiceover, and music in one generation, with a maximum duration of 15 seconds per generation. This document explains how to convert the Phase 1/2 results into Seedance input. For exact invocation and parameters, see the `video-gen` skill.
+Seedance 2.0 can generate visuals, voiceover, and music in one generation, with a maximum duration of 15 seconds per generation. This document explains how to convert the Phase 1/2 results into Seedance input. For exact invocation and parameters, see the `chatcut-video-gen` skill.
 
 ## Script -> Prompt
 
@@ -18,7 +18,7 @@ Write the brand information extracted in Phase 1 into the prompt. You can integr
 
 ## Asset selection
 
-Pass reference images to `submit_video` as project image assets (see the `video-gen` skill). Reference images should include the product images extracted and registered in Phase 1: logo, feature screenshots, UI images.
+Pass reference images to `submit_video` as project image assets (see the `chatcut-video-gen` skill). Reference images should include the product images extracted and registered in Phase 1: logo, feature screenshots, UI images.
 
 These reference images help Seedance understand the product appearance, UI style, and brand visuals so generation remains consistent with the references.
 

@@ -82,6 +82,8 @@ Choose a family whose glyph coverage includes the actual copy. A Latin family na
 
 Playback, export and frame capture wait for pending font requests. A failed request may still render with fallback, and an unknown family is not automatically downloadable. Cached remote fonts persist across restarts. Do not promise a particular face based solely on successful source validation; review the native output. Font choice supports the composition and subject, and does not replace either.
 
+Native source analysis is declared with `push_asset.capabilities`; read [processing capabilities](processing-capabilities.md) for consumer support, source bindings and nullable results. HTML receives each declared ID in `render(ctx)`; Remotion receives it on `item`.
+
 ## HTML entry and lifecycle
 
 Use exactly one module script, inline or referencing a local JS/TS file; local stylesheet links and relative module imports stay inside the source directory. The module default-exports `mount({ root, props, timeline, viewport })`, which may be async and returns `render`, `dispose`, and optionally `update`:
@@ -262,6 +264,37 @@ entry; relative imports resolve from the linked entry path. Keep the source
 set available for playback/export. Importing creates an asset, while
 `edit_item` places it on the timeline.
 
+### Optional Remotion-compatible source
+
+ChatCut's Remotion runtime implements its own registered modules and host-driven
+frame context. A component that renders in ChatCut is not automatically a
+standalone Remotion project. `export format:"motion_graphic"` renders ProRes
+4444 video. `inspect_asset includeCodeFile:true` copies stored asset source
+into the agent workspace; it does not generate a Remotion project or collect
+all supporting files. Keep the original authored source set.
+
+Honor a request for native Remotion source as the primary deliverable. When the
+user also wants a ChatCut asset, adapt the source for that runtime and validate
+both outputs separately. Reuse the actual graphic source and preserve its
+visual behavior; do not substitute a different animation. A standalone package
+needs an explicit Remotion entry/registration wrapper, composition dimensions,
+fps and duration, dependencies and all referenced source/media files. Supply
+the graphic's `item.props` values through the wrapper. Resolve ChatCut-specific
+globals, asset IDs, font loading and native processing inputs explicitly;
+those host services are unavailable in a normal Remotion project.
+
+Only call the source Remotion-compatible after the actual package resolves its
+dependencies and renders in the target Remotion runtime. Compare representative
+entry, settled and exit frames with the ChatCut result, including a visible
+property override when controls are included. ChatCut import validation and
+native frame capture establish the ChatCut result only. If standalone rendering
+or faithful adaptation is unavailable, preserve the requested framework source
+and progress, continue available authorized recovery, and identify the unverified
+rendering or compatibility. Include ChatCut source only as an additional requested
+or useful artifact; it does not replace the native deliverable goal. Do not present
+a wrapper, planned adaptation or rendered video as verified source conversion.
+Do not promise automatic HyperFrames or Manim source export.
+
 ## Preloaded helpers
 
 <!-- BEGIN generated:mg-injected-globals -->
@@ -269,6 +302,6 @@ set available for playback/export. Importing creates an asset, while
 
 These helpers are preloaded by the installed Desktop Flux runtime. This list describes convenience globals; it is not an import allowlist.
 
-`AbsoluteFill`, `Arrow`, `Callout`, `CaptionText`, `Circle`, `createRoundedTextBox`, `culori`, `cutPath`, `d3`, `Easing`, `Ellipse`, `evolvePath`, `extendViewBox`, `fillTextBox`, `fitText`, `FitText`, `fitTextOnNLines`, `getBoundingBox`, `getLength`, `getPointAtLength`, `getSubpaths`, `getTangentAtLength`, `Heart`, `Icon`, `Img`, `interpolate`, `interpolateColors`, `interpolatePath`, `interpolateStyles`, `Loop`, `makeArrow`, `makeCallout`, `makeCircle`, `makeEllipse`, `makeHeart`, `makePie`, `makePolygon`, `makeRect`, `makeSpark`, `makeStar`, `makeTransform`, `makeTriangle`, `Math`, `measureText`, `noise2D`, `noise3D`, `noise4D`, `normalizePath`, `parsePath`, `Pie`, `Polygon`, `random`, `React`, `Rect`, `resetPath`, `reversePath`, `scalePath`, `Sequence`, `Series`, `Spark`, `spring`, `Star`, `staticFile`, `Trail`, `Transform`, `translatePath`, `Triangle`, `useCallback`, `useCurrentFrame`, `useEffect`, `useGsapTimeline`, `useLayoutEffect`, `useMemo`, `useRef`, `useState`, `useVideoConfig`, `Video`, `warpPath`
+`AbsoluteFill`, `Arrow`, `Callout`, `CaptionText`, `Circle`, `createRoundedTextBox`, `culori`, `cutPath`, `d3`, `Easing`, `Ellipse`, `evolvePath`, `extendViewBox`, `fillTextBox`, `fitText`, `FitText`, `fitTextOnNLines`, `getBoundingBox`, `getLength`, `getPointAtLength`, `getSubpaths`, `getTangentAtLength`, `Heart`, `Icon`, `Img`, `interpolate`, `interpolateColors`, `interpolatePath`, `interpolateStyles`, `Loop`, `makeArrow`, `makeCallout`, `makeCircle`, `makeEllipse`, `makeHeart`, `makePie`, `makePolygon`, `makeRect`, `makeSpark`, `makeStar`, `makeTransform`, `makeTriangle`, `Math`, `measureText`, `noise2D`, `noise3D`, `noise4D`, `normalizePath`, `parsePath`, `Pie`, `Polygon`, `random`, `React`, `Rect`, `resetPath`, `reversePath`, `scalePath`, `Sequence`, `Series`, `Spark`, `spring`, `Star`, `staticFile`, `Trail`, `Transform`, `translatePath`, `Triangle`, `useCallback`, `useCurrentFrame`, `useEffect`, `useGsapTimeline`, `useLayoutEffect`, `useMemo`, `useRef`, `useSpecialEffects`, `useState`, `useVideoConfig`, `Video`, `warpPath`
 
 <!-- END generated:mg-injected-globals -->

@@ -9,7 +9,7 @@ shell details in this file.
 - Combined form shell
 - Canonical media data gate
 - Visual cards
-- Avatar preview cards
+- Character image choices
 - Voice audition cards
 - Ordinary fields
 - Submission and answer parsing
@@ -74,11 +74,10 @@ authoritative tuple, then use the tuple id to resolve media:
   type, name, summary, and selection fields together: official voices retain
   the returned `voiceRef`; custom voices retain `customVoiceId` + the exact
   `previewUrl`. Never replace the display name with a generic trait label.
-- Avatar: follow `digital-human` to resolve ready public catalog identities.
-  Keep each identity ID, name, `widgetPreviewVideoUrl`, and
-  `widgetPreviewImageUrl` together. These are public CDN copies resolved by
-  the server; provider `previewVideoUrl` / `previewImageUrl` are not usable in
-  Claude's iframe. Never derive media from the name or ChatCut identity ID.
+- Character: follow `chatcut-digital-human` and read each candidate with
+  `manage_character action="get"`. Keep the returned `characterId`, name,
+  description, and main image URL together. Do not derive a URL from the name
+  or ID, or replace a private portrait with unrelated public media.
 - Media: resolve `design-style/<preset.id>` and the official voice's returned
   `sampleMediaKey` (such as `voice/<voiceId>/ja`)
   through [widget-media.json](widget-media.json) beside this reference, only
@@ -89,9 +88,9 @@ authoritative tuple, then use the tuple id to resolve media:
 
 Before `show_widget`, verify every visible label maps back to exactly one
 authoritative tuple. Its media must use the matching manifest key for a Design
-Style or official voice, or the public avatar's exact returned
-`widgetPreviewVideoUrl` / `widgetPreviewImageUrl` on `cdn.jsdelivr.net`.
-If a catalog lookup fails, stop instead of guessing.
+Style or official voice, or the character's exact main image URL from
+`manage_character get` when the host permits it. If a lookup fails, report it
+instead of guessing.
 
 ## Visual cards
 
@@ -134,27 +133,21 @@ the choice genuinely needs that range. Use a wrapping grid and make images fill
 their card width without hardcoded light/dark colors. Never use the original S3,
 CloudFront, or `app.chatcut.io` thumbnail in widget HTML.
 
-## Avatar preview cards
+## Character image choices
 
-Keep the `digital-human` shortlist and its original identity-to-name mapping.
-Use the same selectable non-button `.elicit-pill` pattern as voice cards so a
-native video player can live inside the card. Set its media frame to 4:5, matching
-ChatCut's native avatar picker; do not reuse the 16:9 style-image recipe. Use
-`<video controls loop playsinline preload="metadata">` with the returned
-`widgetPreviewVideoUrl` and `poster` set to `widgetPreviewImageUrl`. Both
-must be the exact public CDN URLs returned by the official catalog. Style the video with
-`display:block; width:100%; aspect-ratio:4/5; object-fit:cover`. With image-only
-media, use the returned `widgetPreviewImageUrl` with the same frame. Omit
-identities with neither public widget preview; never substitute an unrelated
-portrait or use the provider/runtime URLs. Do not write handlers
-or scripts to emulate native hover playback.
+Reuse the `chatcut-digital-human` shortlist and its character-to-name mapping. Each image
+comes from that character's main image URL returned by `manage_character get`.
+Use the visual card structure above only if the current host allows that image URL;
+keep `characterId` in the label-to-ID map and use the returned name as the visible
+choice. Never upload private portraits to the public widget-media CDN to make a
+picker work.
 
-In the same `.elicit-pills` group, append a localized label-only create action
-mapped to `create_avatar`, then an Other `.elicit-pill[data-other]` and the
-adjacent `.elicit-other[data-for]` input, as in the voice recipe below. The
-input's `data-for` must match the group's `data-name`. Other describes the
-desired presenter for a refined catalog search; neither action selects an
-identity or authorizes generation. Keep `show_widget` submission unchanged.
+The current Claude media policy below blocks private/runtime URLs. When a character
+image cannot be displayed, ask which character to use in a concise text question.
+An already @ mentioned or attached character needs no picker. If there are no saved
+characters, ask for a portrait through chat and continue the `chatcut-digital-human` creation
+flow. An Other answer clarifies the desired person; it does not select a character
+or authorize generation.
 
 ## Voice audition cards
 
@@ -229,7 +222,7 @@ Repeat the playable `.voice-card` for each returned voice option, before the
 two action pills. Include exactly one clone pill and one Other input in the
 group, and keep `data-for` equal to its `data-name`. Submit through the form's
 existing single `.elicit-submit` and wait for the user to send the filled
-answer. Route clone and Other through the `voice` skill before attempting TTS.
+answer. Route clone and Other through the `chatcut-voice` skill before attempting TTS.
 
 Each playable card is both the single
 selection boundary and the container for its player. Do not add a nested
@@ -310,10 +303,11 @@ local path with Desktop's `push_asset` tool.
   answer appears as a real user message.
 - A rebuilt iframe returns to its initial display; there is no durable submitted
   state.
-- Inline media comes only from the bundled manifest's allowlisted CDN or the
-  official catalog's public `widgetPreview*` URLs. A runtime/custom preview URL
-  does not gain iframe access merely because a ChatCut tool returned it.
+- Inline media must satisfy the current host's allowlist. The bundled manifest
+  supplies allowed public style and voice media. A character image or custom voice
+  preview does not gain iframe access merely because a ChatCut tool returned it.
 - Keep private media out of the public CDN. Use a supported host media surface
-  or ChatCut for private previews; keep clone, create, and Other branch actions.
+  or ChatCut for private previews, or ask a text question to select a character.
+  Keep voice clone and Other branch actions.
 - Reload the current `read_me` once per session. If the host contract changes,
   prefer the current contract.

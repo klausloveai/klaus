@@ -5,21 +5,30 @@ Read this document before generating with `model: "seedance2"`, `model: "seedanc
 ## Capabilities
 
 - Duration: 4–15 seconds (default 5s) via `durationSeconds`
-- Audio: always on (music, narration, ambient). There is no audio toggle parameter for Seedance 2.0.
-- Aspect ratio: `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, or `adaptive` via `ratio`. `adaptive` auto-follows the input image's ratio — the backend auto-rewrites `ratio` to `adaptive` when `firstFrame` or `lastFrame` is set.
-- Resolution: `480p`, `720p` (default), or `1080p` via `resolution`. Cost scales
-  with pixel count — Ark bills width x height x fps x seconds, so 1080p costs
-  about 2.25x 720p and 480p about half. Pick 480p for throwaway drafts and
-  1080p only when the user needs delivery quality. `seedance2mini` tops out at
-  720p.
+- Audio: always on (music, narration, ambient). There is no audio toggle parameter for Seedance 2.0. A prompt can ask for no music or no dialogue, but the model may not comply; for a silent clip, mute the clip's audio after import. Mark sound in the prompt as Ark documents: music in `()`, sound effects in `<>`, dialogue in `{}`, on-screen subtitles in `【】`.
+- Dialogue: keep each clip's dialogue in one language; for lines that are not Chinese or English, name the language before the line (`says in Japanese {こんにちは}`).
+- Aspect ratio: `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, or `adaptive` via `ratio`. With `firstFrame`/`lastFrame`, omitting `ratio` follows the image's aspect; passing a ratio center-crops the frame to it, so only pass one when the user wants that crop.
+- Resolution: `480p`, `720p` (default), `1080p`, or `4k` via `resolution`.
+  `4k` is full `seedance2` only (3840x2160 at 16:9): 10-bit H.265/HEVC, and
+  noticeably slower to generate (5-8 minutes for a 4s clip). Cost scales with
+  pixels x seconds (Ark bills width x height x 24fps x seconds as tokens), so
+  1080p costs about 2.5x 720p, 480p about half, and 4k about 2x 1080p.
+  Reference-video seconds are billed too, at a lower per-token rate, with at
+  least 4s counted. Pick 480p for throwaway test runs, 1080p when the user
+  needs delivery quality, and 4k only when they ask for 4K. `seedance2mini`
+  and `seedance2fast` top out at 720p. In ChatCut's own chat the confirmation
+  card shows the exact credit quote.
+- Continuity: `returnLastFrame:true` also saves the clip's unwatermarked last
+  frame as an image asset; pass it as the next clip's `firstFrame` to continue
+  the shot.
 
 ### `seedance2fast` — the low-latency variant
 
-`seedance2fast` is Seedance 2.0 Fast: identical inputs, modes, and references, tuned to return in minutes rather than around ten, with the same 4–15s range. One cap versus full 2.0 — it supports **480p and 720p**, with 720p as the maximum (`resolution:"1080p"` is rejected). Roughly 20% cheaper per second than full 2.0. Pick it when the user is iterating and wants the 2.0 look without the wait; use full `seedance2` for 1080p or final delivery quality.
+`seedance2fast` is Seedance 2.0 Fast: identical inputs, modes, and references, tuned to return in minutes rather than around ten, with the same 4–15s range. One cap versus full 2.0 — it supports **480p and 720p**, with 720p as the maximum (`resolution:"1080p"` is rejected). Roughly 20% cheaper per second than full 2.0. Pick it when the user is iterating and wants the 2.0 look without the wait; use full `seedance2` for 1080p, 4k, or final delivery quality.
 
 ### `seedance2mini` — the cheap variant
 
-`seedance2mini` is Seedance 2.0 mini: identical inputs, modes, references, and 4–15s range, at roughly half the per-second cost. The one difference is resolution — mini outputs **720p only**; passing `resolution:"1080p"` is rejected. Pick it for cheap drafts or high-volume batches; use full `seedance2` when the user needs 1080p or top fidelity. Everything else in this document applies unchanged.
+`seedance2mini` is Seedance 2.0 mini: identical inputs, modes, references, and 4–15s range, at roughly half the per-second cost. The one difference is resolution — mini outputs **480p or 720p** (720p max); passing `resolution:"1080p"` is rejected. Pick it for cheap test runs or high-volume batches; use full `seedance2` when the user needs 1080p, 4k, or top fidelity. Everything else in this document applies unchanged.
 
 ## Input Channels
 
@@ -38,18 +47,20 @@ Two categories:
 
 Limits: 9 ref images, 3 ref videos, 3 ref audio. Each file ≤200MB (video), <30MB (image), ≤15MB (audio).
 
+Media bounds (Ark's own for every Seedance 2.x model; MiniMax's differ): frame images, reference images, and reference videos 300–6000 px per side with width/height 0.4–2.5; reference videos 407,696–8,295,044 total pixels (about 480p to 4K) at 24–60 fps.
+
 All frame/reference slots accept a project **asset id** (UUID or short prefix from `browse_assets`), `asset://<id>`, a same-project asset URL, or a public HTTPS/`s3://` resource URL. Pass public resources directly without downloading or `push_asset`; they stay outside the library and the backend measures their actual duration and dimensions.
 
 ## Modes (inferred from params)
 
 Modes are inferred automatically from which params you pass — there is no separate mode parameter.
 
-| Param combination                                                  | Mode                        | Notes                                                                                                                                                                                                                                                                                       |
-| ------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prompt` only                                                      | text-to-video               | No visual input                                                                                                                                                                                                                                                                             |
-| `firstFrame` alone                                                 | image-to-video              | Animate forward from a specific start frame                                                                                                                                                                                                                                                 |
-| `firstFrame` + `lastFrame`                                         | first-last-frame transition | Strict start → end frames                                                                                                                                                                                                                                                                   |
-| any of `refImages` / `refVideos` / `refAudios` (alone or combined) | reference-guided            | Generation guided by one or more references. What each reference _does_ (style guide, subject anchor, motion continuity, editing existing footage, bridging segments, …) is driven by the **prompt**, not by how many refs you pass. See §Editing & Extending for concrete prompt patterns. |
+| Param combination                                                                                       | Mode                        | Notes                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prompt` only                                                                                           | text-to-video               | No visual input                                                                                                                                                                                                                                                                             |
+| `firstFrame` alone                                                                                      | image-to-video              | Animate forward from a specific start frame                                                                                                                                                                                                                                                 |
+| `firstFrame` + `lastFrame`                                                                              | first-last-frame transition | Strict start → end frames                                                                                                                                                                                                                                                                   |
+| any of `refImages` / `refVideos` / `refAudios` (alone or combined; `refAudios` needs an image or video) | reference-guided            | Generation guided by one or more references. What each reference _does_ (style guide, subject anchor, motion continuity, editing existing footage, bridging segments, …) is driven by the **prompt**, not by how many refs you pass. See §Editing & Extending for concrete prompt patterns. |
 
 **Frame and reference modes are mutually exclusive.** Do not combine `firstFrame` or `lastFrame` with `refImages`, `refVideos`, or `refAudios`. If multimodal references should influence the opening or closing composition, use reference mode and describe that intent in the prompt; this is indirect. Use frame mode when the supplied image must be the exact first or last frame.
 
@@ -130,7 +141,7 @@ Seedance 2.0 understands these terms well:
 
 ## Multi-shot within a single clip
 
-A single 4–15s Seedance generation does not have to carry only one camera setup. With clear sub-shot structure in the prompt (`Shot 1: ... → Shot 2: ...`, or timestamp slicing `0–2s ... | 2–4s ...`), the model strings several sub-shots into a continuous beat inside one clip.
+A single 4–15s Seedance generation does not have to carry only one camera setup. With clear sub-shot structure in the prompt (`Shot 1: ... → Shot 2: ...`), the model strings several sub-shots into a continuous beat inside one clip. Number the shots rather than giving second-level timestamps: Volcengine's 2.0 prompt guide says 2.0 does not follow timestamps reliably (Seedance 2.5 does).
 
 **Characteristic.** A single generation is a single inference pass — subject identity, lighting, color, and style are physically consistent across the whole clip as a natural byproduct of one diffusion process. When the same beats are split into multiple separate clips, each clip is an independent inference; subject identity, lighting, and color tend to drift across clips and need `refImages` / `refVideos` to keep them aligned.
 
@@ -151,10 +162,10 @@ A single sub-shot still follows the one-camera-movement rule. Multiple camera mo
 
 ```
 8s, 9:16, cinematic.
-Shot 1 (0–2s): Full shot, she walks onto the red carpet, soft top-light, slow forward dolly.
-Shot 2 (2–4s): Medium shot, she turns to camera, holds @Image1 perfume bottle, key light from camera-left.
-Shot 3 (4–6s): Close-up on @Image1, gentle rotation, shallow depth of field.
-Shot 4 (6–8s): Medium shot, she smiles back at camera, dress hem flutters.
+Shot 1: Full shot, she walks onto the red carpet, soft top-light, slow forward dolly.
+Shot 2: Medium shot, she turns to camera, holds @Image1 perfume bottle, key light from camera-left.
+Shot 3: Close-up on @Image1, gentle rotation, shallow depth of field.
+Shot 4: Medium shot, she smiles back at camera, dress hem flutters.
 4K sharp details, character face stable, no mutation, no clipping, hands anatomically correct.
 ```
 
@@ -162,7 +173,7 @@ Shot 4 (6–8s): Medium shot, she smiles back at camera, dress hem flutters.
 
 These are **prompt-driven use cases** of the `reference-guided` mode — they produce a **new generated video clip** based on a source clip, not timeline edits. The output is a fresh asset; the original is not modified.
 
-All three patterns pass the source clip(s) via `refVideos`; the use case is determined by what the prompt asks for. The source video must be a completed generation (use its `assetId`).
+All three patterns pass the source clip(s) via `refVideos`; the use case is determined by what the prompt asks for. Any project video or public video URL can be the source.
 
 | Use case   | What the prompt asks                                                           | Example prompt                                        |
 | ---------- | ------------------------------------------------------------------------------ | ----------------------------------------------------- |

@@ -18,7 +18,7 @@ This is an upgrade of the previous Omni branch, not evidence that it beats Seeda
 | Text-to-video            | `prompt`                                             |
 | First-frame animation    | `prompt`, `firstFrame`                               |
 | First/last interpolation | `prompt`, `firstFrame`, `lastFrame`                  |
-| Subject references       | `prompt`, up to 3 `refImages`                        |
+| Subject references       | `prompt`, up to 3 `refImages` (ChatCut's cap)        |
 | Targeted video edit      | `prompt`, `continueFrom`, optional `taskMode:"edit"` |
 | Video continuation       | `prompt`, `continueFrom`, `taskMode:"extend"`        |
 

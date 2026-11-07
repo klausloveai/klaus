@@ -5,9 +5,10 @@ Use `submit_image` with `gpt-image-2.5-flare` (default, everyday speed) or `gpt-
 - Generate from text or edit/combine up to 10 references using project `referenceAssetIds` and public-resource `referenceUrls`. Resources follow project references in order and need no library import.
 - `quality`: `low`, `medium`, `high` (ChatCut default), `xhigh`, `max`, `auto`. Higher quality can cost more and take longer.
 - `background`: `auto` (default), `opaque`, `transparent`. Transparent generates a PNG cutout for overlays or product assets.
-- `imageSize`: `1K` (default), `2K`, `4K`; only increase on request. Above 2560×1440 is experimental.
+- `imageSize`: `1K` (default), `2K`, `4K`; only increase when the user asks for it, directly or by approving a plan that names it. Above 2560×1440 is experimental.
 - `aspectRatio`: the ten ratios in SKILL.md. ChatCut maps these to valid multiples of 16 within the API pixel budget.
 - `count`: 1–10; each output is a separate job and consumes credits.
+- `prompt`: at most 32,000 characters; OpenAI rejects longer prompts.
 
 For a focused edit, identify what changes and what must stay, and reference the previous result. For typography, quote the exact text and describe its placement. A new output is a new asset; the source is preserved. Transparent backgrounds require Image 2.5. GPT Image 2 does not accept `xhigh` or `max`.
 

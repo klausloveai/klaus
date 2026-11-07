@@ -24,9 +24,9 @@ covers which control family a voice uses and how to write it.
 ## Official voices with `audioTags`
 
 These voices accept inline audio tags in square brackets, written directly in
-`text`. Tags only take effect with the `eleven_v3` model, and `submit_voice`
-does not switch to it on its own: whenever the text contains tags, also pass
-`modelId:"eleven_v3"` together with the voice's `voiceRef`.
+`text`. Choose `modelId:"eleven_v3"` or `modelId:"eleven_v4"` explicitly with
+the voice's `voiceRef`; the default `eleven_multilingual_v2` does not interpret
+these tags. Check `capabilities.controls.models` for the selected model.
 
 Useful tags (non-exhaustive; similar audible descriptions can be tried when the
 user asks for that delivery):
@@ -42,8 +42,13 @@ user asks for that delivery):
 - Accent and performance: `[strong French accent]` (any `[strong X accent]`),
   `[sings]`, `[singing]`, `[woo]`, `[pirate voice]`.
 
-The same voices also accept overall speed and stability; lower stability is
-more expressive.
+Controls depend on the model, not just the voice. v4 and v4 Turbo do not accept
+numeric `speed`; never send it or promise duration alignment from it. Keep v2
+for speed-controlled requests in its supported languages. v2 does not speak
+Vietnamese or Thai; use a compatible model rather than falling back to v2.
+v3 accepts at most 5,000 characters per request; v2 and v4 accept 10,000.
+Lower stability is generally more expressive. Keep the default model unless
+the requested language or delivery requires an explicit alternative.
 
 ## Official voices with emotion and direction controls
 

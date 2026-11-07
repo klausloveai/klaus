@@ -33,8 +33,8 @@ video, so do not decide the match yourself.
 - Before presenting those candidates, determine whether the current project
   contains a usable clean passage from this speaker. When it does, render the
   saved-voice audition as `<form-visual id="speakerCloneId">` with only the
-  playable saved voices. Do not use the general-picker ids `voice`, `voiceId`,
-  or `voiceRef`, and do not include a `clone_voice` action; those values belong
+  playable saved voices. Do not use `id="voice"`, `id="voiceId"`,
+  or `id="voiceRef"`, and do not include a `clone_voice` action; those values belong
   to the ordinary picker and open the editor cloning dialog.
 - Immediately after that audition widget, add one short localized sentence:
   - Chinese: `如果这些都不是，直接告诉我；我可以用当前项目里这位说话人的清晰音频重新克隆，不需要重新录制或上传。`

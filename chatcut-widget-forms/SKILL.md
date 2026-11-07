@@ -1,7 +1,53 @@
 ---
-name: widget-forms
-description: Build forms for ChatCut Desktop and connected external Codex or Claude hosts using the current host's form controls. Use for file inputs, structured input, and preview-based choices, including MG or Design Style image cards, voice auditions, and caption style previews.
+name: chatcut-widget-forms
+description: |
+  Show file inputs, structured questions and preview choices (文件输入/表单/预览选择) for another ChatCut skill using the current host's form controls. Load when that skill needs user input, not for general app or website form development.
 ---
+
+## Desktop connection in an external host
+
+Use this procedure only for a ChatCut route compatible with the user's goal.
+With working Desktop tools, continue. If tools are missing/disconnected, first
+reconnect without installing Desktop:
+
+`npx --yes --prefer-online @chatcut/cli@latest connect --no-install --json`
+
+Use existing authorization for connection and ordinary recovery. Honor actual
+host permission requirements without adding a repeated installation approval.
+Never remove --no-install to accommodate an older CLI: unguarded connect may
+install Desktop. An unsupported flag does not establish that Desktop is absent.
+Read-only doctor, an installed trusted launcher and supported host connection
+mechanisms can establish availability while the published CLI lacks the guard.
+
+Only an actual Desktop installation requires a host permission click for:
+
+`npx --yes --prefer-online @chatcut/cli@latest connect --allow-install --json`
+
+Explain that this may download/install the signed production Desktop, open it
+and connect CLI access. Submit the exact command through the host's supported
+permission prompt so the user clicks approval. Auto-allow, standing grants,
+bypass mode and a never-approve host cannot supply this installation click.
+Do not add permission rules or skill tool pre-approvals. Without a supported
+prompt, show the manual command without running it. If installation approval is denied,
+respect it; do not retry installation through another tool, installer or flags.
+The flag records approval already obtained; it cannot itself prove permission.
+Never remove --allow-install or bypass publisher validation to work around a
+CLI rejection. Preserve credentials, native-host opt-outs and ownership/path
+boundaries during targeted configuration repair.
+
+Check exit code, ok and the original result. Preserve the original error,
+diagnose recoverable package, transport or inspection failures within existing
+authorization, and inspect current state before retrying an uncertain mutation.
+Resume the original task after recovery; continue independent authorized work
+when a step remains blocked, honoring any refusal and upload restrictions.
+A successful connection proves CLI access separately from native host loading.
+Use skills read <name>, tools describe <name> --json and tools call as needed;
+preserve projectId and follow actual sign-in/service permission results.
+Before any paid generation, obtain a current supported quote for the exact
+parameters and explicit approval covering that price and scope. Reuse an
+existing approval that still covers the operation; do not invent pricing or
+resubmit an uncertain paid job without inspecting its task and billing state.
+
 
 # Widget Forms
 
@@ -73,7 +119,7 @@ class="elicit-submit">...</button>`. In Claude Code Desktop this fills the
      `action: "list_presets"` and `locale` matching the conversation language.
      Choose from that result and copy each returned `id` and `name` exactly.
      Never derive, translate, shorten, or improve a preset name from its image.
-   - Voice cards: load the `voice` skill and call `manage_voice` with
+   - Voice cards: load the `chatcut-voice` skill and call `manage_voice` with
      `action:"list"`, normally `voiceType:"all"`, plus the target narration
      language and conversation locale. Choose one returned tuple per card. Keep
      the returned `voiceRef` for official voices, or `customVoiceId` + the exact
@@ -83,17 +129,16 @@ class="elicit-submit">...</button>`. In Claude Code Desktop this fills the
      Every voice recommendation/selection group also includes a label-only
      clone pill and an Other pill with its adjacent text input, as shown in
      `references/elicit-recipes.md`. Keep the existing voice players in that
-     same group. Map the localized clone label to the `voice` skill's
+     same group. Map the localized clone label to the `chatcut-voice` skill's
      `clone_voice` branch; do not give clone or Other a player or a voice id.
      If either authoritative source is unavailable or times out, do not fabricate
      options and do not render a misleading form. Report the catalog problem
      concisely and retry only after the source is available.
-   - Avatar cards: load `digital-human` and use its ready live identities and
-     host-specific preview URLs. In Claude, only returned `widgetPreviewVideoUrl`
-     and `widgetPreviewImageUrl` are public widget media; never use the provider
-     preview URLs. Follow the avatar recipe in `references/elicit-recipes.md`
-     for 4:5 previews, the create action, and Other with its text entry. Keep
-     identity IDs in the label-to-id map; neither action is an identity.
+   - Character cards: follow `chatcut-digital-human`, using `manage_character action="get"`
+     for each candidate's main image URL. Keep `characterId`, name, description,
+     and image together. Follow the character recipe in `references/elicit-recipes.md`.
+     If the current host cannot display those images, ask a concise text question
+     instead of substituting a public portrait.
 6. Read [references/widget-media.json](references/widget-media.json), relative
    to this Skill's directory, only after the canonical tuples exist. Desktop
    ships this file with the Skill, including standalone MCP installations; do
@@ -103,10 +148,8 @@ class="elicit-submit">...</button>`. In Claude Code Desktop this fills the
    `sampleMediaKey`, then resolve each entry's `path` against `baseUrl`. Preserve
    the exact key, including a voice's language suffix. Missing entries use the
    exact authoritative label without a player or image; never substitute a
-   different voice, language, or style. Official avatars use only the returned
-   `widgetPreviewVideoUrl` and `widgetPreviewImageUrl` on `cdn.jsdelivr.net`;
-   omit avatars without either public widget preview and explain that their
-   previews are available in ChatCut. Keep the create and Other actions.
+   different voice, language, or style. Character images come from the character's
+   own `manage_character get` result, subject to the current host's media policy.
    Claude controls the widget's resource allowlist. Do not embed provider,
    ChatCut, S3, localhost, or private/runtime media URLs in the form, including
    custom voice `previewUrl`. Keep ready custom voices as label-only choices;
@@ -161,10 +204,9 @@ from the candidate list and continue without asking the same questions again.
 Immediately before `show_widget`, audit every media card in both directions:
 the visible label must map to exactly one authoritative tuple. Its media must
 resolve from that tuple's bundled manifest key for Design Styles and official
-voices, or equal that public avatar's returned `widgetPreviewVideoUrl` /
-`widgetPreviewImageUrl` on the allowlisted CDN. Custom voices have no inline
-player in this public-media recipe. An avatar without public widget preview
-media is omitted under `digital-human`'s media-only contract. A label copied from
-a different id, an invented alias, a shortened official name, or media chosen
-before the catalog lookup is a failed preflight. Fix the tuple instead of
-rendering it.
+voices, or equal that character's main image URL from `manage_character get`
+when the current host permits it. Custom voices have no inline player in this
+public-media recipe. Use a text question for characters whose images cannot be
+shown. A label copied from a different ID, an invented alias, a shortened official
+voice name, or media chosen before the source lookup is a failed preflight.
+Fix the tuple instead of rendering it.

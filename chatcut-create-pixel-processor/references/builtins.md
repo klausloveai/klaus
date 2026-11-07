@@ -62,7 +62,18 @@ Portrait supports one `video` or `image` clip. For the whole clip, pass `targetI
 
 Portrait's `feather` and `matteOffset` belong to the tool parameters. To update them, use `propertyOverrides` keys `mask.<toolId>.feather` and `mask.<toolId>.matteOffset`. Global transparency, alpha processing and stroke controls belong to the Mask effect; read their current definitions with `inspect_asset`. `outlineStyle` and `alphaProcessing` are static controls.
 
-For selection of a specific object, copy the complete `smart` tool from the same Mask templates with `operation:"intersect"`, then call `select_matte_object` with the returned full effect UUID or 10-hex prefix and source-normalized selection points. That tool confirms Smart Object selections; Portrait starts automatically without a point selection. Preserve unmentioned tools when replacing an existing Mask structure.
+For Smart Object cutout / 智能抠像, the agent can select subjects directly through `select_matte_object`; Viewer clicks and manual user selection are not required. Copy the complete `smart` tool from the same Mask templates, set its duration and use `operation:"intersect"`, then add the Mask with `edit_item`. Preserve unmentioned tools when replacing an existing Mask structure.
+
+Inspect the original source frame at the smart tool's actual start with `inspect_asset({assetId:"<source-asset-id>",sourceTimes:[<source-time-in-microseconds>]})`; for an image, use its automatic image preview. Choose points inside the requested subjects in that source image. Normalize each point as `x = sourcePixelX / sourceWidth`, `y = sourcePixelY / sourceHeight`, both in `[0,1)`. Exclude preview labels or grid padding, and use the source before timeline crop or transform.
+
+```text
+select_matte_object({
+  effectItemId: "<Mask effect UUID or 10-hex prefix returned by edit_item>",
+  promptPoints: [{x: <source-normalized x>, y: <source-normalized y>, positive: true}]
+})
+```
+
+The tool previews and confirms the selection, saves it and queues processing for the effect range. Multiple positive points can select multiple subjects; negative points exclude areas. `status:"processing"` means preparation is still underway. Use `preview_timeline` to verify the actual cutout before reporting completion. If the intended subject is ambiguous, ask which subject the user means. Portrait starts automatically without a point selection.
 
 ### Desktop Color
 
@@ -82,7 +93,7 @@ Import a `.cube` or `.3dl` file with `push_asset`:
 { "filePath": "/absolute/look.cube" }
 ```
 
-The import registers a standalone file-backed pixel effect and adds the file to the shared local LUT collection. Use the returned `library.id` content hash for Color; the project `assetId` identifies the standalone effect. Existing shared LUTs can be found through `browse_library({category:"luts"})`.
+The import registers a standalone file-backed pixel effect and adds the file to the shared local LUT collection. Use the returned `library.id` content hash for Color; the project `assetId` identifies the standalone effect. Existing shared LUTs and built-in looks can be found through `browse_library({category:"luts"})`; a listed built-in look is installed on first use. An ID that is not listed is rejected.
 
 ```json
 {

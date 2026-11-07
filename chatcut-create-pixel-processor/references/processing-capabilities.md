@@ -1,70 +1,77 @@
 # Pixel Effect processing capabilities
 
-Pixel Effects can consume native analysis and matte results derived from original source media. Declare every dependency in `push_asset.processingCapabilities`; undeclared namespaces are not exposed, and Export must know the complete demand before encoding.
+Pixel Effects consume native analysis of original media independently of their live pixel input. Declare dependencies at import with `push_asset.capabilities`; `processingCapabilities:string[]` is obsolete and rejected.
 
 ```json
 {
-  "filePath": "/absolute/project.chatcutproject/assets/pixel-effect/face-follow/effect.ts",
+  "filePath": "/absolute/project.chatcutproject/assets/pixel-effect/face-follow/effect.html",
   "type": "pixel-effect",
   "name": "Face Follow",
-  "processingCapabilities": ["face-tracking"],
+  "capabilities": [{ "id": "subject", "type": "face-tracking" }],
   "properties": []
 }
 ```
 
-Supported declarations:
+The declaration `id` chooses the render namespace: this example reads `ctx.subject.faces`, not `ctx.faceTracking.faces`. IDs are unique JavaScript identifiers, at most 128 characters, and cannot collide with runtime fields such as `input`, `frame`, `props` or `processing`. Declare at most 64 dependencies. Optional `condition` is a static boolean expression over declared editable property keys, such as `followSubject === true`. Condition properties cannot be keyframed. Undeclared namespaces are absent; disabled declarations expose fresh unavailable results. Never reuse the previous frame's observations.
 
-| Capability           | Render namespace   | Result                                                            |
-| -------------------- | ------------------ | ----------------------------------------------------------------- |
-| `face-tracking`      | `faceTracking`     | `faces`: observations or `null`                                   |
-| `object-tracking`    | `objectTracking`   | `rect`: normalized selected-object rectangle or `null`            |
-| `portrait-matte`     | `portraitMatte`    | `matteImage`, `matteWidth`, `matteHeight`                         |
-| `smart-object-matte` | `smartObjectMatte` | selected-object matte fields                                      |
-| `camera-motion`      | `cameraMotion`     | `pose`, `observation`, and optional window                        |
-| `color-descriptor`   | `sourceColor`      | original-video sidecar image, dimensions, and nullable descriptor |
+Use the live `push_asset` description for types admitted by the installed Flux runtime. Pixel Transitions do not accept capabilities.
 
-Each declared namespace is passed directly to `render`, alongside `frame`, `progress`, and `timeSeconds`. Results are fresh for the current source sample. `null` means unavailable: draw a deterministic fallback, normally the unmodified input. Do not retain host-owned matte or source images across renders.
+| Type                                       | Current result at `ctx[id]`                                                                      |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `face-tracking`                            | `{faces}` with bounds, confidence and five named facial keypoints                                |
+| `beauty-analysis`                          | Appearance frame with `faces`, including 106 source-normalized `[x,y]` points per face           |
+| `body-analysis`                            | Appearance frame with `bodies`, including 18 `[x,y,confidence]` points per body                  |
+| `face-analysis`                            | Dense face `landmarks`, metric `matrices`, source dimensions and timestamp                       |
+| `pose-analysis`                            | Pose `landmarks`, metric `worldLandmarks`, source dimensions and timestamp                       |
+| `hand-analysis`                            | Hand `landmarks`, `worldLandmarks`, `handedness`, source dimensions and timestamp                |
+| `person-segmentation`, `hair-segmentation` | Category probability `analysisImage` and `maskRects`, source dimensions and timestamp            |
+| `object-tracking`                          | `{rect}` for a confirmed selected object                                                         |
+| `camera-motion`                            | `{pose,observation}` in source-normalized coordinates                                            |
+| `beat-tracking`                            | `null` or `{beats:[{beat,timestamp}]}`; timestamps are microseconds relative to the Effect start |
+| `portrait-matte`, `smart-object-matte`     | HTML `matteImage` / Web `matteTexture`, plus `matteWidth`, `matteHeight`                         |
+| `depth-matte`                              | HTML `depthImage` / Web `depthTexture`, plus `depthWidth`, `depthHeight`                         |
 
-## Face tracking
+## Face and body observations
 
-`faceTracking.faces` is `null` while unavailable and `[]` when analysis completed but found no face. Face coordinates are normalized to the display-oriented original source. Observations include bounds and facial keypoints. Select a face deterministically every frame—for example, largest area with confidence as a tie-breaker—and derive the focal point from stable landmarks such as the eye midpoint.
+`faces:null` / `bodies:null` means unavailable. `[]` means analysis completed and found no subject. Face Tracking supplies five named keypoints; Beauty's face `points` supplies 106 landmarks and is a different contract. Body points carry individual confidence, which the authored treatment must check. Coordinates use the display-oriented original source, not the canvas or a preceding Effect's warped output. Convert through the clip crop/placement yourself and account for Effect ordering.
 
 ```js
-render({ faceTracking }) {
-  const faces = faceTracking.faces;
+render(ctx) {
+  const faces = ctx.subject?.faces;
   const face = Array.isArray(faces) && faces.length
     ? faces.reduce((best, candidate) => {
-        const area = (value) =>
-          Math.max(0, value.bounds.right - value.bounds.left) *
-          Math.max(0, value.bounds.bottom - value.bounds.top);
-        return area(candidate) > area(best) ||
-          (area(candidate) === area(best) && candidate.confidence > best.confidence)
-          ? candidate
-          : best;
+        const area = (v) => Math.max(0, v.bounds.right - v.bounds.left) *
+          Math.max(0, v.bounds.bottom - v.bounds.top);
+        return area(candidate) > area(best) ? candidate : best;
       })
     : null;
-  if (!face) {
-    ctx.drawImage(input, 0, 0, width, height);
-    return;
-  }
+  // Draw the current input first; absent analysis leaves that input unchanged.
+  canvasContext.drawImage(input, 0, 0, width, height);
+  if (!face) return;
   const x = (face.keypoints.leftEye.x + face.keypoints.rightEye.x) / 2;
   const y = (face.keypoints.leftEye.y + face.keypoints.rightEye.y) / 2;
-  // Reconstruct this frame's crop or decoration from x/y; do not accumulate motion.
+  drawDecoration(x * width, y * height);
 }
 ```
 
-Face identity continuity, smoothing, framing, and loss behavior belong to the Effect. Keep seeking deterministic: smoothing may use a bounded source-time window only when the runtime supplies one; do not depend on playback history.
+Declare Beauty as `{id:"people",type:"beauty-analysis"}` and read `ctx.people?.faces?.[0]?.points`; Body similarly uses `ctx.pose?.bodies?.[0]?.points` for a declaration named `pose`. Select subjects deterministically by returned identity/geometry. The 88 auxiliary facial points are derived by Flux's geometry helper; do not expect them in raw `extra`. Treat optional `skin`, `retouch`, `blemish`, `flow`, `fitting` and fitting-camera fields as nullable/empty. A plain custom declaration requests base detection; it does not activate built-in Beauty settings, makeup, skin segmentation or fitting. Those extra demands depend on the engine's appearance settings contract and are not general declaration options. Do not invent `skin:true` or `fitting:true` fields on `push_asset.capabilities`.
 
-## Object tracking and mattes
+Seek behavior must be deterministic. Do not accumulate smoothing or author fake coordinates when observations are unavailable.
 
-`objectTracking.rect` requires a confirmed selection stored on the placed Effect. The rectangle uses normalized source coordinates. When it is null, preserve the input. Do not author a fake trajectory.
+## Source selection and binding
 
-HTML matte capabilities expose `matteImage: HTMLImageElement | null`; Web capabilities expose the corresponding GPU texture. The matte contains premultiplied white with the matte in alpha. For Canvas 2D, draw the input to an owned staging canvas, switch to `destination-in`, draw the current matte, then composite the result. Smart Object Matte also requires a confirmed source-bound point selection; Portrait Matte does not.
+Each capability selects its own original compatible source. An Item target prefers that Item when compatible; otherwise the normal compatible-source scan starts at its track and proceeds downward. A track target scans that track and lower tracks. Bind a specific source track on the placed Effect with:
 
-## Source selection and validation
+```text
+edit_item({updates:[{id:"<effect-id>",type:"pixel-effect",capabilities:[{id:"subject",trackId:"<source-track-id>"}]}]})
+```
 
-Capability processing reads an original compatible source, independently of the Effect's current pixel input. Item-targeted effects automatically use that item's source. Track-range effects automatically choose the first compatible active source unless the placed Effect has an explicit per-capability `processing[capability].trackId`.
+The binding `id` must match an asset declaration. The array replaces all bindings; preserve sibling entries. `[]` restores automatic selection. An omitted array preserves existing bindings. An explicitly chosen track without compatible active media gives unavailable analysis, with no fallback to another track. Beauty, Body, Portrait, Depth and Smart Object impose the installed engine's target restrictions; in the released SDK these Pixel capabilities require an Item target. Use Video/Image/GIF for Beauty/Body, Video/Image for Portrait/Depth, and Video/Image/GIF for Smart Object. Camera Motion needs Video; Beat Tracking needs decoded Audio or Video sound.
 
-Native import validation checks declarations and exposes namespaces with unavailable synthetic results. It proves fallback execution only, not real analysis readiness. Apply the Effect to representative media, preview multiple frames including backward seeks, and verify actual tracking or matte output before delivery.
+Object Tracking and Smart Object Matte additionally need a confirmed source-bound selection on the instance; follow their selection tools rather than guessing a rectangle or trajectory. Source analysis is independent of preceding spatial Effects and is not automatically warped into their output.
 
-For the engine-level contract and maintained examples, see Blink's Processing, Pixel Effects, and HTML Pixel Effects documentation together with its processing Pixel Effect examples.
+## Images, unavailable results and verification
+
+HTML matte carriers contain premultiplied white with matte alpha. For Canvas 2D, draw the current input into an owned canvas, use `destination-in` with the current matte, then composite. Depth is opaque packed relative depth (R high byte, G low byte), not foreground alpha. Segmentation is an opaque category atlas; use the red-channel probability of each `maskRects` plane, not the atlas alpha. Native-bound images are owned by the current render invocation; do not change their attributes or retain them across frames. Web uses the corresponding auxiliary textures.
+
+Native import validation receives deterministic unavailable observations. Passing it verifies source and fallback execution; it does not prove that analysis started. Place the Effect on compatible media, verify processor/job progress for its consumer and capability ID, then inspect representative frames and backward seeks when visual quality is in scope. Missing inputs must keep a deterministic fallback rather than stale observations or a thrown exception.

@@ -7,7 +7,7 @@ question need not generate a report about the whole video.
 ## Establish the subject and evidence
 
 Resolve the actual source or composed timeline, requested range and useful outcome.
-Reuse readable media, the existing ChatCut transcript and frames. Analyzing a local
+Reuse readable media, available source transcripts and frames. Analyzing a local
 file does not require placing it on a timeline or uploading it. For a URL, use an
 available acquisition route; a thumbnail, page description or successful import
 alone does not establish its content. Report inaccessible media as a source gap.
@@ -35,14 +35,13 @@ when that precision changes the answer. Do not inspect every frame by ritual.
 
 ## Read speech from the ChatCut transcript
 
-This analysis assumes the media already has a ChatCut transcript. Read each
-scene's timestamped words from it through the host's transcript field or view,
-and put the words actually spoken in that interval into the scene's `audio`. Use
-the transcript of the media's own speech; a translated or reworded caption track
-does not record what was said. Do not transcribe again or reconstruct speech by
-listening. If the transcript is missing, still processing or unreadable for the
-range, report that gap and leave the speech unresolved; creating a transcript is
-the transcription workflow's job.
+Resolve needed speech using the [study completion guidance](../SKILL.md#complete-the-study-with-its-speech).
+Read each scene's timestamped words through the host's transcript field or view,
+and put the words actually spoken in that interval into the scene's `audio`.
+Use the transcript of the media's own speech; a translated or reworded caption
+track does not record what was said. Reuse accepted text rather than transcribing
+it again. Distinguish a completed result with no recognized words from pending,
+failed or unreadable speech; none of those alone proves the source has no speech.
 
 Keep the transcript's words, including uncertain or misrecognised terms. When
 on-screen text shows the intended spelling, note the correction instead of

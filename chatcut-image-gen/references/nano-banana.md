@@ -1,22 +1,22 @@
-# nano-banana (Gemini Pro)
+# nano-banana (Nano Banana Pro, Gemini 3 Pro Image)
 
-Read this document before generating images with `--model nano-banana`.
+Read this document before generating images with `model: "nano-banana"`.
 
 ## Model
 
-| Model         | Max refs | Strengths                     |
-| ------------- | -------- | ----------------------------- |
-| `nano-banana` | 14       | Best reference-image fidelity |
+| Model         | Max refs | Strengths                                            |
+| ------------- | -------- | ---------------------------------------------------- |
+| `nano-banana` | 14       | Best reference-image fidelity; strong text rendering |
 
 ## Params
 
-Nano Banana does NOT support `--quality`. Only shared params apply:
+Nano Banana does NOT support `quality` or a transparent background. Only shared params apply:
 
-| Param      | Values                      | Default | Notes                               |
-| ---------- | --------------------------- | ------- | ----------------------------------- |
-| `--size`   | `1K`, `2K`, `4K`            | `1K`    | 2K/4K are EXPERIMENTAL, higher cost |
-| `--aspect` | 10 ratios (see SKILL.md)    | `16:9`  | —                                   |
-| `--input`  | file path or `asset://<id>` | —       | Up to 14 references                 |
+| Param                                 | Values                                | Default | Notes                                                                                          |
+| ------------------------------------- | ------------------------------------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `imageSize`                           | `1K`, `2K`, `4K`                      | `1K`    | Fixed sizes, e.g. 16:9 is 1376×768, 2752×1536 or 5504×3072; 4K costs more                      |
+| `aspectRatio`                         | 10 ratios (see SKILL.md)              | `16:9`  | —                                                                                              |
+| `referenceAssetIds` / `referenceUrls` | project image ids / public image URLs | —       | Up to 14 (up to 6 objects, 5 characters, 3 styles); PNG, JPEG, WebP or HEIC, 7 MB each at most |
 
 ## When to Use
 

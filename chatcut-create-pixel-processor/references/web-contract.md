@@ -29,7 +29,7 @@ export class Passthrough extends EffectProcessor {
 
 The runtime supplies `ctx.inputTexture`, dimensions, timing, resolved `properties`, and declared processing namespaces. Return `ctx.inputTexture` when an optional analysis result is unavailable. Do not retain host-owned textures across calls.
 
-For face tracking, declare `face-tracking` during `push_asset`, then read `ctx.faceTracking.faces`. Select the main face deterministically and use normalized landmarks directly as texture coordinates:
+For face tracking, declare `capabilities:[{id:"faceTracking",type:"face-tracking"}]` during `push_asset`, then read `ctx.faceTracking.faces`. A different declaration ID changes that field name. Select the main face deterministically and use normalized landmarks directly as texture coordinates:
 
 ```ts
 protected render(ctx: EffectRenderContext): WebGLTexture {

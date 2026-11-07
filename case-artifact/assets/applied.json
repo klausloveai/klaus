@@ -10,7 +10,8 @@
     "https://claude.ai/artifact/SYxju1a4DPr7iYjsxmDVPw": {
       "case": "Yi Cong v. Edpao",
       "shell": "unknown",
-      "updated": "2026-10-28"
+      "updated": "2026-10-28",
+      "frozen": "2026-11-06：案子已转 Joe，Klaus 不再看，不再同步；案件数据以 Lingtu Data 为准"
     },
     "https://claude.ai/artifact/G9SJC8GxMimBmx7sR9YqzP": {
       "case": "Taichun Qin 案件卷宗",
@@ -25,7 +26,8 @@
     "https://claude.ai/artifact/B9XriLiTGUNaT8tuS8zZWN": {
       "case": "Mudong Huang v. Chelsea Pinpin",
       "shell": "unknown",
-      "updated": "2026-10-27"
+      "updated": "2026-10-27",
+      "frozen": "2026-11-06：案子已转 Joe，Klaus 不再看，不再同步；案件数据以 Lingtu Data 为准"
     },
     "https://claude.ai/artifact/WgfrzfD1278EpPU6TUowt5": {
       "case": "Lina Lu v. Arlene Luna",
@@ -40,17 +42,20 @@
     "https://claude.ai/artifact/KTGf6js77FuutaYqDoshxb": {
       "case": "Bo Tao v. Eutimeo Beas",
       "shell": "unknown",
-      "updated": "2026-11-04"
+      "updated": "2026-11-04",
+      "frozen": "2026-11-06：案子已转 Joe，Klaus 不再看，不再同步；案件数据以 Lingtu Data 为准"
     },
     "https://claude.ai/artifact/44Jo7FwvtBHhASX31DQrPm": {
       "case": "Weicong Lin v. Velazquez",
       "shell": "7.0",
-      "updated": "2026-11-06"
+      "updated": "2026-11-06",
+      "frozen": "2026-11-06：案子已转 Joe，Klaus 不再看，不再同步；案件数据以 Lingtu Data 为准"
     },
     "https://claude.ai/artifact/Vm9PNu1dT1kEH2tyhGi4Rk": {
       "case": "Gaoyang Qin v. Mahler",
       "shell": "unknown",
-      "updated": "2026-10-27"
+      "updated": "2026-10-27",
+      "frozen": "2026-11-06：案子已转 Joe，Klaus 不再看，不再同步；案件数据以 Lingtu Data 为准"
     },
     "https://claude.ai/artifact/VedUS7MSprHtRq7i3pWkJp": {
       "case": "Sai Choi Lau",
@@ -60,7 +65,8 @@
     "https://claude.ai/artifact/HRPsdn7tYuo41jkHCr5L6S": {
       "case": "Guolin Zhao v. Velazquez",
       "shell": "unknown",
-      "updated": "2026-10-27"
+      "updated": "2026-11-06",
+      "frozen": "2026-11-06：案子已转 Joe，Klaus 不再看，不再同步；案件数据以 Lingtu Data 为准"
     }
   }
 }

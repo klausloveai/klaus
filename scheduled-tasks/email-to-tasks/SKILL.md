@@ -98,6 +98,7 @@ Category 从这些里选：立案/送达 · 记录申请 · 保全 · 理赔 · 
   - ⏰ snooze 到点回来：一行一条
   - ❓ 待判断 / 留在 inbox：一行一条「<主题> — <为什么拿不准>」，最后一行「非案件 N 封留在 inbox」
   - 🤖 本地机：一行
+  - 💡 建议（Klaus 11/06：分析我为什么点清，当 proactive agent）：读 `/Users/klaus/.claude/tasks-board/clear_log.json`（Klaus 每次点「清」都记了发件人、收件人、主题、案子、当时的任务文字）。同一模式攒到 3 次以上（同一发件人 / 同一案子 / 同一类通知 / Klaus 只在 Cc），且这条建议没在 `clear_rules_proposed.json` 里提过 → 写一行「你最近清了 N 封 <模式>，以后这类要不要 <自动做法>？」，提过的写进 clear_rules_proposed.json。只提建议，Klaus 点头前不改任何规则。
 - 这封简报本身：发出后给它打 label「Claude」（`Label_911606009448008035`），**下一轮 Step 1 读到主题以 `[邮件简报]` 开头、发件人是 klaus@ 的，直接写 mail_seen.json 跳过**（它不是任务）。
 - 本 routine 唯二能发的邮件：Step A 回本地机、这封简报（只发给 klaus@ 本人）。
 

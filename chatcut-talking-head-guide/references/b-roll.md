@@ -13,7 +13,7 @@ B-roll depends on having suitable footage and adds production effort — treat i
 
 ### Sources
 
-Footage can come from three places: clips already in the project library, stock via `search_stock_media` followed by downloading the selected result to this computer and registering it with Desktop `push_asset`, or AI generation via the `video-gen` skill (Seedance 2.0, Plus-only). Pick based on the user's need; if unclear, align with the user upfront.
+Footage can come from three places: clips already in the project library, stock via `search_stock_media` followed by downloading the selected result to this computer and registering it with Desktop `push_asset`, or AI generation via the `chatcut-video-gen` skill. Pick based on the user's need; if unclear, align with the user upfront.
 
 ### Generated Motion Graphic B-roll
 
@@ -45,7 +45,7 @@ For **PiP / small-window overlay**:
 For **full-screen cutaway**:
 
 1. Compare the source aspect ratio with the canvas aspect ratio before choosing fit; do not default to cover without this check. For close aspect ratios, such as portrait source into portrait canvas or landscape into landscape with less than about 30% difference, use a full-canvas `fit:"cover"` first-pass so the B-roll owns the visual beat.
-2. For substantially different aspect ratios, such as landscape media in a vertical canvas or vertical media in a landscape canvas, do not place directly with cover. Inspect representative source moments with `inspect_asset` before choosing fit if you have not already viewed them, and use the `visual-analysis` skill when the protected region is not obvious.
+2. For substantially different aspect ratios, such as landscape media in a vertical canvas or vertical media in a landscape canvas, do not place directly with cover. Inspect representative source moments with `inspect_asset` before choosing fit if you have not already viewed them, and use the `chatcut-visual-analysis` skill when the protected region is not obvious.
 3. Identify whether protected information would be distributed across the area that cover would crop. Any readable text/UI, name/title, logo, brand strip, product edge, card, poster, document boundary, or subject on both sides of the frame is protected by default.
 4. After inspection, cover or safe crop is acceptable only if protected information would survive the crop, such as a single centered subject with low-information edges. Low-information contextual media, such as scenery, crowd shots, or other mood/context footage with no specific text or subject that must be preserved, can use cover even with a substantial aspect-ratio difference.
 5. If protected information would be lost, such as text/logos near edges, subjects on both sides, or a wide information layout like a fixture table or match poster, use `fit:"contain"` for the foreground and add a deliberate full-screen background such as an opaque MG background/matte that matches the edit or a blurred/enlarged duplicate/background layer. If a cover attempt only trims a compact subject/action that can be recovered without hiding other protected information, try a safer reframe/crop that moves the source protection frame fully into the canvas and closer to the intended center of attention.

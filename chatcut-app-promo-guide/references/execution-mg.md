@@ -11,13 +11,13 @@ Every MG authored design must include the brand parameters extracted in Phase 1 
 - **Corner radius**: borderRadius from `branding.spacing`.
 - **Button/CTA styling**: if the MG contains buttons, use styles from `branding.components`.
 
-Phase 1 must have saved the brand as the project Design Style (`manage_design_style` create, which applies it automatically). Direct authoring has no `designStyle` submission channel; include these values directly as design constraints and editable properties for `create-motion-graphics`.
+Phase 1 must have saved the brand as the project Design Style (`manage_design_style` create, which applies it automatically). Direct authoring has no `designStyle` submission channel; include these values directly as design constraints and editable properties for `chatcut-create-motion-graphics`.
 
 Do not leave brand information only in chat text, or replace an existing brand with a catalog preset for a branded promo.
 
 ## MG Authoring Requirements
 
-**Skill**: load `create-motion-graphics` for direct authoring.
+**Skill**: load `chatcut-create-motion-graphics` for direct authoring.
 
 - Feature-showcase MGs must use the extracted original images.
 - Logo animations must use the extracted real logo.
@@ -31,7 +31,7 @@ Do not leave brand information only in chat text, or replace an existing brand w
 
 ### A.1 Generate TTS
 
-**Skill**: `voice`
+**Skill**: `chatcut-voice`
 
 1. Write copy by script section (Hook / Solution / Features / CTA).
 2. Generate TTS by section or sentence for easier visual matching.
@@ -50,7 +50,7 @@ Generate an MG for each section according to the storyboard:
 
 ### A.3 Background Music
 
-**Skill**: `music`
+**Skill**: `chatcut-music`
 
 Set volume to 0.2–0.3 (voiceover leads; music supports). Match the product's tone, fading in at the start and out at the end.
 
@@ -72,7 +72,7 @@ Place MG visuals on an available video track. Put voiceover and music on separat
 
 ### B.1 Generate Music and Select a Section
 
-**Skill**: `music`
+**Skill**: `chatcut-music`
 
 Choose a section with clear rhythmic variation, strong downbeats, and distinct beat points. Keep the original volume (no voiceover).
 
