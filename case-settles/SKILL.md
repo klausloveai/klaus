@@ -202,6 +202,14 @@ Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP 
     leave it for Klaus to resubmit. Once locked, any change goes through Joe.
 
 ## Phase 5 — Team email  ← STOP GATE
+20z. **Packet completeness gate — incomplete = HOLD, do not send** (Klaus 2026-11-06: "检查一下这些
+    disbursement是否都完整，不完整的需要hold住再发"). Before building the email, tick off inside
+    `<Client>-Disbursements.pdf`: carrier check(s) · signed DIS · every outgoing check (client + each provider)
+    · **for every provider paid, its basis**: signed reduction letter / accepted remittance slip, or the bill when
+    paid in full. A provider whose signed letter came back by email after the scan (2026-11-06: Ben Shamoiel for
+    Yasuko Yui arrived 14:52, after the scan) is NOT in the packet until you insert it — search the case mailbox
+    for it, insert it before that provider's check, replace the Drive file in place (same id), then send.
+    If a piece cannot be found, hold the email and tell Klaus what is missing; the other money steps may proceed.
 21. **PI Master Sheet** `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM` — find the client in col B of
     the `Claims@` / `Piteam@` / `Picase@` tabs; the tab IS the owning mailbox.
 22. Switch identity with **`GOOGLE_WORKSPACE_CLI_CONFIG_DIR`** (not `GWS_CONFIG_DIR`, silently
