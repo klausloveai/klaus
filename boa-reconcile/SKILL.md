@@ -26,7 +26,7 @@ description: >
 | 2026-Disbursement Sheet | gsheet `1Av8_fj3MAekCM6RujmGWuFsYRnSG6MMbAskvPkFcs2U` tab **`Internal `**(尾空格) sheetId `1554087303` |
 | Pending Disbursed Sheet | `1b_vPr9WD7P9arR6DTTJRxeWs0apk8DTiTgc2iAzIrR0`（Template of 1/3 = sheetId 0）|
 | Completed Disbursed Sheet | `1EvsbLjAuRdTTfH3uyEmV3qFjmAtKCdfBPByVCMAF1kA`（对账不用它——搬案时全绿，看不出兑现）|
-| Account Journal | `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`，写前必备份到同目录 `Backups/` |
+| Account Journal | `~/Library/CloudStorage/GoogleDrive-klaus@lingtulaw.com/My Drive/Documents/Lingtu Law-Disbursement/IOLTA#3618/Account-Journal.xlsx`（Drive id `19dQmHqQzfHtAsSQuljVFZihBCSjeX45W`；路径会搬，失败就按 id 解析），写前必备份到同目录 `Backups/` |
 | Activity Log | `1XmV816UBTWcEyo65jQPquPLwGyqvllNGbYSSAhrIILA` → `Activity Log!A:J` |
 
 颜色：绿 = `{red:0,green:1,blue:0}`(#00ff00)，黄 = `{red:1,green:1,blue:0}`。非零才涂，$0 留白。
