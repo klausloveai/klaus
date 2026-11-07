@@ -22,7 +22,7 @@ FIRST：跑 `date "+%m/%d/%Y (%A) %H:%M"` 取真实日期时间，绝不猜。
 一封邮件算「已处理」= 它的 message id 已在 Activity Log I 列（记成了任务），**或**已在 `/Users/klaus/.claude/tasks-board/mail_seen.json`（判定不用记的）。label 不再作为已处理标记：带不带 label 都要读。
 - 记成任务的 → 写 Activity Log 一行（Step 4）。
 - 读完判定不用记的 → 把 `{"<message id>": "<MM/DD> <一个词理由>"}` 合并写进 mail_seen.json（文件不存在就新建 `{}`；读、合并、整体写回，别覆盖掉别人的条目）。**不写这一步，下一轮会重复读它。**
-- **不改已读 / 未读，不加星、去星。** 只有一种情况可以移出 inbox：Step 2 判定「不是 Klaus 的」且 thread 已有 user label（`Label_…`）。**没有 label 的一律不移出**（移出去就找不回来了）。办完的任务由面板（build.py → mailstate.py）自动关，不归本 routine。
+- **不改已读 / 未读，不加星、去星，本 routine 不移出任何邮件（Klaus 11/06 定）。** inbox 里每一封都要在 Task To-do 上有一条：记成任务的走 Activity Log；写进 mail_seen.json 的，面板会显示成「看一眼：<你写的理由>」，Klaus 看一眼点「清」才移出。所以 mail_seen 的理由要写成 Klaus 一眼能判断的话（谁在跟、什么事）。办完的任务由面板（build.py → mailstate.py）自动关。
 - 中途失败的那封两边都不写，下轮重来。
 
 ## Step 1 — 拉未读邮件
@@ -54,11 +54,11 @@ claude@lingtulaw.com 是律所 Windows 本地机上的 Claude。Klaus 从 klaus@
 
 **B. 不是 Klaus 的案子（Joe 线、各团队信箱的 PI 案、别的部门）→ 谨慎判断，三选一：**
 1. **确定不是他的**——下面四条**全部**满足才算：① Klaus 不在 To（只在 CC），或在 To 但只是群发通知；② 正文没有称呼他、问他、要他做事或决定；③ 有明确的经办人在跟（Joe / CM / Claire / 发件同事本人）；④ 不是对方律师 / 法院 / 保险公司在等我们回应而经办人不在收件人里。
-   → 写进 mail_seen.json（理由「不是我的：<谁在跟>」）→ **thread 有 user label 才移出 inbox**（`threads.modify` removeLabelIds INBOX）；没 label 且能对上案子 → 先打该案已有 label 再移出；对不上案子 → 不移出，进 Step 7 的「❓ 留着」。
+   → 写进 mail_seen.json，理由写「非你负责：<谁在跟>，<一句什么事>」→ **打上该案 label（见 Step 5），不移出 inbox**。面板出「看一眼」任务，Klaus 确认后自己点「清」。
 2. **确定是他的**（点名他、问他、只有他能办）→ 记成任务，J 以「【点名 Klaus】」开头。
 3. **拿不准** → 留在 inbox，记成任务，J 写「【待判断】是不是 Klaus 的：<一句理由>」，Step 7 单列。
 
-**C. 不是案件邮件**（BoA、订阅、推销、系统通知、所内行政）：不记任务，写 mail_seen.json；**没有 label 不移出 inbox**，在 Step 7 汇总一行「非案件 N 封留在 inbox」。
+**C. 不是案件邮件**（BoA、订阅、推销、系统通知、所内行政、日历接受回执）：不记任务行，写 mail_seen.json，理由写「<类别>：<一句什么事>」（面板显示成「看一眼」，Klaus 点「清」）。要人处理的系统通知（安全提醒、用量 / 权限申请、语音留言、传真）不算 C，记成任务。日历回执能对上案子的照样打该案 label。
 - Hernán 的邮件、法院 / One Legal 送达**失败或退件**、对方律师 / adjuster 来信：不管谁的案子都不能走 B1，至少是「拿不准」。
 
 **C 列 Case 怎么填**：对得上案子 → 案名（用 Activity Log 里已有的写法）；是案件邮件但认不出哪个案子 → `待指认`（这类永远留在 inbox）。
@@ -79,7 +79,12 @@ Category 从这些里选：立案/送达 · 记录申请 · 保全 · 理赔 · 
 **附件归档**：收到的文件下载 → 改成可读的中性名（如 `Police Report - 07.09.26.pdf`）→ 放进 Drive 该案案件夹的对应子文件夹；拿不准放案件夹根目录。只新增，绝不删除，绝不跨案搬。认不出案子的附件不动。
 
 ## Step 5 — 最后打 label
-只给记成任务的邮件打：对上案子 → 打该案已有的 Gmail label；`待指认` → 打 `待归档`（Label_31）。**绝不新建任何 label**（`待归档` 不存在就不打，旧的 `AI-待归档` 永不重建）。
+**所有案件邮件都要有 label（Klaus 11/06），不只记成任务的：**
+1. 先查 `/Users/klaus/.claude/tasks-board/label_aliases.json`（Klaus 教过的「案名 / 关键词 → label id」，主题、发件人、正文里的案名命中就用）。
+2. 再找该案已有的 Gmail label。
+3. 都没有：Joe / Hernán 线的案子（cases.json section 是 `Hernán, Klaus & Joe`，或 Hernán 写给 Joe 的）→ 在 `👥Hernan & Joe Cases/<案名>` 下新建（Klaus 教过的做法，例：Vellichor、Dominguez v. Nova Space Inc），新建后把「案名 → label id」写进 label_aliases.json。
+4. 还是认不出该打哪个 → 打 `待归档`（Label_31），记一行任务，J 写「【待指认 label】<主题>：打哪个 label？」，Step 7 单列。Klaus 回答后由任务总盘写进 label_aliases.json，以后同类自动打。
+其他情况不新建 label（旧的 `AI-待归档` 永不重建）。
 
 ## Step 6 — 刷新面板
 跑 `/opt/homebrew/bin/python3 -I /Users/klaus/.claude/tasks-board/build.py`，让 Task To-do 下次刷新就看到新任务。失败就在输出里写一行原因。
