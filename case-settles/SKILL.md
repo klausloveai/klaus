@@ -209,7 +209,13 @@ Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP 
     paid in full. A provider whose signed letter came back by email after the scan (2026-11-06: Ben Shamoiel for
     Yasuko Yui arrived 14:52, after the scan) is NOT in the packet until you insert it — search the case mailbox
     for it, insert it before that provider's check, replace the Drive file in place (same id), then send.
-    If a piece cannot be found, hold the email and tell Klaus what is missing; the other money steps may proceed.
+    **If a piece cannot be found → STOP the whole case and remind Klaus** (Klaus 2026-11-06: "没齐不应该发的，
+    需要提醒我，我会让你把现有的信息先放到她的disbursement folder里，等全齐了再完整跑一次"): say exactly what is
+    missing, file what you have into `Case Disbursements/<Client>/` (the paper is never held — see 0a), and do NOT
+    run the rest of the pipeline or send the email. When the missing piece arrives, run case-settles again from the
+    top, once, on the complete packet. Check this right after Phase 0, before any sheet or journal write.
+    If an email already went out incomplete: reply in that thread to Elena (Cc as the thread) saying what was
+    missing and attach the complete packet — draft it and wait for Klaus's "发".
 21. **PI Master Sheet** `1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM` — find the client in col B of
     the `Claims@` / `Piteam@` / `Picase@` tabs; the tab IS the owning mailbox.
 22. Switch identity with **`GOOGLE_WORKSPACE_CLI_CONFIG_DIR`** (not `GWS_CONFIG_DIR`, silently
