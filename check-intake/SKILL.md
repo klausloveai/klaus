@@ -198,10 +198,11 @@ another recovery still expected on this case?*
 So only two situations keep a check out of Case Disbursements: **a UIM claim still to come**, and **a
 standalone MedPay**. Everything else gets the folder.
 
-Column H (1Coverage) is no longer the test. A dollar figure there is still useful corroboration — if the
-UM limit is at or below the 3P limit just collected, no UIM recovery is possible regardless of what anyone
-says (Hongyu Luo, 2026-10-19: $20,000 UM vs $30,000 3P) — but "Cleared" means nothing and must not stall a
-batch, and an explicit marker in the Master Sheet such as "11/10 Uber UM" or status 🔔Collecting is a reason
+Column H (1Coverage) is no longer the test, and do not reason from it either. Comparing a UM figure there
+with the 3P limit just collected is NOT proof that no UIM is coming: Hongyu Luo's sheet showed $20,000 UM vs
+$30,000 3P, the 10/19 run concluded "no UIM possible", and Allstate then paid UIM $20,000 (chk 112998417,
+2026-11-06) on the vehicle owner's policy (insured Xiujuan Hu) — a passenger can sit under someone else's
+UM/UIM. "Cleared" means nothing either and must not stall a batch, and an explicit marker in the Master Sheet such as "11/10 Uber UM" or status 🔔Collecting is a reason
 to look harder at the Chat, not a decision by itself.
 
 When the Chat is silent or ambiguous on the UIM question, say so and ask Klaus rather than guessing.
