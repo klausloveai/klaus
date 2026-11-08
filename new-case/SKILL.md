@@ -63,6 +63,15 @@ When the user has not said otherwise *in advance*, apply these defaults and keep
   5. **Lingtu Data 登记字段**（Step 9a 要用，在这同一次确认里一起给 Klaus 看，不另停一次）：
      客户姓名、电话、`lead_source`（由 Referrer 推，见 Step 9a 对照表）、介绍人、`owner`，
      以及 `find` 查重结果（新客户 / 老客户 + 原编号 / 官网或总机已自动进库的线索）。
+  6. **介绍人（Referrer）—— 必列，缺了就问**（Klaus 2026-11-08）：和 assign、合同类型、DOL 列在同一次确认里。
+     取值顺序：Klaus 的 prompt → `find` 到的线索上已有的来源 / 介绍人 → intake。三处都没有 → **在这次确认里直接问 Klaus**，不猜、不留空往下走。
+     客人是从登记链接 `lingtulaw.com/dengji?r=<码>` 进来的：`r` 码可以反解出介绍人（`@<数字>` 是合作方 ID，否则是人名）：
+     `python3 -c "import base64,sys;c=sys.argv[1];b=base64.urlsafe_b64decode(c+'='*(-len(c)%4));k=b'lingtu-ref';print(bytes(x^k[i%len(k)] for i,x in enumerate(b)).decode())" <码>`
+     反解出 `@<数字>` 时，把 ID 给 Klaus 看、问是哪家合作方，不自己对名字。
+     确认后的介绍人同时用于：Master Referrer 列（`--referrer`）和 Lingtu Data `lead_source` / `referrer_name` / `source_detail`（Step 9a 对照表）。
+  7. **修车行（车在哪修）—— 必列，缺了就问**（Klaus 2026-11-08）：intake 里有车行名 / 地址就照抄；没有 → 在这次确认里问 Klaus
+     （Klaus 也可以回「还不知道」，就照写「未定」）。确认后写进 `log_lead` 的 `notes`，并列在最终回复里。
+     介绍人就是修车行（如小朱修车）时，两项写同一个名字。
 
   > ⚠️ **2026-10-08 改口径**：以前是「只在 Jerry 和 Amos 之间轮」，现在 **Picase@ 回到轮转里**，
   > 三个信箱一起算。**少的那个就是 next assign**（Klaus 原话）；并列时规则选不出来，直接问 Klaus。
@@ -772,7 +781,7 @@ whole case block; a blank passenger cell makes it look like that client never si
 | DOL (A) | Date of Loss (M/D/YYYY) | leave blank |
 | Client Name (B) | `=HYPERLINK("<intake sheet webViewLink>","Firstname Lastname")` — name only, no CM tag | plain text `"Firstname Lastname"` — **no hyperlink, no CM tag, no "(minor)" tag** |
 | Retainer (C) | `Standard 1/3` or `New 50%` (per table above) | **same value as the driver — never blank** |
-| Referrer (D) | leave blank (Klaus fills manually) | leave blank |
+| Referrer (D) | 开头确认里定下的介绍人（第 6 项），用 `--referrer` 写；Klaus 没定就留空并在最终回复里标出 | leave blank |
 | Case Status (E) | `✒️Signing`；Klaus 说 `retainer signed` → `⚠️Pending`（`--status`） | same as driver |
 | Note-Claims (F) | `Retainer sent M/D` | same text + same blue formatting (keep from template copy; see background rule below) |
 | 1LOR → Property Damage (G–M; **F–L on Claims@**) | keep Example Row values — do not override | **EMPTY + no color** — clear all 7 values *and* reset their background to white; one case only needs one primary record row |
