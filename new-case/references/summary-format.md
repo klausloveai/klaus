@@ -56,5 +56,10 @@ Confirm: "Original intake zip saved as 'Intake Responses.zip' in 1#Legal Documen
 ## 8. Lingtu Data 与完成核对
 - 编号：`<客户编号>`（新客户 / 老客户 / 官网已进库），owner、lead_source 各写一个词。
 - Master A 列：已写 <tab> 第 N–M 行。案卷：已挂 / 「签约后补」。
+- 企微群：群名和认领口令放在同一个代码块里，群名一行，下面每个有编号的客户各一行口令（规则见 SKILL.md Step 9a 第 7 条）：
+  ```
+  <案件 disk 名>⚠️
+  本群客户编号 <客户编号>
+  ```
 - Completion gate 7 项：全部通过；没通过的逐条写「未完成：<哪项> —— <原因>」。
 
