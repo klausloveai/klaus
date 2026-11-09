@@ -1699,3 +1699,6 @@ stop — do not build the argument for him.
 - `scripts/add_tracking_row.py` — **Gate 3**: builds the Step 10 tracking row by copying the
   Example Row (row 2) and then setting only the case fields. Mandatory — never hand-roll
   `insertDimension` + `values update` for the tracking sheet.
+
+## Appendix — 签约后 welcome 文案（2026-11-08）
+客户签完 retainer 后 Klaus 说「出 welcome 文案」→ 照 `references/client_welcome_after_signing.txt` 只换槽位输出（案件名称默认带 ⚠️；首行认领口令）。不属于建案 16 步，按需触发。
