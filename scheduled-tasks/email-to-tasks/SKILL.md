@@ -92,6 +92,7 @@ Category 从这些里选：立案/送达 · 记录申请 · 保全 · 理赔 · 
 跑 `/opt/homebrew/bin/python3 -I /Users/klaus/.claude/tasks-board/build.py`，让 Task To-do 下次刷新就看到新任务。失败就在输出里写一行原因。
 
 ## Step 7 — 每小时简报邮件（Klaus 11/04：每跑一次就发一封，像 WhatsApp 那种，一两句话；他看完就删）
+> ⏸ **已暂停（Klaus 11/08：「这个email简报功能暂停吧」）**：**不发简报邮件**。下面的内容照样整理（含 closed_log 改 reported、💡 建议），但只写进 Step 8 的 routine 输出，不发给任何人。Klaus 说恢复再删掉这段。
 本轮有任何动作（新任务、移出 inbox、snooze 放回、待判断、本地机回复）才发；什么都没有就不发，只输出一行 `【Claude】📬 <HH:MM> 无新邮件任务。`
 - 先读 `/Users/klaus/.claude/tasks-board/closed_log.json`，取 `reported` 为 false 的条目（面板自动关掉的、snooze 到点放回的），发完把它们改成 true 写回。
 - 发信：From klaus@ To klaus@，主题 `[邮件简报] MM/DD HH:MM · 新任务 N · 已关 M`，正文 HTML 短段落，按这个顺序，没有的段省略：
@@ -102,7 +103,7 @@ Category 从这些里选：立案/送达 · 记录申请 · 保全 · 理赔 · 
   - 🤖 本地机：一行
   - 💡 建议（Klaus 11/06：分析我为什么点清，当 proactive agent）：读 `/Users/klaus/.claude/tasks-board/clear_log.json`（Klaus 每次点「清」都记了发件人、收件人、主题、案子、当时的任务文字）。同一模式攒到 3 次以上（同一发件人 / 同一案子 / 同一类通知 / Klaus 只在 Cc），且这条建议没在 `clear_rules_proposed.json` 里提过 → 写一行「你最近清了 N 封 <模式>，以后这类要不要 <自动做法>？」，提过的写进 clear_rules_proposed.json。只提建议，Klaus 点头前不改任何规则。
 - 这封简报本身：发出后给它打 label「Claude」（`Label_911606009448008035`），**下一轮 Step 1 读到主题以 `[邮件简报]` 开头、发件人是 klaus@ 的，直接写 mail_seen.json 跳过**（它不是任务）。
-- 本 routine 唯二能发的邮件：Step A 回本地机、这封简报（只发给 klaus@ 本人）。
+- 本 routine 能发的邮件：Step A 回本地机；简报邮件暂停中（11/08 起）不发。
 
 ## Step 8 — 输出（简体中文，纯文本）
-同简报内容，再加一行「简报已发 Gmail <id>」。
+同简报内容（简报暂停期间：最后一行写「简报邮件已暂停，未发送」）。
