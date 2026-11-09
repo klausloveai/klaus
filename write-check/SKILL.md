@@ -216,6 +216,12 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
    starting a new one. After any edit-pencil repair, click **+ New Transaction** (or reload) before
    touching the form again.
 
+   ⚠️ **Click + New Transaction by `ref` (find "New Transaction button"), never by pixel.** Its position
+   moves with the height of the Mailing Address box (2-, 3- or 4-line addresses) and with page scroll.
+   2026-11-09: a pixel click missed, the form still held the previous client line, and the next payee
+   search was being typed into that saved row. Before typing a payee, confirm by JS that the form's
+   payee/memo/amount are empty; if not, reload and start again.
+
 4. **Review & STOP.** Show Klaus a table (payee, category, memo, amount, running balance,
    total) cross-checked against the signed letters + the reconciliation identity. Do NOT
    click Post Expenses.
