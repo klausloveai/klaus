@@ -1277,8 +1277,18 @@ pages of waiver text irrelevant to them). **2+ clients → always use one.**
 > **CC = the assigned mailbox itself:** `claims@lingtulaw.com` / `piteam@lingtulaw.com` /
 > `picase@lingtulaw.com`. **Mailbox not decided → `klaus@lingtulaw.com` only.**
 >
-> **Delete every other recipient the template carries** — the other two team mailboxes, Klaus
-> when a CM's mailbox is being kept, and any extra *signer* role the template picks up.
+> **🆕 2026-11-08 (Klaus) — the four templates now carry ONLY: Client1…(5) + Attorney (signers)
+> + ONE CC `Case Manager` = Klaus Liu / klaus@.** The three team-mailbox CC slots were deleted
+> from the templates. Reason (Klaus): Cindy sends retainers by hand from the template before a
+> case is assigned → Klaus must be on every one by default; the skill then **swaps the Klaus CC
+> for the assigned mailbox** (a draft envelope accepts added/updated CCs — only a *completed*
+> envelope refuses). So in step 3 below: `recipientsToUpdate.carbonCopies` on the Case Manager
+> CC → `name`/`email` = assigned CM / mailbox (`Amos Feng` claims@ · `Jerry Piao` piteam@ ·
+> `Jenkins Li` picase@). Mailbox not decided → leave Klaus as is.
+> If a template ever shows a team-mailbox slot or an extra signer again, it has drifted — fix
+> the template (Templates → ⋮ → Edit → Add recipients), don't just patch the envelope.
+>
+> **Delete every other recipient the template carries** — any extra *signer* role, any second CC.
 >
 > ⚠️ The template gains and loses roles over time. On 2026-09-11 it briefly carried a
 > **`Piteam@` SIGNER with 0 tabs at routing order 3** — a signer with no tabs blocks the
@@ -1339,6 +1349,10 @@ behalf. Set the minor's Docusign recipient as follows:
    recipientsToRemove: { signers: [ {recipientId:"3"}, {recipientId:"4"}, {recipientId:"5"} ] }
    ```
    Keep Attorney and Case Manager.
+3a. **Swap the Klaus CC for the assigned mailbox** (templates carry only Klaus since 2026-11-08):
+   `updateEnvelopeRecipients` → `recipientsToUpdate.carbonCopies: [{recipientId:<Case Manager id>,
+   name:"Jerry Piao", email:"piteam@lingtulaw.com"}]` (Claims@ = Amos Feng / claims@ ·
+   Picase@ = Jenkins Li / picase@). Read back with `listRecipients`.
 4. **Discover prefill tabs:** call `listEnvelopeDocuments` with `include_tabs=true`
 5. **Fill required prefill tabs:** call `updateEnvelopeTabs` with the DOL. Tab IDs must come
    from step 4 — never fabricate.
@@ -1356,11 +1370,9 @@ behalf. Set the minor's Docusign recipient as follows:
      (e.g. a `Piteam@` / `Picase@` / `Claims@` role) → remove it before sending; a 0-tab signer
      stalls the envelope forever.
    - **Exactly one carbonCopy may remain** — the assigned CM's mailbox (or klaus@ if no CM).
-   - **That CC's display NAME must be the current CM** — the templates still carry `Ryan Wei` on
-     picase@ (he has left; Klaus 2026-11-05: 「there is no more Ryan Wei, Picase only Jenkins Li」).
-     Fix it with `updateEnvelopeRecipients` → `recipientsToUpdate.carbonCopies` before sending:
-     claims@ = `Amos Feng` · piteam@ = `Jerry Piao` · picase@ = `Jenkins Li`.
-     Remove the rest.
+   - **That CC must be the assigned mailbox with the current CM's name** (step 3a):
+     claims@ = `Amos Feng` · piteam@ = `Jerry Piao` · picase@ = `Jenkins Li`. Never `Ryan Wei`
+     (left; Klaus 2026-11-05). Still Klaus while a mailbox is assigned → step 3a was skipped.
 
    If it is broken: delete the envelope and rebuild it with `roleName: "Client1"`. Do NOT send
    and fix later — once it goes out the client gets an unsignable contract.
