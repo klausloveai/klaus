@@ -696,7 +696,8 @@ for the tracking-sheet `=HYPERLINK(...)` formula.
 6. **读回核对**：再 `find` 一次，确认客户、线索、编号都在库里。**`find` 查不到就不算完成。**
 7. **企微群认领口令**（Klaus 2026-11-08 定）：工作台「企微群」页每 5 分钟抓一次客户群；群里出现
    「本群客户编号 XXXXX」（签约后是「本群案件编号 XXXXX-PI1」）就自动把这个群认领到该编号，之后群消息和附件都归这个案子。
-   最终回复 §8 在企微群名下面给出口令，**单独一行、单独一条消息发**，不夹在签约文案里
+   最终回复 §8 在企微群名下面给出口令；**签约文案代码块最上面也要列出口令**（Klaus 2026-11-08：「这个客户签约文案也需要列出在最上面即可」，见 Step 14），
+   旧做法「单独一行、单独一条消息发、不夹在签约文案里」作废
    （工作台能不能从长段落里认出编号，尚未确认）。拉群时多半还没签约 → 发客户编号；签约后系统自动转挂到案件，不用再发。
    已签约（13b 已跑）才拉群 → 直接发案件编号。一车多人：每个有编号的客户各一行；一个群能不能认领多个编号尚未确认，
    发完到工作台「企微群」→「已认领」核对，没认上的在「待认领」里点「选客户 / 案件」手动挂。
@@ -1482,7 +1483,11 @@ this step GENERATES text only, it never sends anything.
   Yutao 您好，我们已经把委托合同…
   ```
   Disk case name = same string as the case folder (dashes in the date), then the ⚠️ emoji,
-  no space before it. This header is the ONLY addition permitted to the closed set below.
+  no space before it.
+- **Claim-phrase lines go ABOVE the case header** (Klaus 2026-11-08): the very first line(s) of the
+  code block = `本群案件编号 <matter code>`, one line per client with a code (unsigned → `本群客户编号 <5-digit>`),
+  then a blank line, then the `<DISK case name>⚠️` header. Lets the workbench claim the WeCom group from the
+  same paste. These lines + the header are the ONLY additions permitted to the closed set below.
 - **中文（简体）+ 全角标点**（，。：？！）
 - **CLIENT NAMES ALWAYS IN ENGLISH — exactly as they appear on the ID.** Never write a
   client's Chinese name in the message, even though the rest of the text is 中文, and even
