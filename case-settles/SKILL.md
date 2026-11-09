@@ -78,8 +78,16 @@ check in FRONT, save as `<Client>-Disbursements.pdf`, then run this pipeline. Do
    both, in the order the money came in.
    The same page is what Phase 6 needs for `人伤/<Clients>-<M:D:YYYY>.pdf`, so finding it here does
    double duty.
-0a-4. **Build `<Client>-Disbursements.pdf`** = carrier check page(s) first, then that client's block, and
-   upload it into `Case Disbursements/<Client>/`. Create with `uploadType=multipart`, then `files update` to
+0a-4. **Build `<Client>-Disbursements.pdf`** in this page order (Klaus 2026-11-09: "支票是必须要放在第一个，
+   就是顺序是支票，然后 disbursement 给客人的 settlement 支票，然后 provider reduction lien，然后 provider
+   payment"): **① carrier check(s) → ② signed DIS → ③ client settlement check → ④ for each provider: its
+   reduction letter / slip / bill, then that provider's check.** Re-order the scan into this sequence (it
+   overrides "keep the scan order"). Upload it into `Case Disbursements/<Client>/`.
+   **Pieces may already be in Drive, not in the drop** (Klaus 2026-11-09: "他们的支票在 case disbursement folder
+   里面啊，之后我可能都不一定会上传…那边一般都会有支票的 copy，然后就直接合并"). Before calling anything
+   missing, look in `Case Disbursements/<Client>/` (and multi-claimant folders like `<A>:<B>`) for check scans,
+   the DocuSign DIS (also check DocuSign itself — a completed envelope not yet in Drive counts), and lien
+   letters; merge whatever is there. A run with no upload at all ("/case-settles <Client>") starts from that folder. Create with `uploadType=multipart`, then `files update` to
    rename and reparent off the shared-drive root — the two-call dance, or it lands as "Untitled".
 0a-5. Render the first 3–4 pages of each finished packet and eyeball them before moving on.
 Then run Phase 0 below once per client. **Funded clients proceed; an unfunded one stops at gate 1 even if
@@ -189,6 +197,9 @@ Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP 
     0a-3. Leaving it empty makes the trust inflow 0 and Elena cannot match the deposit.
 20h. **Client recovery check # and date**; **date the fee was transferred to 2995** — only if Klaus/the
     journal shows it; if not known, leave it blank and list it in the hand-off. Never guess a date or check #.
+    ⚠️ **「交给财务」is blocked until the 2995 date is filled** (toast「律师费转 PI Operating 要填日期」, seen
+    2026-11-09). Fees are swept to 2995 once a month, early the next month (June→7/3, Aug→9/3, Sep→10/7), so a
+    November draft cannot be submitted before the December sweep. When Klaus asks to submit, say so and ask.
 20i. Compare the workbench's computed figures (client net, fee split 5% / Cassie / Joe / CM) with the DIS
     letter. Any cent gap → gate 2, raise it.
     ⚠️ **「MedPay 写进了 letter」defaults to checked — untick it when the DIS has no MedPay, with a real
