@@ -14,8 +14,7 @@ Commands:
       edits JSON:
         {"edits": [
             {"cell": "L5",  "value": "Farmers Insurance Exchange"},
-            {"cell": "F5",  "value": "front-left; 3P rear"},
-            {"cell": "L13", "value": "213 E Dexter St, Covina CA 91723", "force": true}
+            {"cell": "F5",  "value": "front-left; 3P rear"}
         ]}
 
       Highlight (Klaus 2026-11-10): EVERY written cell stays YELLOW — a human
@@ -25,8 +24,9 @@ Commands:
 
       Guards:
         - Only yellow (pending) cells are writable.
-        - A non-yellow cell requires "force": true — use ONLY when a supplemental
-          document clearly confirms a correction to an already-confirmed cell.
+        - A non-yellow cell is NEVER writable (no colour = human-confirmed, Klaus
+          2026-11-10). If new material contradicts it, suggest the change to the
+          team in the case Chat instead. "force" is no longer accepted.
         - If any requested cell fails the guard, nothing is written.
       After writing, re-reads the sheet and verifies no unintended cell changed.
       Rollback: File > Version history > See version history in Google Sheets.
@@ -162,7 +162,7 @@ def cmd_apply(spreadsheet_id, edits_arg):
         coord = e["cell"].upper()
         cur   = before.get(coord, {"value": "", "yellow": False, "bg": None})
 
-        if not cur["yellow"] and not e.get("force"):
+        if not cur["yellow"]:
             refused.append(coord)
             continue
         if not cur["yellow"]:
@@ -195,8 +195,8 @@ def cmd_apply(spreadsheet_id, edits_arg):
 
     if refused:
         sys.exit(
-            f"REFUSED (not yellow; add \"force\": true only for a document-confirmed "
-            f"correction): {', '.join(refused)}\n"
+            f"REFUSED (not yellow = human-confirmed; never edit — suggest it to the team "
+            f"in the case Chat instead): {', '.join(refused)}\n"
             f"No changes written.")
 
     if not requests:

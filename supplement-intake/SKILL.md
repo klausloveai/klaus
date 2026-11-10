@@ -25,13 +25,12 @@ already-built case** without disturbing the work already done.
 Two rules define the whole skill, so internalize them before anything else:
 
 1. **Archive the new documents** into the existing case folder (same naming/placement as new-case).
-2. **Resolve pending (yellow) cells, and correct confirmed-but-wrong ones.** Yellow = "still
-   pending / needs attention" — fill these when the new images answer them. Un-highlighted cells
-   are already human-confirmed, so you don't *speculatively* touch them — but when a supplemental
-   **document clearly confirms a correction** to a non-yellow cell (e.g. the 3P driver's own DL
-   shows a different address than the owner's address entered earlier), fix it (the script needs
-   `"force": true`) and flag the change in your report. The bar for touching a non-yellow cell is
-   *document-confirmed*, not inference.
+2. **Fill pending (yellow) cells only — NEVER edit a non-yellow cell.** Yellow = "still pending";
+   fill these when the new images answer them (and keep them yellow). **No colour = a human has
+   already checked and confirmed it** (Klaus 2026-11-10). Even when a new document clearly shows a
+   non-yellow cell is wrong or outdated, **do not change it** — instead tell the responsible team in
+   the case Chat (Step 7, 「建议更正」 line, @ the CM) and list it for Klaus in the report. The team
+   decides and edits it themselves. There is no "force" path any more.
 
 This skill does **not** send LORs, file claims, or update the Master tracking sheet. Those are
 separate, outbound, or human-gated actions — keep this skill read-mostly and safe so it can run
@@ -229,8 +228,8 @@ Rollback (if needed): open the GSheet → **File → Version history → See ver
    `c.alignment=Alignment(horizontal="left",wrap_text=False)`. Highlight policy (same as 5a):
    - **every written cell stays / becomes YELLOW** (`PatternFill("solid", fgColor="FFFF00")`) —
      a human removes the colour after confirming (Klaus 2026-11-10);
-   - **document-confirmed** correction of a **non-yellow** cell → write, set yellow, and report it
-     (this is the `"force"` case — bar is document-confirmed, not inference).
+   - a **non-yellow** cell is NEVER written, even if a document contradicts it → put it in the
+     Step 7 「建议更正」 line instead.
 5. `wb.save(MNT)`.
 6. **Verify = full-sheet diff vs the backup**: re-open both, assert ONLY your named cells changed
    (value *and* yellow). If any other cell drifted, restore it from the backup and re-verify. Every
@@ -246,7 +245,7 @@ table, write nothing.
   untouched if nothing in this batch answers it — it stays pending for the next supplement.
 - **🟨 Everything you write stays YELLOW — Claude never removes the colour** (Klaus 2026-11-10:
   「改好的信息都保持黄，由人工确定后去掉颜色」). This applies even to values read straight off a
-  driver's license or insurance card, to directory-filled phone/email/fax, and to forced corrections.
+  driver's license or insurance card, and to directory-filled phone/email/fax.
   Yellow here means "Claude wrote this — a human hasn't confirmed it yet"; the CM/CA clears it after
   checking. The script does this by default. Pass `"unhighlight": true` on a cell ONLY when Klaus
   explicitly says that cell is confirmed.
@@ -298,7 +297,16 @@ gws chat +send --space "$SPACE" --text '【Claude】补充材料已归档 — <c
 • Intake 更新：<cell → value 的简单清单 or「无待填黄格，未改动」>'
 ```
 
-Start with `【Claude】`. **Three lines, that's the whole message.**
+Start with `【Claude】`. **Three lines, that's the whole message** — plus ONE optional fourth line
+when the new material conflicts with an already-confirmed (no-colour) cell:
+
+```
+• 建议更正（未改动，请 @<CM> 核对后自行修改）：<格> <字段>：表上「<现值>」，新材料「<新值>」（<哪份文件>）
+```
+
+Use a real @mention of the case's CM (resolve `users/<id>` as in new-case Step 11). State only the
+two values and the source document — no judgment about which is right, no other commentary. Claude
+never edits that cell itself (Klaus 2026-11-10).
 
 > 🔒 **The Chat note is a filing receipt, not a case memo.** Only: what was filed, where it went,
 > which intake cells changed. Everything else goes to Klaus in the Step 8 report instead.
