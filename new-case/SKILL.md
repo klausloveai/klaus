@@ -1736,6 +1736,7 @@ stop — do not build the argument for him.
 - `references/document-rules.md` — Per-document extraction rules (DL, AIC, police card, etc.)
 - `references/document-placement.md` — File naming conventions and folder placement
 - `references/summary-format.md` — Output summary format
+- `references/qa_templates/` — 狗咬咨询 9 问、伤口拍照须知（简版）、签约须知英文版（见其 README；英文版 Office hours 待 Klaus 补）
 - `scripts/verify_intake.py` — **Gate 2**: post-write type self-check (catches values written
   into the wrong field). Mandatory after filling the intake sheet, before Drive upload.
 - `scripts/add_tracking_row.py` — **Gate 3**: builds the Step 10 tracking row by copying the
