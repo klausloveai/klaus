@@ -298,7 +298,17 @@ Intake 更新（保持黄色，待人工确认）：
 • <格> <字段>：<原值> → <新值>（<依据>）'
 ```
 
-**Format (Klaus 2026-11-10 — follow exactly):**
+**客户第一次交 intake 表 = 不列格子**（Klaus 2026-11-10，Jie Yang）：表上几乎全是模板 `Pending`、这是客户第一份表单时
+（建案时客户还没填、之后才交第一份），Chat 只发一句话 + 必要的状态行，**不逐格列**——太多、没必要，CM 自己看表。
+Klaus 改定的样子：
+```
+【Claude】Jie Yang 合约已签好，客户 11/10 也交了 intake 表和证件照片，@Jenkins Li 可以启动了
+• 合约：客户 11/10 12:08 签字、蔡律师 12:29 签字（DocuSign）
+```
+「建议更正」那一行（无色格冲突）仍照下面规则加。下面的逐格清单**只用于真正的补充**：表上已有客户先前填的内容、这次补新信息时，
+告诉 CM 补了哪些、依据什么。
+
+**Format for real supplements (Klaus 2026-11-10 — follow exactly):**
 - Line 1: `【Claude】` + one sentence saying what came in. No separate 「内容」 or 「存放」 lines.
 - Then **one line per cell Claude actually changed**: cell + field, old → new, and the source in
   brackets. Never list cells you didn't change; never cram several cells into one sentence.
