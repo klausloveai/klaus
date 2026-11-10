@@ -336,6 +336,8 @@ Tell the user, concisely:
 - **Yellow cells updated** — cell → old → new (all still yellow, waiting for human confirmation).
 - **Still-pending yellow cells** that this batch couldn't answer (so the user knows what's outstanding).
 - **Flags / inferred / conflicts** — anything that needs human confirmation, plus any critical flag.
+- **建议更正（未改动）** — every no-colour cell the new material contradicts: cell, table value, new value,
+  source. Claude did not edit these; the CM was @'d in Chat.
 
 Offer obvious follow-ups (e.g. "send the 3P LOR now that we have the carrier" → `send-lor`) but do not
 perform them in this skill.

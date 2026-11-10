@@ -409,6 +409,18 @@ Other skills write real progress into this sheet after intake (e.g. `exer-lien` 
 UrgentCare with the booked appointment) — never let an initial-fill default overwrite a fact
 that already happened. See 「既成事实不被初填规则覆盖」 in cell-map.md.
 
+> 🔒 **No colour = human-confirmed → Claude NEVER edits it** (Klaus 2026-11-10: 「颜色去掉了，就代表
+> 人工已经查实过确认了。这种信息不管是不是第二次再发现有新的，都不应该直接改，可以在 chat 里面提醒……可以建议改，
+> 但是不直接改」). On any existing intake — re-fill, supplement, a second batch of materials, a later
+> skill writing progress — Claude writes **only into yellow cells** (and keeps them yellow). If new
+> material contradicts a no-colour cell, do NOT touch it: post one line in the case Chat, @ the CM:
+> `【Claude】建议更正（未改动，请 @<CM> 核对后自行修改）：<格> <字段>：表上「<现值>」，新材料「<新值>」（<来源>）`
+> — two values + source only, no judgment — and list it for Klaus in the report. The team edits it.
+> Same rule as `supplement-intake` Step 5/7. Once the CM/CA has started working on a sheet, Claude
+> does not even repaint colours (see memory feedback-no-edit-after-handoff).
+> To write into an existing native Sheet, use `~/.claude/skills/supplement-intake/scripts/update_yellow.py apply`
+> (it refuses any non-yellow cell and keeps written cells yellow) rather than `intake_io.py set`.
+
 ### Sub-step 6a — Insurance Directory Lookup
 
 Run this **after** writing I5 (1P insurer) and L5 (3P insurer) to the sheet.
