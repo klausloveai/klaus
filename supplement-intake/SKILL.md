@@ -357,7 +357,7 @@ Notes:
 
 补材料时顺手 `find` 客户编号：线索还不是 `signed`、`cases[]` 为空，但 DocuSign retainer 已发或已签
 （`listRecipients` 看客户 `status`）→ 当场跑 `new-case` Step 13b（sign_lead → link_case_folder → Master A 列换号 → find 读回），
-不等 CM 自己认领。合作方没定 → 问 Klaus 一次；不在工作台合作方名单 → 请 Klaus 先加。
+不等 CM 自己认领。合作方没定 → 问 Klaus 一次；不在工作台合作方名单 → 照 new-case Step 13b 自己在工作台「合作方」页加上再签。
 拿到案件编号后回填案件 AL 的 C 列，日志挂 `matter_code`。
 
 ## Step 8 — Report

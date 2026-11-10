@@ -1443,8 +1443,9 @@ Examples:
 > **默认必做，不等 CM 认领、不再问 Klaus 确认字段**（Klaus 2026-11-10：「之后都加到 skill 里默认做，不等 CM 自己认领了」）。
 > 合同类型、CM、CA 都能从 envelope 主题和 Master tab 定出来，直接签；CLAUDE.md「改阶段先问」对本步豁免。
 > 唯一会卡住的是**合作方**：开头闸门没说 → 当场问 Klaus 一次（AskUserQuestion），不留给以后；
-> Klaus 说的合作方不在工作台合作方名单里（`sign_lead` 报「合作方名单里没有…」）→ 告诉 Klaus 去工作台「合作方」加上，
-> 加好后立刻签，不要改成 `no_partner` 先签。
+> Klaus 说的合作方不在工作台合作方名单里（`sign_lead` 报「合作方名单里没有…」）→ **自己去加**（Klaus 2026-11-10：「你直接去后台把这两个合作方加上」）：
+> Claude in Chrome（Klaus 的 Chrome 已登录工作台；内置浏览器要验证码登录）打开 `lingtu-workbench.joe-c97.workers.dev/app/partners` →「添加合作方」→
+> 名称照 Klaus 原话、联系人、类别（机构/个人）、关系「介绍客户给我们」，佣金比例留空 → 保存，再签。不要改成 `no_partner` 先签。
 >
 > **补签触发**：任何 session（supplement-intake、催签、查签约、check DocuSign）发现 retainer 已发 / 已签，
 > 而 `find` 显示线索还不是 `signed`、`cases[]` 为空 → 当场补跑本步 1–4，不等 CM `claim_my_case`。
