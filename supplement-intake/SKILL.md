@@ -51,7 +51,7 @@ stay in one place. Read them as needed:
 - Carrier matcher script: `~/.claude/skills/send-lor/scripts/match_carrier.py`
 
 Bundled here:
-- `scripts/update_yellow.py` — the safe intake-sheet editor (guarded-write → un-highlight policy →
+- `scripts/update_yellow.py` — the safe intake-sheet editor (guarded-write → stays-yellow policy →
   diff-verify). **⚠️ Current version talks to the Google Sheets API and only works on a NATIVE
   Google Sheet (spreadsheet ID).** Many case intakes are still **.xlsx files** (if `gws drive files
   get … alt=media` downloads it, it's an .xlsx, not a native Sheet) — on those the script throws
@@ -181,7 +181,7 @@ This is the heart of the skill. **First decide which editor applies — native G
   throws `KeyError: 'sheets'` — use the **openpyxl safe-edit path** further down. Most pre-litigation
   case intakes are still .xlsx, so this is the common path.
 
-Either way the rules are identical (only yellow cells, un-highlight on confirm, full-sheet diff).
+Either way the rules are identical (only yellow cells, everything written stays yellow, full-sheet diff).
 
 ### 5a — Native Google Sheet (update_yellow.py)
 First see what's pending (pass the GSheet spreadsheet ID from Step 1):
@@ -207,7 +207,7 @@ python3 ~/.claude/skills/supplement-intake/scripts/update_yellow.py apply "<spre
   "edits": [
     {"cell":"L5","value":"Farmers Insurance Exchange"},
     {"cell":"L11","value":"B9749712"},
-    {"cell":"F5","value":"Client front-left; 3P rear","keep_yellow":true}
+    {"cell":"F5","value":"Client front-left; 3P rear"}
   ]
 }'
 ```
@@ -227,15 +227,14 @@ Rollback (if needed): open the GSheet → **File → Version history → See ver
 3. **Back up first:** `cp` the mounted file to `~/.supplement-intake-backups/<case>-<YYYYMMDD-HHMMSS>.xlsx`.
 4. **Write ONLY the named cells.** For each: `c.value=…`; `c.font=Font(name="Nunito",size=10,bold=False)`;
    `c.alignment=Alignment(horizontal="left",wrap_text=False)`. Highlight policy (same as 5a):
-   - filled a **yellow pending** cell → **un-highlight** (`c.fill=PatternFill(fill_type=None)`);
-   - **always-yellow review** field (F4/F5/C22/I15-16/L19-20/I24–28 …) → keep yellow
-     (`PatternFill("solid", fgColor="FFFF00")`);
-   - **document-confirmed** correction/fill of a **non-yellow** cell → write, leave fill as-is, and
-     report it (this is the `"force"` case — bar is document-confirmed, not inference).
+   - **every written cell stays / becomes YELLOW** (`PatternFill("solid", fgColor="FFFF00")`) —
+     a human removes the colour after confirming (Klaus 2026-11-10);
+   - **document-confirmed** correction of a **non-yellow** cell → write, set yellow, and report it
+     (this is the `"force"` case — bar is document-confirmed, not inference).
 5. `wb.save(MNT)`.
 6. **Verify = full-sheet diff vs the backup**: re-open both, assert ONLY your named cells changed
-   (value *and* yellow). If any other cell drifted, restore it from the backup and re-verify. If a
-   blank-yellow cell you filled is still yellow, you forgot to un-highlight it (step 4) — fix it.
+   (value *and* yellow). If any other cell drifted, restore it from the backup and re-verify. Every
+   cell you wrote must be yellow afterwards.
 
 A self-contained Python block doing backup→edit→diff is the right shape (see the Hong Wang
 2026-06 run). Honor a **dry-run** request: do steps 1–2 and print the proposed `coord → value`
@@ -245,13 +244,12 @@ table, write nothing.
 
 - **Only fill a yellow cell when the new images clearly support the value.** Leave a yellow cell
   untouched if nothing in this batch answers it — it stays pending for the next supplement.
-- **Confirmed data fields → un-highlight** (the script removes the fill). These are the factual
-  insurance / vehicle / driver / plate / address fields. Resolving them is the whole point of yellow.
-- **Always-yellow review fields → fill but KEEP yellow** (`"keep_yellow": true`). Per cell-map these
-  are judgment/tracking fields a human always re-checks: **F4** Fact of Loss, **F5** Point of Impact,
-  **C22** Injuries (and passenger injury cells), **I15/I16** Claim#/PD-Adjuster, **L19/L20**
-  Claim#/PD-Adjuster, and the **I24–I28** dec-page block (Dec Page / Collision Ded / Rental / Med Pay /
-  UM-UIM). The directory-filled phone/email/fax (I17/I18/I22, L21/L22) un-highlight normally.
+- **🟨 Everything you write stays YELLOW — Claude never removes the colour** (Klaus 2026-11-10:
+  「改好的信息都保持黄，由人工确定后去掉颜色」). This applies even to values read straight off a
+  driver's license or insurance card, to directory-filled phone/email/fax, and to forced corrections.
+  Yellow here means "Claude wrote this — a human hasn't confirmed it yet"; the CM/CA clears it after
+  checking. The script does this by default. Pass `"unhighlight": true` on a cell ONLY when Klaus
+  explicitly says that cell is confirmed.
 - **Inferred values → fill, but flag "inferred — confirm"** in your report. Example: reading the 1P
   license plate (I13) off the client's own scene photo when no plate document was sent. It's useful to
   capture, but the human should confirm it, so call it out rather than presenting it as documented.
@@ -327,7 +325,7 @@ Notes:
 Tell the user, concisely:
 - **Which case** (full folder path) you updated.
 - **Files archived** and where (subfolder + filename).
-- **Yellow cells updated** — split into *resolved (un-highlighted)* vs *filled-but-kept-yellow*.
+- **Yellow cells updated** — cell → old → new (all still yellow, waiting for human confirmation).
 - **Still-pending yellow cells** that this batch couldn't answer (so the user knows what's outstanding).
 - **Flags / inferred / conflicts** — anything that needs human confirmation, plus any critical flag.
 

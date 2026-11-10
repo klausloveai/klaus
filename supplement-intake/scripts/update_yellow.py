@@ -14,9 +14,14 @@ Commands:
       edits JSON:
         {"edits": [
             {"cell": "L5",  "value": "Farmers Insurance Exchange"},
-            {"cell": "F5",  "value": "front-left; 3P rear", "keep_yellow": true},
+            {"cell": "F5",  "value": "front-left; 3P rear"},
             {"cell": "L13", "value": "213 E Dexter St, Covina CA 91723", "force": true}
         ]}
+
+      Highlight (Klaus 2026-11-10): EVERY written cell stays YELLOW — a human
+      removes the colour after confirming. Pass "unhighlight": true only when
+      Klaus explicitly says a cell is confirmed. ("keep_yellow" is accepted but
+      is now the default and has no effect.)
 
       Guards:
         - Only yellow (pending) cells are writable.
@@ -165,10 +170,10 @@ def cmd_apply(spreadsheet_id, edits_arg):
         intended.append(coord)
 
         r, c = cell_to_rc(coord)
-        # keep_yellow → FFFF00; otherwise → white (un-highlighted)
-        bg = ({"red": 1.0, "green": 1.0, "blue": 0.0}
-              if e.get("keep_yellow")
-              else {"red": 1.0, "green": 1.0, "blue": 1.0})
+        # default → yellow (human confirms later); white only on explicit "unhighlight"
+        bg = ({"red": 1.0, "green": 1.0, "blue": 1.0}
+              if e.get("unhighlight")
+              else {"red": 1.0, "green": 1.0, "blue": 0.0})
 
         requests.append({"updateCells": {
             "range": {"sheetId": sheet_id,
@@ -216,9 +221,8 @@ def cmd_apply(spreadsheet_id, edits_arg):
     # ── Report ─────────────────────────────────────────────────────────────
     print(f"applied {len(intended)} cell(s): {', '.join(intended)}")
     forced_set = {c for c, _, _ in forced}
-    cleared = [e["cell"] for e in edits
-               if not e.get("keep_yellow") and e["cell"].upper() not in forced_set]
-    kept    = [e["cell"] for e in edits if e.get("keep_yellow")]
+    cleared = [e["cell"] for e in edits if e.get("unhighlight")]
+    kept    = [e["cell"] for e in edits if not e.get("unhighlight")]
     print(f"  un-highlighted (confirmed): {', '.join(cleared) or '(none)'}")
     print(f"  filled but kept yellow:     {', '.join(kept) or '(none)'}")
     for coord, old, new in forced:
