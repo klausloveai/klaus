@@ -189,17 +189,16 @@ Use Sheets API `batchUpdate`→`updateCells` with
 `fields:"userEnteredValue,userEnteredFormat.backgroundColor"` (preserves other formatting); get each
 tab's `sheetId` via `spreadsheets.get`.
 - **Intake sheet** (the case's `*Intake Sheet`): the **UrgentCare?** row's label is in col B, the
-  VALUE is in col **C** (e.g. C20). Set C-value = the clinic+appt string AND **remove the highlight**.
+  VALUE is in col **C** (e.g. C20). Set C-value = the clinic+appt string and **make it YELLOW** — everything Claude writes into an intake stays yellow; a human clears it (Klaus 2026-11-10).
   First check the file's `mimeType` (some intakes are native gsheet, some are still raw `.xlsx`):
   - **native gsheet** (`…spreadsheet`): Sheets API `batchUpdate`→`updateCells` on C-cell with
-    `backgroundColor {red:1,green:1,blue:1}` (white = un-pending; cf. [[intake_sheet_highlight_convention]]).
+    `backgroundColor {red:1,green:1,blue:0}` (yellow = Claude-written, awaiting human confirmation; cf. [[feedback-claude-writes-stay-yellow]]).
   - **raw .xlsx** (`…spreadsheetml.sheet` — Sheets API does NOT work on it): download via Drive, do a
     **surgical XML edit** of `xl/worksheets/sheet1.xml` (find `<c r="C20" s="N" t="s"><v>idx</v></c>`,
     replace with `<c r="C20" s="N" t="inlineStr"><is><t>…</t></is></c>` — KEEP the `s` style attr,
     repackage the zip member-by-member so nothing else changes), then `gws drive files update --params
-    '{"fileId":…,"supportsAllDrives":true}' --upload <new.xlsx>`. Only swap the style if the cell is
-    actually yellow (s=9→s=8); if it's already a normal style (e.g. UrgentCare was answered "No"),
-    leave `s` as-is. Verify by re-reading the cell after upload. (Surgical XML, NOT an openpyxl
+    '{"fileId":…,"supportsAllDrives":true}' --upload <new.xlsx>`. Set the yellow style (s=9) on the cell
+    regardless of what it was before — Claude never un-highlights. Verify by re-reading the cell after upload. (Surgical XML, NOT an openpyxl
     round-trip, which can drop data-validations/conditional formatting on a live intake.)
 - **Master sheet** (`1bugLaZ7TDbTdKHz_jecymoRoy7mMflCwVdhEUbidUyM`) — always a native gsheet, use Sheets
   API `updateCells` (`fields:"userEnteredValue,userEnteredFormat.backgroundColor"`); the client's tab

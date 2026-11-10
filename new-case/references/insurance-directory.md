@@ -44,7 +44,7 @@ case-specific and cannot be pre-filled from the directory.**
 2. For each insurer (1P from I5, 3P from L5):
      result = match_carrier.py(insurer_name, /tmp/insurance_list.json)
      if result["matched"]:
-         fill phone, email, fax per column mapping above (no yellow)
+         fill phone, email, fax per column mapping above (yellow — Claude never writes a non-yellow cell)
      else:
          leave "Pending"+yellow (existing behavior)
          note "no directory match for [insurer]" in summary → add to insurance list

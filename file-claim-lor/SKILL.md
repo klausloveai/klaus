@@ -9,7 +9,7 @@ description: |
   carrier / 3P at-fault) + the case manager. It orchestrates the two existing skills in
   order — first **file-claim** (drive the carrier portal, get the Claim #, write it to the
   intake sheet), then the connective bookkeeping (resolve the carrier adjuster email from
-  the claim #, un-highlight confirmed intake fields, post to the case Chat space), then
+  the claim # into the intake (kept yellow), post to the case Chat space), then
   **send-lor** (draft + fax/email the Letter of Representation with the new claim #), then
   log the LOR send date on the Master tracking sheet. Both irreversible/outbound actions
   keep their own mandatory approval gates. Always trigger for any combined "file claim +
@@ -73,16 +73,16 @@ verifies every field, drives the carrier portal, PAUSES for submit approval, cap
   (dizziness/tinnitus) — they reach the adjuster via records later.
 - File on behalf: "Someone else" → relationship **Attorney** → firm contact block.
 
-## Step 2 — Resolve adjuster email + un-highlight confirmed intake fields
+## Step 2 — Resolve adjuster email + write intake fields (kept yellow)
 Now that the claim # exists, finalize the intake fields it determines (see
 [[intake_sheet_highlight_convention]]):
 - **Derive the adjuster email where the carrier templates it from the claim #.** Mercury:
   intake stores `MyClaim+[CLAIM#]@mercuryinsurance.com` → write the resolved
   `MyClaim+<CLAIM#>@mercuryinsurance.com` into **I18** (1P) / **L22** (3P).
-- **Un-highlight the now-confirmed cells** (claim #, adjuster email): the intake `.xlsx`
-  marks pending fields yellow via cell style **`s="9"`**; swap to its un-highlighted twin
-  **`s="8"`** (same font/border, no fill — the style other confirmed cells use). Leave still
-  -pending fields (e.g. PD adjuster "Pending") yellow. Edit `xl/worksheets/sheet1.xml` by
+- **Write the claim # / adjuster email and keep them YELLOW** (Klaus 2026-11-10: everything
+  Claude writes into an intake stays yellow; a human clears it after confirming). On a raw
+  `.xlsx` the yellow style is **`s="9"`** — set it on every cell you write, never swap to `s="8"`.
+  On a native Sheet use `~/.claude/skills/supplement-intake/scripts/update_yellow.py apply` (default stays yellow). Edit `xl/worksheets/sheet1.xml` by
   regex (openpyxl is NOT installed), values as `t="inlineStr"`, re-zip, `gws drive files
   update --upload` same fileId with `supportsAllDrives`. Verify with `read_intake_claim.py`.
 
@@ -110,7 +110,7 @@ send-lor Step 8: find the case **row by client name** (NOT by CM→tab) in the P
 
 ## Step 5 — Confirm & clean up
 Report end-to-end: carrier + party, **Claim #**, intake cells written (claim # + resolved
-email, un-highlighted), Chat post, LOR channel + recipient + status, filed PDF link, and the
+email, kept yellow), Chat post, LOR channel + recipient + status, filed PDF link, and the
 tracking cell updated. Remind the CM to confirm coverage/limits with the adjuster and to tell
 the client not to speak with the carrier directly. Clean up scratch dirs (`~/claim_work`,
 `~/lor_work`).

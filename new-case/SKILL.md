@@ -210,7 +210,7 @@ a family member, or a paralegal using their WeChat account. The form's "Full Leg
 may contain the submitter's name, NOT the client's name.
 
 **Rule:** The DL name is authoritative for C4. If DL name ≠ form name:
-- Write the DL name into C4 **without yellow** (the DL confirms it).
+- Write the DL name into C4 (**yellow**, like every cell Claude writes — a human clears it).
 - Flag the discrepancy prominently in the Day 1 SOP Chat message and case report.
 - Do NOT use the form name anywhere in the case folder, intake sheet, or Chat space name.
 - Example: form said "Shenqi Cai" (the attorney's name) but DL/AIC/health card/registration
@@ -244,10 +244,9 @@ Form submission timestamp is NEVER a valid DOL source.
 
 ### Yellow C2 rules (stricter than other fields)
 
-- **Priority 1–4 confirms DOL, and it matches the form** → C2 **no yellow** (fully confirmed)
-- **Priority 1–4 confirms DOL, but it differs from the form** → C2 **yellow** (corrected by document)
-- **No Priority 1–4 evidence — using form-stated DOL (Priority 5)** → C2 **always yellow**, no exception.
-  Client self-reported dates are unverified and are frequently wrong.
+- **C2 is ALWAYS yellow** — like every cell Claude writes (Klaus 2026-11-10: Claude can never be
+  100% sure; only a human removes the colour). The evidence level still matters for the summary:
+  say whether the DOL is document-confirmed (Priority 1–4) or form-stated only (Priority 5).
 
 ### Submission-date trap (most common DOL error)
 
@@ -355,7 +354,13 @@ Open the exported file with `openpyxl(data_only=False)`. **Write only to VALUE c
 - Font: Nunito, size 10, not bold
 - Alignment: left, no wrap
 - Values in English, EXCEPT where cell-map says to keep the client's original wording (e.g. F11 Purpose of Trip)
-- Yellow: `PatternFill("solid", fgColor="FFFF00")`
+- Yellow: `PatternFill("solid", fgColor="FFFF00")` — **🟨 EVERY cell Claude writes is yellow, no exceptions**
+  (Klaus 2026-11-10: 「所有通过 Claude 填进去的信息都保持黄色，人工确定才能除掉颜色……一旦没有黄色，
+  就代表已经确定了」). Includes DL-read name/DOB/gender, directory phone/email/fax, `N/A` placeholders,
+  C2 DOL. Claude never removes yellow from an intake — the CM/CA does after confirming.
+  Only cells Claude does NOT write keep their template look (template defaults like I2/I3/L2/L3/F3
+  `Pending`; cells deliberately left blank such as F18–F22 when Police Report = No, I19–I21, L23–L25,
+  col Y / col AB).
 - After saving: verify yellow by checking `fgColor.rgb` in `("FFFF00", "00FFFF00")`
 
 See `references/cell-map.md` for the complete value cell map and yellow rules.
@@ -422,7 +427,7 @@ python3 ~/.claude/skills/send-lor/scripts/match_carrier.py \
 # → {"matched": "...", "fax": "+1XXXXXXXXXX", "email": "..."}
 ```
 
-**If matched — fill these cells (no yellow):**
+**If matched — fill these cells (yellow, like everything Claude writes):**
 
 | 1P cell | 3P cell | Value |
 |---|---|---|
@@ -433,7 +438,7 @@ python3 ~/.claude/skills/send-lor/scripts/match_carrier.py \
 **Mercury Insurance special case (detected when `matched` contains "mercury"):**
 - Phone/fax fill normally.
 - Email → check I15 (1P) or L19 (3P) for claim#:
-  - Claim# known → `MyClaim+CAPA-XXXXXXXX@mercuryinsurance.com` (no yellow)
+  - Claim# known → `MyClaim+CAPA-XXXXXXXX@mercuryinsurance.com` (yellow)
   - Claim# "Pending" → `MyClaim+[CLAIM#]@mercuryinsurance.com` + **yellow**
 
 **If no match or directory read fails:**

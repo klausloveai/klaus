@@ -6,8 +6,10 @@
 一律**原封不动写客人填的内容**：不改写、不润色、不加"per client"、不加推荐动作、不加法律判断、
 不加 ⚠️ 提示。判断性内容属于 Note / 案件报告，不属于 intake 字段。
 
-**2. 黄色 = AI 抓取、待核实**（不再只表示"待补充"）。所有从材料抓取或客人自报的信息默认标黄；
-CM/CA 在 welcome call 与客户确认后**去黄**；仍待定的**保持黄色**作为跟进提醒。
+**2. 🟨 Claude 写进去的每一格都是黄色，没有例外**（Klaus 2026-11-10：「所有通过 Claude 填进去的信息都保持
+黄色，人工确定才能除掉颜色……一旦没有黄色，就代表已经确定了」）。驾照直读的姓名 / DOB / 性别、保险目录带入的
+联系方式、`N/A` 占位、C2 DOL 都一样黄。**Claude 永远不去黄** —— CM/CA 在 welcome call 与客户确认后自己去黄；
+没颜色 = 人已确认。只有 Claude 没写的格子保持模板原样（模板自带的 I2/I3/L2/L3/F3 `Pending`、按规则留空的格子）。
 
 **3. 客人没填的字段 → 写 `Pending` + 黄**（不是留白）。空白黄格看起来像"漏填/系统 bug"，`Pending`
 才明确传达"待 welcome call 补"。**`None` / `N/A` 只在客人明确答"没有"或结构性占位时用**（e.g. 无乘客、
@@ -29,7 +31,7 @@ I2/I3/L2/L3 结构性 Pending（本来就写 Pending 但不黄）。
 | C2 | DOL | MM/DD/YYYY（黄规则见 Step 3） |
 | C3 | Time | **规整成清楚的 `H:MM AM/PM`**：格式乱但语义明确的按实翻译（`Pm1.10`→`1:10 PM`；`下午三点`→`3:00 PM`；`14:30`→`2:30 PM`）。**只有真正无法判断 AM/PM 时才原样照抄**（客人填 `5:42` 无上下文 → `5:42`）。没填 → `Pending`+黄。 |
 | C4 | Driver Name | **驾照为准** |
-| C5 | DOB | **驾照为准**（客人常填错，以证件为准，不标黄） |
+| C5 | DOB | **驾照为准**（客人常填错，以证件为准；照样标黄） |
 | C6 | Phone | **纯照抄**（客人填 `9493168463` 就写 `9493168463`，不加连字符） |
 | C7 | Address | 见下方「地址格式」 |
 | C8 | Email | 照抄 |
@@ -185,7 +187,7 @@ Client First Name's vehicle [point of impact], other vehicle [point of impact].
 | I9 | Driver License | **只填驾照号**（`Y9416226`）。非加州驾照 → 用简单字母标注州（e.g. `D1234567 (NV)`）。class/exp/restrictions 等放 Additional Details，不塞进本格 |
 | I11 / I12 / I13 | Vehicle / VIN / LP | 保单+照片抓取 |
 | I15 / I16 | Claim# / PD Adjuster | `Pending` + 黄 |
-| I17 / I18 / I22 | Phone / Email / Fax | 保险目录带入 → 不黄；无匹配 → `Pending` + 黄（I22 无匹配则留空不黄） |
+| I17 / I18 / I22 | Phone / Email / Fax | 保险目录带入 → 黄；无匹配 → `Pending` + 黄（I22 无匹配则留空不黄） |
 | I19–I21 | BI Adjuster 组 | 留空，不黄 |
 | I24–I28 | Dec Page / Collision Ded / Rental / Med Pay / UM-UIM | `Pending` + 黄 |
 | **I30** | **Policy Period** | 保单期间（e.g. `03/22/2026-09/22/2026`） |
@@ -206,7 +208,7 @@ Client First Name's vehicle [point of impact], other vehicle [point of impact].
 | L13 | Driver Address | 驾照地址 |
 | L15–L17 | Vehicle / VIN / LP | 保单+照片 |
 | L19 / L20 | Claim# / PD Adj | `Pending` + 黄 |
-| L21 / L22 | Phone / Email | 目录带入 → 不黄；无匹配 → `Pending` + 黄 |
+| L21 / L22 | Phone / Email | 目录带入 → 黄；无匹配 → `Pending` + 黄 |
 | L23–L25 | BI Adj 组 | 留空，不黄 |
 | L27 | Policy Limits | `Pending` + 黄 |
 
@@ -234,7 +236,7 @@ C44=Primary C45=Injuries
 ## Passenger 2 (col F, rows 24–45) | Pass3 (col C, rows 49–70) | Pass4 (col F, rows 49–70)
 
 ## No Passengers Rule
-Fill C24:C45, F24:F45, C49:C70, F49:F70 all = `N/A`. NO yellow.
+Fill C24:C45, F24:F45, C49:C70, F49:F70 all = `N/A`, **yellow**（Claude 写的一律黄，2026-11-10）。
 
 ---
 
@@ -258,22 +260,23 @@ Fill C24:C45, F24:F45, C49:C70, F49:F70 all = `N/A`. NO yellow.
 
 一个典型两车无乘客案子（Qianxu Jin）填完约 **68 个黄格** —— 这是预期结果，等于给 CM 的核对清单。
 
-### NEVER yellow（唯一的例外清单）
+### NEVER yellow（只限 Claude 没写的格子 — 2026-11-10 改）
+Claude 写的格子**全部**黄。下面这些不黄，只因为 Claude 根本不往里写：
 | 项 | 原因 |
 |---|---|
-| I2 / I3 / L2 / L3 Coverage & Liability Status | 结构性 `Pending`，不是客人可确认的信息 |
-| **F3** Accd Diagram | 非客人字段 |
-| **F18–F22（仅当 Police Report=`No`）** | 明确没有报告，留空即可。**Police Report=`Yes` 时改为 `Pending`+黄**（见 F17 级联） |
-| C11 Spouse = `N/A`（Single/Divorced） | 无内容可核 |
-| I17 / I18 / I22 / L21 / L22 | 保险目录带入的联系方式（无匹配时才 `Pending`+黄） |
-| I19–I21、L23–L25 BI adjuster 组 | 留空 |
-| **col Y / col AB** | 空模板区，永不填、永不黄 |
-| 无乘客时的 C24:C45 / F24:F45 / C49:C70 / F49:F70 = `N/A` | 结构性占位 |
-| **后续 workflow 写入的既成事实** | 见下 |
+| I2 / I3 / L2 / L3 Coverage & Liability Status | 模板自带 `Pending`，Claude 不写 |
+| **F3** Accd Diagram | 模板自带 `Pending`，Claude 不写 |
+| **F18–F22（仅当 Police Report=`No`）** | 留空不写。**Police Report=`Yes` 时写 `Pending`+黄**（见 F17 级联） |
+| I19–I21、L23–L25 BI adjuster 组 | 留空不写 |
+| I22（目录无匹配时） | 留空不写 |
+| **col Y / col AB** | 空模板区，永不填 |
+
+> 旧版这里还列了 C11 `N/A`、目录带入的 I17/I18/I22/L21/L22、无乘客的 `N/A` 区块、后续 workflow 写入的
+> 既成事实 —— **全部作废，一律黄**。黄色由人工确认后去掉，Claude 不去黄。
 
 ### 既成事实不被初填规则覆盖
 本 sheet 是活文档 —— 建案后其它 skill 会继续写入真实进展（例如 `exer-lien` 把 C20 UrgentCare
-写成 `Exer Urgent Care - Irvine, 7/26 2:00 PM` 并去黄）。**重填 / 补填 intake 时，不要用初填
+写成 `Exer Urgent Care - Irvine, 7/26 2:00 PM`，保持黄色等人工确认）。**重填 / 补填 intake 时，不要用初填
 默认值覆盖这些已发生的事实**（不要把上例改回 `No`）。重填前先下载线上版本做差异对比，
 确认哪些是进展数据、哪些是待修正的旧填法。
 

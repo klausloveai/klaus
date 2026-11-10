@@ -247,11 +247,10 @@ client's column only (driver → R, passenger → S/T). Font Nunito 10, left, no
 multi-client referral, fill each referred client's column. Don't clobber a different clinic
 already in the block — flag it instead.
 
-**Un-highlight the specialty-name cell.** The specialty row (e.g. the `Chiropracitc` cell, R3/S3/T3)
-starts **yellow** (the "treatment pending" marker). Once you fill it with the clinic name, that
-item is no longer pending → **remove the yellow highlight on that cell** (set fill to no-fill), the
-same un-highlight convention as supplement-intake. (The Address/Phone/Email rows below it are not
-highlighted, so just write their values.)
+**Keep everything you write YELLOW.** The specialty row (e.g. the `Chiropracitc` cell, R3/S3/T3)
+starts yellow. Fill it with the clinic name and **leave it yellow**; the Address/Phone/Email rows
+below it also get a yellow fill when you write them. Claude never removes yellow from an intake —
+a human clears it after confirming (Klaus 2026-11-10, same rule as supplement-intake).
 
 ## Step 9 — Log run + confirm
 Report: client, clinic + email, fields sent, # PD photos attached, the Gmail message id, the
