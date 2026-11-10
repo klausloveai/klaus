@@ -1440,6 +1440,16 @@ Examples:
 
 **Step 13 真的发出 retainer，或 Klaus 说 `retainer signed` 时做。** 只说 skip、没说签了 → 跳过本步，A 列留客户编号。
 
+> **默认必做，不等 CM 认领、不再问 Klaus 确认字段**（Klaus 2026-11-10：「之后都加到 skill 里默认做，不等 CM 自己认领了」）。
+> 合同类型、CM、CA 都能从 envelope 主题和 Master tab 定出来，直接签；CLAUDE.md「改阶段先问」对本步豁免。
+> 唯一会卡住的是**合作方**：开头闸门没说 → 当场问 Klaus 一次（AskUserQuestion），不留给以后；
+> Klaus 说的合作方不在工作台合作方名单里（`sign_lead` 报「合作方名单里没有…」）→ 告诉 Klaus 去工作台「合作方」加上，
+> 加好后立刻签，不要改成 `no_partner` 先签。
+>
+> **补签触发**：任何 session（supplement-intake、催签、查签约、check DocuSign）发现 retainer 已发 / 已签，
+> 而 `find` 显示线索还不是 `signed`、`cases[]` 为空 → 当场补跑本步 1–4，不等 CM `claim_my_case`。
+> `signed_on` = retainer 发出日（Step 13 那天）；发出日查不到就用客户签字日。
+
 1. **`sign_lead`**（每条线索签一次；一车多人每人各自的线索各签一次）：
 
    | 参数 | 值 |
