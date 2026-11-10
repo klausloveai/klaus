@@ -28,8 +28,9 @@ Two rules define the whole skill, so internalize them before anything else:
 2. **Fill pending (yellow) cells only — NEVER edit a non-yellow cell.** Yellow = "still pending";
    fill these when the new images answer them (and keep them yellow). **No colour = a human has
    already checked and confirmed it** (Klaus 2026-11-10). Even when a new document clearly shows a
-   non-yellow cell is wrong or outdated, **do not change it** — instead tell the responsible team in
-   the case Chat (Step 7, 「建议更正」 line, @ the CM) and list it for Klaus in the report. The team
+   non-yellow cell is wrong or outdated, **do not change it** — first verify against the case's source
+   documents (DL, insurance card, police card, ER record…); only a document-verified difference goes
+   to the responsible team in the case Chat (Step 7, 「建议更正」 line, @ the CM) and list it for Klaus in the report. The team
    decides and edits it themselves. There is no "force" path any more.
 
 This skill does **not** send LORs, file claims, or update the Master tracking sheet. Those are
@@ -291,25 +292,39 @@ for line in sys.stdin:
     for s in json.loads(line).get('spaces',[]):
         if key in (s.get('displayName') or ''): print(s['name']); break
 " | head -1)
-gws chat +send --space "$SPACE" --text '【Claude】补充材料已归档 — <client>
-• 内容：<what was filed, e.g. ER 病历 / 保险卡 / 身份证>
-• 存放：<subfolder>/<filename>
-• Intake 更新：<cell → value 的简单清单 or「无待填黄格，未改动」>'
+gws chat +send --space "$SPACE" --text '【Claude】<一句话：收到了什么，例：两位客户 11/10 重新提交的 intake 表>
+Intake 更新（保持黄色，待人工确认）：
+• <格> <字段>：<原值> → <新值>（<依据：哪份文件 / 谁的表单>）
+• <格> <字段>：<原值> → <新值>（<依据>）'
 ```
 
-Start with `【Claude】`. **Three lines, that's the whole message** — plus ONE optional fourth line
-when the new material conflicts with an already-confirmed (no-colour) cell:
+**Format (Klaus 2026-11-10 — follow exactly):**
+- Line 1: `【Claude】` + one sentence saying what came in. No separate 「内容」 or 「存放」 lines.
+- Then **one line per cell Claude actually changed**: cell + field, old → new, and the source in
+  brackets. Never list cells you didn't change; never cram several cells into one sentence.
+- Sensitive numbers (SSN) are not printed — write 「已填」.
+- If nothing changed: `【Claude】<what came in>，intake 无待填黄格可补，未改动。`
 
-```
-• 建议更正（未改动，请 @<CM> 核对后自行修改）：<格> <字段>：表上「<现值>」，新材料「<新值>」（<哪份文件>）
-```
+**「建议更正」 line — only a VERIFIED suggestion** (Klaus 2026-11-10: 「要给准确的建议，而不是
+未经验证的建议」). When new material disagrees with a no-colour (confirmed) cell, the client's form
+answer is NOT evidence. Before suggesting anything, check the case folder's source documents:
 
-Use a real @mention of the case's CM (resolve `users/<id>` as in new-case Step 11). State only the
-two values and the source document — no judgment about which is right, no other commentary. Claude
-never edits that cell itself (Klaus 2026-11-10).
+| Field | Check against |
+|---|---|
+| DOB / name / address / gender / DL# | driver license (`2#Accident Info/…DL…`) |
+| DOL / crash time | police card / report; ER record, bill or discharge paper |
+| Policy # / insurer / period / vehicle / VIN | auto insurance card, dec page |
+| Plate | license-plate photo |
+| Health insurance | health insurance card |
 
-> 🔒 **The Chat note is a filing receipt, not a case memo.** Only: what was filed, where it went,
-> which intake cells changed. Everything else goes to Klaus in the Step 8 report instead.
+- Document agrees with the table → the form is wrong; **no Chat line** (mention it to Klaus only if useful).
+- Document agrees with the new material → post, @ the CM:
+  `• 建议更正（未改动，请 @<CM> 核对后自行修改）：<格> <字段>：表上「<现值>」，<文件名> 显示「<值>」`
+- No document in the case to check → no Chat suggestion; list it for Klaus as 「表单与表上不一致，案卷无证件可核」.
+Claude never edits the no-colour cell itself.
+
+> 🔒 **The Chat note is a change receipt, not a case memo.** Only: what came in, and each intake
+> cell changed (old → new, source), plus any document-verified 建议更正. Everything else goes to Klaus in the Step 8 report instead.
 >
 > FORBIDDEN in the Chat note (Klaus deleted one for this, 2026-09-11):
 > - ⚠️/CRITICAL flags of any kind
@@ -336,8 +351,9 @@ Tell the user, concisely:
 - **Yellow cells updated** — cell → old → new (all still yellow, waiting for human confirmation).
 - **Still-pending yellow cells** that this batch couldn't answer (so the user knows what's outstanding).
 - **Flags / inferred / conflicts** — anything that needs human confirmation, plus any critical flag.
-- **建议更正（未改动）** — every no-colour cell the new material contradicts: cell, table value, new value,
-  source. Claude did not edit these; the CM was @'d in Chat.
+- **建议更正（未改动）** — only differences verified against a case document (cell, table value, document
+  value, file). Form-only disagreements that the documents contradict are not suggestions; ones with no
+  document to check are listed as 「表单与表上不一致，案卷无证件可核」.
 
 Offer obvious follow-ups (e.g. "send the 3P LOR now that we have the carrier" → `send-lor`) but do not
 perform them in this skill.

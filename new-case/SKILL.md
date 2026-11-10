@@ -413,7 +413,9 @@ that already happened. See 「既成事实不被初填规则覆盖」 in cell-ma
 > 人工已经查实过确认了。这种信息不管是不是第二次再发现有新的，都不应该直接改，可以在 chat 里面提醒……可以建议改，
 > 但是不直接改」). On any existing intake — re-fill, supplement, a second batch of materials, a later
 > skill writing progress — Claude writes **only into yellow cells** (and keeps them yellow). If new
-> material contradicts a no-colour cell, do NOT touch it: post one line in the case Chat, @ the CM:
+> material contradicts a no-colour cell, do NOT touch it. First check the case documents (DL for DOB/name/
+> address, insurance card / dec page for policy, police card / ER record for DOL…); a client's form answer is
+> not evidence. Only if a document supports the change, post one line in the case Chat, @ the CM:
 > `【Claude】建议更正（未改动，请 @<CM> 核对后自行修改）：<格> <字段>：表上「<现值>」，新材料「<新值>」（<来源>）`
 > — two values + source only, no judgment — and list it for Klaus in the report. The team edits it.
 > Same rule as `supplement-intake` Step 5/7. Once the CM/CA has started working on a sheet, Claude
