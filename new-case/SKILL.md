@@ -1405,7 +1405,8 @@ behalf. Set the minor's Docusign recipient as follows:
 
 | Template | Prefill date tabs |
 |---|---|
-| **PI Auto Retainer（New）** ← default | **4 tabs — pages 1, 8, 11, 12** |
+| **PI Auto Retainer (New)** `dc04f4a3`（单人，9 页） | **3 tabs — pages 1, 8, 9**（2026-11-10 Xu He 读回） |
+| **PI Auto Retainer+Joint Conflict (New)** `5e019e33`（多人，12 页） | **4 tabs — pages 1, 8, 11, 12**（2026-11-10 Yishu Lu 读回） |
 | PI Retainer(1/3) / PI Retainer(50%) (legacy) | 3 tabs — pages 1, 5, 6 |
 | PI Retainer + Joint Client Waiver (legacy) | 4 tabs — pages 1, 5, 6, 7 |
 
