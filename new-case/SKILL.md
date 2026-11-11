@@ -1461,6 +1461,7 @@ Examples:
    | `lead_staff` | 按 tab 的 CM（下表） |
    | `assist_staff` | 按 tab 的 CA（下表） |
    | `partner` / `no_partner` | **开头闸门里 Klaus 说的**：车行 / 中介要付介绍费 → `partner`=合作方名单里的名字；没有 → `no_partner=true`。没说就问，不猜 |
+   | `partner_role` | 有 `partner` 时**必填**：车行 / 中介介绍客户 → `referral`；合作律所办案 → `co_counsel`（不填会报「签约前还缺：合作方身份」，2026-11-10 Yishu Lu） |
    | `signed_on` | 今天（retainer 发出日） |
    | `attorney` | 不填（默认蔡律师） |
 
