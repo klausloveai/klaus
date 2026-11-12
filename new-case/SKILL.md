@@ -689,10 +689,10 @@ for the tracking-sheet `=HYPERLINK(...)` formula.
    - 只是**重名、电话对不上** → 是另一个人，`log_lead` 带 `confirm_new_client=true`。重名不同人本来就该是不同编号。
    - 拿不准是不是同一个人 → 停下来问 Klaus。
 2. **登记**（`log_lead`，字段已在开头的 assign 确认里给 Klaus 看过）：
-   - `name` = 司机全名；`phone`、`email` 取 intake；`channel=staff_entry`
+   - `name` = 这位客户的全名（一车多人每人一次）；`phone`、`email` 取 intake；`channel=staff_entry`
    - `case_type` = `car_accident`（狗咬 `dog_bite`，其他见 `options`）
    - `summary` = 一句话案情（DOL、事故类型、几位客户），**不写 SSN、DL#、DOB、地址**
-   - `notes` = 同案乘客姓名、分派的信箱和 CM
+   - `notes` = 同车其他客户的姓名（方便以后挂同车组）、分派的信箱和 CM
    - `lead_source` 由 Master 的 Referrer 推：
 
      | Referrer 写的 | `lead_source` |
@@ -721,8 +721,10 @@ for the tracking-sheet `=HYPERLINK(...)` formula.
    已签约（13b 已跑）才拉群 → 直接发案件编号。一车多人：每个有编号的客户各一行；一个群能不能认领多个编号尚未确认，
    发完到工作台「企微群」→「已认领」核对，没认上的在「待认领」里点「选客户 / 案件」手动挂。
 
-**同案多位客户**：一个案子登记一条线索（司机名下），乘客写进 `notes`，Master 里司机和乘客行用同一个编号
-（库里已有的先例：48845-PI1 Kuang Yu Feng & Hui Lin Huang）。乘客本人以后自己再来办案，再单独登记。
+**同案多位客户 = 一人一号**（Klaus 2026-11-11 再确认，取代旧的「乘客共用司机编号」写法）：司机和每位乘客**各自查重、各自 `log_lead`、各拿一个随机客户编号**，
+不标司机 / 乘客；Master 里每一行的 A 列写各自的编号；Step 13b 每人各自 `sign_lead`。人和人之间靠工作台的内部连接互联：
+「客户跟进」打开其中一人的线索 →「加同车人」把其他人挂进同一个同车组（事故信息共用）。connector 没有这个工具时，
+用 Chrome 在工作台点，或在最终回复 §8 写明「待挂同车组：<编号们>」。旧案里还有共用编号的（如 48845-PI1 曾挂两人）已在 11/03 拆号，照新规则办。
 
 ---
 
