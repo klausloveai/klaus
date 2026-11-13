@@ -118,6 +118,11 @@ PENDING 区末尾空行 append 完整行(标注 "ADDED from bank check image")�
    加总后 BoA 勾 → Reconciled 视图复查。
 4. Reconciled 视图扫漏网(被勾过但 journal 无日期的存款)。
 5. Activity Log 一行收工；差异清单(不勾的+原因)必须完整报给 Klaus。
+6. **更新进度标记（每次必做，Klaus 2026-11-13）**：IOLTA#3618 文件夹 `_STATE.md` 第 3 行是唯一一行
+   `BoA recon through: YYYY-MM-DD (run YYYY-MM-DD HH:MM, s:<session前8位>)`，**原地覆盖、不追加**（改前备份到 `Backups/`）。
+   日期 = 本次已完整过完的**最后一个 BoA posting date**（filter 看到的最新入账日；只跑了一部分就写跑完的那天，不写今天）。
+   用途：case-settles 等下游读它判断——journal M 空且行日期 ≤ 标记日 = 银行确实没到；> 标记日 = 还没对，等下次 recon，不要自己重跑。
+   跑完报告里写出新标记值。
 
 ## 脚本（scripts/，暂存目录会被清，别再每次重写）
 - `python3 -I scripts/fetch_internal.py <out.json>` —— 拉 `Internal !A1:FZ320` 带底色
