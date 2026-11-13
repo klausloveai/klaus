@@ -104,6 +104,14 @@ find the signed DIS anywhere and had to stop too. Holding the *money steps* is t
    (Fang Liu: $6,000 − $500 lien = $5,500 split 50/50 → fee $2,750, NOT 1/3).
 3. Identity check: `Total = Recovery + Fee + Case Cost + Σ(reduced liens)`.
 4. **Funding check** in the journal; underfunded → gate 1.
+   Funded = the deposit row has **col M (Cleared Date)**, written by `boa-reconcile` — not col A. A blank M is
+   ambiguous, so read the marker line in `IOLTA#3618/_STATE.md` (`^BoA recon through: (\d{4}-\d{2}-\d{2})`,
+   overwritten by every recon run; Klaus 2026-11-13: "Case Settle 就可以直接去那个表上面找了，而不是要每一次都跑一遍"):
+   - M filled → funded, proceed.
+   - M blank and the check was booked **on or before** the marker date → really not at the bank → gate 1, tell Klaus.
+   - M blank and booked **after** the marker date → recon hasn't covered it yet. Don't call it unfunded and don't
+     run BoA yourself: hold the money steps, file the paper, and tell Klaus "BoA recon only through <date>" so he can
+     trigger `boa-reconcile` (it needs his logged-in BoA tab).
 5. **Dedup by CHECK NUMBER**, never by client name — one client can have several deposits.
 
 ## Phase 1 — Disbursement Sheet
