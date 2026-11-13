@@ -284,6 +284,15 @@ Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP 
       This re-activates `GREEN_CIRCLE`, which the old star convention had retired; for settled cases it is
       now the closing mark.
     · Apply the case label at **thread** level, so replies inside the thread carry it too.
+27c. **Post `Case disbursed✅` in the case's Google Chat space** (Klaus 2026-11-13: "完成后需要在 chat里发：
+    Case disbursed✅，如果我前面手动有发过就跳过"). As Klaus@ (never picase@/piteam@ identities), one plain
+    top-level message, exactly `Case disbursed✅`, no @-mention, no attachment.
+    · **Skip if it was already posted.** First list the space's messages since the client check date
+      (`filter: createTime > "<check date>T00:00:00Z"`) and look for any message whose text contains `disbursed`
+      (case-insensitive). Klaus often posts it himself, so if a match is found, don't post and report "Chat 已有，跳过".
+    · Two claimants on one tab: post **once**, when the tab closes (same as the team email). A held case posts nothing.
+    · Find the space like `check-intake` does (`gws chat spaces list`, match the case name); no space found →
+      don't create one, tell Klaus.
 
 ## Phase 6 — Marketing material  (PI auto only)
 28. Resolve the `人伤` **shortcut** (`1YjOq97wy58uhV_5QMaoOIQ0te5oHShrj`) to its target
