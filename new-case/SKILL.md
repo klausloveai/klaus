@@ -1508,11 +1508,11 @@ this step GENERATES text only, it never sends anything.
 > - Case facts (车主姓名、对方保险、车牌、DOL), 索赔价值, 时间预期, or any 案情分析.
 > - Paraphrasing the 费用说明 instead of pasting the exact block. Dropping
 >   `以上为简要说明，具体条款以合同为准。`
-> - Dropping the 服务内容 block, the 签约前提醒 block, or the `凌图律所` 落款.
+> - Dropping the 服务内容 block, or the 签约前提醒 block.
 >
 > **Self-check before you output.** Diff what you wrote against the template: it must contain
 > the `<DISK case name>⚠️` header line, a blank line, then exactly the five blocks in order
-> (合同已发→服务内容→费用说明→签约前提醒→签署说明+落款), and nothing else. If a block is
+> (合同已发→服务内容→费用说明→签约前提醒→签署说明), and nothing else. If a block is
 > missing or an extra block appeared, rewrite from the template.
 > Violated on the first two cases after this step was written — that is why this guard exists.
 
@@ -1546,7 +1546,7 @@ this step GENERATES text only, it never sends anything.
   unknown, ask Klaus instead of shipping a blank.
 - **Non-driven / State-Bar-safe.** No promises about outcome, value, or timeline. Do not
   imply the firm arranged anything the client didn't ask for.
-- Sign off with `凌图律所`.
+- **No sign-off line** — the message ends after the 签署说明 block; do NOT add `凌图律所` at the bottom (Klaus 2026-11-15:「文案最下面的凌图律所不要」).
 
 ### Structure (all versions)
 
@@ -1555,7 +1555,7 @@ Every version has the same four blocks, in this order:
 2. **服务内容**（我们会做什么）
 3. **费用说明**（见下方 fee rules — NEVER invent this)
 4. **签约前提醒**（以合同为准 / 先读懂再签 / 有问题先问）
-5. 签署操作说明 + 落款
+5. 签署操作说明（结尾，不加落款）
 
 ### ⚠️ Fee-section rules (read before writing 费用说明)
 
@@ -1620,8 +1620,6 @@ Multi-client: swap 您 → 两位／三位 to match the client count.
 麻烦您查收后，点击邮件里的链接完成电子签名。如果收件箱里没有看到，请检查一下垃圾邮件文件夹，发件人显示为 DocuSign。
 
 签署完成后系统会自动回传给我们，我们就可以正式开始处理您的案子。
-
-凌图律所
 ```
 
 ### Multi-client template
@@ -1657,8 +1655,6 @@ Swap 您 → 两位／三位 etc. to match the client count.
 两位都需要在各自的邮箱里点击链接完成电子签名，缺一份合同都无法生效。如果收件箱里没有看到，请检查一下垃圾邮件文件夹，发件人显示为 DocuSign。
 
 两位都签署完成后系统会自动回传给我们，我们就可以正式开始处理这个案子。
-
-凌图律所
 ```
 
 ### Minor-client variant

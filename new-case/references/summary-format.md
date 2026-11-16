@@ -64,3 +64,6 @@ Confirm: "Original intake zip saved as 'Intake Responses.zip' in 1#Legal Documen
   ```
 - Completion gate 7 项：全部通过；没通过的逐条写「未完成：<哪项> —— <原因>」。
 
+## 9. 派案 ratio（Klaus 2026-11-15，每次交签约文案后必附）
+- 本周各信箱加权：Claims@ x / Piteam@ y（主力比）+ Picase@(Jenkins) n 人；→「下一个主力案给 <信箱>」。
+- 数据来源 memory `feedback_case_assignment_rotation.md` 的「派案记录」，先把本案加进去再报。
