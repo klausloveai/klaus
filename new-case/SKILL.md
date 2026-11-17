@@ -375,28 +375,30 @@ L12 Driver Phone ← address; F12 Child Seat ← the "did you see it coming" ans
 cause was writing a hardcoded list of cell addresses from memory of the template layout,
 without ever comparing the intended field against that cell's actual label.
 
-**Gate 1 — address cells BY LABEL, not by remembered row number.**
-Before writing, read the label column (B / E / H / K / X / AA) and build a `label → cell` map,
-then write by field name:
-```python
-# ⚠️ 2026-11-16 事故：B 列「Date Birth / Phone / Address / Email / Gender / SSN …」在客户区(第 5–21 行)
-# 和乘客区(第 28 行起)重复出现。dict 推导式「后者覆盖前者」→ 客户资料被写进乘客 1 栏，
-# 随后乘客栏又被填 N/A/Pending 覆盖，客户本人资料整块丢失（Xinchen Hou / Weiguo Mao / Yi Li）。
-# 规则：客户区只扫到第 22 行（Initial Injuries?），乘客栏按行号单独写；同一区内标签重复直接报错。
-labels = {}
-for r in range(1, 23):                      # 客户区 = B1:B22，绝不扫进乘客区
-    if ws[f"B{r}"].value:
-        k = str(ws[f"B{r}"].value).split("\n")[0].strip()
-        assert k not in labels, f"重复标签 {k}"
-        labels[k] = f"C{r}"
-def put(field, value, yellow=False):
-    cell = labels[field]           # KeyError if the label doesn't exist → fails loudly
-    ...
-put("Policyholder", "Yujing Zhou")
-put("Policy Period", "03/22/2026-09/22/2026")
+**Gate 1 — 只准用 `scripts/fill_intake.py` 写 intake，不准现写 inline openpyxl。**
+（2026-11-16 Xinchen Hou 事故后定，复盘见 `references/incident-log.md`。）
+模板里客户区和乘客区、1P/3P 的两个 Adjuster 块都有**重名标签**；自己写 label→cell 映射
+必然踩坑。`fill_intake.py` 把每个区块的行范围写死（client B1:B22 / accident E1:E22 /
+1p H1:H31 / 3p K1:K27 / pass1 B24:B45 / pass2 E24:E45 / pass3 B49:B70 / pass4 E49:E70），
+区内重名自动编号（`Adjuster` / `Adjuster 2`、`Phone` / `Phone 2`），标签不存在直接报错、整张不保存。
+```bash
+python3 ~/.claude/skills/new-case/scripts/fill_intake.py "<CaseName>.xlsx" values.json
 ```
-A shifted row or a template revision then raises instead of silently writing into the
-neighbouring field.
+`values.json` 按区块给值（字段名 = 标签第一行原文），格式见脚本头注释：
+```json
+{"client": {"Date of Loss": "11/14/2026", "Driver Name": "Xinchen Hou", "Date Birth": "10/31/1997",
+            "Phone": "6265370479", "Address": "...", "Email": "...", "SSN": "Pending"},
+ "accident": {"Fact of Loss": "...", "Weather": "Clear"},
+ "1p": {"1P Insurer": "Pending", "Adjuster": "Pending"},
+ "3p": {"3P Insurer": "Farmers Insurance"},
+ "passengers": [],
+ "cells": {"R3": "Pending"}}
+```
+- 乘客按顺序放进 `passengers`（第 1 位 → pass1 …）；没有乘客的区块自动整块写 `N/A`。
+- 每格自动黄色 + Nunito 10 + 非粗体 + 左对齐。
+- 保存前自检：客户 DOB / Phone / Address / Email 不能空（不知道写 `Pending`）；客户的 DOB/电话/邮箱
+  出现在没明确传值的乘客区块 = 写错栏 → 报错不保存。
+- 脚本报错就改 values.json 重跑，**不准绕过脚本手写格子**。
 
 **Gate 2 — run the type self-check after saving. REQUIRED, not optional.**
 ```bash
@@ -1746,6 +1748,7 @@ stop — do not build the argument for him.
 - `references/document-placement.md` — File naming conventions and folder placement
 - `references/summary-format.md` — Output summary format
 - `references/qa_templates/` — 狗咬咨询 9 问、伤口拍照须知（简版）、签约须知英文版（见其 README；英文版 Office hours 待 Klaus 补）
+- `scripts/fill_intake.py` — **Gate 1**: the ONLY allowed way to write the intake xlsx (section-aware label map, auto yellow, client-core + wrong-column self-check).
 - `scripts/verify_intake.py` — **Gate 2**: post-write type self-check (catches values written
   into the wrong field). Mandatory after filling the intake sheet, before Drive upload.
 - `scripts/add_tracking_row.py` — **Gate 3**: builds the Step 10 tracking row by copying the
