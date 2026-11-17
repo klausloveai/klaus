@@ -379,8 +379,16 @@ without ever comparing the intended field against that cell's actual label.
 Before writing, read the label column (B / E / H / K / X / AA) and build a `label → cell` map,
 then write by field name:
 ```python
-labels = {str(ws[f"B{r}"].value).split("\n")[0].strip(): f"C{r}"
-          for r in range(1, 75) if ws[f"B{r}"].value}
+# ⚠️ 2026-11-16 事故：B 列「Date Birth / Phone / Address / Email / Gender / SSN …」在客户区(第 5–21 行)
+# 和乘客区(第 28 行起)重复出现。dict 推导式「后者覆盖前者」→ 客户资料被写进乘客 1 栏，
+# 随后乘客栏又被填 N/A/Pending 覆盖，客户本人资料整块丢失（Xinchen Hou / Weiguo Mao / Yi Li）。
+# 规则：客户区只扫到第 22 行（Initial Injuries?），乘客栏按行号单独写；同一区内标签重复直接报错。
+labels = {}
+for r in range(1, 23):                      # 客户区 = B1:B22，绝不扫进乘客区
+    if ws[f"B{r}"].value:
+        k = str(ws[f"B{r}"].value).split("\n")[0].strip()
+        assert k not in labels, f"重复标签 {k}"
+        labels[k] = f"C{r}"
 def put(field, value, yellow=False):
     cell = labels[field]           # KeyError if the label doesn't exist → fails loudly
     ...

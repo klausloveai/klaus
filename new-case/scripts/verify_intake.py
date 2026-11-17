@@ -158,6 +158,13 @@ def main():
                 else:
                     warns += 1
 
+    # 客户本人核心资料闸门（2026-11-16：标签重复把客户资料写进乘客栏，C5–C21 整块空白没人拦住）
+    core_blank = [f"C{r}" for r in (5, 6, 7, 8) if ws[f"C{r}"].value in (None, "")]
+    if core_blank:
+        print(f"\n=== 客户本人资料 ===\n❌ ERROR {', '.join(core_blank)}（DOB/Phone/Address/Email）是空的——"
+              f"不知道就写 Pending；全空通常是写进了乘客栏（第 28 行起），先查 C28–C32")
+        errors += 1
+
     # 高亮闸门（2026-10-27：填表脚本漏了 c.fill 那行，三单出品全无黄色，值检查没拦住）
     # 2026-11-10 Klaus：Claude 填进去的每一格都必须是黄色（人工确认后才去黄）。
     # 唯一例外：模板自带默认值的 Coverage/Liability Status、Accd Diagram（不是 Claude 填的）。
