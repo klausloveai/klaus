@@ -1714,6 +1714,7 @@ to the 签署操作说明 block:
 | 6 | retainer 发了：Lingtu Data 有案件编号、CM/CA 已挂、案卷已挂、Master A 列已换成案件编号；retainer skip：注明「签约后补」 | Step 13b 第 4 步的 `find` |
 | 7 | retainer：送了就有 envelope id；没要求就写「未发（未要求）」 | Step 13 的结果 |
 | 8 | intake 表有 `Activity Log` tab，registry.json 已登记这个案子 | `al.py init <id>` 再跑一次应回「已存在」；`grep <sheet_id> registry.json` |
+| 9 | **线上 intake 客户本人资料不空、没写进乘客栏**（2026-11-16 Xinchen Hou / Weiguo Mao / Yi Li 事故）：C5 DOB、C6 Phone、C7 Address、C8 Email 都有值（不知道写 `Pending`，不能空）；单人案乘客栏 C24–C32 只能是 `N/A`/`Pending`，出现客户的 DOB/电话/邮箱 = 写错栏 | `gws sheets spreadsheets values batchGet` 读 `Sheet 1!C2:C22` 和 `Sheet 1!C24:C32`，逐格对照 intake 表单答案 |
 
 ---
 
