@@ -190,7 +190,10 @@ First see what's pending (pass the GSheet spreadsheet ID from Step 1):
 python3 ~/.claude/skills/supplement-intake/scripts/update_yellow.py list-yellow "<spreadsheet_id>"
 ```
 
-This prints each yellow cell with its row label and current value. Match the new image data against
+This prints each yellow cell with its row label and current value.
+> ⚠️ **标签会重名（2026-11-16 Xinchen Hou 事故）**：Date Birth / Phone / Address / Email / SSN 等在客户区
+> (C5–C21) 和乘客区 (C28 起、F28 起、C53 起、F53 起) 都有；1P/3P 的 Adjuster / Phone / Email 各有两块。
+> 永远按 **格子地址** 写（客户本人 = C5–C21），不要凭标签名猜格子；写完对照 `references/incident-log.md`（new-case）。 Match the new image data against
 these pending cells. Run the carrier directory lookup for any newly-known insurer to fill phone /
 email / fax (and the Mercury email-template special case) per `insurance-directory.md`:
 
