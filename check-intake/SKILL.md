@@ -70,6 +70,19 @@ surfaces co-claimants on the same claim. **Match the check number against column
 substring of the joined row** — short IOLTA numbers false-positive inside long carrier numbers (`80490` sits
 inside `1646804903`, 2026-10-15).
 
+### Before recording anything: read the case's own log
+
+**Before Step 2, read the case AL (`python3.14 ~/lingtu-cm-study/al/al.py read <intake id>`, registry in
+`~/lingtu-cm-study/al/registry.json`) and Lingtu Data `find <client>` → `recent_log`.** Look for a void, a stop-payment,
+a reissue request or a wrong-payee complaint about this check. The case Chat can stay silent on it: on 2026-11-16
+Kemper chk 6153559261 ($50,000, Miguel S Gutierrez Ortega) arrived payable to "Lingtu Law Office"; the Chat only said
+"支票直接寄过来了", but the case AL (Amos, 11/13) recorded that Kemper had been asked to void it and reissue to the W-9
+name. It was booked, posted and then had to be reverted.
+
+If the log says the check was voided / is being reissued → **record nothing, post nothing**. File the scan to the case
+folder with ` (VOID REQUESTED - <reason>, reissue pending, DO NOT DEPOSIT)` in the name, write one case AL line + one
+Lingtu Data note, and wait for the replacement check. Book the replacement when it arrives.
+
 ### A new check number is not proof of new money — test for a REISSUE
 
 **Same claim # + same amount + same payee + a later check date** than a check already in the
