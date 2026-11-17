@@ -155,17 +155,19 @@ find the signed DIS anywhere and had to stop too. Holding the *money steps* is t
 16. Move the case folder → `8. Settled` (`1P35bCgC82Lh6Xftpbt03TX1Cs20G6BoB`). Use `8. Settled`,
     never the sibling `8. Completed`.
 
-## ⚠️ Two claimants on one Pending tab — close the tab only when BOTH halves are paid
-A shared tab (`Ya Meng/Ava Huang`, `Hanwen Li/Yehao Li/Zihan Liu`, `Li Liu Sun/Yanjun Pan`) is one unit in
-Phases 4 and 6 but **not** in Phases 1–2. When only one claimant is funded or signed:
-- Run the money steps for that claimant alone — their own `Internal ` row (the second claimant is usually
-  already sitting there as a **passenger row**: name + DOL filled, everything else blank — fill it, don't
-  append a new one) and their own journal check rows.
-- **Do not** `copyTo` the tab, do not delete it from Pending, and do not move the case folder out of its
-  stage folder. Moving either buries the open half.
-- Prefix `✅ ` and the disburse date per block (`A1`/`C1` for the first claimant, `A19`/`C19` for the
-  second), so a half-done tab reads correctly.
-- Hold the team email too, then send **one** email covering both claimants when the tab closes.
+## Two claimants on one Pending tab — each claimant closes on their own
+Klaus 2026-11-16: "他们是 individual 的 case 啊，他已经完全和解了呀" — each claimant is an individual case. When one
+half is paid and complete and the other is still in lien reduction, **finish the paid half now**; don't hold it for
+the sibling.
+- Money steps for that claimant: their own `Internal ` row (fill the seeded passenger row if one exists) and their
+  own journal check rows.
+- **Split the tab**: `copyTo` Completed → rename `<Client> <DOL>` → delete the other claimant's rows from the copy
+  (check first that each block's formulas only reference its own rows) → Search row. In Pending, delete the closed
+  claimant's rows and rename the tab to the remaining client.
+- Team email, PI Master row, marketing, 回收台账 and Chat go out for that claimant alone. The Chat space is shared,
+  so post `Case disbursed✅ (<Client>)`.
+- **Keep the shared case folder where it is** (it holds the open half) and leave a shared Gmail label alone. Move the
+  folder to `8. Settled/<year>` when the last claimant closes.
 A minor's half has its own gate on top of funding: **if the minor's settlement is $5,000 or more** the compromise route must be settled (Klaus 2026-10-28: under $5k needs no court — pay the parent, e.g. ck 80499 "Shengjun Lu as Parent of Xinyi Lu", and don't raise it), and the carrier
 check is usually payable to **both parents as guardians** — both must endorse before it can be deposited.
 
