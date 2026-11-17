@@ -20,9 +20,11 @@ values.json：
   "1p":        {"1P Insurer": "...", "Policy#": "...", "Adjuster": "Pending", "Adjuster 2": "", ...},
   "3p":        {"3P Insurer": "...", "Driver": "...", ...},
   "passengers": [ {"Pass1 Name": "...", "Date Birth": "...", ...} ],   # 第 1–4 位乘客，按顺序
-  "na_empty_passengers": true,     # 没有的乘客区块整块写 N/A（单人案默认 true）
+  "no_passengers": true,           # 表单明确说「没有乘客」才写 N/A；不知道（没表单）→ Pending
   "cells": {"R3": "Pending"}       # 区块外的个别格子，按地址写
 }
+默认值（Klaus 2026-11-16）：已知的先填，其余**所有**值格一律黄色 `Pending`，不准留空白。
+  例外：模板自带的 Coverage/Liability Status、Accd Diagram；1P 第二个 Adjuster 块（I19–I22）、3P 第二个块（L23–L25）留空。
 规则：每个写入的格子 = 黄色、Nunito 10、非粗体、左对齐、不换行（Klaus 2026-11-10：Claude 写的一律黄）。
 值为 null 的键跳过（不写、不变黄）。
 """
@@ -98,13 +100,28 @@ def main():
         sec = f"pass{i + 1}"
         if i < len(pax):
             fill(sec, pax[i])
-        elif spec.get("na_empty_passengers", not pax):
+        elif spec.get("no_passengers"):
             for cell in label_map(ws, sec).values():
                 write(ws, cell, "N/A")
 
     for cell, val in spec.get("cells", {}).items():
         write(ws, cell, val)
         written[cell] = ("cells", cell)
+
+    # 其余空值格一律黄色 Pending（Klaus 2026-11-16：「默认应该是黄色 pending all」）
+    SKIP = {"I19", "I20", "I21", "I22", "L23", "L24", "L25"}
+    NOY = {"coverage status", "liability status", "accd diagram", "clients index",
+           "accident infomation", "1st party insurance", "3rd party insurance"}
+    for sec in SECTIONS:
+        lc, vc, a, b = SECTIONS[sec]
+        for r in range(a, b + 1):
+            lab = ws[f"{lc}{r}"].value
+            k = f"{vc}{r}"
+            if not lab or k in SKIP or str(lab).split("\n")[0].strip().lower() in NOY \
+               or str(lab).startswith("Passenger "):
+                continue
+            if ws[k].value in (None, ""):
+                write(ws, k, "Pending")
 
     # 自检 1：客户核心格不能空（不知道写 Pending）
     cm = label_map(ws, "client")

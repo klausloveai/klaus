@@ -159,6 +159,19 @@ def main():
                     warns += 1
 
     # 客户本人核心资料闸门（2026-11-16：标签重复把客户资料写进乘客栏，C5–C21 整块空白没人拦住）
+    # Klaus 2026-11-16：未知一律黄色 Pending，值格不准空白
+    _skip = {"I19", "I20", "I21", "I22", "L23", "L24", "L25"}
+    _blank = []
+    for lc, vc, a, b in (("B","C",2,22),("E","F",2,22),("H","I",5,31),("K","L",5,27),
+                         ("B","C",24,45),("E","F",24,45),("B","C",49,70),("E","F",49,70)):
+        for r in range(a, b + 1):
+            lab = ws[f"{lc}{r}"].value
+            if lab and not str(lab).startswith("Passenger ") and f"{vc}{r}" not in _skip \
+               and ws[f"{vc}{r}"].value in (None, ""):
+                _blank.append(f"{vc}{r}")
+    if _blank:
+        print(f"\n=== 空白值格 ===\n❌ ERROR 这些格子是空的，未知要写黄色 Pending：{', '.join(_blank)}")
+        errors += 1
     core_blank = [f"C{r}" for r in (5, 6, 7, 8) if ws[f"C{r}"].value in (None, "")]
     if core_blank:
         print(f"\n=== 客户本人资料 ===\n❌ ERROR {', '.join(core_blank)}（DOB/Phone/Address/Email）是空的——"

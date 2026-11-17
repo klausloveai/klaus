@@ -394,7 +394,9 @@ python3 ~/.claude/skills/new-case/scripts/fill_intake.py "<CaseName>.xlsx" value
  "passengers": [],
  "cells": {"R3": "Pending"}}
 ```
-- 乘客按顺序放进 `passengers`（第 1 位 → pass1 …）；没有乘客的区块自动整块写 `N/A`。
+- 乘客按顺序放进 `passengers`（第 1 位 → pass1 …）；表单明确说没有乘客 → `"no_passengers": true`，空乘客区块写 `N/A`。
+- **已知的先填，其余所有值格自动写黄色 `Pending`**（Klaus 2026-11-16：「默认应该是黄色 pending all」；客人还没交表也一样）。
+  值格不准出现空白，`verify_intake.py` 会把空白格报 ERROR。例外：模板自带默认值、I19–I22 / L23–L25 第二个 Adjuster 块。
 - 每格自动黄色 + Nunito 10 + 非粗体 + 左对齐。
 - 保存前自检：客户 DOB / Phone / Address / Email 不能空（不知道写 `Pending`）；客户的 DOB/电话/邮箱
   出现在没明确传值的乘客区块 = 写错栏 → 报错不保存。
