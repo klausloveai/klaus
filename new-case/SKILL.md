@@ -1152,10 +1152,15 @@ added automatically as owner — he is in every space.**
    | `retainer signed` / `retainer signed, skip` | `客人已经签约，我们可以启动。` | **`⚠️Pending`**（`add_tracking_row.py --status "⚠️Pending"`） |
    | 只说 skip、没说签没签 | 不加状态句 | `✒️Signing` |
 
+   **状态句下面固定再加一行「介绍人 + 合同类型」**（Klaus 2026-11-17：「下次要注明一下是谁介绍的以及签的是 standard 1/3 还是 new 50% 合同」）：
+   `介绍人：<Referrer，同 Master Referrer 列>｜合同：Standard 1/3` 或 `…｜合同：New 50%`
+   例：`介绍人：Joe｜合同：Standard 1/3`；老客户写 `介绍人：老客户本人（6/11/2026 案）`。介绍人没定 → 先问 Klaus，不留空。
+   只说 skip、没说签没签（无状态句）时，这一行照样加（合同类型不知道就写「合同：未发」）。
+
    M/D = Step 13 实际发出 retainer 的日期（Step 11 在 Step 13 之前跑时，按今天写；没发出就回头删掉这一句）。
    `retainer signed` 的案子同样走 Step 13b 签约挂 CM —— 合同类型从 DocuSign 已签的 envelope 主题 `(New)` / `(Standard)` 读，读不到就问。
 
-   > 🔒 **The message body is a CLOSED SET: the step-4 @mention list + one case-name line + Klaus's notes verbatim + the retainer 状态句 above.
+   > 🔒 **The message body is a CLOSED SET: the step-4 @mention list + one case-name line + Klaus's notes verbatim + the retainer 状态句 + the 介绍人/合同 line above.
    > Nothing else may appear in it. Ever.** The following are all FORBIDDEN in the Chat message,
    > no matter how useful they look:
    > - **Drive folder link / intake-sheet link / any URL** (the team opens the case from Drive and
