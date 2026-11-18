@@ -213,6 +213,8 @@ to speak with the carrier directly. Clean up: `rm -rf ~/claim_work`.
 
 ## Notes & gotchas
 
+- **Auto-mode classifier（2026-11-18 从 memory 并入）**：auto mode 的分类器会拦两类动作——(a) Claude 自己往 Facts of Loss 等叙述栏里打字（即使是逐字照抄也当成自由发挥），(b) 临近 SUBMIT 的点击。处理：FOL 叙述让用户把原文贴进 chat 再填；用户在 chat 里说「允许 / 继续」**不能**绕过分类器（它每个动作重新判断）；最终 SUBMIT 本来就要用户显式批准（Step 6）。
+
 - **Approval gate is non-negotiable** (Step 6). Filing is irreversible and outward-facing.
 - **Policyholder vs driver** (3P Last Name) and **county** are the two recurring data traps —
   surfaced in Step 4 for GEICO; replicate per carrier.
