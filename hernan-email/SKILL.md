@@ -122,7 +122,7 @@ copy that came back is <b>9589 0710 5270 2931 6710 35</b>, postmarked the same d
 ### 🔴 红字语义已反转（务必看清）
 
 **回 Hernán 时，红字 = 要发给他的答案**，不是给 Klaus 的备注。这与
-[[hourly-email-agent]] 的通用红字规则相反，Hernán 这条线以本节为准。
+通用的「红字 = 给 Klaus 的备注」相反（旧 hourly-email-agent 的规则，该 agent 已于 11/02 停用），Hernán 这条线以本节为准。
 
 **草稿里不放任何给 Klaus 的备注，也不能有一个中文字。**（Klaus 2026-10-19 Gaoyang Qin，
 取代此前的「蓝字【Claude 备注 — 发送前删除】」做法：「为什么还有中文？它不应该出现中文…
