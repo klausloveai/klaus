@@ -1,0 +1,34 @@
+{
+  "name": "@chatcut/cli",
+  "version": "0.1.4",
+  "description": "Install ChatCut Desktop and diagnose Desktop or Hosted agent connections",
+  "license": "UNLICENSED",
+  "bin": {
+    "chatcut": "bin/chatcut.mjs"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "npm run build:skills && node --test",
+    "check-types": "node --check bin/chatcut.mjs && node --check src/cli.mjs && node --check src/doctor.mjs && node --check src/rpc.mjs && node --check src/desktop.mjs && node --check src/agent.mjs && node --check src/clients.mjs && node --check src/doctor-reports.mjs && node --check src/doctor/cases.mjs && node --check src/doctor/desktop.mjs && node --check src/doctor/hosted.mjs && node --check src/doctor/unified.mjs && node --check src/doctor/native-codex.mjs && node --check src/doctor/resume.mjs && node --check src/install-handoff.mjs && node --check src/acquisition-skills.mjs && node --check scripts/build-acquisition-skills.mjs",
+    "lint": "oxlint src bin tests scripts --ignore-pattern \"src/doctor/hosted/*.mjs\" --ignore-pattern \"src/doctor/*.generated.mjs\"",
+    "pack:check": "npm pack --dry-run",
+    "build:skills": "node scripts/build-acquisition-skills.mjs",
+    "prepack": "npm run build:skills"
+  },
+  "devDependencies": {
+    "esbuild": "0.27.3",
+    "yaml": "2.9.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

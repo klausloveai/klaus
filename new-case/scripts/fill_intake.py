@@ -20,7 +20,7 @@ values.json：
   "1p":        {"1P Insurer": "...", "Policy#": "...", "Adjuster": "Pending", "Adjuster 2": "", ...},
   "3p":        {"3P Insurer": "...", "Driver": "...", ...},
   "passengers": [ {"Pass1 Name": "...", "Date Birth": "...", ...} ],   # 第 1–4 位乘客，按顺序
-  "no_passengers": true,           # 表单明确说「没有乘客」才写 N/A；不知道（没表单）→ Pending
+  "no_passengers": true,           # 表单列清了乘客（或明确说没有乘客）→ 其余空乘客区块写 N/A；不知道（没表单）→ Pending
   "cells": {"R3": "Pending"}       # 区块外的个别格子，按地址写
 }
 默认值（Klaus 2026-11-16）：已知的先填，其余**所有**值格一律黄色 `Pending`，不准留空白。

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "generator": "apps/cli/scripts/build-doctor-transport.mjs",
+  "generatorSha256": "38b5affdae10928ea80df96aadcc5c4f127cedbefa3fed114ed41be2245f64ec",
+  "sourceSha256": "56128349a947ad734d63d6ac4efd0d51843e76e6dfdcfc01082a75e333082dbe",
+  "files": [
+    {
+      "source": "packages/telemetry/src/telemetry/axiom-event.ts",
+      "sourceSha256": "481eae7c5720b3b4a4ac5f04e38802df3efd8623d9597c74444737320f0cad3e",
+      "output": "apps/cli/src/doctor/axiom-event.generated.mjs",
+      "outputSha256": "085d5c3f1c6d10a3c429dc91e11074a18b4c704caeb8492166c12260d32df5be"
+    },
+    {
+      "source": "packages/telemetry/src/telemetry/frontend-transport.ts",
+      "sourceSha256": "973e1ec521808787e6f8728bb17f7a449c4c856d289fdc40ceb07d6bd4f40df1",
+      "output": "apps/cli/src/doctor/frontend-transport.generated.mjs",
+      "outputSha256": "3450be4e9403054e8d25e41cdffc131aa37b43593da5395d1a367f14ca7abfcd"
+    }
+  ],
+  "qualification": "Type-erased shared transport; no independent retry or ACK implementation"
+}

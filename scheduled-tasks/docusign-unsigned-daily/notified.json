@@ -1,0 +1,113 @@
+{
+  "cutoff": "2026-11-16T20:00:00Z",
+  "note": "cutoff 之前签的已由 Klaus 11/16 人工批准处理；hourly 只处理 cutoff 之后签的",
+  "envelopes": {
+    "0ddfbd92": {
+      "state": "full",
+      "date": "2026-11-16",
+      "case": "Ruiqiong Chen"
+    },
+    "ed6c573d": {
+      "state": "full",
+      "date": "2026-11-16",
+      "case": "Weijie He"
+    },
+    "4e84897f": {
+      "state": "full",
+      "date": "2026-11-16",
+      "case": "Ying Xue"
+    },
+    "dd7f3fea": {
+      "state": "partial",
+      "signed": [
+        "Peixiao Chen"
+      ],
+      "date": "2026-11-16",
+      "case": "Peixiao Chen + Tiffany Zhao"
+    },
+    "a6f5a3fe": {
+      "state": "full",
+      "date": "2026-11-16",
+      "case": "Xinchen Hou"
+    },
+    "e01be833": {
+      "state": "full",
+      "signed": [
+        "Qianrui Yu",
+        "Xinwei Li"
+      ],
+      "date": "2026-11-16",
+      "case": "Xinwei Li + Qianrui Yu"
+    },
+    "c2ab6212": {
+      "state": "full",
+      "date": "2026-11-16",
+      "case": "Weiguo Mao"
+    },
+    "d271de4e": {
+      "state": "full",
+      "signed": [
+        "Yi Li"
+      ],
+      "date": "2026-11-16",
+      "case": "Yi Li"
+    },
+    "7289f5b1": {
+      "state": "full",
+      "signed": [
+        "Xiaojun Zheng"
+      ],
+      "date": "2026-11-17",
+      "case": "Xiaojun Zheng",
+      "note": "Chat 群 11/17 19:01Z 建好，已由人工发「客人已经签约」并改 Master ⚠️Pending；hourly 未重复发"
+    },
+    "52189d1f": {
+      "state": "full",
+      "signed": [
+        "Xiaoyan Xu"
+      ],
+      "date": "2026-11-17",
+      "case": "Xiaoyan Xu"
+    },
+    "6bc2d019": {
+      "state": "full",
+      "signed": [
+        "Junjie Zhang"
+      ],
+      "date": "2026-11-18",
+      "case": "Junjie Zhang"
+    }
+  },
+  "unresolved": [
+    {
+      "envelope": "dd164e8a",
+      "clients": "Aria Zhou (New)",
+      "reason": "Cindy 发、未分配",
+      "date": "2026-11-16"
+    },
+    {
+      "envelope": "d406b548",
+      "clients": "Aria Zhou (Standard)",
+      "reason": "Cindy 发、未分配",
+      "date": "2026-11-16"
+    },
+    {
+      "envelope": "7cf7f049",
+      "clients": "Bin Zheng + Kaiyao Deng",
+      "reason": "Cindy 发、未分配",
+      "date": "2026-11-16"
+    },
+    {
+      "envelope": "62cb58b7",
+      "clients": "Kaisi Xu",
+      "reason": "Cindy 发、未分配",
+      "date": "2026-11-16"
+    },
+    {
+      "envelope": "ea402f3b",
+      "clients": "Bodie Yu (DOL 11/17/2026)",
+      "reason": "没找到 Chat 群（客户 11/18 18:06Z 已签）",
+      "date": "2026-11-18"
+    }
+  ]
+}
