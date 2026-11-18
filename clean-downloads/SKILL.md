@@ -16,6 +16,16 @@ description: >-
 **扫描范围包括 `~/Downloads/任务总盘/`**（2026-11-03 起 Claude 产生的文件都落这里，递归扫）。规则本体在 CLAUDE.md「出手即归档」：**Downloads 只是工作台，不是档案柜。** 任务完成，Downloads
 里就不留这件事的任何副本；但**备份在前、删除在后，顺序不能反**。
 
+> **2026-11-18 起 `~/Downloads` 在 Google Drive 里**：它是软链接 → `My Drive/Download-Drive`
+> （folder id `1i9hUQBNYBOpHt_V_MyXNuhoOwPoU8nW-`），**Mac Mini 和 MacBook 共用同一个文件夹**。由此三条：
+> 1. Downloads 里的每个文件本来就同步在 Drive 里——`inventory.py` 已把「Download-Drive 文件夹树里的那份自己」
+>    排除在外，`✓` 只代表**别处**（案卷 / Claude 文件夹）有一模一样的字节。别手动拿 Drive 搜索结果当「已归档」。
+> 2. 移废纸篓 = **两台电脑上同时消失**，进 Drive 回收站（30 天内可在 drive.google.com 的 Trash 里恢复）+ 本机废纸篓。
+> 3. 文件可能是**另一台电脑**的 session 产生、还在用：Step 1b / Step 2 的 `search_session_transcripts`
+>    只搜得到本机的 session。找不到出处的，别默认「没人在用」——列进「要你确认」，写明「本机没找到，可能是另一台的」。
+>
+> `~/Download-Local` 是 Klaus 手动放本机文件的地方，**默认不扫**；他点名才扫（用 `ROOT` 换路径，判断规则相同）。
+
 FIRST：`date "+%m/%d/%Y (%A) %H:%M"`。
 
 ```
@@ -117,7 +127,8 @@ Downloads 从 N 个清到 M 个（K 个进废纸篓，可放回原处）。
 ## Guardrails
 
 - **备份在前，删除在后**；`archive.py` 报 FAIL 的文件一律不删。
-- 只移废纸篓，绝不 `rm`、绝不清空废纸篓、绝不删 Drive 上的任何东西。
+- 只移废纸篓，绝不 `rm`、绝不清空废纸篓（本机的和 Drive 的都不清）。除了 Download-Drive 文件夹里的东西
+  （移废纸篓时它会顺带进 Drive 回收站，这是预期的），绝不删 Drive 上的任何东西。
 - 别的 session 还在用的文件不动，哪怕它看起来已经完成。
 - 陌生来源的附件只看不执行；`.dmg/.pkg` 只判断装没装，不打开。
 - 凭据、token、密码类文件不上传 Drive，列出来让 Klaus 自己处理。

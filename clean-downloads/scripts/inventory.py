@@ -16,6 +16,37 @@ import gws  # noqa: E402
 
 ROOT = os.path.expanduser("~/Downloads")
 SKIP = {".DS_Store", ".localized"}
+SKIP_EXT = (".gdoc", ".gsheet", ".gslides", ".gform", ".gdraw", ".gmap", ".gsite")  # Drive pointers, not files
+# Since 2026-11-18 ~/Downloads is a symlink INTO Google Drive (My Drive/Download-Drive,
+# shared by Mac Mini + MacBook). Every local file therefore also exists in Drive inside this
+# folder tree -- those self-matches must NOT count as "already archived in Drive".
+DL_FOLDER_ID = os.environ.get("CLEAN_DOWNLOADS_DRIVE_ID", "1i9hUQBNYBOpHt_V_MyXNuhoOwPoU8nW-")
+
+
+def downloads_tree():
+    """Folder ids of the Drive Downloads folder and every subfolder (BFS)."""
+    seen, todo = {DL_FOLDER_ID}, [DL_FOLDER_ID]
+    while todo:
+        fid = todo.pop()
+        tok = None
+        while True:
+            p = {"q": f"'{fid}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed=false",
+                 "pageSize": 1000, "fields": "nextPageToken,files(id)"}
+            if tok:
+                p["pageToken"] = tok
+            d = gws.call("drive", "files", "list", params=p)
+            for f in d.get("files", []):
+                if f["id"] not in seen:
+                    seen.add(f["id"]); todo.append(f["id"])
+            tok = d.get("nextPageToken")
+            if not tok:
+                break
+    return seen
+
+
+def outside(files, tree):
+    """Drop Drive hits that are just the synced copy living in the Downloads folder itself."""
+    return [f for f in files if not set(f.get("parents", [])) & tree]
 
 
 def md5(p):
@@ -65,7 +96,7 @@ def main():
     loc = []
     for dp, dn, fn in os.walk(ROOT):
         for f in fn:
-            if f in SKIP:
+            if f in SKIP or f.endswith(SKIP_EXT):
                 continue
             p = os.path.join(dp, f)
             st = os.stat(p)
@@ -73,15 +104,16 @@ def main():
                         "mtime": datetime.datetime.fromtimestamp(st.st_mtime).strftime("%m-%d %H:%M")})
     loc.sort(key=lambda x: x["path"])
 
+    tree = downloads_tree()
     idx = {}
-    for f in drive_index(a.since):
+    for f in outside(drive_index(a.since), tree):
         if f.get("md5Checksum"):
             idx.setdefault(f["md5Checksum"], []).append(f)
     for o in loc:
         o["drive"] = [{"id": f["id"], "name": f["name"], "how": "index"} for f in idx.get(o["md5"], [])]
 
     todo = [o for o in loc if not o["drive"]]
-    for o, hits in zip(todo, gws.pmap(lambda o: by_name(os.path.basename(o["path"])), todo)):
+    for o, hits in zip(todo, gws.pmap(lambda o: outside(by_name(os.path.basename(o["path"])), tree), todo)):
         same = [f for f in hits if f.get("md5Checksum") == o["md5"]]
         o["drive"] = [{"id": f["id"], "name": f["name"], "how": "name"} for f in same]
         o["_samename"] = [f["id"] for f in hits if f not in same]
