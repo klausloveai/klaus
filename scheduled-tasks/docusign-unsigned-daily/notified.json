@@ -76,6 +76,24 @@
       ],
       "date": "2026-11-18",
       "case": "Junjie Zhang"
+    },
+    "74b0c3b6": {
+      "state": "partial",
+      "signed": [
+        "Shasha Su"
+      ],
+      "date": "2026-11-18",
+      "case": "Lin Zhou + Shasha Su",
+      "note": "Master 两行 11/18 前已是 ⚠️Pending、案号已有后缀，未改"
+    },
+    "ea402f3b": {
+      "state": "full",
+      "signed": [
+        "Bodie Yu"
+      ],
+      "date": "2026-11-18",
+      "case": "Bodie Yu",
+      "note": "Chat 群 11/18 20:13Z 建好，开场消息已含「客人已经签约，我们可以启动」；Master Claims@ 第3行已是 ⚠️Pending；new-case session 已记凌图数据 log 15979；hourly 未重复发/记"
     }
   },
   "unresolved": [
@@ -105,8 +123,8 @@
     },
     {
       "envelope": "ea402f3b",
-      "clients": "Bodie Yu (DOL 11/17/2026)",
-      "reason": "没找到 Chat 群（客户 11/18 18:06Z 已签）",
+      "clients": "Bodie Yu (46305)",
+      "reason": "Master 未补案号：后台 cases[] 为空（sign_lead 报错未建案），A 列仍为 46305",
       "date": "2026-11-18"
     }
   ]
