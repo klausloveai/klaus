@@ -57,3 +57,8 @@ Klaus 2026-11-16：「做一个 /签约进展 skill」——平时靠两个定�
 - 不 void、不改信封、不改未签客户的 Master 行。
 - 不 sign_lead、不改凌图数据阶段（只报缺口）。
 - Cindy intake 发的信封不发 Chat（要 Klaus 先定 assign）。
+
+## Klaus 11/18 定的范围（只列他要亲自处理的）
+- **「⏳ 还没签」只列 retainer / Joint Conflict 这类签约件**。release、disbursement letter、PDR、FC00…、病历授权这些是 case manager 的活，**不列**。
+- **Tiffany Zhao**（Peixiao Chen 案，dd7f3fea）：客人还没决定，**不列、不催**，直到 Klaus 另说。
+- **Xiuhuan Xie**：客人联系不上，**不列**。

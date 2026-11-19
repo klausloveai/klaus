@@ -76,6 +76,25 @@
       ],
       "date": "2026-11-18",
       "case": "Junjie Zhang"
+    },
+    "ea402f3b": {
+      "state": "full",
+      "signed": [
+        "Bodie Yu"
+      ],
+      "date": "2026-11-18",
+      "case": "Bodie Yu",
+      "note": "Chat 群 (A) 11/18 20:13Z 已有人工「客人已经签约」通知，Master 已是 ⚠️Pending；/签约进展 11/18 补记，未重复发"
+    },
+    "74b0c3b6": {
+      "state": "full",
+      "signed": [
+        "Shasha Su",
+        "Lin Zhou"
+      ],
+      "date": "2026-11-18",
+      "case": "Lin Zhou + Shasha Su",
+      "note": "Client1 槽位由 Shasha Su 代签，Klaus 11/18 定算签好；Chat @Jerry 全签通知"
     }
   },
   "unresolved": [
@@ -107,7 +126,8 @@
       "envelope": "ea402f3b",
       "clients": "Bodie Yu (DOL 11/17/2026)",
       "reason": "没找到 Chat 群（客户 11/18 18:06Z 已签）",
-      "date": "2026-11-18"
+      "date": "2026-11-18",
+      "note": "11/18 23:30 核：群已建、Chat 已通知、Master Pending；剩 sign_lead 未做（服务器报错）"
     }
   ]
 }

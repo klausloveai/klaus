@@ -94,3 +94,4 @@ python3 journal.py "tianhua" tesla             # IOLTA Journal 只读查询（+ 
 - 2026-11-18 · Tianhua Wang：问「存了吗」只答存入日期（+ 金额、支票号），不提 reissue/分账建议，留给 CM 定；作为新消息发，不挂原消息下。
 - 2026-11-19 · Jingrui Hu：Klaus 在群里回「🉑」= 看到、确认，算他已回，`after` 里看到 🉑 就标 handled_by_klaus。
 - 2026-11-19 · Tingting Yang：CM 说「齐了」（分账件齐了）→ 下一步直接跑 `write-check` 在 Rentec 起支票草稿（不 post），不是 case-settles。
+- 2026-11-19 · Klaus：write-check / 开支票的活**不在本 session 做**，用 SendMessage 交给「2️⃣开支票 (write-check)」session（local_de619fd5-e5dd-4c4a-9303-c6763b90eaef），附上已经核好的事实（资金、分账表、lien 依据、地址），再引用 Klaus 原话。本 session 只负责分流和起草回复。
