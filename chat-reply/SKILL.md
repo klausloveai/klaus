@@ -50,11 +50,20 @@ python3 journal.py "tianhua" tesla             # IOLTA Journal 只读查询（+ 
      - 分账 / disbursed 了吗：Journal 有该客户的 disbursement 行（G 列）+ 凌图数据 `find` 客户 → recent_log。
      - 其他：凌图数据 `find`、案件 AL（`python3 ~/lingtu-cm-study/al/al.py read <id>`，id 查 `~/lingtu-cm-study/al/registry.json`）。
      - 查到 → 起草；查不到/有矛盾 → 改 question，facts 里写查了哪里、看到什么。
-   - **notice**：起草一句确认（如「收到」「收到，Settled $30,000 已记下」——只复述对方说的数，不加自己的判断），并在 `next_skills` 列出可接着跑的 skill：齐了/可以出支票 → `write-check`（只在 Rentec 存草稿，Post 永远等 Klaus）；Settled/tender → `case-settles` 前置、凌图数据 `sync_case_status`；release 签回 → 归档 + `case-settles`。是否值得回一句由你判断：纯 FYI 不必回的，draft 写空、标 `no_reply_needed: true`。
+   - **notice**：起草一句确认（如「收到」「收到，Settled $30,000 已记下」——只复述对方说的数，不加自己的判断），并在 `next_skills` 列出可接着跑的 skill：齐了/可以出支票 → **自动交给开支票 session，不等 Klaus**（见下节「齐了 → 自动开支票」）；Settled/tender → `case-settles` 前置、凌图数据 `sync_case_status`；release 签回 → 归档 + `case-settles`。是否值得回一句由你判断：纯 FYI 不必回的，draft 写空、标 `no_reply_needed: true`。
    - **question**：不起草。`summary` 写一句「谁 · 哪个案子 · 问什么 · 你需要决定什么」，status=escalated。
 5. 写回：`queue.py set ID '{"status":"drafted|escalated","category":"query|notice|question","draft":"...","facts":"来源：journal row 806（A 11/10，M 11/10）…","next_skills":[...],"summary":"..."}'`
 
 全部处理完 → **PushNotification** 一条（「Chat 回复：N 条待批 / M 条要你判断」）→ 在本 session 输出待批清单 → **重新后台启动 `watch.sh`**（`run_in_background: true`）→ 结束本轮。
+
+## 齐了 → 自动开支票（Klaus 2026-11-19 定）
+
+CM 在群里说分账件「齐了 / 可以出支票」（包括「就等客人签 dis，其他都齐了」），**不等 Klaus**，当场：
+1. 核三样：① 结算款已经入账（`journal.py`：M 列有日期，且 ≤ recon through；没对到的去 BoA 查）；② Pending Disbursed Sheet 有这个客户的 tab，算得平（律师费 + 成本 + 各 lien 减免后金额 + 到手 = 总额）；③ 每家 lien 有依据（签回的减免信，或者诊所邮件里自己报的数），客户地址取 intake。
+2. 三样都对得上 → `SendMessage` 给「2️⃣开支票 (write-check)」session（`local_de619fd5-e5dd-4c4a-9303-c6763b90eaef`），开头写「按 Klaus 11/19 定的规矩：齐了直接跑 write-check，只存草稿不 Post」，后面附核好的事实（资金行号、分账数、lien 依据文件 id、地址、要注意的地方）。
+3. 有任何一样对不上（钱没到、算不平、lien 没依据、未成年人、多个客户分不清）→ 不交，归「问题」，列给 Klaus 判断。
+4. 待批清单里写一行「已交开支票：<客户> · 总额 $X」。给 CM 回的「收到」照常等 Klaus 说「发」。
+Post / 打印 / 寄出永远是 Klaus 自己。
 
 ## 待批清单格式（发给 Klaus 看）
 
