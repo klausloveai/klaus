@@ -50,7 +50,7 @@ python3 journal.py "tianhua" tesla             # IOLTA Journal 只读查询（+ 
      - 分账 / disbursed 了吗：Journal 有该客户的 disbursement 行（G 列）+ 凌图数据 `find` 客户 → recent_log。
      - 其他：凌图数据 `find`、案件 AL（`python3 ~/lingtu-cm-study/al/al.py read <id>`，id 查 `~/lingtu-cm-study/al/registry.json`）。
      - 查到 → 起草；查不到/有矛盾 → 改 question，facts 里写查了哪里、看到什么。
-   - **notice**：起草一句确认（如「收到」「收到，Settled $30,000 已记下」——只复述对方说的数，不加自己的判断），并在 `next_skills` 列出可接着跑的 skill：齐了/可以出支票 → `case-settles`（开支票不可逆，永远等 Klaus）；Settled/tender → `case-settles` 前置、凌图数据 `sync_case_status`；release 签回 → 归档 + `case-settles`。是否值得回一句由你判断：纯 FYI 不必回的，draft 写空、标 `no_reply_needed: true`。
+   - **notice**：起草一句确认（如「收到」「收到，Settled $30,000 已记下」——只复述对方说的数，不加自己的判断），并在 `next_skills` 列出可接着跑的 skill：齐了/可以出支票 → `write-check`（只在 Rentec 存草稿，Post 永远等 Klaus）；Settled/tender → `case-settles` 前置、凌图数据 `sync_case_status`；release 签回 → 归档 + `case-settles`。是否值得回一句由你判断：纯 FYI 不必回的，draft 写空、标 `no_reply_needed: true`。
    - **question**：不起草。`summary` 写一句「谁 · 哪个案子 · 问什么 · 你需要决定什么」，status=escalated。
 5. 写回：`queue.py set ID '{"status":"drafted|escalated","category":"query|notice|question","draft":"...","facts":"来源：journal row 806（A 11/10，M 11/10）…","next_skills":[...],"summary":"..."}'`
 
@@ -92,3 +92,5 @@ python3 journal.py "tianhua" tesla             # IOLTA Journal 只读查询（+ 
 ## 学到的（Klaus 纠正过的口径，逐条追加）
 
 - 2026-11-18 · Tianhua Wang：问「存了吗」只答存入日期（+ 金额、支票号），不提 reissue/分账建议，留给 CM 定；作为新消息发，不挂原消息下。
+- 2026-11-19 · Jingrui Hu：Klaus 在群里回「🉑」= 看到、确认，算他已回，`after` 里看到 🉑 就标 handled_by_klaus。
+- 2026-11-19 · Tingting Yang：CM 说「齐了」（分账件齐了）→ 下一步直接跑 `write-check` 在 Rentec 起支票草稿（不 post），不是 case-settles。
