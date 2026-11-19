@@ -54,7 +54,7 @@ python3 journal.py "tianhua" tesla             # IOLTA Journal 只读查询（+ 
    - **question**：不起草。`summary` 写一句「谁 · 哪个案子 · 问什么 · 你需要决定什么」，status=escalated。
 5. 写回：`queue.py set ID '{"status":"drafted|escalated","category":"query|notice|question","draft":"...","facts":"来源：journal row 806（A 11/10，M 11/10）…","next_skills":[...],"summary":"..."}'`
 
-全部处理完 → **PushNotification** 一条（「Chat 回复：N 条待批 / M 条要你判断」）→ 在本 session 输出待批清单 → **重新后台启动 `watch.sh`**（`run_in_background: true`）→ 结束本轮。
+全部处理完 → **弹窗**（见下节「弹窗提醒」）→ 在本 session 输出待批清单 → **重新后台启动 `watch.sh`**（`run_in_background: true`）→ 结束本轮。
 
 ## 齐了 → 自动开支票（Klaus 2026-11-19 定）
 
@@ -71,6 +71,23 @@ Post / 打印 / 寄出永远是 Klaus 自己。
 1. **分派汇报**（交出去当下）：每条一行 ——「#N 客户 · 谁说了什么 → 我的判断（类别 + 核对过的依据）→ 交给了 [session 名](#id)，让它做什么」。
 2. **结果汇报**（对方回传以后）：一张「任务 → 结果」总表：#N · 客户 · 交给谁 · 做成了什么（金额、草稿号）· 合计是否对得上 · 还剩什么要 Klaus 处理（Post、打印、约客人……）。回传只是对方的说法，先自己抽查一下（比如到 Rentec ledger 或 Drive 看），再写进总表，并注明查过什么。
 对方迟迟没回传：下一次被唤醒时用 `list_events` / `list_sessions` 看它的状态，在汇报里如实写「还在跑 / 没回传」。
+
+## 弹窗提醒（Klaus 2026-11-19 定）
+
+Klaus 不一定盯着这个 session，但弹窗他一定会看到。所以以下三种时刻，除了在 session 里写，还要弹一个**必须手动点掉**的 macOS 对话框：
+```bash
+~/.claude/skills/chat-reply/scripts/popup.sh "Chat 回复 · <一句话标题>" <<'EOF'
+#N 客户 · 谁「原话摘要」
+→ 判断：<类别 + 依据一句>
+→ 做了什么：<草稿内容 / 交给哪个 session 做什么 / 已关闭的原因>
+EOF
+```
+1. **每批处理完**：每条 2–3 行，写进来了什么、我怎么判断、我做了什么（起草的回复原文、交给了谁、自动关掉的原因）。末尾写「Chat 里没发任何消息」或「待你说『发 N』」。
+2. **发出去之后**：发到哪个群、@了谁、正文全文。
+3. **别的 session 回传结果之后**：任务 → 结果总表的精简版，加上还要 Klaus 处理的事。
+
+对话框有「知道了 / 去看」两个按钮，「去看」打开本 session。脚本放后台跑，不会卡住本 session。每次弹的内容另外记一份在 `~/lingtu-cm-study/chat-reply/popup.log`。正文控制在 15 行左右，多出来的写「另有 N 条，见 session」。
+**验证码、密码这类凭据不进弹窗**，只写「X 要验证码，你去手机上看」。
 
 ## 待批清单格式（发给 Klaus 看）
 
