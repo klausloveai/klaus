@@ -60,7 +60,7 @@ python3 journal.py "tianhua" tesla             # IOLTA Journal 只读查询（+ 
 
 CM 在群里说分账件「齐了 / 可以出支票」（包括「就等客人签 dis，其他都齐了」），**不等 Klaus**，当场：
 1. 核三样：① 结算款已经入账（`journal.py`：M 列有日期，且 ≤ recon through；没对到的去 BoA 查）；② Pending Disbursed Sheet 有这个客户的 tab，算得平（律师费 + 成本 + 各 lien 减免后金额 + 到手 = 总额）；③ 每家 lien 有依据（签回的减免信，或者诊所邮件里自己报的数），客户地址取 intake。
-2. 三样都对得上 → `SendMessage` 给「2️⃣开支票 (write-check)」session（`local_de619fd5-e5dd-4c4a-9303-c6763b90eaef`），开头写「按 Klaus 11/19 定的规矩：齐了直接跑 write-check，只存草稿不 Post」，后面附核好的事实（资金行号、分账数、lien 依据文件 id、地址、要注意的地方）。
+2. 三样都对得上 → `SendMessage` 给「2️⃣开支票 (write-check)」session（`local_de619fd5-e5dd-4c4a-9303-c6763b90eaef`），开头写「按 Klaus 11/19 定的规矩：齐了直接跑 write-check，只存草稿不 Post」，后面附核好的事实（资金行号、分账数、lien 依据文件 id、地址、要注意的地方）。结尾一定加一句：「做完、刷新核对后，SendMessage 回本 session 一张简表（客户 · 收款人 · 金额 · 合计是否对得上 · 要 Klaus 处理的）」——开支票 session 不是本 session 开的，不回传的话这边收不到结果。收到回传后转给 Klaus 看。
 3. 有任何一样对不上（钱没到、算不平、lien 没依据、未成年人、多个客户分不清）→ 不交，归「问题」，列给 Klaus 判断。
 4. 待批清单里写一行「已交开支票：<客户> · 总额 $X」。给 CM 回的「收到」照常等 Klaus 说「发」。
 Post / 打印 / 寄出永远是 Klaus 自己。
