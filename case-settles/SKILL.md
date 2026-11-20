@@ -295,6 +295,22 @@ Drive it in the **built-in browser** (Klaus's workbench login); there is no MCP 
     · Two claimants on one tab: post **once**, when the tab closes (same as the team email). A held case posts nothing.
     · Find the space like `check-intake` does (`gws chat spaces list`, match the case name); no space found →
       don't create one, tell Klaus.
+27d. **Post the disbursement breakdown to the case CM in the same Chat space** (Klaus 2026-11-19: "需要把 pending
+    disbursement sheet 里的 table 数据和支票实际收到的金额做成 table 放到 chat 里更新给 CM，然后告诉他们支票已经准备好
+    放在桌上了，请仔细检查后包好寄出，有问题随时找我"). One message per claimant (siblings on one tab may share one
+    message, one block each), as Klaus@, @-mention the owning CM (`<users/ID>` from the space's members; Claims@ =
+    Amos, Piteam@ = Jerry, Picase@ = Jenkins — check the workbench CM). Layout, inside a ``` code block so the numbers
+    line up (Chat has no tables):
+    ```
+    @CM <Client>（DOL m/d/yyyy）结案分账已完成，支票准备好放在桌上了。
+    【分账明细】   every non-zero line of the Pending/Completed tab block: 3P / UM / MedPay / Total / Case Costs / Attorney Fee (x) / Client Recovery
+                   诊所 · 原账单 · 减免后 (one line per provider)
+    【实际收到的保险支票】  carrier · check # · amount, and a 合计 that must equal Total Settlement
+    【开出的支票】  #check · payee · amount (client first, then providers)
+    请仔细检查后包好寄出，有问题随时找我。
+    ```
+    Numbers come from the Completed tab and the journal rows you just wrote, never from memory. Model message:
+    Zixin Wu, spaces/AAQATU0kLLk, 11/19/2026.
 
 ## Phase 6 — Marketing material  (PI auto only)
 28. Resolve the `人伤` **shortcut** (`1YjOq97wy58uhV_5QMaoOIQ0te5oHShrj`) to its target
