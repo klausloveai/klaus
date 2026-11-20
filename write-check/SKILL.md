@@ -119,8 +119,11 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
    - Deposited but the month isn't reconciled yet is fine **once BoA shows the credit** (gate above) — say
      "BoA ✓, recon pending" rather than claiming it reconciled.
    - **Write the BoA result back to the journal in the same step — the journal is the single source of truth
-     for "is the money in"** (Klaus 2026-11-20: 「应该存过一次就全局就知道的呀」). When BoA shows the credit and
-     the deposit row has M blank: back up `Account-Journal.xlsx` to `Backups/`, then on that row (match by check #
+     for "is the money in"** (Klaus 2026-11-20: 「应该存过一次就全局就知道的呀」). Division of labour: `boa-reconcile`
+     would normally book it but runs irregularly, so **write-check is where the deposit gets confirmed AND recorded
+     (检查加录入)**; case-settles downstream only checks and will not write it for you. No deposit row at all
+     (check-intake never booked it) → append one like check-intake does (payor · Deposit · check # · purpose ·
+     amount · client) and fill the dates below. When BoA shows the credit and the deposit row has M blank: back up `Account-Journal.xlsx` to `Backups/`, then on that row (match by check #
      + amount) write **A = M = the BoA posting date**, **N = `YYYY-MM`**, **L = `Yes`**, and in **J** a note
      `BoA: in <date> <Counter Credit/Mobile> $<deposit total>, status <Cleared/Posted> — confirmed on BoA by
      write-check <date>; not yet boa-reconcile`. Upload the xlsx back (same file id), read the row back, and
