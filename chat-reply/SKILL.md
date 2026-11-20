@@ -135,3 +135,12 @@ EOF
 - 2026-11-19 · Jingrui Hu：Klaus 在群里回「🉑」= 看到、确认，算他已回，`after` 里看到 🉑 就标 handled_by_klaus。
 - 2026-11-19 · Tingting Yang：CM 说「齐了」（分账件齐了）→ 下一步直接跑 `write-check` 在 Rentec 起支票草稿（不 post），不是 case-settles。
 - 2026-11-19 · Klaus：write-check / 开支票的活**不在本 session 做**，用 SendMessage 交给「2️⃣开支票 (write-check)」session（local_de619fd5-e5dd-4c4a-9303-c6763b90eaef），附上已经核好的事实（资金、分账表、lien 依据、地址），再引用 Klaus 原话。本 session 只负责分流和起草回复。
+
+## 收到 W-9 → 直接存档 + 群里回（Klaus 2026-11-20 定，以后同类直接做，不用问）
+有人（多半是 Claire 的 Claude）在群里说诊所寄来了 W-9：
+1. 从邮件所在信箱下载附件（piteam@ 用 `gws-piteam`，claims@ / picase@ 同理），渲染看清第 1、2 行名字。
+2. 改名为 `<熟知的诊所名> W9.pdf`：用团队平时叫的诊所名；W-9 上是医生个人名的，改成诊所名。**这个名字必须出现在 W-9 上**（第 1 或第 2 行），不能用 W-9 上没有的叫法。
+3. 上传到 W9 文件夹 `1oWX7kFan5W8M7uW6RHkvRu1RiJRFAf9Y`（3. Disbursements/W9），比对 MD5 确认；本地副本移废纸篓。
+4. 在该案群发新消息（【Claude】开头，@ 要 W-9 的 CM）：「<诊所> 的 W-9 收到了，已存进 3. Disbursements/W9，谢谢。」
+5. 凌图数据 log_event（document_received，link = W9 文件夹）。
+- 例：2026-11-20 Tingting Yang，North Atlanta Chiropractic W9.pdf（法定名 …of Gwinnett P.C.）、MRI Imaging Specialist W9.pdf。
