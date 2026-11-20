@@ -1,8 +1,8 @@
-"""read_pending.py "<tab>" ["<tab>" ...]  -> dumps A1:F45 of each Pending Disbursed tab with colors (G/Y/W/O).
+"""read_pending.py "<tab>" ["<tab>" ...]  -> dumps A1:F120 of each Pending Disbursed tab with colors (G/Y/W/O).
 Matches by sheet title (API returns sheets in index order, not request order)."""
 import json,subprocess,sys
 SID="1b_vPr9WD7P9arR6DTTJRxeWs0apk8DTiTgc2iAzIrR0"
-params={"spreadsheetId":SID,"ranges":[f"'{t}'!A1:F45" for t in sys.argv[1:]],"includeGridData":True,
+params={"spreadsheetId":SID,"ranges":[f"'{t}'!A1:F120" for t in sys.argv[1:]],"includeGridData":True,
         "fields":"sheets(properties(sheetId,title),data.rowData.values(formattedValue,effectiveFormat.backgroundColor))"}
 o=subprocess.run(["gws","sheets","spreadsheets","get","--params",json.dumps(params)],capture_output=True,text=True).stdout
 d=json.loads(o[o.find('{'):])
