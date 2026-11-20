@@ -118,6 +118,16 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
      another client's funds.**
    - Deposited but the month isn't reconciled yet is fine **once BoA shows the credit** (gate above) — say
      "BoA ✓, recon pending" rather than claiming it reconciled.
+   - **Write the BoA result back to the journal in the same step — the journal is the single source of truth
+     for "is the money in"** (Klaus 2026-11-20: 「应该存过一次就全局就知道的呀」). When BoA shows the credit and
+     the deposit row has M blank: back up `Account-Journal.xlsx` to `Backups/`, then on that row (match by check #
+     + amount) write **A = M = the BoA posting date**, **N = `YYYY-MM`**, **L = `Yes`**, and in **J** a note
+     `BoA: in <date> <Counter Credit/Mobile> $<deposit total>, status <Cleared/Posted> — confirmed on BoA by
+     write-check <date>; not yet boa-reconcile`. Upload the xlsx back (same file id), read the row back, and
+     add a line to `IOLTA#3618/_STATE.md`. Never leave it as a "next step" in a log — on 11/20 the write-check
+     run found Zifeng Yuan / Ziqing Chen's two NatGen checks on BoA, logged it in Lingtu Data and the case AL
+     with "journal r852/853 补入账日 11/19" as the next step, never wrote the journal, and case-settles then
+     stopped the same case at its funding gate. A check NOT on BoA gets nothing written.
 
 1. **Connect & open.** select_browser → tabs_context_mcp. Go to
    **`https://secure.rentecdirect.com/owners/expense.php?bank_id=111793`**

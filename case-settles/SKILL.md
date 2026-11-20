@@ -112,6 +112,15 @@ find the signed DIS anywhere and had to stop too. Holding the *money steps* is t
    - M blank and booked **after** the marker date → recon hasn't covered it yet. Don't call it unfunded and don't
      run BoA yourself: hold the money steps, file the paper, and tell Klaus "BoA recon only through <date>" so he can
      trigger `boa-reconcile` (it needs his logged-in BoA tab).
+   - **Before stopping on a blank M, check whether another session already saw it on BoA** (Klaus 2026-11-20:
+     「已经在 Write Check 里面搜过了…应该存过一次就全局就知道的呀」). Look in three places: the journal row's
+     col J note; Lingtu Data `find` → `recent_log` for the matter (write-check logs e.g. "BoA 核到 <check #> …
+     随 11/19 Counter Credit $77,000 入账"); and the case `Activity Log` subtab (`al.py read`). If one of them
+     names **this check number** as credited or cleared on BoA, with a date, then the money is there: back up the
+     journal, write A = M = that date, N = `YYYY-MM`, L = `Yes`, and a J note naming the source (session + log id),
+     upload it, and proceed. Say in the report that M was back-filled and where the evidence came from. Only when
+     none of the three has it do you stop. (Zifeng Yuan / Ziqing Chen 11/20: write-check had logged the BoA hit as
+     Lingtu Data 17661/17662 hours earlier, and this pipeline still stopped and asked Klaus.)
 5. **Dedup by CHECK NUMBER**, never by client name — one client can have several deposits.
 
 ## Phase 1 — Disbursement Sheet
