@@ -1,6 +1,6 @@
 ---
 name: fax-intake
-description: RingCentral 收传真巡查：抓 Klaus 分机 101 收件箱里新进的入站传真（(626) 323-8181、888 总机、626-479-2207 都落这里），逐份识别是哪个案子，存进该案 Drive 案卷，把原件发到案件 Chat 群并 @负责人（通知里写存到哪），记案件 Activity Log + 凌图数据，每次跑完给 Klaus 一份汇报。定时任务 fax-intake-hourly 每小时跑；Klaus 说「查传真」「跑一下传真巡查」「/fax-intake」时手动跑。不回传真、不发外部消息、不改 RingCentral 设置。
+description: RingCentral 收传真巡查：抓 Klaus 分机 101 收件箱里新进的入站传真（(626) 323-8181、888 总机、626-479-2207 都落这里），逐份识别是哪个案子，存进该案 Drive 案卷，把原件发到案件 Chat 群并 @负责人（通知里写存到哪），记案件 Activity Log + 凌图数据，每次跑完给 Klaus 一份汇报。定时任务 fax-intake-hourly 每小时跑；Klaus 说「查传真」「跑一下传真巡查」「/fax-intake」时手动跑。不回传真、不发外部消息、不改 RingCentral 设置；处理完的（已归档 / 重复件）在 RingCentral 标已读。
 ---
 
 # 收传真巡查（fax-intake）
@@ -23,7 +23,7 @@ python3 ~/.claude/skills/fax-intake/scripts/rc_inbox.py new --days 14 --out <scr
 ## 3. 存案卷（出手即归档）
 - 案卷 = `find` 返回的 `drive_folder_url`。先列子文件夹，按文件类型放：lien / 医保 subrogation → 跟该机构以前的 lien 放一起（搜 Drive 同机构文件所在文件夹）；病历账单 → 4#（Bodily Injury / Medical）对应诊所子文件夹；保险信 → 3#/4# 对应 claim；律师信 / 转所 / 法院 → 1#Legal Documents。拿不准 → 放案卷根目录，并在通知里写明。
 - 命名：`<客户名> - <机构> <文件类型/要点> (fax M-D-YYYY).pdf`。
-- 上传前在案卷里搜同一份：Drive `md5Checksum` 对本地 `md5`，相同就不再上传（`mark … duplicate`）。上传后核 MD5。
+- 上传前在案卷里搜同一份：Drive `md5Checksum` 对本地 `md5`，相同就不再上传（`mark … duplicate`），**但照样走第 4 步通知**：原件作附件、写清收到时间，并说明「案卷 <路径> 里已有同一份（<文件名>），没有重复存，请自己看一下处理」（Klaus 11/20：要通知到位）。上传后核 MD5。
 
 ## 4. 发 Chat + 通知负责人（默认 gws = Klaus@）
 - 找群：`gws chat spaces list --params '{"pageSize":1000}'` 翻页读完，displayName 以「<客户全名>-」开头、含 DOL「M-D-YYYY」的群；同车多人群名可能是「A-B-DOL(X)」。必须正好一个，否则当待认领。
@@ -42,7 +42,11 @@ M/D 收到 <机构> 传真：<客户名> 的 <文件类型>，<要点：金额 /
 - 凌图数据 `log_event`（document_received，channel=other，挂 matter_code，link=Drive 文件，source_id=`rcfax-<message_id>`，summary 末尾带 `[s:<key>]`）。
 - 有新期限才 `sync_case_status`（`hard` 按通知是否硬期限）；Klaus 自己的案子（`(K)`）顺手更新 next_step。
 - 待认领：PDF 放 `~/Downloads/传真待认领/`，命名 `<收到日期> <机构> - <类型>（<猜测/缺什么>）.pdf`；中央 Activity Log 追加一行，Next Step 以「Klaus：认领传真 …」开头（会上 Task To-do 面板），写上你的猜测。
-- 每份处理完：`rc_inbox.py mark <message_id> <filed|unclaimed|skipped_spam|misdirected|duplicate> <一句话>`。
+- 每份处理完：`rc_inbox.py mark <message_id> <filed|unclaimed|skipped_spam|misdirected|duplicate|error> <一句话>`。
+- **RingCentral 已读（Klaus 11/20）**：`mark` 自己处理，按状态分两类：
+  - **标已读**：`filed`（Drive 上传成功、MD5 核对上之后才 mark）、`duplicate`（原件已在案卷）。
+  - **留未读，等 Klaus 看**：`unclaimed`（待认领）、`misdirected`（发错人）、`skipped_spam`，以及处理出错、没归档成功的（mark 成 `error`）。
+  - 标已读失败时，`rc_read` 里会记 `error: …`，汇报里列出来。单独补标一份用 `rc_inbox.py read <message_id>`。
 
 ## 6. 汇报 Klaus（每次有新传真就发）
 发到 Google Chat「Klaus-Claude Agent Notice Group」（`spaces/AAQA-WwExfU`），新消息，纯文本：
@@ -50,10 +54,11 @@ M/D 收到 <机构> 传真：<客户名> 的 <文件类型>，<要点：金额 /
 【传真巡查 M/D HH:MM】新传真 N 份
 1. <机构> → <客户>（<案号>）· <类型/要点> · 已存 <路径> · 已 @<CM>
 2. …（待认领 / 跳过 / 发错的也逐条列，写原因）
+标已读 N 份 / 留未读 M 份（原因：待认领 X、发错人 Y、出错 Z）
 ```
 没有新传真不汇报。
 
 ## 不做
-- 不回传真、不发邮件、不往客户群或外部发消息、不改 RingCentral 路由 / 已读状态。
+- 不回传真、不发邮件、不往客户群或外部发消息、不改 RingCentral 路由 / 设置；已读状态只按第 5 步的规则改。
 - 不编造：读不清的字写「读不清」，不猜金额、不猜案号。
 - 凭据（`~/.ringcentral.env`）不进 git、不进 Drive。

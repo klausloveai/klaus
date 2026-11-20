@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""RingCentral 入站传真：列出未处理的新传真并下载 PDF + 渲染 PNG（只读，不改已读状态）。
+"""RingCentral 入站传真：列出未处理的新传真并下载 PDF + 渲染 PNG；处理完按规则在 RingCentral 标已读。
 用法：
   rc_inbox.py new [--days 14] --out <dir>     列出未处理的入站传真，下载到 <dir>，打印 JSON
-  rc_inbox.py mark <message_id> <status> [note]   记一份为已处理（status: filed / unclaimed / skipped_spam / misdirected / duplicate）
+  rc_inbox.py mark <message_id> <status> [note]   记一份为已处理（status: filed / unclaimed / skipped_spam / misdirected / duplicate / error）
+                                                  filed / duplicate 自动在 RingCentral 标已读；其余保持未读等 Klaus 看
+  rc_inbox.py read <message_id>                   只把一份标已读（补标用）
 凭据：~/.ringcentral.env（JWT，不入库）。已处理记录：~/.claude/automation/fax-intake/state/processed.json
 """
 import sys, os, json, datetime, subprocess, urllib.request
@@ -39,9 +41,29 @@ def cmd_new(days, out):
                     'to_number': (r.get('to') or [{}])[0].get('phoneNumber'), 'pdfs': pdfs})
     print(json.dumps(res, ensure_ascii=False, indent=1))
 
+AUTO_READ = {'filed', 'duplicate'}  # Klaus 11/20：归档并核对 MD5 / 重复件原件已归档 → 标已读；待认领、发错人、出错 → 留未读
+
+def set_read(mid):
+    env = rc_fax.load_env(os.path.expanduser('~/.ringcentral.env'))
+    server, tok = rc_fax.get_token(env)
+    url = server + f'/restapi/v1.0/account/~/extension/~/message-store/{mid}'
+    req = urllib.request.Request(url, data=json.dumps({'readStatus': 'Read'}).encode(), method='PUT',
+                                 headers={'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json'})
+    return json.loads(urllib.request.urlopen(req).read()).get('readStatus')
+
 def cmd_mark(mid, status, note=''):
-    s = load_state(); s[str(mid)] = {'status': status, 'note': note, 'at': datetime.datetime.now().isoformat(timespec='minutes')}
-    save_state(s); print('marked', mid, status)
+    s = load_state(); rec = {'status': status, 'note': note, 'at': datetime.datetime.now().isoformat(timespec='minutes')}
+    if status in AUTO_READ:
+        try: rec['rc_read'] = set_read(mid)
+        except Exception as e: rec['rc_read'] = f'error: {e}'
+    else:
+        rec['rc_read'] = 'kept unread'
+    s[str(mid)] = rec; save_state(s); print('marked', mid, status, '| RingCentral:', rec['rc_read'])
+
+def cmd_read(mid):
+    s = load_state(); st = set_read(mid)
+    if str(mid) in s: s[str(mid)]['rc_read'] = st; save_state(s)
+    print('read', mid, st)
 
 if __name__ == '__main__':
     a = sys.argv[1:]
@@ -50,5 +72,7 @@ if __name__ == '__main__':
         cmd_new(days, a[a.index('--out') + 1])
     elif a and a[0] == 'mark' and len(a) >= 3:
         cmd_mark(a[1], a[2], ' '.join(a[3:]))
+    elif a and a[0] == 'read' and len(a) == 2:
+        cmd_read(a[1])
     else:
         print(__doc__); sys.exit(1)
