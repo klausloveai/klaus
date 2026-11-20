@@ -72,6 +72,8 @@ When the user has not said otherwise *in advance*, apply these defaults and keep
   7. **修车行（车在哪修）—— 必列，缺了就问**（Klaus 2026-11-08）：intake 里有车行名 / 地址就照抄；没有 → 在这次确认里问 Klaus
      （Klaus 也可以回「还不知道」，就照写「未定」）。确认后写进 `log_lead` 的 `notes`，并列在最终回复里。
      介绍人就是修车行（如小朱修车）时，两项写同一个名字。
+     **问法固定（Klaus 2026-11-19）**：用 AskUserQuestion 给选项，不开放式问：
+     ① `Ask Klaus`（默认，放第一个）② `Client take cared` ③ 介绍人是修车行时 → `<修车行名> Ref`（此时它排第一、作默认）④ Other（Klaus 自己输入，靠工具自带的 Other）。
 
   > ⚠️ **2026-10-08 改口径**：以前是「只在 Jerry 和 Amos 之间轮」，现在 **Picase@ 回到轮转里**，
   > 三个信箱一起算。**少的那个就是 next assign**（Klaus 原话）；并列时规则选不出来，直接问 Klaus。
