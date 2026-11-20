@@ -62,4 +62,6 @@ Klaus 2026-11-16：「做一个 /签约进展 skill」——平时靠两个定�
 - **「⏳ 还没签」只列 retainer / Joint Conflict 这类签约件**。release、disbursement letter、PDR、FC00…、病历授权这些是 case manager 的活，**不列**。
 - **Tiffany Zhao**（Peixiao Chen 案，dd7f3fea）：客人还没决定，**不列、不催**，直到 Klaus 另说。
 - **Xiuhuan Xie**：客人联系不上，**不列**。
+- **Claire Lee（148ca45d，发给 Aiden Ho）**：客户已手签纸本交回，Klaus 11/20 说「可以删掉了」，**不列**。
+- **Chunyang Fang（f040fce8 New / bffdda74 Standard）**：客人还在考虑，**不列、不催**，直到 Klaus 另说。
 - **Kaisi Xu（62cb58b7）、Bin Zheng + Kaiyao Deng（7cf7f049）**：Cindy 发的，Klaus 11/19 说「不归我管」，**不列**。
