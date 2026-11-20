@@ -229,6 +229,24 @@ What IS a gap: checks **printed and handed out** with nothing downstream (Hongru
    once. If Klaus says he already posted ("我处理了"), DON'T post — open the Ledger
    `bank_account.php?bank_id=111793` and confirm the lines are there (check# is blank until
    Print Checks is run — that's normal) and the balance ties.
+   Post Expenses opens a confirm dialog ("post N transactions" → **Post Transactions**); the
+   first click can look like nothing happened, so verify on the Ledger, never click twice blind.
+6. **Print packet → `~/Downloads/` (LAST STEP, every batch, unasked).** Klaus prints the checks
+   and the backup letters together (Klaus 2026-11-20: "这个步骤应该都做到 write check 的最后一步…
+   直接放到 download，我就直接一起打印了"). Right after posting (or after verifying his post),
+   build ONE PDF in **check order** from the case folder `3. Disbursements/Case Disbursements/<Client(s)>/`:
+   for each client, in the order the lines sit on the Ledger, each provider check's **signed
+   reduction letter** (or the bill when there is no reduction), then that client's **signed
+   Disbursement Letter** for the client check. Multi-client cases: client by client, same order as
+   the checks. One fax holding several clients' signed letters → pick that client's page.
+   ```
+   qpdf --empty --pages "<A-Crypto reduction>.pdf" "<A-Sun reduction>.pdf" "<A-Disbursement Letter>.pdf" \
+        "<B-…>.pdf" … -- ~/Downloads/"<YYYY-MM-DD> 结案包 - <Client A>, <Client B>.pdf"
+   ```
+   Check page count (`pdfinfo`) and render a 30-dpi contact sheet to confirm each page is the
+   right letter and is signed. Report the filename + page count. Case-disbursement printing is
+   NOT cost-logged. It is a print-and-discard copy (the originals stay in the case folder), so once
+   Klaus says it's printed, move it to the Trash.
 
 ## Provider W-9s — where they live, and backing a new one up
 
