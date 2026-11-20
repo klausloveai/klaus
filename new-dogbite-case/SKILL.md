@@ -279,6 +279,8 @@ needs scope `chat.users.spacesettings` — see new-case Step 11 / 2b):
 ```bash
 gws chat users spaces spaceNotificationSetting patch --params "{\"name\":\"users/me/${SP}/spaceNotificationSetting\",\"updateMask\":\"notification_setting\"}" --json '{"notificationSetting":"FOR_YOU"}'
 ```
+Verify with `... spaceNotificationSetting get` → `FOR_YOU`. A 403 is not done — follow the fix order in new-case Step 11 / 2b
+(clear `token_cache.json` → `~/gws_chat_login.sh` opened in Chrome for Klaus → browser fallback).
 
 Post one 简体中文 setup summary to the space at the end (client + DOL + location, both
 clients if joint, folder path, and the open items awaiting Hernán).

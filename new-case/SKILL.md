@@ -1040,14 +1040,18 @@ added automatically as owner — he is in every space.**
      --json '{"notificationSetting":"FOR_YOU"}'
    ```
    Verify with `... spaceNotificationSetting get` → `"notificationSetting": "FOR_YOU"`.
-   Needs scope `chat.users.spacesettings` on Klaus@ (added 2026-10-23 via `bash ~/gws_chat_login.sh`).
-   **If it returns 403 insufficient scopes → do it in the built-in browser in the same run. Reporting
-   the 403 is NOT completing the step** (Klaus 2026-10-27: 「这个说过好几次了怎么没有履行」— three cases
-   in a row were left on "Main conversations" because the 403 was only reported):
-   navigate `https://chat.google.com/u/1/room/<SPACE_ID>` (klaus@ = `u/1`) → click the space name (≈ x300,y75)
-   → menu item **Notifications** → radio **For you** → **Save** → reopen the menu and confirm the item reads
-   `Notifications · For you`. ⚠️ The menu shifts after opening — screenshot before every click; **Mute** sits
-   right above Notifications (mis-click once → hit Undo on the toast).
+   Needs scope `chat.users.spacesettings` on Klaus@ (re-granted 2026-11-20 on the MacBook via `~/gws_chat_login.sh`).
+   **The step is done only when the `get` reads `FOR_YOU`. Reporting a 403 is NOT completing it**
+   (Klaus 2026-10-27 and again 2026-11-20 — 7 spaces in 11/17–11/19 were left with only "403" reported; 3 were on Main conversations).
+   If it returns **403 insufficient scopes**, fix it in the same run:
+   1. First move `~/.config/gws/token_cache.json` aside (`mv … token_cache.json.bak-<ts>`) and retry — a stale cached
+      access token keeps the old scopes even after re-auth (this was the 11/20 cause).
+   2. Still 403 → run `bash ~/gws_chat_login.sh` in the background, read the printed URL from its output, and open it with
+      `open -a "Google Chrome" "<URL>"`; tell Klaus to pick klaus@lingtulaw.com → Allow. The script backs up the old creds,
+      exports `credentials.json` and clears the token cache. Then patch + `get` again.
+   3. Fallback only if the script can't run: built-in browser `https://chat.google.com/u/1/room/<SPACE_ID>` → space name →
+      **Notifications** → **For you** → **Save** → reopen and confirm `Notifications · For you` (if signed out, ask Klaus to sign in there).
+   Batch check any time: `get` each recent case space; anything not `FOR_YOU` gets patched.
 
 3. **Promote to Manager — ALWAYS. Amos, Claire and the assigned CM get the Manager role.** (On a Claims@ case the CM *is* Amos, so the list is just Amos + Claire.)
    Everyone else stays a plain Member. Do this after the members are verified, before posting.
