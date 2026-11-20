@@ -1336,6 +1336,11 @@ pages of waiver text irrelevant to them). **2+ clients → always use one.**
 > (step 5b) catches this: **only `Client1…` and `Attorney` may be signers; everything else
 > must be a carbon copy or be removed.**
 
+> 🛑 **多个客户共用一个邮箱（Klaus 2026-11-19，Yi Wang/Wei Liu、Lin Zhou/Shasha 两次出事）**：同一邮箱在 DocuSign 里是同一个 user，
+> 一个人会把两个签名位都签掉，Client2 签出来的名字还可能变成 Client1 的名字。发之前：① `listRecipients` 核对每个 Client 槽的 `name`
+> 就是那位客户本人；② 给每个客户 signer 加 `note`「This copy is for <NAME> to sign personally. 这一份请 <名字> 本人签」；
+> ③ 发出后再读一次名字。签回来逐个看 fullName 值：名字不对 = 作废重发（已签槽改不了）。签约文案里也要写清楚两封邮件分别谁签。
+
 > 🛑 **The client role is `Client1`. There is NO role named `Client`.**
 > Passing `roleName: "Client"` does **not** match the template — Docusign silently appends a
 > BRAND-NEW recipient with **zero tabs**, and the real client role `Client1` (which owns every
