@@ -1440,7 +1440,12 @@ Fill every tab with the DOL in MM/DD/YYYY format.
 
 ### Email Subject Format (max 100 chars)
 
-**`PI Auto Retainer: [Driver Full Name] et al-M/D/YYYY(<Fee Type>)`** — updated 8/17/2026.
+**`PI Auto Retainer: <客户编号> [Driver Full Name] et al-M/D/YYYY(<Fee Type>)`** — updated 11/19/2026（加客户编号）.
+
+**客户编号必须在标题里**（Klaus 2026-11-19）：工作台靠信封标题里的编号认出是哪个客户，客户签完才会自动记「客户签字日」、
+线索变「已签约」（Joe 11/12 Intake 教程第 3 条）。编号 = Step 9a `log_lead` 拿到的 5 位客户编号（这时还没有 `-PI1`）。
+一车多人：所有客户的编号用 `/` 连起来，司机的放第一个；超过 100 字符就只放司机的编号，并在最终回复里写明
+「乘客签字日要手动记」。没有编号不准发（Step 9a 本来就是闸门）。
 
 The trailing `(New)` / `(Standard)` is the **fee type actually sent** (the Step 13 gate), so the
 subject alone tells you which version the client signed. It must match the template used:
@@ -1451,9 +1456,9 @@ subject alone tells you which version the client signed. It must match the templ
 | **standard** | PI Auto Retainer (Standard) / +Joint Conflict (Standard) | `(Standard)` |
 
 Examples:
-- Single client, new: `PI Auto Retainer: Jiajun He et al-8/15/2026(New)`
-- Single client, standard: `PI Auto Retainer: Guanghua Li et al-5/30/2026(Standard)`
-- Multi-client, new: `PI Auto Retainer: Hsuan-Yun Chang et al-5/24/2026(New)`
+- Single client, new: `PI Auto Retainer: 53830 Jiajun He et al-8/15/2026(New)`
+- Single client, standard: `PI Auto Retainer: 12345 Guanghua Li et al-5/30/2026(Standard)`
+- Multi-client, new: `PI Auto Retainer: 53830/48888 Hsuan-Yun Chang et al-5/24/2026(New)`
 
 > Keep `et al` even for a single client — it is the firm's fixed subject shape, not a plural marker.
 
