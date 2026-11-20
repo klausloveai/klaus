@@ -77,15 +77,6 @@
       "date": "2026-11-18",
       "case": "Junjie Zhang"
     },
-    "ea402f3b": {
-      "state": "full",
-      "signed": [
-        "Bodie Yu"
-      ],
-      "date": "2026-11-18",
-      "case": "Bodie Yu",
-      "note": "Chat 群 (A) 11/18 20:13Z 已有人工「客人已经签约」通知，Master 已是 ⚠️Pending；/签约进展 11/18 补记，未重复发"
-    },
     "74b0c3b6": {
       "state": "full",
       "signed": [
@@ -95,6 +86,15 @@
       "date": "2026-11-18",
       "case": "Lin Zhou + Shasha Su",
       "note": "Client1 槽位由 Shasha Su 代签，Klaus 11/18 定算签好；Chat @Jerry 全签通知；11/19 Klaus 改定须本人签，信封已作废，重发 2a26e2d6"
+    },
+    "ea402f3b": {
+      "state": "full",
+      "signed": [
+        "Bodie Yu"
+      ],
+      "date": "2026-11-18",
+      "case": "Bodie Yu",
+      "note": "Chat 群 (A) 11/18 20:13Z 已有人工「客人已经签约」通知，Master 已是 ⚠️Pending；/签约进展 11/18 补记，未重复发"
     }
   },
   "unresolved": [
