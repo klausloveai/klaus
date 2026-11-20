@@ -7,7 +7,7 @@ description: 车祸部门周二周会的企业微信会议流程：会前确认�
 
 **状态：草稿（2026-11-20）。wecom-cli 授权和三项实测完成前，第 2、3 步的命令和字段以实测为准。**
 
-周会：每周二 10:30（个别周会改时间，以 Klaus 日历为准），Klaus 主持，Cassie、Joe 出席。周会内容只报三项：本周新案数、结案数、要处理的案子（见 memory `weekly_partner_meeting.md`）。本技能归「岗位编制 · Roles」section（local_df494bee）触发。
+周会：每周二 11:30–12:30 PT（11/20 起；企微周期会议「车祸部门周会」已由机器人建好，52 场），Klaus 主持，Cassie、Joe 出席。周会内容只报三项：本周新案数、结案数、要处理的案子（见 memory `weekly_partner_meeting.md`）。本技能归「岗位编制 · Roles」section（local_df494bee）触发。
 
 ## 0. 前置检查（每次先做）
 
@@ -28,7 +28,7 @@ description: 车祸部门周二周会的企业微信会议流程：会前确认�
 
 ## 3. 会后取纪要（Klaus 在岗位编制 section 说「收周会纪要」）
 
-1. **定位**：`meeting list` 拉今天的会（周期会议要拿当场的 `sub_meeting_id`），按主题和时间核对是这次周会。找不到 → 说明查询范围，不猜。
+1. **定位**：`meeting list` 拉今天的会（**CLI 时间按北京时间**：PT 周二 11:30 = 北京周三 03:30，时间窗要换算）（周期会议要拿当场的 `sub_meeting_id`），按主题和时间核对是这次周会。找不到 → 说明查询范围，不猜。
 2. **取纪要**：`meeting get` → `notes[].note_content`（纪要）、`notes[].todo_content`（待办）；`has_note_permission=false` 或为空 → 说明，改用逐字稿。
 3. **取逐字稿**：`meeting original get`，翻页到 `has_more=false`，按顺序拼接。
 4. **存档**：逐字稿原文 + 智能纪要原文存成 `<M-D-YYYY> 车祸部门周会 逐字稿.md`，上传到周会笔记 Doc（`1tQ7Pk7lNWLPsoOtXvAyPp1TnFry5_F2tKBkTyzJdXlQ`）所在的 Drive 文件夹下的「逐字稿」子文件夹（没有就建）。本地副本放 `~/Downloads/任务总盘/周会/`，上传后比 MD5、移废纸篓。
