@@ -144,3 +144,12 @@ EOF
 4. 在该案群发新消息（【Claude】开头，@ 要 W-9 的 CM）：「<诊所> 的 W-9 收到了，已存进 3. Disbursements/W9，谢谢。」
 5. 凌图数据 log_event（document_received，link = W9 文件夹）。
 - 例：2026-11-20 Tingting Yang，North Atlanta Chiropractic W9.pdf（法定名 …of Gwinnett P.C.）、MRI Imaging Specialist W9.pdf。
+
+## 给 Klaus 的汇报格式（Klaus 2026-11-20 定）
+每轮做完，按条用 bullet 报，每条四项：
+- **哪个 chat**（群名 · 谁 · 时间 PT）
+- **收到什么**（原话）
+- **怎么完成的**（查了什么 / 回了什么原文 / 存到哪 / 交给谁；没做完写卡在哪、要他定什么）
+- **mark read 了没**（做完的才标；现在 gws 缺 `chat.users.readstate` scope 标不了，要如实说）
+已经由 Klaus 本人、或 CM / CA 自己在群里接住的，标 handled_by_klaus / handled_by_others，一行带过。
+W-9 存档：Klaus 11/20 确认「备份进 W9 folder 即可」。
