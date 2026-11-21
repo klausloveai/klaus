@@ -34,6 +34,13 @@ do NOT post; verify on the Ledger instead (see Step 5).**
 - **The client** (if the client recovery check is wanted) → **AMOUNT TO CLIENT** from the
   disbursement letter. Payee = the client. Category **7010 Client Compensation**, memo
   `Case Settlement, DOL-<MM/DD/YYYY>`, **address from the case intake sheet**.
+  **The client payee name comes from the SIGNED Disbursement Letter, not from the intake or the
+  case name** (Klaus 2026-11-20: "一定是按照 disbursement 签字的那个为准"). Minor client → payee is
+  `<Print Name on the signed disbursement letter> as Parent of <minor's name>`. Hou twins: the case
+  was filed under Yu Ren, but Hua Hou signed both letters; the checks went out as "Yu Ren as Parent
+  of …" (80639 / 80641) and had to be reissued. Render the signature block and read the Print Name
+  before creating the vendor; if it differs from the intake parent, or the child's name on the
+  letter differs from Lingtu Data, stop and ask Klaus before drafting.
 - **Medi-Cal (DHCS) lien** → the final amount from DHCS's lien letter. Payee = vendor
   **`Department of Health Care Services Personal Injury Branch, MS 4720`** (Klaus renamed it 2026-10-30;
   mailing address `P.O. Box 997421, Sacramento, CA 95899-7421`), category **7000**. **Memo format
