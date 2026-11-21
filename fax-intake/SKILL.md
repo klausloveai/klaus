@@ -47,6 +47,8 @@ M/D 收到 <机构> 传真：<客户名> 的 <文件类型>，<要点：金额 /
   - **标已读**：`filed`（Drive 上传成功、MD5 核对上之后才 mark）、`duplicate`（原件已在案卷）。
   - **留未读，等 Klaus 看**：`unclaimed`（待认领）、`misdirected`（发错人）、`skipped_spam`，以及处理出错、没归档成功的（mark 成 `error`）。
   - 标已读失败时，`rc_read` 里会记 `error: …`，汇报里列出来。单独补标一份用 `rc_inbox.py read <message_id>`。
+  - **留未读的件一旦办完就补标已读**（Klaus 11/20）：Klaus 认领了待认领件、或对发错人件做了处置（回传真问清 / 决定不理），在同一轮里 `rc_inbox.py read <message_id>`，不等他自己去点。
+- RingCentral 来电名显示「Possible spam call」不等于垃圾传真（11/20 Conduent 的正经传真就被这样标过）：一律按内容判断。
 
 ## 6. 汇报 Klaus（每次有新传真就发）
 发到 Google Chat「Klaus-Claude Agent Notice Group」（`spaces/AAQA-WwExfU`），新消息，纯文本：
